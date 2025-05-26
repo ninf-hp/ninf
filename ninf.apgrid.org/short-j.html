@@ -1,0 +1,187 @@
+<HTML>
+<HEAD>
+<TITLE> Ninf: Network Information Library (NinfDemo-j)</TITLE>
+</HEAD>
+<Link rev="made" href="mailto:EMAIL">
+<BODY bgcolor="#ffffff">
+<CENTER>
+<img alt="Ninf LOGO" src="/image/Ninf-A.gif">
+</CENTER>
+<H1 ALIGN=CENTER> 
+ネットワーク数値情報ライブラリ<br>
+Ninf: A Network based Information Library <br>
+for Global World-Wide Computing Infrastructure
+</H1>
+<hr>
+<br>
+<a name="toppos"></a>
+<h1>
+<img align="middle" src="/image/hand.gif">
+<a href="short-overview.html">Ｎｉｎｆ 概略</a><p>
+</h1>
+<CENTER>
+<h1>以下のような不満や希望はありませんか？<p>
+Ｎｉｎｆはこれに応えて設計しています</h1>
+<hr>
+</CENTER>
+<h1>
+<img src="image/orangeball.gif">
+スーパーコンピュータに載っている素晴らしいライブラリを使ってみたい
+       <ul>
+	 <li> だけど，プログラム書いたり最適化が面倒
+	 <li> 数値表現が違うんだって？ 
+	 <li> グラフィックスはＰＣ・ＷＳを使いたいんだけど
+	 <li> プログラムはできるだけ変更したくない
+	 <li> ライブラリがたくさんあってどれを使っていいかわからない
+       </ul><p>
+<hr>
+
+       <img src="image/orangeball.gif">
+ちょっとした（行列・特殊関数）計算をしたいのだけど
+       <ul>
+	 <li> 電卓じゃ役不足
+	 <li> プログラムを書くほどじゃないし
+	 <li> 簡単なインターフェースはないの？
+       </ul><p>
+<hr>
+
+<img src="image/orangeball.gif">
+世界中の計算機を使えば速くできるのに
+       <ul>
+	 <li> どうやって使えばいいの？
+	 <li> 負荷分散はどうするの？
+	 <li> プログラムを書き直すのはいやだ
+       </ul>
+</h1>
+
+<hr>
+<h1>
+<h1>
+<img src="image/orangeball.gif">
+Ｎｉｎｆ設計の概要
+       <ul>
+  <li> Ｐｒｅ−Ｃｏｍｐｉｌｅされた関数・ライブラリの実行形式や
+       データを広域分散化したサーバー上に保存し，ネットワーク
+       環境においてユーザからの要求に応じて計算結果を戻す
+       遠隔手続呼び出しのシステム<p>
+
+  <li> ユーザは標準的数値ライブラリ，特殊関数，数値定数等に
+       ユーザプログラムの変更を最小限に留めたまま容易にアク
+       セスできるシステム<p>
+
+  <li> ユーザはライブラリのコンパイル手法，存在場所，呼出方法に
+       対する知識の一部などを隠蔽するシステム<p>
+
+</ul>
+</h1>
+<hr>
+<CENTER>
+<img src="figures/progSample.gif">
+</CENTER>
+
+<h1>
+<hr>
+<img src="image/redball.gif">
+       Ｎｉｎｆリモートライブラリ実行
+<hr>
+<CENTER>
+       <img src="figures/remoteLib.gif">
+</CENTER>
+       <ul>
+	 <li> すべてのライブラリを実行形式で格納
+	 <li> ＯＳ，最適化手法，ハードウエアの特性を
+	      気にしなくてよい （予めサーバー側で実現することが可能）
+	 <li> ユーザはライブラリのインタフェースを指定
+       </ul>
+</h1>
+<hr>
+<h1>
+<img align="middle" src="/image/hand.gif">
+<a href="preliminaryPerformance.html">性能評価</a><p>
+</h1>
+<hr>
+
+       <h1>
+<img align="middle" src="/image/hand.gif">
+有効なツール群 (一例)<p>
+
+      <ul>
+	<li> <a href="http://ninf.apgrid.org/matrix_demo/linpack-demo.html">
+	     Ｌｉｎｐａｃｋ ベンチマーク</a>
+
+	<li> <a href="http://ninf.apgrid.org/matrix_demo/matrix-demo.html">
+	     ＭａｔｒｉｘＭａｒｋｅｔ とのリンク</a>
+
+	<li> <a href="http://ninf.apgrid.org/~ynii/NinfCalc/NinfCalc.html">
+	     高性能行列電卓</a>
+
+	<li> <a href="http://ninf.apgrid.org/table-demo.html">
+	     ネットワーク数値定数表</a>
+
+	<li> <a href="http://www.is.ocha.ac.jp/~nii/bin/Samplepl/ni_test2.cgi">
+	     高精度関数電卓</a>
+      </ul>
+</h1>
+      <hr>
+<img align="middle" src="http://phase.hpcc.gr.jp/ninf/image/people.gif">
+<b>Ｎｉｎｆな人々</b>
+</h1>
+<h3>
+<ul>
+  <li> <a href="http://phase.hpcc.gr.jp/people/sekiguti">
+       関口智嗣</a>
+       （<a href="http://www.etl.go.jp/">電総研</a>）
+  <li> <a href="http://phase.hpcc.gr.jp/~nakada/">
+       中田秀基</a>
+       （<a href="http://www.etl.go.jp/">電総研</a>）
+  <li> <a href="http://www.rwcp.or.jp/people/msato/home.html">
+       佐藤三久</a>
+       （<a href="http://www.rwcp.or.jp/">ＲＷＣＰ</a>）
+  <li> 長嶋雲兵
+       （<a href="http://www.ocha.ac.jp/">お茶の水女子大</a>）
+  <li> <a href="http://www.ipl.t.u-tokyo.ac.jp/people/matsu.html">
+       松岡聡</a>
+       （<a href="http://www.ipl.t.u-tokyo.ac.jp/">東大工学部</a>）
+  <li> <a href="http://www.center.nitech.ac.jp/~takagi/">
+       高木浩光</a>
+       （<a href="http://www.nitech.ac.jp/">名工大</a>
+       <a href="http://www.center.nitech.ac.jp">
+       計算センター</a>）
+<hr>
+  <li> 西川宜孝
+       （<a href="http://www.fuji-ric.co.jp/">
+       （株）富士総合研究所</a>）
+  <li> 滝谷吉夫
+       （<a href="http://www.cray.com/japan/">
+       日本クレイ（株）</a>）
+  <li> 三上和徳
+       （<a href="http://www.cray.com/japan/">
+       日本クレイ（株）</a>）
+<hr>
+  <li> <a href="http://www.ipl.t.u-tokyo.ac.jp/~ogawa">
+       小川宏高</a>
+       （<a href="http://www.ipl.t.u-tokyo.ac.jp/">東大工学部</a>）
+  <li>  <a href="http://www.is.ocha.ac.jp/~nii">
+       新居由佳子</a>
+       （<a href="http://www.ocha.ac.jp/">お茶の水女子大</a>）
+  <li> 飯岡美恵
+       （<a href="http://www.ocha.ac.jp/">お茶の水女子大</a>）
+ <hr>
+</ul>
+</h3>
+<ADDRESS>
+<dl>
+  <dt> Email: ninf@apgrid.org
+  <dt> Phone: +81 (298) 58-5300
+  <dt> Fax:   +81 (298) 58-5301
+  <dt> Mail:
+  <dd>  Ninf administration group
+  <dd>  c/o Satoshi Sekiguchi
+  <dd>  Computer Systems Division
+  <dd>  Electrotechnical Laboratory
+  <dd>  Umezono, Tsukuba, 305 JAPAN
+</dl>
+</address>
+
+</BODY>
+</html>

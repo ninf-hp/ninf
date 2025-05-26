@@ -1,0 +1,1 @@
+package ninf.netsolve;import ninf.basic.NinfException;public class CannotParseException extends NinfException{  public CannotParseException(){    super();  }  public CannotParseException(String str){    super(str);  }}

@@ -1,0 +1,4769 @@
+>>>>>>>>>> 1188317625
+物理クラスタ状態
+
+例:
+ <PhysicalCluster>
+  <node id="1">
+   <name>vmware-server-gw-0-0</name>
+   <appliance>vmware-server-gw</appliance>
+   <network>
+    <interface device="eth0">
+     <ipaddr>10.255.255.254</ipaddr>
+     <ipmask>255.0.0.0</ipmask>
+     <macaddr>00:90:cc:de:72:47</macaddr>
+    </interface>
+    <interface device="eth1">
+     <ipaddr>192.50.74.160</ipaddr>
+     <ipmask>255.255.255.0</ipmask>
+     <macaddr>00:17:31:91:d3:d4</macaddr>
+    </interface>
+   </network>
+  </node>
+ </PhysicalCluster>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_pc.py/list
+入力 XML
+   なし
+出力 XML
+   ルート要素: PhysicalCluster
+	物理クラスタ全体を表現する。
+	- 要素 node を複数含む
+	- 要素 iscsi を複数含む
+   要素: node
+        物理ノードを表現する要素。
+        - 属性 id を持つ。id は、クラスタ DB の物理ノード ID を示す整数値。
+        - 要素 name, appliance, network を含む。
+   要素: name
+	物理ノードの名前を要素として持つ。
+   要素: appliance
+	物理ノードの appliance を要素として持つ。
+   要素: network
+	物理ノードのネットワークを表現する要素。
+	- 要素 interface を持つ。
+   要素: interface
+	物理ノードのネットワーク I/F を表現する要素。
+	- 属性 device を持つ。device は、ネットワークインターフェース名を示す。
+	- 要素 ipaddr を持つ。例: 10.0.0.1
+	- 要素 ipmask を持つ。例: 255.255.255.0
+	- 要素 macaddr を持つ。例: 00:17:31:91:d3:d4
+   要素: ipaddr
+	ネットワーク I/F の IP アドレスを示す。
+   要素: ipmask
+	ネットワーク I/F のネットマスクを示す。
+   要素: macaddr
+	ネットワーク I/F の MAC アドレスを示す。
+   要素: iscsi
+	- 属性 id を持つ。
+	- 属性 size を持つ。
+	- 属性 volgroup を持つ。
+	- 要素 location を持つ。
+   要素: location
+	iSCSI の IQN を示す。
+
+仮想クラスタ予約一覧
+
+例:
+ <RegistrationList>
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+    <start>2007/07/01 0:00</start>
+    <end>2008/07/01 0:00</end>
+    <mode>normal</mode>
+    <status>running</status>
+  </Entry>
+ </RegistrationList>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_vc.py/list
+入力 XML
+   なし
+出力 XML
+   ルート要素: RegistrationList
+	予約された仮想クラスタ全てを表現する。
+	- 要素 Entry を複数含む。
+   要素: Entry
+	仮想クラスタを表現する要素。
+	- 属性 id を持つ。id は、仮想クラスタ ID を示す整数値。
+	- 属性 url を持つ。url は、当該仮想クラスタの情報取得 URL。
+	- 要素 start を持つ。
+	- 要素 end を持つ。
+	- 要素 mode を持つ。
+	- 要素 status を持つ。
+   要素: start
+	仮想クラスタの開始時刻を示す。年/月/日 時:分 の形式。
+   要素: end
+	仮想クラスタの終了時刻を示す。
+   要素: mode
+	仮想クラスタへの要求状態を示す。
+	normal/stop/free/kill のいずれか。
+   要素: status
+	仮想クラスタの動作状態を示す。
+stopped/starting_frontend/starting_computes/running/stopping/finalize/finalizing のいずれか。
+
+仮想クラスタ状態
+
+例:
+ <RegistrationEntry id="1">
+    <start>2007/07/01 0:00</start>
+    <end>2008/07/01 0:00</end>
+    <mode>normal</mode>
+    <status>running</status>
+    <subnet>
+     <vlan>100</vlan>
+     <ipaddr>10.0.0.1</ipaddr>
+     <ipmask>255.255.240.0</ipmask>
+    </subnet>
+    <vnodes>
+     <vnode vnodeid="1">
+      <vnodename>frontend-0-0</vnodename>
+      <appliance>frontend</appliance>
+      <pnodename>vmware-server-gw-0-0</pnodename>
+      <memsize>1280</memsize>
+      <storage type="iSCSI" location="iqn.2007-02.jp.go.aist.grivon:10.10.10.11:VolGroup01.node-1-0">
+       30720
+      </storage>
+      <ipaddr>10.0.0.1</ipaddr>
+      <macaddr>00:17:31:91:d3:01</macaddr>
+      <extIpaddr>192.50.74.155</extIpaddr>
+      <extMacaddr>00:17:31:91:d3:02</extMacaddr>
+     </vnode>
+    </vnodes>
+ </RegistrationEntry>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_pc.py/<仮想クラスタID>
+入力 XML
+   なし
+出力 XML
+   ルート要素: RegistrationEntry
+	仮想クラスタを表現する。
+	- 属性 id を持つ。仮想クラスタ ID を示す整数値。
+	- 要素 start を持つ。
+	- 要素 end を持つ。
+	- 要素 mode を持つ。
+	- 要素 status を持つ。
+	- 要素 subnet を持つ。
+	- 要素 vnodes を持つ。
+   要素: subnet
+	仮想クラスタのサブネットを示す。
+	- 要素 vlan を持つ。
+	- 要素 ipaddr を持つ。
+	- 要素 ipmask を持つ。
+   要素: vlan
+	仮想クラスタの vlan を示す整数値。
+   要素: ipaddr
+	仮想クラスタのサブネットの IP アドレス。
+   要素: ipmask
+	仮想クラスタのサブネットのネットマスク。
+   要素: vnodes
+	仮想クラスタを構成するノード群
+	- 要素 vnode を複数持つ。
+   要素: vnode
+	仮想ノード
+	- 属性 vnodeid を持つ。仮想ノード ID を示す整数値。
+	- 属性 vnodename を持つ。
+	- 属性 appliance を持つ。
+	- 属性 pnodename を持つ。
+	- 属性 memsize を持つ。
+	- 属性 storage を持つ。
+	- 属性 ipaddr を持つ。
+	- 属性 macaddr を持つ。
+	- 属性 extIpaddr を持つ。
+	- 属性 extMacaddr を持つ。
+   要素: vnodename
+	仮想ノード名。
+   要素: appliance
+	仮想ノード appliance。
+   要素: pnodename
+	仮想ノードを配置する物理ノード名。
+   要素: memsize
+	仮想ノードに使用するメモリサイズ。
+   要素: storage
+	仮想ノードに使用するストレージ。
+	- 属性 type を持つ。local または iSCSI
+	- 属性 location を持つ。iSCSI の場合、IQN を示す。
+	- 要素はストレージサイズを示す。
+   要素: ipaddr
+	仮想ノードの IP アドレス。
+   要素: macaddr
+	仮想ノードの MAC アドレス。
+   要素: extIpaddr
+	仮想ノードの外部 IP アドレス。
+   要素: extMacaddr
+	仮想ノードの外部 MAC アドレス。
+
+アプライアンス一覧
+例:
+ <ApplianceList>
+  <Appliance client="frontend" host="vmware-server-gw" id="1">
+   <host id="1" name="vmware-server-gw-0-0"/>
+  <Appliance>
+  <Appliance client="compute" host="vmware-server" id="2">
+   <host id="2" name="vmware-server-0-0"/>
+   <host id="3" name="vmware-server-0-1"/>
+   <host id="4" name="vmware-server-0-2"/>
+  </Appliance>
+ </ApplianceList>
+アクセスメソッド
+  GET http://hostname/vc/cgi-bin/vc_pc.py/appliance
+入力 XML
+  なし
+出力 XML
+   ルート要素: ApplianceList
+	- 要素 Appliance を複数持つ。
+   要素: Appliance
+	- 属性 id を持つ。
+	- 属性 host を持つ。物理ノード側の appliance を示す。
+	- 属性 client を持つ。host で示されたノード上で稼働可能な仮想ノードの appliance を示す。
+	- 要素 host を持つ。
+   要素: host
+	- 属性 id を持つ。物理ノード ID を示す整数値。
+	- 属性 name を持つ。物理ノード名を示す文字列。
+
+仮想クラスタ予約
+例:
+ <register start="2007/07/01 0:00" end="2008/07/01 0:00" passwd="xxx">
+  <publickey>ssh-dss AAAAB3NzaC1kc3MAAACBAJILQbm8gZm7KDO6LTqQONYJX8TyA3BtwPRx0kDtclJxmltVcJPdmSq0QQJsBgzs4LsArCVKz8nLotjoPVothqbdXL9vXGHODtlYiqufy/ba5KL8fifeBLHuTQmEBbEASDtzDbvp8ED+yR3aXG4Mp7hBDW2vGyEzSbiYPvCxXjatAAAAFQCmsfEwMAJjJiaMTWKrLqVZ2Bcy9wAAAIA6Hd1b4AY4mZ+uY2s7qEssrqp6BKWYAWP492/xnzPU6D75VA9HvPjRo70HFPRnyQ7rTt4fxyD42yrFfKqWAxx8Jr4Fp0G0ciR+tE3Ul7XzbkaDXICKSWgWbSNrRMKuHQ1xaoW+UsB7jiP4WoU6eQezGyXflHugPYK7ykYuCvq9nAAAAIEAh5cFULPeg0IhNDM6N1ZwFT5FfxxAbTD1pLquCMXC3yyDlTkN6k1pfXzjF6iPSw/KTlkDruvZfsO0vCNcbD7fbYinrS6NfIs4+zCUS2XKI3oVxYp+wnQGFkOAw5WDWhnq9+VYFo35PHDS57QpHTqp/cCX+PWDpf7RSibTpIsCVoE= ebara@dhcp139.suri.co.jp</publickey>
+  <appliance name="frontend" nnodes="1" memsize="1280" storagetype="iSCSI" storagesize="30720">
+  <appliance name="compute" nnodes="2" memsize="1280" storagetype="iSCSI" storagesize="30720">
+  </appliance>
+ </register>
+ アクセスメソッド
+   PUT http://hostname/vc/cgi-bin/vc_vc.py/add
+ 入力 XML
+   要素: register
+	- 属性 start を持たなければならない。
+	- 属性 end を持たなければならない。
+	- 属性 passwd を持たなければならない。
+	- 要素 publickey を持つ。
+	- 属性 rollFile を持つ。
+   属性: rollFile
+	登録した roll の名前。
+   属性: appliance
+	- 属性 name を持つ。仮想ノードのアプライアンス名を示す文字列。
+	- 属性 nnodes を持つ。当該アプライアンスに属する仮想ノードの数。
+	- 属性 memsize を持つ。仮想ノードのメモリサイズを示す整数値。
+	- 属性 storagesize を持つ。仮想ノードのストレージサイズを示す整数値。
+	- 属性 storagetype を持つ。local または iSCSI。
+ 出力 XML
+   仮想クラスタ状態を返す。
+   失敗した場合は 406 (Not Acceptable) を返す。
+>>>>>>>>>> 1188318570
+物理クラスタ状態
+
+例:
+ <PhysicalCluster>
+  <node id="1">
+   <name>vmware-server-gw-0-0</name>
+   <appliance>vmware-server-gw</appliance>
+   <network>
+    <interface device="eth0">
+     <ipaddr>10.255.255.254</ipaddr>
+     <ipmask>255.0.0.0</ipmask>
+     <macaddr>00:90:cc:de:72:47</macaddr>
+    </interface>
+    <interface device="eth1">
+     <ipaddr>192.50.74.160</ipaddr>
+     <ipmask>255.255.255.0</ipmask>
+     <macaddr>00:17:31:91:d3:d4</macaddr>
+    </interface>
+   </network>
+  </node>
+ </PhysicalCluster>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_pc.py/list
+入力 XML
+   なし
+出力 XML
+   ルート要素: PhysicalCluster
+	物理クラスタ全体を表現する。
+	- 要素 node を複数含む
+	- 要素 iscsi を複数含む
+   要素: node
+        物理ノードを表現する要素。
+        - 属性 id を持つ。id は、クラスタ DB の物理ノード ID を示す整数値。
+        - 要素 name, appliance, network を含む。
+   要素: name
+	物理ノードの名前を要素として持つ。
+   要素: appliance
+	物理ノードの appliance を要素として持つ。
+   要素: network
+	物理ノードのネットワークを表現する要素。
+	- 要素 interface を持つ。
+   要素: interface
+	物理ノードのネットワーク I/F を表現する要素。
+	- 属性 device を持つ。device は、ネットワークインターフェース名を示す。
+	- 要素 ipaddr を持つ。例: 10.0.0.1
+	- 要素 ipmask を持つ。例: 255.255.255.0
+	- 要素 macaddr を持つ。例: 00:17:31:91:d3:d4
+   要素: ipaddr
+	ネットワーク I/F の IP アドレスを示す。
+   要素: ipmask
+	ネットワーク I/F のネットマスクを示す。
+   要素: macaddr
+	ネットワーク I/F の MAC アドレスを示す。
+   要素: iscsi
+	- 属性 id を持つ。
+	- 属性 size を持つ。
+	- 属性 volgroup を持つ。
+	- 要素 location を持つ。
+   要素: location
+	iSCSI の IQN を示す。
+
+仮想クラスタ予約一覧
+
+例:
+ <RegistrationList>
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+    <start>2007/07/01 0:00</start>
+    <end>2008/07/01 0:00</end>
+    <mode>normal</mode>
+    <status>running</status>
+  </Entry>
+ </RegistrationList>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_vc.py/list
+入力 XML
+   なし
+出力 XML
+   ルート要素: RegistrationList
+	予約された仮想クラスタ全てを表現する。
+	- 要素 Entry を複数含む。
+   要素: Entry
+	仮想クラスタを表現する要素。
+	- 属性 id を持つ。id は、仮想クラスタ ID を示す整数値。
+	- 属性 url を持つ。url は、当該仮想クラスタの情報取得 URL。
+	- 要素 start を持つ。
+	- 要素 end を持つ。
+	- 要素 mode を持つ。
+	- 要素 status を持つ。
+   要素: start
+	仮想クラスタの開始時刻を示す。年/月/日 時:分 の形式。
+   要素: end
+	仮想クラスタの終了時刻を示す。
+   要素: mode
+	仮想クラスタへの要求状態を示す。
+	normal/stop/free/kill のいずれか。
+   要素: status
+	仮想クラスタの動作状態を示す。
+stopped/starting_frontend/starting_computes/running/stopping/finalize/finalizing のいずれか。
+
+仮想クラスタ状態
+
+例:
+ <RegistrationEntry id="1">
+    <start>2007/07/01 0:00</start>
+    <end>2008/07/01 0:00</end>
+    <mode>normal</mode>
+    <status>running</status>
+    <subnet>
+     <vlan>100</vlan>
+     <ipaddr>10.0.0.1</ipaddr>
+     <ipmask>255.255.240.0</ipmask>
+    </subnet>
+    <vnodes>
+     <vnode vnodeid="1">
+      <vnodename>frontend-0-0</vnodename>
+      <appliance>frontend</appliance>
+      <pnodename>vmware-server-gw-0-0</pnodename>
+      <memsize>1280</memsize>
+      <storage type="iSCSI" location="iqn.2007-02.jp.go.aist.grivon:10.10.10.11:VolGroup01.node-1-0">
+       30720
+      </storage>
+      <ipaddr>10.0.0.1</ipaddr>
+      <macaddr>00:17:31:91:d3:01</macaddr>
+      <extIpaddr>192.50.74.155</extIpaddr>
+      <extMacaddr>00:17:31:91:d3:02</extMacaddr>
+     </vnode>
+    </vnodes>
+ </RegistrationEntry>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_pc.py/<仮想クラスタID>
+入力 XML
+   なし
+出力 XML
+   ルート要素: RegistrationEntry
+	仮想クラスタを表現する。
+	- 属性 id を持つ。仮想クラスタ ID を示す整数値。
+	- 要素 start を持つ。
+	- 要素 end を持つ。
+	- 要素 mode を持つ。
+	- 要素 status を持つ。
+	- 要素 subnet を持つ。
+	- 要素 vnodes を持つ。
+   要素: subnet
+	仮想クラスタのサブネットを示す。
+	- 要素 vlan を持つ。
+	- 要素 ipaddr を持つ。
+	- 要素 ipmask を持つ。
+   要素: vlan
+	仮想クラスタの vlan を示す整数値。
+   要素: ipaddr
+	仮想クラスタのサブネットの IP アドレス。
+   要素: ipmask
+	仮想クラスタのサブネットのネットマスク。
+   要素: vnodes
+	仮想クラスタを構成するノード群
+	- 要素 vnode を複数持つ。
+   要素: vnode
+	仮想ノード
+	- 属性 vnodeid を持つ。仮想ノード ID を示す整数値。
+	- 属性 vnodename を持つ。
+	- 属性 appliance を持つ。
+	- 属性 pnodename を持つ。
+	- 属性 memsize を持つ。
+	- 属性 storage を持つ。
+	- 属性 ipaddr を持つ。
+	- 属性 macaddr を持つ。
+	- 属性 extIpaddr を持つ。
+	- 属性 extMacaddr を持つ。
+   要素: vnodename
+	仮想ノード名。
+   要素: appliance
+	仮想ノード appliance。
+   要素: pnodename
+	仮想ノードを配置する物理ノード名。
+   要素: memsize
+	仮想ノードに使用するメモリサイズ。
+   要素: storage
+	仮想ノードに使用するストレージ。
+	- 属性 type を持つ。local または iSCSI
+	- 属性 location を持つ。iSCSI の場合、IQN を示す。
+	- 要素はストレージサイズを示す。
+   要素: ipaddr
+	仮想ノードの IP アドレス。
+   要素: macaddr
+	仮想ノードの MAC アドレス。
+   要素: extIpaddr
+	仮想ノードの外部 IP アドレス。
+   要素: extMacaddr
+	仮想ノードの外部 MAC アドレス。
+
+アプライアンス一覧
+例:
+ <ApplianceList>
+  <Appliance client="frontend" host="vmware-server-gw" id="1">
+   <host id="1" name="vmware-server-gw-0-0"/>
+  <Appliance>
+  <Appliance client="compute" host="vmware-server" id="2">
+   <host id="2" name="vmware-server-0-0"/>
+   <host id="3" name="vmware-server-0-1"/>
+   <host id="4" name="vmware-server-0-2"/>
+  </Appliance>
+ </ApplianceList>
+アクセスメソッド
+  GET http://hostname/vc/cgi-bin/vc_pc.py/appliance
+入力 XML
+  なし
+出力 XML
+   ルート要素: ApplianceList
+	- 要素 Appliance を複数持つ。
+   要素: Appliance
+	- 属性 id を持つ。
+	- 属性 host を持つ。物理ノード側の appliance を示す。
+	- 属性 client を持つ。host で示されたノード上で稼働可能な仮想ノードの appliance を示す。
+	- 要素 host を持つ。
+   要素: host
+	- 属性 id を持つ。物理ノード ID を示す整数値。
+	- 属性 name を持つ。物理ノード名を示す文字列。
+
+仮想クラスタ予約
+例:
+ <register start="2007/07/01 0:00" end="2008/07/01 0:00" passwd="xxx">
+  <publickey>ssh-dss AAAAB3NzaC1kc3MAAACBAJILQbm8gZm7KDO6LTqQONYJX8TyA3BtwPRx0kDtclJxmltVcJPdmSq0QQJsBgzs4LsArCVKz8nLotjoPVothqbdXL9vXGHODtlYiqufy/ba5KL8fifeBLHuTQmEBbEASDtzDbvp8ED+yR3aXG4Mp7hBDW2vGyEzSbiYPvCxXjatAAAAFQCmsfEwMAJjJiaMTWKrLqVZ2Bcy9wAAAIA6Hd1b4AY4mZ+uY2s7qEssrqp6BKWYAWP492/xnzPU6D75VA9HvPjRo70HFPRnyQ7rTt4fxyD42yrFfKqWAxx8Jr4Fp0G0ciR+tE3Ul7XzbkaDXICKSWgWbSNrRMKuHQ1xaoW+UsB7jiP4WoU6eQezGyXflHugPYK7ykYuCvq9nAAAAIEAh5cFULPeg0IhNDM6N1ZwFT5FfxxAbTD1pLquCMXC3yyDlTkN6k1pfXzjF6iPSw/KTlkDruvZfsO0vCNcbD7fbYinrS6NfIs4+zCUS2XKI3oVxYp+wnQGFkOAw5WDWhnq9+VYFo35PHDS57QpHTqp/cCX+PWDpf7RSibTpIsCVoE= ebara@dhcp139.suri.co.jp</publickey>
+  <appliance name="frontend" nnodes="1" memsize="1280" storagetype="iSCSI" storagesize="30720" />
+  <appliance name="compute" nnodes="2" memsize="1280" storagetype="iSCSI" storagesize="30720" />
+ </register>
+ アクセスメソッド
+   PUT http://hostname/vc/cgi-bin/vc_vc.py/add
+ 入力 XML
+   要素: register
+	- 属性 start を持たなければならない。
+	- 属性 end を持たなければならない。
+	- 属性 passwd を持たなければならない。
+	- 要素 publickey を持つ。
+	- 属性 rollFile を持つ。
+   属性: rollFile
+	登録した roll の名前。
+   属性: appliance
+	- 属性 name を持つ。仮想ノードのアプライアンス名を示す文字列。
+	- 属性 nnodes を持つ。当該アプライアンスに属する仮想ノードの数。
+	- 属性 memsize を持つ。仮想ノードのメモリサイズを示す整数値。
+	- 属性 storagesize を持つ。仮想ノードのストレージサイズを示す整数値。
+	- 属性 storagetype を持つ。local または iSCSI。
+ 出力 XML
+   仮想クラスタ状態を返す。
+   失敗した場合は 406 (Not Acceptable) を返す。
+>>>>>>>>>> 1211906148
+** 物理クラスタ状態 [#e3a16095]
+
+例:
+ <PhysicalCluster>
+  <node id="1">
+   <name>vmware-server-gw-0-0</name>
+   <appliance>vmware-server-gw</appliance>
+   <network>
+    <interface device="eth0">
+     <ipaddr>10.255.255.254</ipaddr>
+     <ipmask>255.0.0.0</ipmask>
+     <macaddr>00:90:cc:de:72:47</macaddr>
+    </interface>
+    <interface device="eth1">
+     <ipaddr>192.50.74.160</ipaddr>
+     <ipmask>255.255.255.0</ipmask>
+     <macaddr>00:17:31:91:d3:d4</macaddr>
+    </interface>
+   </network>
+  </node>
+ </PhysicalCluster>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_pc.py/list
+入力 XML
+   なし
+出力 XML
+   ルート要素: PhysicalCluster
+	物理クラスタ全体を表現する。
+	- 要素 node を複数含む
+	- 要素 iscsi を複数含む
+   要素: node
+        物理ノードを表現する要素。
+        - 属性 id を持つ。id は、クラスタ DB の物理ノード ID を示す整数値。
+        - 要素 name, appliance, network を含む。
+   要素: name
+	物理ノードの名前を要素として持つ。
+   要素: appliance
+	物理ノードの appliance を要素として持つ。
+   要素: network
+	物理ノードのネットワークを表現する要素。
+	- 要素 interface を持つ。
+   要素: interface
+	物理ノードのネットワーク I/F を表現する要素。
+	- 属性 device を持つ。device は、ネットワークインターフェース名を示す。
+	- 要素 ipaddr を持つ。例: 10.0.0.1
+	- 要素 ipmask を持つ。例: 255.255.255.0
+	- 要素 macaddr を持つ。例: 00:17:31:91:d3:d4
+   要素: ipaddr
+	ネットワーク I/F の IP アドレスを示す。
+   要素: ipmask
+	ネットワーク I/F のネットマスクを示す。
+   要素: macaddr
+	ネットワーク I/F の MAC アドレスを示す。
+   要素: iscsi
+	- 属性 id を持つ。
+	- 属性 size を持つ。
+	- 属性 volgroup を持つ。
+	- 要素 location を持つ。
+   要素: location
+	iSCSI の IQN を示す。
+
+** 仮想クラスタ予約一覧 [#f3d15c0c]
+
+例:
+ <RegistrationList>
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+    <start>2007/07/01 0:00</start>
+    <end>2008/07/01 0:00</end>
+    <mode>normal</mode>
+    <status>running</status>
+  </Entry>
+ </RegistrationList>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_vc.py/list
+入力 XML
+   なし
+出力 XML
+   ルート要素: RegistrationList
+	予約された仮想クラスタ全てを表現する。
+	- 要素 Entry を複数含む。
+   要素: Entry
+	仮想クラスタを表現する要素。
+	- 属性 id を持つ。id は、仮想クラスタ ID を示す整数値。
+	- 属性 url を持つ。url は、当該仮想クラスタの情報取得 URL。
+	- 要素 start を持つ。
+	- 要素 end を持つ。
+	- 要素 mode を持つ。
+	- 要素 status を持つ。
+   要素: start
+	仮想クラスタの開始時刻を示す。年/月/日 時:分 の形式。
+   要素: end
+	仮想クラスタの終了時刻を示す。
+   要素: mode
+	仮想クラスタへの要求状態を示す。
+	normal/stop/free/kill のいずれか。
+   要素: status
+	仮想クラスタの動作状態を示す。
+stopped/starting_frontend/starting_computes/running/stopping/finalize/finalizing のいずれか。
+
+** 仮想クラスタ状態 [#pb177ab0]
+
+例:
+ <RegistrationEntry id="1">
+    <start>2007/07/01 0:00</start>
+    <end>2008/07/01 0:00</end>
+    <mode>normal</mode>
+    <status>running</status>
+    <subnet>
+     <vlan>100</vlan>
+     <ipaddr>10.0.0.1</ipaddr>
+     <ipmask>255.255.240.0</ipmask>
+    </subnet>
+    <vnodes>
+     <vnode vnodeid="1">
+      <vnodename>frontend-0-0</vnodename>
+      <appliance>frontend</appliance>
+      <pnodename>vmware-server-gw-0-0</pnodename>
+      <memsize>1280</memsize>
+      <storage type="iSCSI" location="iqn.2007-02.jp.go.aist.grivon:10.10.10.11:VolGroup01.node-1-0">
+       30720
+      </storage>
+      <ipaddr>10.0.0.1</ipaddr>
+      <macaddr>00:17:31:91:d3:01</macaddr>
+      <extIpaddr>192.50.74.155</extIpaddr>
+      <extMacaddr>00:17:31:91:d3:02</extMacaddr>
+     </vnode>
+    </vnodes>
+ </RegistrationEntry>
+アクセスメソッド
+   GET http://hostname/vc/cgi-bin/vc_pc.py/<仮想クラスタID>
+入力 XML
+   なし
+出力 XML
+   ルート要素: RegistrationEntry
+	仮想クラスタを表現する。
+	- 属性 id を持つ。仮想クラスタ ID を示す整数値。
+	- 要素 start を持つ。
+	- 要素 end を持つ。
+	- 要素 mode を持つ。
+	- 要素 status を持つ。
+	- 要素 subnet を持つ。
+	- 要素 vnodes を持つ。
+   要素: subnet
+	仮想クラスタのサブネットを示す。
+	- 要素 vlan を持つ。
+	- 要素 ipaddr を持つ。
+	- 要素 ipmask を持つ。
+   要素: vlan
+	仮想クラスタの vlan を示す整数値。
+   要素: ipaddr
+	仮想クラスタのサブネットの IP アドレス。
+   要素: ipmask
+	仮想クラスタのサブネットのネットマスク。
+   要素: vnodes
+	仮想クラスタを構成するノード群
+	- 要素 vnode を複数持つ。
+   要素: vnode
+	仮想ノード
+	- 属性 vnodeid を持つ。仮想ノード ID を示す整数値。
+	- 属性 vnodename を持つ。
+	- 属性 appliance を持つ。
+	- 属性 pnodename を持つ。
+	- 属性 memsize を持つ。
+	- 属性 storage を持つ。
+	- 属性 ipaddr を持つ。
+	- 属性 macaddr を持つ。
+	- 属性 extIpaddr を持つ。
+	- 属性 extMacaddr を持つ。
+   要素: vnodename
+	仮想ノード名。
+   要素: appliance
+	仮想ノード appliance。
+   要素: pnodename
+	仮想ノードを配置する物理ノード名。
+   要素: memsize
+	仮想ノードに使用するメモリサイズ。
+   要素: storage
+	仮想ノードに使用するストレージ。
+	- 属性 type を持つ。local または iSCSI
+	- 属性 location を持つ。iSCSI の場合、IQN を示す。
+	- 要素はストレージサイズを示す。
+   要素: ipaddr
+	仮想ノードの IP アドレス。
+   要素: macaddr
+	仮想ノードの MAC アドレス。
+   要素: extIpaddr
+	仮想ノードの外部 IP アドレス。
+   要素: extMacaddr
+	仮想ノードの外部 MAC アドレス。
+
+** アプライアンス一覧 [#w8d58791]
+
+例:
+ <ApplianceList>
+  <Appliance client="frontend" host="vmware-server-gw" id="1">
+   <host id="1" name="vmware-server-gw-0-0"/>
+  <Appliance>
+  <Appliance client="compute" host="vmware-server" id="2">
+   <host id="2" name="vmware-server-0-0"/>
+   <host id="3" name="vmware-server-0-1"/>
+   <host id="4" name="vmware-server-0-2"/>
+  </Appliance>
+ </ApplianceList>
+
+アクセスメソッド
+  GET http://hostname/vc/cgi-bin/vc_pc.py/appliance
+
+入力 XML
+  なし
+
+出力 XML
+   ルート要素: ApplianceList
+	- 要素 Appliance を複数持つ。
+   要素: Appliance
+	- 属性 id を持つ。
+	- 属性 host を持つ。物理ノード側の appliance を示す。
+	- 属性 client を持つ。host で示されたノード上で稼働可能な仮想ノードの appliance を示す。
+	- 要素 host を持つ。
+   要素: host
+	- 属性 id を持つ。物理ノード ID を示す整数値。
+	- 属性 name を持つ。物理ノード名を示す文字列。
+
+** 仮想クラスタ予約 [#y6c22188]
+
+例:
+ <register start="2007/07/01 0:00" end="2008/07/01 0:00" passwd="xxx">
+  <publickey>ssh-dss AAAAB3NzaC1kc3MAAACBAJILQbm8gZm7KDO6LTqQONYJX8TyA3BtwPRx0kDtclJxmltVcJPdmSq0QQJsBgzs4LsArCVKz8nLotjoPVothqbdXL9vXGHODtlYiqufy/ba5KL8fifeBLHuTQmEBbEASDtzDbvp8ED+yR3aXG4Mp7hBDW2vGyEzSbiYPvCxXjatAAAAFQCmsfEwMAJjJiaMTWKrLqVZ2Bcy9wAAAIA6Hd1b4AY4mZ+uY2s7qEssrqp6BKWYAWP492/xnzPU6D75VA9HvPjRo70HFPRnyQ7rTt4fxyD42yrFfKqWAxx8Jr4Fp0G0ciR+tE3Ul7XzbkaDXICKSWgWbSNrRMKuHQ1xaoW+UsB7jiP4WoU6eQezGyXflHugPYK7ykYuCvq9nAAAAIEAh5cFULPeg0IhNDM6N1ZwFT5FfxxAbTD1pLquCMXC3yyDlTkN6k1pfXzjF6iPSw/KTlkDruvZfsO0vCNcbD7fbYinrS6NfIs4+zCUS2XKI3oVxYp+wnQGFkOAw5WDWhnq9+VYFo35PHDS57QpHTqp/cCX+PWDpf7RSibTpIsCVoE= ebara@dhcp139.suri.co.jp</publickey>
+  <appliance name="frontend" nnodes="1" memsize="1280" storagetype="iSCSI" storagesize="30720" />
+  <appliance name="compute" nnodes="2" memsize="1280" storagetype="iSCSI" storagesize="30720" />
+ </register>
+
+アクセスメソッド
+   PUT http://hostname/vc/cgi-bin/vc_vc.py/add
+
+入力 XML
+   要素: register
+	- 属性 start を持たなければならない。
+	- 属性 end を持たなければならない。
+	- 属性 passwd を持たなければならない。
+	- 要素 publickey を持つ。
+	- 属性 rollFile を持つ。
+   属性: rollFile
+	登録した roll の名前。
+   属性: appliance
+	- 属性 name を持つ。仮想ノードのアプライアンス名を示す文字列。
+	- 属性 nnodes を持つ。当該アプライアンスに属する仮想ノードの数。
+	- 属性 memsize を持つ。仮想ノードのメモリサイズを示す整数値。
+	- 属性 storagesize を持つ。仮想ノードのストレージサイズを示す整数値。
+	- 属性 storagetype を持つ。local または iSCSI。
+
+出力 XML
+   仮想クラスタ状態を返す。
+   失敗した場合は 406 (Not Acceptable) を返す。
+>>>>>>>>>> 1212953474
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/vc_pc.py/ の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Node NodeID="1">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/vc_vc.py/list の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/vc_vc.py/list の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3MAAACBAJILQbm8gZm7KDO6LTqQONYJX8TyA3BtwPRx0kDtclJxmltVcJPdmSq0QQJsBgzs4LsArCVKz8nLotjoPVothqbdXL9vXGHODtlYiqufy/ba5KL8fifeBLHuTQmEBbEASDtzDbvp8ED+yR3aXG4Mp7hBDW2vGyEzSbiYPvCxXjatAAAAFQCmsfEwMAJjJiaMTWKrLqVZ2Bcy9wAAAIA6Hd1b4AY4mZ+uY2s7qEssrqp6BKWYAWP492/xnzPU6D75VA9HvPjRo70HFPRnyQ7rTt4fxyD42yrFfKqWAxx8Jr4Fp0G0ciR+tE3Ul7XzbkaDXICKSWgWbSNrRMKuHQ1xaoW+UsB7jiP4WoU6eQezGyXflHugPYK7ykYuCvq9nAAAAIEAh5cFULPeg0IhNDM6N1ZwFT5FfxxAbTD1pLquCMXC3yyDlTkN6k1pfXzjF6iPSw/KTlkDruvZfsO0vCNcbD7fbYinrS6NfIs4+zCUS2XKI3oVxYp+wnQGFkOAw5WDWhnq9+VYFo35PHDS57QpHTqp/cCX+PWDpf7RSibTpIsCVoE= ebara@dhcp139.suri.co.jp
+ 
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/vc_vc.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+- 仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+  </PlaceEntry>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+>>>>>>>>>> 1213510811
+
+|内容|パス|GET|POST|PUT|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク設定)|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Node NodeID="1">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3MAAACBAJILQbm8gZm7KDO6LTqQONYJX8TyA3BtwPRx0kDtclJxmltVcJPdmSq0QQJsBgzs4LsArCVKz8nLotjoPVothqbdXL9vXGHODtlYiqufy/ba5KL8fifeBLHuTQmEBbEASDtzDbvp8ED+yR3aXG4Mp7hBDW2vGyEzSbiYPvCxXjatAAAAFQCmsfEwMAJjJiaMTWKrLqVZ2Bcy9wAAAIA6Hd1b4AY4mZ+uY2s7qEssrqp6BKWYAWP492/xnzPU6D75VA9HvPjRo70HFPRnyQ7rTt4fxyD42yrFfKqWAxx8Jr4Fp0G0ciR+tE3Ul7XzbkaDXICKSWgWbSNrRMKuHQ1xaoW+UsB7jiP4WoU6eQezGyXflHugPYK7ykYuCvq9nAAAAIEAh5cFULPeg0IhNDM6N1ZwFT5FfxxAbTD1pLquCMXC3yyDlTkN6k1pfXzjF6iPSw/KTlkDruvZfsO0vCNcbD7fbYinrS6NfIs4+zCUS2XKI3oVxYp+wnQGFkOAw5WDWhnq9+VYFo35PHDS57QpHTqp/cCX+PWDpf7RSibTpIsCVoE= ebara@dhcp139.suri.co.jp
+ 
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+- 仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+  </PlaceEntry>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+>>>>>>>>>> 1213560382
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Info>Rocks 5</Info>
+  <Description>Name of Data Center</Description>
+  <Node NodeID="1" Status="Gateway">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2" Existence="Host">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+>>>>>>>>>> 1245861540
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Info>Rocks 5</Info>
+  <Description>Name of Data Center</Description>
+  <Node NodeID="1" Status="Gateway">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2" Existence="Host">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+
+* 動的配置対応のためのプロトコル追加 [#t41313b3]
+
+- 資源配置プログラム登録
+++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+  PUT /vc/cgi-bin/allocater.py
+要求メッセージ
+ <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" />
+応答メッセージ
+ <AllocationPlan cmd="candidate-response" status="ok" />
+
+++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+  GET <登録要求時に指定されたURL>
+要求メッセージ
+ <AllocationPlan cmd="candidate-notify" />
+応答メッセージ
+ <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+
+- 資源予約時確認
+++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="checkonly-request">
+   <!--
+     仮想クラスタ登録要求 RPC の内容
+     ただし、パスワード(VcRootPassword), SSH キー(VcPublicKey) は除く
+   -->
+   <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+    <VcInfo>Rocks</VcInfo>
+    <VcDescription>User Defined Cluster Name</VcDescription>
+    <VcStart>2008-2-13 15:39:00</VcStart>
+    <VcEnd>2008-3-13 15:39:00</VcEnd>
+    <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+    <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+   </RegisterVirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="checkonly-response" status="ok" />
+
+- 資源配置
+++ 資源配置要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="allocate-request">
+   <!--
+     仮想クラスタ登録要求 RPC の内容
+     ただし、パスワード(VcRootPassword), SSH キー(VcPublicKey) は除く
+   -->
+   <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+    <VcInfo>Rocks</VcInfo>
+    <VcDescription>User Defined Cluster Name</VcDescription>
+    <VcStart>2008-2-13 15:39:00</VcStart>
+    <VcEnd>2008-3-13 15:39:00</VcEnd>
+    <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+    <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+   </RegisterVirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="allocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+   <!-- 新規ノード配置 -->
+   <VirtualCluster VcID="4">
+     <VcNode VnodeID="1">
+       <PnodeName>vm-container-0-0</PnodeName>
+     </VcNode>
+     <VcNode VnodeID="2">
+       <PnodeName>vm-container-1-0</PnodeName>
+     </VcNode>
+   </VirtualCluster>
+ </AllocationPlan>
+>>>>>>>>>> 1246466704
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Info>Rocks 5</Info>
+  <Description>Name of Data Center</Description>
+  <Node NodeID="1" Status="Gateway">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2" Existence="Host">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+
+* 動的配置対応のためのプロトコル追加 [#t41313b3]
+
+- 資源配置プログラム登録
+++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+  PUT /vc/cgi-bin/allocater.py
+要求メッセージ
+ <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" version="1.0" />
+ 要求時に自身のプロトコルバージョンを通知する。
+応答メッセージ
+ <AllocationPlan cmd="candidate-response" status="ok"/>
+
+++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+  GET <登録要求時に指定されたURL>
+要求メッセージ
+ <AllocationPlan cmd="candidate-notify" version="1.0" />
+ プロトコルバージョンの確認を行う。
+応答メッセージ
+ <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+
+- 資源予約時確認
+++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="checkonly-request">
+   <!--
+     仮想クラスタ登録要求 RPC の内容
+     ただし、パスワード(VcRootPassword), SSH キー(VcPublicKey) は除く
+   -->
+   <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+    <VcInfo>Rocks</VcInfo>
+    <VcDescription>User Defined Cluster Name</VcDescription>
+    <VcStart>2008-2-13 15:39:00</VcStart>
+    <VcEnd>2008-3-13 15:39:00</VcEnd>
+    <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+    <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+   </RegisterVirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     既に登録されている仮想クラスタのリスト
+   -->
+   <ExistingEntries>
+     <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+      <VcInfo>Rocks</VcInfo>
+      <VcDescription>User Defined Cluster Name</VcDescription>
+      <VcStart>2008-2-13 15:39:00</VcStart>
+      <VcEnd>2008-3-13 15:39:00</VcEnd>
+      <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+      <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+     </RegisterVirtualCluster>
+   </ExistingEntries>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="checkonly-response" status="ok" />
+
+- 資源配置
+++ 資源配置要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="allocate-request">
+   <!--
+     仮想クラスタ登録要求 RPC の内容
+     ただし、パスワード(VcRootPassword), SSH キー(VcPublicKey) は除く
+   -->
+   <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+    <VcInfo>Rocks</VcInfo>
+    <VcDescription>User Defined Cluster Name</VcDescription>
+    <VcStart>2008-2-13 15:39:00</VcStart>
+    <VcEnd>2008-3-13 15:39:00</VcEnd>
+    <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+    <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+   </RegisterVirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="allocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+   <!-- 新規ノード配置 -->
+   <VirtualCluster VcID="4">
+     <VcNode VnodeID="1">
+       <PnodeName>vm-container-0-0</PnodeName>
+     </VcNode>
+     <VcNode VnodeID="2">
+       <PnodeName>vm-container-1-0</PnodeName>
+     </VcNode>
+   </VirtualCluster>
+ </AllocationPlan>
+>>>>>>>>>> 1247072298
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Info>Rocks 5</Info>
+  <Description>Name of Data Center</Description>
+  <Node NodeID="1" Status="Gateway">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2" Existence="Host">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+
+* 動的配置対応のためのプロトコル追加 [#t41313b3]
+
+- 資源配置プログラム登録
+++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+  PUT /vc/cgi-bin/allocater.py
+要求メッセージ
+ <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" version="1.0" />
+ 要求時に自身のプロトコルバージョンを通知する。
+応答メッセージ
+ <AllocationPlan cmd="candidate-response" status="ok"/>
+
+++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+  GET <登録要求時に指定されたURL>
+要求メッセージ
+ <AllocationPlan cmd="candidate-notify" version="1.0" />
+ プロトコルバージョンの確認を行う。
+応答メッセージ
+ <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+
+- 資源予約時確認
+++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="checkonly-request">
+   <!--
+     仮想クラスタ登録要求 RPC の内容
+     ただし、パスワード(VcRootPassword), SSH キー(VcPublicKey) は除く
+   -->
+   <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+    <VcInfo>Rocks</VcInfo>
+    <VcDescription>User Defined Cluster Name</VcDescription>
+    <VcStart>2008-2-13 15:39:00</VcStart>
+    <VcEnd>2008-3-13 15:39:00</VcEnd>
+    <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+    <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+   </RegisterVirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     既に登録されている仮想クラスタのリスト
+   -->
+   <ExistingEntries>
+     <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+      <VcInfo>Rocks</VcInfo>
+      <VcDescription>User Defined Cluster Name</VcDescription>
+      <VcStart>2008-2-13 15:39:00</VcStart>
+      <VcEnd>2008-3-13 15:39:00</VcEnd>
+      <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+      <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+     </RegisterVirtualCluster>
+   </ExistingEntries>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="checkonly-response" status="ok" />
+
+- 資源配置
+++ 資源配置要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="allocate-request">
+   <!--
+     仮想クラスタ登録要求 RPC の内容
+     ただし、パスワード(VcRootPassword), SSH キー(VcPublicKey) は除く
+   -->
+   <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+    <VcInfo>Rocks</VcInfo>
+    <VcDescription>User Defined Cluster Name</VcDescription>
+    <VcStart>2008-2-13 15:39:00</VcStart>
+    <VcEnd>2008-3-13 15:39:00</VcEnd>
+    <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+    <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+   </RegisterVirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="allocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+   <!-- 新規ノード配置 -->
+   <Allocate VcID="4">
+     <VcNode VnodeID="1">
+       <PnodeName>vm-container-0-0</PnodeName>
+     </VcNode>
+     <VcNode VnodeID="2">
+       <PnodeName>vm-container-1-0</PnodeName>
+     </VcNode>
+   </Allotate>
+ </AllocationPlan>
+>>>>>>>>>> 1252215566
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Info>Rocks 5</Info>
+  <Description>Name of Data Center</Description>
+  <Node NodeID="1" Status="Gateway">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2" Existence="Host">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+
+* 動的配置対応のためのプロトコル追加 [#t41313b3]
+
+- 資源配置プログラム登録
+++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+  PUT /vc/cgi-bin/allocater.py
+要求メッセージ
+ <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" version="1.0" />
+ 要求時に自身のプロトコルバージョンを通知する。
+応答メッセージ
+ <AllocationPlan cmd="candidate-response" status="ok"/>
+
+++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+  GET <登録要求時に指定されたURL>
+要求メッセージ
+ <AllocationPlan cmd="candidate-notify" version="1.0" />
+ プロトコルバージョンの確認を行う。
+応答メッセージ
+ <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+
+- 資源予約時確認
+++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="checkonly-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <VirtualCluster">
+     (略)
+    <VcNode VnodeID="1">
+     <VnodeName>frontend-4-0</VnodeName>
+     <!-- PnodeName の部分がない -->
+     (略)
+    </VcNode>
+     (略)
+   </VirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     既に登録されている仮想クラスタのリスト
+   -->
+   <ExistingEntries>
+     <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+      <VcInfo>Rocks</VcInfo>
+      <VcDescription>User Defined Cluster Name</VcDescription>
+      <VcStart>2008-2-13 15:39:00</VcStart>
+      <VcEnd>2008-3-13 15:39:00</VcEnd>
+      <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+      <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+     </RegisterVirtualCluster>
+   </ExistingEntries>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="checkonly-response" status="ok" />
+
+- 資源配置
+++ 資源配置要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="allocate-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <VirtualCluster">
+     (略)
+    <VcNode VnodeID="1">
+     <VnodeName>frontend-4-0</VnodeName>
+     <!-- PnodeName の部分がない -->
+     (略)
+    </VcNode>
+     (略)
+   </VirtualCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="allocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+   <!-- 新規ノード配置 -->
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置を指定して返す)
+   -->
+   <VirtualCluster">
+     (略)
+    <VcNode VnodeID="1">
+     <VnodeName>frontend-4-0</VnodeName>
+     <PnodeName>vm-container-0-2</PNodeName>
+     (略)
+    </VcNode>
+     (略)
+   </VirtualCluster>
+ </AllocationPlan>
+>>>>>>>>>> 1252266167
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+  <Info>Rocks 5</Info>
+  <Description>Name of Data Center</Description>
+  <Node NodeID="1" Status="Gateway">
+   <NodeName>vmware-server-gw-0-0</NodeName>
+   <NodeAppliance>vmware-server-gw</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+     <Ipaddr>10.255.255.254</Ipaddr>
+     <Ipmask>255.0.0.0</Ipmask>
+     <Macaddr>00:90:cc:de:72:47</Macaddr>
+    </NodeInterface>
+    <NodeInterface Device="eth1">
+     <Ipaddr>192.50.74.160</Ipaddr>
+     <Ipmask>255.255.255.0</Ipmask>
+     <Macaddr>00:17:31:91:d3:d4</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Node NodeID="2" Existence="Host">
+   <NodeName>vmware-server-0-0</NodeName>
+   <NodeAppliance>vmware-server</NodeAppliance>
+   <NodeNetwork>
+    <NodeInterface Device="eth0">
+    <Ipaddr>10.255.255.253</Ipaddr>
+    <Ipmask>255.0.0.0</Ipmask>
+    <Macaddr>00:90:cc:de:72:d5</Macaddr>
+    </NodeInterface>
+   </NodeNetwork>
+  </Node>
+  <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList xsi:noNamespaceSchemaLocation="vc_list.xsd">
+  <Entry id="1" url="http://hostname/vc/cgi-bin/vc_vc.py/1">
+   <VcStart>2008-02-13 15:39:00.00</VcStart>
+   <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+  <Entry id="2" url="http://hostname/vc/cgi-bin/vc_vc.py/2">
+   <VcStart>2007-07-01 00:00:00</VcStart>
+   <VcEnd>2008-07-01 00:00:00</VcEnd>
+   <VcMode ModeCode="10" ModeString="normal"/>
+   <VcStatus StatusCode="10" StatusString="running"/>
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+  </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <VirtualCluster xsi:noNamespaceSchemaLocation="vc_entry.xsd" VcID="4" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/vc_vc.py/4">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-02-13 15:39:00.00</VcStart>
+  <VcEnd>2008-03-13 15:39:00.00</VcEnd>
+  <VcMode ModeCode="1" ModeString="reserved"/>
+  <VcStatus StatusCode="10" StatusString="reserved"/>
+  <VcSubnet>
+   <SubnetVlan>100</SubnetVlan>
+   <SubnetIpaddr>10.0.0.0</SubnetIpaddr>
+   <SubnetIpmask>8</SubnetIpmask>
+  </VcSubnet>
+  <VcNode VnodeID="1">
+   <VnodeName>frontend-4-0</VnodeName>
+   <PnodeName>vmware-server-gw-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>frontend</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.1</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:08</VnodeNetworkMacaddr>
+    <VnodeNetworkExtIpaddr>192.50.74.155</VnodeNetworkExtIpaddr>
+    <VnodeNetworkExtMacaddr>00:50:56:00:00:09</VnodeNetworkExtMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+  <VcNode VnodeID="2">
+   <VnodeName>compute-4-0</VnodeName>
+   <PnodeName>vmware-server-0-0</PnodeName>
+   <ManagerName>ai03.hpcc.jp</ManagerName>
+   <VnodeVMType>xen</VnodeVMType>
+   <VnodeMemsize>1536</VnodeMemsize>
+   <VnodeAppliance>compute</VnodeAppliance>
+   <VnodeNetwork>
+    <VnodeNetworkIpaddr>10.0.0.2</VnodeNetworkIpaddr>
+    <VnodeNetworkMacaddr>00:50:56:00:00:0a</VnodeNetworkMacaddr>
+   </VnodeNetwork>
+   <Storage StorageSizeInuse="30720" StorageType="local"/>
+   <VcNodeMode VnodeModeCode="101" VnodeModeString="stop node"/>
+   <VcNodeStatus VnodeStatusCode="125" VnodeStatusString="newbie"/>
+  </VcNode>
+ </VirtualCluster>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+
+* 動的配置対応のためのプロトコル追加 [#t41313b3]
+
+- 資源配置プログラム登録
+++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+  PUT /vc/cgi-bin/allocater.py
+要求メッセージ
+ <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" version="1.0" />
+ 要求時に自身のプロトコルバージョンを通知する。
+応答メッセージ
+ <AllocationPlan cmd="candidate-response" status="ok"/>
+
+++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+  GET <登録要求時に指定されたURL>
+要求メッセージ
+ <AllocationPlan cmd="candidate-notify" version="1.0" />
+ プロトコルバージョンの確認を行う。
+応答メッセージ
+ <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+
+- 資源予約時確認
+++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="checkonly-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <VCluster>
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode>
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </VCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     既に登録されている仮想クラスタのリスト
+   -->
+   <ExistingEntries>
+     <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+      <VcInfo>Rocks</VcInfo>
+      <VcDescription>User Defined Cluster Name</VcDescription>
+      <VcStart>2008-2-13 15:39:00</VcStart>
+      <VcEnd>2008-3-13 15:39:00</VcEnd>
+      <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+      <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+     </RegisterVirtualCluster>
+   </ExistingEntries>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="checkonly-response" status="ok" />
+
+- 資源配置
+++ 資源配置要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="allocate-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <VCluster>
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode>
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </VCluster>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+     <PhysicalCluster xsi:noNamespaceSchemaLocation="pc_list.xsd">
+      <Info>Rocks 5</Info>
+      <Description>Name of Data Center</Description>
+      <Node NodeID="1" Status="Gateway">
+       <NodeName>vmware-server-gw-0-0</NodeName>
+       <NodeAppliance>vmware-server-gw</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+         <Ipaddr>10.255.255.254</Ipaddr>
+         <Ipmask>255.0.0.0</Ipmask>
+         <Macaddr>00:90:cc:de:72:47</Macaddr>
+        </NodeInterface>
+        <NodeInterface Device="eth1">
+         <Ipaddr>192.50.74.160</Ipaddr>
+         <Ipmask>255.255.255.0</Ipmask>
+         <Macaddr>00:17:31:91:d3:d4</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Node NodeID="2" Existence="Host">
+       <NodeName>vmware-server-0-0</NodeName>
+       <NodeAppliance>vmware-server</NodeAppliance>
+       <NodeNetwork>
+        <NodeInterface Device="eth0">
+        <Ipaddr>10.255.255.253</Ipaddr>
+        <Ipmask>255.0.0.0</Ipmask>
+        <Macaddr>00:90:cc:de:72:d5</Macaddr>
+        </NodeInterface>
+       </NodeNetwork>
+      </Node>
+      <Iscsi IscsiID="1" IscsiSize="1000" IscsiVolGroup="VolGroupSoa" IscsiAddr="10.1.1.1"/>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="allocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+   <!-- 新規ノード配置 -->
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置を指定して返す)
+   -->
+   <VCluster>
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode>
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-1</PNodeName> <!-- この部分を追加する -->
+     </VNode>
+     <VNode>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-2</PNodeName> <!-- この部分を追加する -->
+     </VNode>
+     <VNode>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-3</PNodeName> <!-- この部分を追加する -->
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </VCluster>
+ </AllocationPlan>
+>>>>>>>>>> 1256250085
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+  <PNodeList>
+    <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+      <PNodeNetwork>
+        <Interface Device="eth0">
+          <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+          <Ipaddr>10.1.1.1</Ipaddr>
+        </Interface>
+        <Interface Device="eth1">
+          <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+          <Ipaddr>192.50.74.153</Ipaddr>
+        </Interface>
+      </PNodeNetwork>
+      <PNodeStatus StatusCode="1100">none</PNodeStatus>
+      <PNodeName>ai03</PNodeName>
+      <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+      <PNodeType>manager</PNodeType>
+      <PNodeAppliance>frontend</PNodeAppliance>
+    </PNode>
+    <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+      <PNodeNetwork>
+        <Interface Device="eth0">
+          <Ipmask>255.255.0.0</Ipmask>
+          <Macaddr>00:16:3e:00:00:04</Macaddr>
+          <Ipaddr>10.1.255.250</Ipaddr>
+        </Interface>
+      </PNodeNetwork>
+      <PNodeStatus StatusCode="1100">none</PNodeStatus>
+      <PNodeName>compute-0-0</PNodeName>
+      <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+      <PNodeType>none</PNodeType>
+      <PNodeAppliance>compute</PNodeAppliance>
+    </PNode>
+    <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+      <PNodeNetwork>
+        <Interface Device="eth0">
+          <Ipmask>255.255.0.0</Ipmask>
+          <Macaddr>00:90:cc:de:83:21</Macaddr>
+          <Ipaddr>10.1.255.253</Ipaddr>
+        </Interface>
+        <Interface Device="eth1">
+          <Macaddr>00:17:31:91:d3:ac</Macaddr>
+          <Ipaddr>192.50.74.155</Ipaddr>
+        </Interface>
+      </PNodeNetwork>
+      <PNodeStatus StatusCode="1100">none</PNodeStatus>
+      <PNodeName>vm-container-0-1</PNodeName>
+      <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+      <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+      <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+      <PNodeType>gateway</PNodeType>
+      <PNodeAppliance>vm-container</PNodeAppliance>
+    </PNode>
+  </PNodeList>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList>
+  <Entry VcID="16" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16">
+    <VcStatus StatusCode="230">running</VcStatus>
+      <VcEnd>2009-11-08T13:53:00.000</VcEnd>
+      <VcStart>2009-10-08T13:53:00.000</VcStart>
+      <VcMode ModeCode="2">-</VcMode>
+      <VcStatusMsg>running</VcStatusMsg>
+    </Entry>
+ </RegistrationList>
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <Entry VcID="16" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16">
+  <VcInfo/>
+    <VcStatus StatusCode="230">running</VcStatus>
+    <VcEnd>2009-11-08T13:53:00.000</VcEnd>
+    <VcDescription/>
+    <VcSubnet>
+      <SubnetIPMask>255.255.0.0</SubnetIPMask>
+      <SubnetVLAN>100</SubnetVLAN>
+      <SubnetIPAddr>10.1.0.0</SubnetIPAddr>
+    </VcSubnet>
+  <VcNodeList>
+    <VNode VNodeID="2">
+      <VNodeStatus StatusCode="1170">running</VNodeStatus>
+      <VNodeExtNetwork>
+        <VNodeExtNetworkMask>255.255.255.0</VNodeExtNetworkMask>
+        <VNodeExtNetworkDomain>hpcc.jp</VNodeExtNetworkDomain>
+        <VNodeExtNetworkMacaddr>00:50:56:00:00:3b</VNodeExtNetworkMacaddr>
+        <VNodeExtNetworkIpaddr>192.50.74.161</VNodeExtNetworkIpaddr>
+        <VNodeExtNetworkGateway>192.50.74.1</VNodeExtNetworkGateway>
+      </VNodeExtNetwork>
+      <VNodeStatusMsg>running</VNodeStatusMsg>
+      <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+      <PNodeName>vm-container-0-4</PNodeName>
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+      </VNodeStorageList>
+      <VNodeAliasName>frontend-16-0-0</VNodeAliasName>
+      <VNodeMemsize>800</VNodeMemsize>
+      <VNodeNetwork>
+        <VNodeNetworkMacaddr>00:50:56:00:00:3a</VNodeNetworkMacaddr>
+        <VNodeNetworkIpaddr>10.1.0.1</VNodeNetworkIpaddr>
+      </VNodeNetwork>
+      <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/2/mode">start</VNodeMode>
+    </VNode>
+    <VNode VNodeID="3">
+      <VNodeStatus StatusCode="1170">running</VNodeStatus>
+      <VNodeStatusMsg>running</VNodeStatusMsg>
+      <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+      <PNodeName>vm-container-0-6</PNodeName>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+      </VNodeStorageList>
+      <VNodeAliasName>compute-16-0-0</VNodeAliasName>
+      <VNodeMemsize>800</VNodeMemsize>
+      <VNodeNetwork>
+        <VNodeNetworkMacaddr>00:50:56:00:00:3d</VNodeNetworkMacaddr>
+        <VNodeNetworkIpaddr>10.1.0.2</VNodeNetworkIpaddr>
+      </VNodeNetwork>
+      <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/3/mode">start</VNodeMode>
+    </VNode>
+    <VNode VNodeID="4">
+      <VNodeStatus StatusCode="1170">running</VNodeStatus>
+      <VNodeStatusMsg>running</VNodeStatusMsg>
+      <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+      <PNodeName>vm-container-0-7</PNodeName>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+      </VNodeStorageList>
+      <VNodeAliasName>compute-16-0-1</VNodeAliasName>
+      <VNodeMemsize>800</VNodeMemsize>
+      <VNodeNetwork>
+        <VNodeNetworkMacaddr>00:50:56:00:00:3f</VNodeNetworkMacaddr>
+        <VNodeNetworkIpaddr>10.1.0.3</VNodeNetworkIpaddr>
+      </VNodeNetwork>
+      <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/4/mode">start</VNodeMode>
+    </VNode>
+  </VcNodeList>
+  <VcStart>2009-10-08T13:53:00.000</VcStart>
+  <VcMode ModeCode="2" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/mode">-</VcMode>
+  <VcStatusMsg>running</VcStatusMsg>
+ </Entry>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+
+* 動的配置対応のためのプロトコル追加 [#t41313b3]
+
+- 資源配置プログラム登録
+++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+  PUT /vc/cgi-bin/allocater.py
+要求メッセージ
+ <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" version="1.0" />
+ 要求時に自身のプロトコルバージョンを通知する。
+応答メッセージ
+ <AllocationPlan cmd="candidate-response" status="ok"/>
+
+++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+  GET <登録要求時に指定されたURL>
+要求メッセージ
+ <AllocationPlan cmd="candidate-notify" version="1.0" />
+ プロトコルバージョンの確認を行う。
+応答メッセージ
+ <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+
+- 資源予約時確認
+++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="checkonly-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <Entry VcID="16">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+    <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+      <PNodeList>
+        <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+              <Ipaddr>10.1.1.1</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+              <Ipaddr>192.50.74.153</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>ai03</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+          <PNodeType>manager</PNodeType>
+          <PNodeAppliance>frontend</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:16:3e:00:00:04</Macaddr>
+              <Ipaddr>10.1.255.250</Ipaddr>
+            </Interface>
+           </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>compute-0-0</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+          <PNodeType>none</PNodeType>
+          <PNodeAppliance>compute</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:90:cc:de:83:21</Macaddr>
+              <Ipaddr>10.1.255.253</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:17:31:91:d3:ac</Macaddr>
+              <Ipaddr>192.50.74.155</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>vm-container-0-1</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+          <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+          <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+          <PNodeType>gateway</PNodeType>
+          <PNodeAppliance>vm-container</PNodeAppliance>
+        </PNode>
+      </PNodeList>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     既に登録されている仮想クラスタのリスト
+   -->
+   <ExistingEntries>
+   <Entry VcID="15">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-15-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-15-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+   </ExistingEntries>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="checkonly-response" status="ok" />
+
+- 資源配置
+++ 資源配置要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="allocate-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <Entry VcID="16">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+    <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+      <PNodeList>
+        <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+              <Ipaddr>10.1.1.1</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+              <Ipaddr>192.50.74.153</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>ai03</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+          <PNodeType>manager</PNodeType>
+          <PNodeAppliance>frontend</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:16:3e:00:00:04</Macaddr>
+              <Ipaddr>10.1.255.250</Ipaddr>
+            </Interface>
+           </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>compute-0-0</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+          <PNodeType>none</PNodeType>
+          <PNodeAppliance>compute</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:90:cc:de:83:21</Macaddr>
+              <Ipaddr>10.1.255.253</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:17:31:91:d3:ac</Macaddr>
+              <Ipaddr>192.50.74.155</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>vm-container-0-1</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+          <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+          <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+          <PNodeType>gateway</PNodeType>
+          <PNodeAppliance>vm-container</PNodeAppliance>
+        </PNode>
+      </PNodeList>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="allocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+   <!-- 新規ノード配置 -->
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置を指定して返す)
+   -->
+   <Entry VcID="16">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-1</PNodeName>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-2</PNodeName>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-3</PNodeName>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+ </AllocationPlan>
+- 資源再配置~
+マネージャは資源配置プログラムに対して、
+定期的に (現状では 1 分毎に) ノードの再配置が必要か問い合わせを行う。
+++ 資源再配置要求 (マネージャから資源配置プログラムへ)
+ <AllocationPlan cmd="rellocate-request">
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+    <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+      <PNodeList>
+        <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+              <Ipaddr>10.1.1.1</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+              <Ipaddr>192.50.74.153</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>ai03</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+          <PNodeType>manager</PNodeType>
+          <PNodeAppliance>frontend</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:16:3e:00:00:04</Macaddr>
+              <Ipaddr>10.1.255.250</Ipaddr>
+            </Interface>
+           </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>compute-0-0</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+          <PNodeType>none</PNodeType>
+          <PNodeAppliance>compute</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:90:cc:de:83:21</Macaddr>
+              <Ipaddr>10.1.255.253</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:17:31:91:d3:ac</Macaddr>
+              <Ipaddr>192.50.74.155</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>vm-container-0-1</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+          <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+          <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+          <PNodeType>gateway</PNodeType>
+          <PNodeAppliance>vm-container</PNodeAppliance>
+        </PNode>
+      </PNodeList>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+++ 資源再配置応答 (資源配置プログラムからマネージャへ)~
+資源配置プログラムは、再配置が相当と判断したものについて、
+その内容をマネージャに応答する。
+ <AllocationPlan cmd="rellocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+ </AllocationPlan>
+>>>>>>>>>> 1257375495
+* Sec [#a0c215dc]
+- REST
+
+|TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+|内容|パス|GET|POST|PUT|DELETE|
+|パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+|外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+|iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+|仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+|仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+|仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+
+----
+
+** 共通 [#vdc51475]
+
+- JavaScript での XML 文書の送信
+    // XML の DOM を構築
+    var dom = document.implementation.createDocument("", "", null);
+    var request = dom.createElement("RegisterVirtualCluster");
+    ...
+    var d = (new XMLSerializer).serializeToString(request);
+    // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+    var http_request = new XMLHttpRequest();
+    http_request.overrideMimeType('text/xml');
+    // 送信
+    http_request.onreadystatechange = function() {
+	document.body.style.cursor = 'auto';
+	alertContents(http_request); };;
+    http_request.open(method, url, true);
+    http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+    http_request.send(d);
+
+- Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+      ただし、POST 時にはコード値のみ評価。
+      例: <VcMode ModeCode="1" ModeString="reserved"/>
+- POST/DELETE 成功時は GET 時と同じものを返す。
+- エラー応答
+エラー時は以下の形式で返す。
+ <?xml version="1.0" ?>
+ <ERROR message="Short description">
+ Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+ </ERROR>
+
+** ユーザ画面 [#m4b72aed]
+- 物理クラスタノード一覧
+ /vc/cgi-bin/physical_clusters.py の GET/POST
+ <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+  <PNodeList>
+    <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+      <PNodeNetwork>
+        <Interface Device="eth0">
+          <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+          <Ipaddr>10.1.1.1</Ipaddr>
+        </Interface>
+        <Interface Device="eth1">
+          <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+          <Ipaddr>192.50.74.153</Ipaddr>
+        </Interface>
+      </PNodeNetwork>
+      <PNodeStatus StatusCode="1100">none</PNodeStatus>
+      <PNodeName>ai03</PNodeName>
+      <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+      <PNodeType>manager</PNodeType>
+      <PNodeAppliance>frontend</PNodeAppliance>
+    </PNode>
+    <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+      <PNodeNetwork>
+        <Interface Device="eth0">
+          <Ipmask>255.255.0.0</Ipmask>
+          <Macaddr>00:16:3e:00:00:04</Macaddr>
+          <Ipaddr>10.1.255.250</Ipaddr>
+        </Interface>
+      </PNodeNetwork>
+      <PNodeStatus StatusCode="1100">none</PNodeStatus>
+      <PNodeName>compute-0-0</PNodeName>
+      <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+      <PNodeType>none</PNodeType>
+      <PNodeAppliance>compute</PNodeAppliance>
+    </PNode>
+    <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+      <PNodeNetwork>
+        <Interface Device="eth0">
+          <Ipmask>255.255.0.0</Ipmask>
+          <Macaddr>00:90:cc:de:83:21</Macaddr>
+          <Ipaddr>10.1.255.253</Ipaddr>
+        </Interface>
+        <Interface Device="eth1">
+          <Macaddr>00:17:31:91:d3:ac</Macaddr>
+          <Ipaddr>192.50.74.155</Ipaddr>
+        </Interface>
+      </PNodeNetwork>
+      <PNodeStatus StatusCode="1100">none</PNodeStatus>
+      <PNodeName>vm-container-0-1</PNodeName>
+      <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+      <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+      <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+      <PNodeType>gateway</PNodeType>
+      <PNodeAppliance>vm-container</PNodeAppliance>
+    </PNode>
+  </PNodeList>
+ </PhysicalCluster>
+
+- 仮想クラスタ一覧
+ /vc/cgi-bin/virtual_clusters.py の GET
+ <RegistrationList>
+  <Entry VcID="16" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16">
+    <VcStatus StatusCode="230">running</VcStatus>
+      <VcEnd>2009-11-08T13:53:00.000</VcEnd>
+      <VcStart>2009-10-08T13:53:00.000</VcStart>
+      <VcMode ModeCode="2">-</VcMode>
+      <VcStatusMsg>running</VcStatusMsg>
+    </Entry>
+ </RegistrationList>
+-- 仮想クラスタステータスコード
+--- StatusCode="110" → "stopped"
+--- StatusCode="230" → "running"
+- 仮想クラスタ登録要求
+ /vc/cgi-bin/virtual_clusters.py の POST
+ <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+  <VcInfo>Rocks</VcInfo>
+  <VcDescription>User Defined Cluster Name</VcDescription>
+  <VcStart>2008-2-13 15:39:00</VcStart>
+  <VcEnd>2008-3-13 15:39:00</VcEnd>
+  <VcRootPassword>geheim</VcRootPassword>
+  <VcPublicKey>
+ ssh-dss AAAAB3NzaC1kc3...
+  </VcPublicKey>
+  <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+ </RegisterVirtualCluster>
+- 仮想クラスタ状態
+ /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+ <Entry VcID="16" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16">
+  <VcInfo/>
+    <VcStatus StatusCode="230">running</VcStatus>
+    <VcEnd>2009-11-08T13:53:00.000</VcEnd>
+    <VcDescription/>
+    <VcSubnet>
+      <SubnetIPMask>255.255.0.0</SubnetIPMask>
+      <SubnetVLAN>100</SubnetVLAN>
+      <SubnetIPAddr>10.1.0.0</SubnetIPAddr>
+    </VcSubnet>
+  <VcNodeList>
+    <VNode VNodeID="2">
+      <VNodeStatus StatusCode="1170">running</VNodeStatus>
+      <VNodeExtNetwork>
+        <VNodeExtNetworkMask>255.255.255.0</VNodeExtNetworkMask>
+        <VNodeExtNetworkDomain>hpcc.jp</VNodeExtNetworkDomain>
+        <VNodeExtNetworkMacaddr>00:50:56:00:00:3b</VNodeExtNetworkMacaddr>
+        <VNodeExtNetworkIpaddr>192.50.74.161</VNodeExtNetworkIpaddr>
+        <VNodeExtNetworkGateway>192.50.74.1</VNodeExtNetworkGateway>
+      </VNodeExtNetwork>
+      <VNodeStatusMsg>running</VNodeStatusMsg>
+      <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+      <PNodeName>vm-container-0-4</PNodeName>
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+      </VNodeStorageList>
+      <VNodeAliasName>frontend-16-0-0</VNodeAliasName>
+      <VNodeMemsize>800</VNodeMemsize>
+      <VNodeNetwork>
+        <VNodeNetworkMacaddr>00:50:56:00:00:3a</VNodeNetworkMacaddr>
+        <VNodeNetworkIpaddr>10.1.0.1</VNodeNetworkIpaddr>
+      </VNodeNetwork>
+      <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/2/mode">start</VNodeMode>
+    </VNode>
+    <VNode VNodeID="3">
+      <VNodeStatus StatusCode="1170">running</VNodeStatus>
+      <VNodeStatusMsg>running</VNodeStatusMsg>
+      <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+      <PNodeName>vm-container-0-6</PNodeName>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+      </VNodeStorageList>
+      <VNodeAliasName>compute-16-0-0</VNodeAliasName>
+      <VNodeMemsize>800</VNodeMemsize>
+      <VNodeNetwork>
+        <VNodeNetworkMacaddr>00:50:56:00:00:3d</VNodeNetworkMacaddr>
+        <VNodeNetworkIpaddr>10.1.0.2</VNodeNetworkIpaddr>
+      </VNodeNetwork>
+      <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/3/mode">start</VNodeMode>
+    </VNode>
+    <VNode VNodeID="4">
+      <VNodeStatus StatusCode="1170">running</VNodeStatus>
+      <VNodeStatusMsg>running</VNodeStatusMsg>
+      <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+      <PNodeName>vm-container-0-7</PNodeName>
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+      </VNodeStorageList>
+      <VNodeAliasName>compute-16-0-1</VNodeAliasName>
+      <VNodeMemsize>800</VNodeMemsize>
+      <VNodeNetwork>
+        <VNodeNetworkMacaddr>00:50:56:00:00:3f</VNodeNetworkMacaddr>
+        <VNodeNetworkIpaddr>10.1.0.3</VNodeNetworkIpaddr>
+      </VNodeNetwork>
+      <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/4/mode">start</VNodeMode>
+    </VNode>
+  </VcNodeList>
+  <VcStart>2009-10-08T13:53:00.000</VcStart>
+  <VcMode ModeCode="2" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/mode">-</VcMode>
+  <VcStatusMsg>running</VcStatusMsg>
+ </Entry>
+仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+- 起動シーケンス設定
+ <BootSequenceList>
+  <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+  <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+  <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+  <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+  <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+ <BootSequenceList>
+-- BootSequence で OS 種別に対応する起動手順を設定する。
+-- AvailableTypes は Python module と対応する部分で更新不可。
+** 管理画面 [#d8106b8e]
+- パラメータ設定
+ /vc/cgi-bin/vc_vc.py/parameters.py の POST
+ <ParameterList>
+  <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+  <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+  <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+  <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+  <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+  <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+  <VcParameter VcParameterName="state" VcParameterValue="California"/>
+  <VcParameter VcParameterName="country" VcParameterValue="US"/>
+  <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+  <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+  <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+  <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+  <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+  <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+  <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+ </ParameterList>
+- 外部ネットワーク設定
+ /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+ <VcExtNetworkList>
+  <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+ </VcExtNetworkList>
+- iSCSI設定
+ /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+ <VcIscsiList>
+  <Iscsi IscsiID="1">
+  <IscsiAddr>10.10.10.1</IscsiAddr>
+  <IscsiPort>3260</IscsiPort>
+  <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+  <IscsiSize>100000</IscsiSize>
+  </Iscsi>
+ </VcIscsiList>
+** クラスタ登録 [#b97110a2]
+- クラスタ登録
+ <PlaceList>
+  <PlaceEntry url="x.x.x.x"/>
+  <Cert>xxxxxxxx</Cert>
+ </PlaceList>
+- クラスタ一覧
+ <PlaceList>
+  <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:01:00</MACmin>
+   <MACmax>00:50:56:00:02:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+  <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+   <MACmin>00:50:56:00:03:00</MACmin>
+   <MACmax>00:50:56:00:04:00</MACmax>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceEntry>
+ </PlaceList>
+
+* 動的配置対応のためのプロトコル追加 [#t41313b3]
+
+- 資源配置プログラム登録
+++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+  PUT /vc/cgi-bin/allocater.py
+要求メッセージ
+ <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" version="1.0" />
+ 要求時に自身のプロトコルバージョンを通知する。
+応答メッセージ
+ <AllocationPlan cmd="candidate-response" status="ok"/>
+
+++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+  GET <登録要求時に指定されたURL>
+要求メッセージ
+ <AllocationPlan cmd="candidate-notify" version="1.0" />
+ プロトコルバージョンの確認を行う。
+応答メッセージ
+ <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+
+- 資源予約時確認
+++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="checkonly-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <Entry VcID="16">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+    <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+      <PNodeList>
+        <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+              <Ipaddr>10.1.1.1</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+              <Ipaddr>192.50.74.153</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>ai03</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+          <PNodeType>manager</PNodeType>
+          <PNodeAppliance>frontend</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:16:3e:00:00:04</Macaddr>
+              <Ipaddr>10.1.255.250</Ipaddr>
+            </Interface>
+           </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>compute-0-0</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+          <PNodeType>none</PNodeType>
+          <PNodeAppliance>compute</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:90:cc:de:83:21</Macaddr>
+              <Ipaddr>10.1.255.253</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:17:31:91:d3:ac</Macaddr>
+              <Ipaddr>192.50.74.155</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>vm-container-0-1</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+          <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+          <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+          <PNodeType>gateway</PNodeType>
+          <PNodeAppliance>vm-container</PNodeAppliance>
+        </PNode>
+      </PNodeList>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     既に登録されている仮想クラスタのリスト
+   -->
+   <ExistingEntries>
+   <Entry VcID="15">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-15-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-15-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+   </ExistingEntries>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="checkonly-response" status="ok" />
+
+- 資源配置
+++ 資源配置要求 (マネージャから資源配置プログラムへ)
+  GET 指定されたURL
+ <AllocationPlan cmd="allocate-request">
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+   -->
+   <Entry VcID="16">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+ 
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+    <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+      <PNodeList>
+        <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+              <Ipaddr>10.1.1.1</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+              <Ipaddr>192.50.74.153</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>ai03</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+          <PNodeType>manager</PNodeType>
+          <PNodeAppliance>frontend</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:16:3e:00:00:04</Macaddr>
+              <Ipaddr>10.1.255.250</Ipaddr>
+            </Interface>
+           </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>compute-0-0</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+          <PNodeType>none</PNodeType>
+          <PNodeAppliance>compute</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:90:cc:de:83:21</Macaddr>
+              <Ipaddr>10.1.255.253</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:17:31:91:d3:ac</Macaddr>
+              <Ipaddr>192.50.74.155</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>vm-container-0-1</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+          <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+          <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+          <PNodeType>gateway</PNodeType>
+          <PNodeAppliance>vm-container</PNodeAppliance>
+        </PNode>
+      </PNodeList>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+応答メッセージ
+ <AllocationPlan cmd="allocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+   <!-- 新規ノード配置 -->
+   <!--
+     割り当て対象の仮想クラスタ予約情報 (物理ノード位置を指定して返す)
+   -->
+   <Entry VcID="16">
+    <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+    <VcNodeList>
+     <VNode VNodeID="1">
+      <VNodeAppliance>frontend</VNodeAppliance>
+      <VNodeName>frontend-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-1</PNodeName>
+     </VNode>
+     <VNode VNodeID="2">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-0</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-2</PNodeName>
+     </VNode>
+     <VNode VNodeID=3">
+      <VNodeAppliance>compute</VNodeAppliance>
+      <VNodeName>compute-16-0-1</VNodeName>
+      <VNodeStorageList>
+       <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+      </VNodeStorageList>
+      <VNodeMemsize>800</VNodeMemsize>
+      <PNodeName>vm-container-0-3</PNodeName>
+     </VNode>
+    </VcNodeList>
+    <VcStart>2009-09-07T13:10:00.000</VcStart>
+   </Entry>
+ </AllocationPlan>
+- 資源再配置~
+マネージャは資源配置プログラムに対して、
+定期的に (現状では 1 分毎に) ノードの再配置が必要か問い合わせを行う。
+++ 資源再配置要求 (マネージャから資源配置プログラムへ)
+ <AllocationPlan cmd="rellocate-request">
+   <!--
+     利用可能な物理クラスタのリスト
+   -->
+   <Resource>
+    <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+      <PNodeList>
+        <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+              <Ipaddr>10.1.1.1</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+              <Ipaddr>192.50.74.153</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>ai03</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+          <PNodeType>manager</PNodeType>
+          <PNodeAppliance>frontend</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:16:3e:00:00:04</Macaddr>
+              <Ipaddr>10.1.255.250</Ipaddr>
+            </Interface>
+           </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>compute-0-0</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+          <PNodeType>none</PNodeType>
+          <PNodeAppliance>compute</PNodeAppliance>
+        </PNode>
+        <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+          <PNodeNetwork>
+            <Interface Device="eth0">
+              <Ipmask>255.255.0.0</Ipmask>
+              <Macaddr>00:90:cc:de:83:21</Macaddr>
+              <Ipaddr>10.1.255.253</Ipaddr>
+            </Interface>
+            <Interface Device="eth1">
+              <Macaddr>00:17:31:91:d3:ac</Macaddr>
+              <Ipaddr>192.50.74.155</Ipaddr>
+            </Interface>
+          </PNodeNetwork>
+          <PNodeStatus StatusCode="1100">none</PNodeStatus>
+          <PNodeName>vm-container-0-1</PNodeName>
+          <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+          <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+          <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+          <PNodeType>gateway</PNodeType>
+          <PNodeAppliance>vm-container</PNodeAppliance>
+        </PNode>
+      </PNodeList>
+     </PhysicalCluster>
+   </Resource>
+   <!--
+     現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+   -->
+   <ExistingVirtualClusters>
+     <VirtualCluster>
+        ...略...
+     </VirtualCluster>
+   </ExistingVirtualClusters>
+ </AllocationPlan>
+++ 資源再配置応答 (資源配置プログラムからマネージャへ)~
+資源配置プログラムは、再配置が相当と判断したものについて、
+その内容をマネージャに応答する。
+ <AllocationPlan cmd="rellocate-response" status="ok">
+   <!-- 既存ノードの移動 -->
+   <PrepareAllocate>
+     <MoveVNode target="1-2" to="vm-container-5-0" />
+   </PrepareAllocate>
+ </AllocationPlan>
+

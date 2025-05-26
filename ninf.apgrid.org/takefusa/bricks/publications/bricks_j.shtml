@@ -1,0 +1,268 @@
+<UL>
+
+<LI CLASS=yellow><A NAME="acs2003"></A><P>
+竹房 あつ子, 建部 修見, 松岡 聡, 森田 洋平. <BR>
+<B>Grid Datafarmにおけるスケジューリング・複製手法の性能評価</B>.<BR>
+<EM>情報処理学会論文誌</EM>
+(印刷中).<BR>
+<!--
+[<A HREF ="/takefusa/bricks/publications/acs2003-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/acs2003-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/acs2003-takefusa.ps.gz">Paper(ps)</A>] |
+ <A HREF -->
+<!--="/takefusa/bricks/publications/acs2003-takefusa.pdf">Paper(pdf)</A>]
+-->
+</P>
+
+<LI CLASS=red><A NAME="ieice2003"></A><P>
+竹房 あつ子, 松岡 聡. </BR>
+<B>グリッド計算環境でのデッドラインを考慮したスケジューリング手法の性能</B>.<BR>
+<EM>電子情報通信学会論文誌 D-I</EM>.(印刷中)<BR>
+<!--
+[<A HREF ="/takefusa/bricks/publications/ieice2003-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/ieice2003-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/ieice2003-takefusa.ps.gz">Paper(ps)</A>] |
+ <A HREF ="/takefusa/bricks/publications/ieice2003-takefusa.pdf">Paper(pdf)</A>]
+-->
+</P>
+
+<LI CLASS=blue><A NAME="hpdc2003"></A><P>
+A. Takefusa, O. Tatebe, S. Matsuoka, and Y. Morita<BR>
+<B>Performance Analysis of Scheduling and Replication Algorithms on
+Grid Datafarm Architecture for High-Energy Physics Applications
+</B>.<BR>
+<EM>Proceedings of the 12th IEEE International Symposium on High
+Performance Distributed Computing (HPDC-12), </EM>, pp. 34-43,
+2003.06.<BR>
+
+[<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa-abst.txt">Abstract</A> | 
+<!--
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa-slides.pdf">Slides(pdf)</A> |
+-->
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa-slides.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=green><A NAME="sacsis2003"></A><P>
+竹房 あつ子, 建部 修見, 松岡 聡, 森田 洋平. <BR>
+<B>Grid Datafarmにおけるスケジューリング・複製手法の性能評価</B>.<BR>
+<EM>情報処理学会・電気通信処理学会 SACSIS2003シンポジウム 論文集</EM>,
+pp. 121-128, 2003.05.<BR>
+
+[<A HREF="/takefusa/bricks/publications/sacsis2003-takefusa-abst.txt">Abstract</A> | 
+<!--
+<A HREF="/takefusa/bricks/publications/sacsis2003-takefusa-slides.pdf">Slides(pdf)</A> |
+-->
+<A HREF="/takefusa/bricks/publications/sacsis2003-takefusa-slides.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/sacsis2003-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/sacsis2003-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=yellow><A NAME="sc2002-poster"></A><P>
+A. Takefusa, O. Tatebe, S. Matsuoka, and Y. Morita<BR>
+<B>Performance Analysis of Scheduling and Replication Algorithms on
+Grid Datafarm Architecture for High Energy Physics
+Applications</B>.<BR>
+<EM>Proceedings of the 2002 ACM/IEEE Supercomputing Conference
+(SC2002)</EM>, 2002.11.<BR>
+
+[<A HREF="/takefusa/bricks/publications/sc2002-takefusa-abst.txt">Abstract</A> | 
+<!--
+<A HREF="/takefusa/bricks/publications/sc2002-takefusa.pdf">Slides(pdf)</A> |
+-->
+<A HREF="/takefusa/bricks/publications/sc2002-takefusa.ppt">Slides(ppt)</A>
+]
+</P>
+
+<LI CLASS=red><A NAME="swopp2002"></A><P>
+竹房 あつ子, 建部 修見, 松岡 聡, 森田 洋平. <BR>
+<B>Grid Datafarmにおけるスケジューリング・複製手法の性能評価</B>.<BR>
+<EM>情報処理学会研究報告 SWoPP2002</EM>, pp. 137-142, 2002.08.<BR>
+
+[<A HREF="/takefusa/bricks/publications/swopp2002-takefusa-abst.txt">Abstract</A> | 
+<!--
+<A HREF="/takefusa/bricks/publications/swopp2002-takefusa-slides.pdf">Slides(pdf)</A> |
+-->
+<A HREF="/takefusa/bricks/publications/swopp2002-takefusa-slides.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/swopp2002-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/swopp2002-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=blue><A NAME="jspp2002-poster"></A><P>
+A. Takefusa, G. Bahmanyar, O. Tatebe, and S. Matsuoka<BR>
+<B>Performance Analysis of DataGrid Systems for High Energy Physics
+Applications</B>.<BR>
+<EM>情報処理学会・電気通信処理学会 並列処理シンポジウム JSPP2002 論文集</EM>,
+pp. 197-198, 2002.05.<BR>
+
+[<A HREF="/takefusa/bricks/publications/jspp2002-takefusa-abst.txt">Abstract</A> | 
+<!--
+<A HREF="/takefusa/bricks/publications/jspp2002-takefusa-slides.pdf">Slides(pdf)</A> |
+-->
+<A HREF="/takefusa/bricks/publications/jspp2002-takefusa-slides.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/jspp2002-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/jspp2002-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=green><A NAME="hpdc2001"></A><P>
+A. Takefusa, H. Casanova, S. Matsuoka, and F. Berman<BR>
+<B>A Study of Deadline Scheduling for Client-Server Systems on the
+Computational Grid</B>.<BR>
+<EM>Proceedings of 10th IEEE International Symposium on High Performance
+Distributed Computing (HPDC-10)</EM>, pp. 406-415, 2001.08.<BR>
+
+[<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa-abst.txt">Abstract</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa-slides.pdf">Slides(pdf)</A> |
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa-slides.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=yellow><A NAME="jspp2001"></A><P>
+竹房 あつ子, 松岡 聡. <BR>
+<B>Grid計算環境におけるデッドラインスケジューリング手法の性能</B>.<BR>
+<EM>情報処理学会・電気通信処理学会 並列処理シンポジウム JSPP2001 論文集</EM>,
+pp. 263-270, 2001.06.<BR>
+
+[<A HREF ="/takefusa/bricks/publications/jspp2001-takefusa-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/jspp2001-takefusa-abst.txt">Abstract(English)</A> |
+<A HREF="/takefusa/bricks/publications/jspp2001-takefusa-slides.pdf">Slides(pdf)</A> |
+<A HREF="/takefusa/bricks/publications/jspp2001-takefusa.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/jspp2001-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/jspp2001-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=red><A NAME="jwaits2001"></A><P>
+A. Takefusa<BR>
+<B>Bricks: A Performance Evaluation System for Scheduling Algorithms on the Grids</B>.<BR>
+<EM>JSPS Workshop on Applied Information Technology for Science (JWAITS 2001)</EM>. 2001.01.<BR>
+[<A HREF ="/takefusa/bricks/publications/jwaits2001-takefusa.pdf">Slides(pdf)</A> |
+<A HREF ="/takefusa/bricks/publications/jwaits2001-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=blue><A NAME="sipp2000-takefusa"></A><P>
+竹房 あつ子, 合田 憲人, 松岡 聡, 中田 秀基, 長嶋 雲兵. </BR>
+<B>グローバルコンピューティングのスケジューリングのための性能評価システム</B>.<BR>
+<EM>情報処理学会論文誌, vol. 41, No. 5, pp. 1628-1638, 2000.05</EM>.<BR>
+[<A HREF ="/takefusa/bricks/publications/sipp2000-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/sipp2000-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/sipp2000-takefusa.ps.gz">Paper(ps)</A>]
+</P>
+
+<LI CLASS=green><A NAME="sipp2000-takefusa"></A><P>
+中田 秀基, 竹房 あつ子, 松岡 聡, 佐藤 三久, 関口 智嗣. </BR>
+<B>グローバルコンピューティングのスケジューリングのためのスケジューリ
+ングフレームワーク</B>.<BR>
+<EM>情報処理学会論文誌, vol. 41, No. 5, pp. 1617-1627, 2000.05</EM>.<BR>
+<!--
+[<A HREF ="/takefusa/bricks/publications/sipp2000n-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/sipp2000n-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/sipp2000-nakada.ps.gz">Paper(ps)</A>]
+-->
+</P>
+
+<LI CLASS=yellow><A NAME="ijhpc"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, 
+S. Sekiguchi, and U. Nagashima.<BR>
+<B>Performance evaluation model for scheduling in a global computing
+system</B>.<BR>
+<EM>The International Journal of High-Performance Computing
+Applications</EM>, vol. 14, No. 3, pp. 268-279, 2000.<BR>
+[<A HREF ="/takefusa/bricks/publications/ijhpc-aida.ps.gz">Paper(ps)</A>]
+</P>
+
+<LI CLASS=red><A NAME="wgcc2000"></A><P>
+A. Takefusa, S. Matsuoka.<BR>
+<B>Performance Issues in Client-Server Global Computing</B>.<BR>
+<EM>International Workshop on Global and Cluster Computing (WGCC'2000)</EM>. 2000.03.<BR>
+[<A HREF="/takefusa/bricks/publications/wgcc2000-takefusa-abst.txt">Abstract</A> | 
+<A HREF ="/takefusa/bricks/publications/wgcc2000-takefusa.pdf">Slides(pdf)</A> |
+<A HREF ="/takefusa/bricks/publications/wgcc2000-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=blue><A NAME="hpdc99"></A><P>
+A. Takefusa, S. Matsuoka, H. Nakada, K. Aida, and U. Nagashima.<BR>
+<B>Overview of a Performance Evaluation System for Global Computing
+Scheduling Algorithms</B>.<BR>
+<EM>Proceedings of 8th IEEE International Symposium on High Performance
+Distributed Computing (HPDC-8),</EM>, pp. 97-104, 1999.08.<BR>
+[<A HREF ="/takefusa/bricks/publications/hpdc99-abst.txt">Abstract</A> |
+<A HREF ="/takefusa/bricks/publications/hpdc99-takefusa.ps.gz">Paper(ps)</A> |
+<A HREF ="/takefusa/bricks/publications/hpdc99-takefusa.pdf">Slides(pdf)</A> |
+<A HREF ="/takefusa/bricks/publications/hpdc99-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=green><A NAME="sipp99"></A><P>
+竹房 あつ子, 合田 憲人, 中田 秀基, 小川 宏高, 松岡 聡, 
+佐藤 三久, 関口 智嗣, 長嶋 雲兵. </BR>
+<B>グローバルコンピューティングシステムのシミュレーションによる評価</B>.<BR>
+<EM>情報処理学会論文誌</EM>, vol. 40, No. 5, pp. 2192-2202, 1999.05.<BR>
+[<A HREF ="/takefusa/bricks/publications/sipp99-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/sipp99-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/sipp99-takefusa.ps.gz">Paper(ps)</A>]
+</P>
+
+<LI CLASS=yellow><A NAME="hokke99"></A><P>
+竹房 あつ子, 合田 憲人, 中田 秀基, 松岡 聡, 長嶋 雲兵. </BR>
+<B>グローバルコンピューティングシミュレータの概要</B>.</BR>
+<EM>情報処理学会研究報告</EM>, Vol. 99, No. 21, pp. 31-36, 1999.03.<BR>
+[<A HREF ="/takefusa/bricks/publications/hokke99-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/hokke99-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/hokke99-takefusa.ps.gz">Paper(ps)</A> |
+ <A HREF ="/takefusa/bricks/publications/hokke99-takefusa.pdf">Slides(pdf)</A> |
+ <A HREF ="/takefusa/bricks/publications/hokke99-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=red><A NAME="nasa98"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, S. Sekiguchi, and U. Nagashima.<BR>
+<B>Performance Evaluation Model for Scheduling in Global Computing Systems
+</B>. <BR>
+<EM>First NASA Workshop on Performance-Engineered Information Systems</EM>,
+1998.09. <BR>
+[<A HREF="/takefusa/bricks/publications/nasa98-aida.pdf">Slides(pdf)</A>]
+</P>
+
+<LI CLASS=blue><A NAME="swopp98"></A><P>
+竹房 あつ子, 中田 秀基, 合田 憲人, 小川 宏高, 松岡 聡, 長嶋 雲兵. </BR>
+<B>Ninf　システムにおけるジョブスケジューラの実装と予備的評価</B>.</BR>
+<EM>情報処理学会研究報告</EM>, Vol. 98, No. 72, pp. 73-78, 1998.08.<BR>
+[<A HREF ="/takefusa/bricks/publications/swopp98-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/swopp98-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/swopp98-takefusa.ps.gz">Paper(ps)</A> |
+ <A HREF ="/takefusa/bricks/publications/swopp98-takefusa.pdf">Slides(pdf)</A> |
+ <A HREF ="/takefusa/bricks/publications/swopp98-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=green><A NAME="hpdc98"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, and U. Nagashima. </BR>
+<B>Performance Evaluation Model for Job Scheduling in a Global Computing
+System</B>.<BR>
+<EM>Proceedings of 7th IEEE International Symposium on High Performance
+Distributed Computing</EM>, pp. 352-353, 1998.08.<BR>
+[<A HREF="/takefusa/bricks/publications/hpdc98-abst.txt">Abstract</A> | 
+ <A HREF ="/takefusa/bricks/publications/hpdc98-aida.ps.gz">Paper(ps)</A> | 
+ <A HREF="/takefusa/bricks/publications/hpdc98-aida.pdf">Poster(pdf)</A>]
+</P>
+
+<LI CLASS=yellow><A NAME="jspp98"></A><P>
+竹房 あつ子, 合田 憲人, 小川 宏高, 中田 秀基, 松岡 聡, 佐藤 三久, 
+関口 智嗣, 長嶋 雲兵. <BR>
+<B>広域計算システムのシミュレーションによる評価 − Ninf システムの広域分
+散環境でのジョブスケジューリング実現に向けて −</B>.<BR>
+<EM>情報処理学会・電気通信処理学会 並列処理シンポジウム JSPP '98 論文集</EM>,
+pp. 127-134, 1998.06.<BR>
+[<A HREF ="/takefusa/bricks/publications/jspp98-abst_j.txt">Abstract(Japanese)</A> |
+ <A HREF ="/takefusa/bricks/publications/jspp98-abst.txt">Abstract(English)</A> |
+ <A HREF ="/takefusa/bricks/publications/jspp98-takefusa.ps.gz">Paper(ps)</A> |
+ <A HREF ="/takefusa/bricks/publications/jspp98-takefusa.pdf">Slides(pdf)</A> | 
+ <A HREF ="/takefusa/bricks/publications/jspp98-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+</UL>

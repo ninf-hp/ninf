@@ -1,0 +1,1 @@
+package ninf.MetaServer;public class Connected {  Stoppable stop;  ServerIndex server;  public Connected(Stoppable stop, ServerIndex server){    this.stop = stop;    this.server = server;  }}

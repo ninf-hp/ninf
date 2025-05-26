@@ -1,0 +1,154 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../jspp99-2000.htm">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Utilizing the Metaserver Architecture in the Ninf Global Computing
+System</title>
+<meta name=Description content="99/07/09: スケジューリングモジュール">
+<link rel=next href="v3_slide0008.htm">
+<![if !ppt]>
+<script>
+<!--
+function Update()
+{
+  if( window.name == "PPTSld" )
+    parent.SlideUpdated('v3_slide0019.htm');   
+  else
+    parent.location.href = "v3_document.htm";
+}
+
+function NoHref() {}
+//-->
+</script>
+<![endif]>
+</head>
+
+<body background="v3_slide0019_background.gif" bgcolor=white alink="#cc0000"
+link="#99ccff" vlink="#0066ff" text="#000066" topmargin=0 leftmargin=0
+onload="Update()">
+
+<table border=0 valign=top width=475 height=356 cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=29 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=23 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=36 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=228 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=108 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=18 height=0 nowrap><img src="v3_space.gif" border=0></td>
+ </tr>
+ <tr>
+  <td width=475 height=51 colspan=7></td>
+ </tr>
+ <tr>
+  <td width=52 height=30 colspan=2></td>
+  <td width=372 height=30 colspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=372 height=30 align=center><font face="ＭＳ Ｐゴシック" color="#003300"
+    size=5>スケジューリングモジュール</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=51 height=30 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=475 height=25 colspan=7></td>
+ </tr>
+ <tr>
+  <td width=29 height=105></td>
+  <td width=413 height=105 colspan=5><img src="v3_slide0019_image018.gif"
+  border=0 width=413 height=105></td>
+  <td width=33 height=105></td>
+ </tr>
+ <tr>
+  <td width=475 height=6 colspan=7></td>
+ </tr>
+ <tr>
+  <td width=88 height=114 colspan=3></td>
+  <td width=228 height=114>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=6 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=138 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=21 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=18 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=14 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=3 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=18 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=228 height=14 colspan=8><font face=Courier size=1><b>public
+    abstract class AggregateScheduler {</b></font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=200 height=14 colspan=6><font face=Courier size=1><b><span
+    style="mso-spacerun: yes">　 </span>public abstract AggregateScheduled</b></font><br>
+    </td>
+    <td width=28 height=14 colspan=2></td>
+   </tr>
+   <tr>
+    <td width=165 height=14 colspan=3><font face=Courier size=1><b><span
+    style="mso-spacerun: yes">　 </span>schedule(DataFlow dataFlow,</b></font><br>
+    </td>
+    <td width=63 height=14 colspan=5></td>
+   </tr>
+   <tr>
+    <td width=183 height=14 colspan=4><font face=Courier size=1><b><span
+    style="mso-spacerun: yes">　　　　　　　　　　 </span>NinfServerStruct servers[],</b></font><br>
+    </td>
+    <td width=45 height=14 colspan=4></td>
+   </tr>
+   <tr>
+    <td width=228 height=1 colspan=8></td>
+   </tr>
+   <tr>
+    <td width=197 height=14 colspan=5><font face=Courier size=1><b><span
+    style="mso-spacerun: yes">　　　　　　　　　　 </span>SchedulerRoot schedulerRoot,</b></font><br>
+    </td>
+    <td width=31 height=14 colspan=3></td>
+   </tr>
+   <tr>
+    <td width=218 height=14 colspan=7><font face=Courier size=1><b><span
+    style="mso-spacerun: yes">　　　　　　　　　　 </span>ServerID cproxy, StringBuffer
+    sb)</b></font><br>
+    </td>
+    <td width=10 height=14></td>
+   </tr>
+   <tr>
+    <td width=144 height=14 colspan=2><font face=Courier size=1><b><span
+    style="mso-spacerun: yes">　　　　　　 </span>throws NinfException;</b></font><br>
+    </td>
+    <td width=84 height=14 colspan=6></td>
+   </tr>
+   <tr>
+    <td width=6 height=14><font face=Courier size=1><b>}</b></font><br>
+    </td>
+    <td width=222 height=14 colspan=7></td>
+   </tr>
+  </table>
+  </td>
+  <td width=159 height=114 colspan=3></td>
+ </tr>
+ <tr>
+  <td width=475 height=25 colspan=7></td>
+ </tr>
+</table>
+
+</body>
+
+</html>

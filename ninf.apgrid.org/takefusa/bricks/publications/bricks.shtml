@@ -1,0 +1,114 @@
+<UL>
+
+<LI CLASS=yellow><A NAME="hpdc12"></A><P>
+A. Takefusa, O. Tatebe, S. Matsuoka, and Y. Morita<BR>
+<B>Performance Analysis of Scheduling and Replication Algorithms on
+Grid Datafarm Architecture for High-Energy Physics Applications
+</B>.<BR>
+<EM>Proceedings of the 12th IEEE International Symposium on High
+Performance Distributed Computing (HPDC-12), </EM>, pp. 34-43,
+2003.06.<BR>
+
+[<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa-abst.txt">Abstract</A> | 
+<!--
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa-slides.pdf">Slides(pdf)</A> |
+-->
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa-slides.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2003-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=red><A NAME="sc2002-poster"></A><P>
+A. Takefusa, O. Tatebe, S. Matsuoka, and Y. Morita<BR>
+<B>Performance Analysis of Scheduling and Replication Algorithms on
+Grid Datafarm Architecture for High Energy Physics
+Applications</B>.<BR>
+<EM>Proceedings of the 2002 ACM/IEEE Supercomputing Conference
+(SC2002)</EM>, 2002.11.<BR>
+
+[<A HREF="/takefusa/bricks/publications/sc2002-takefusa-abst.txt">Abstract</A> | 
+<!--
+<A HREF="/takefusa/bricks/publications/sc2002-takefusa.pdf">Slides(pdf)</A> |
+-->
+<A HREF="/takefusa/bricks/publications/sc2002-takefusa.ppt">Slides(ppt)</A>
+]
+</P>
+
+<LI CLASS=blue><A NAME="hpdc2001"></A><P>
+A. Takefusa, H. Casanova, S. Matsuoka, and F. Berman<BR>
+<B>A Study of Deadline Scheduling for Client-Server Systems on the
+Computational Grid</B>.<BR>
+<EM>Proceedings of 10th IEEE International Symposium on High Performance
+Distributed Computing (HPDC-10)</EM>, pp. 406-415, 2001.08.<BR>
+
+[<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa-abst.txt">Abstract</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa-slides.pdf">Slides(pdf)</A> |
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa-slides.ppt">Slides(ppt)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa.ps.gz">Paper(ps)</A> | 
+<A HREF="/takefusa/bricks/publications/hpdc2001-takefusa.pdf">Paper(pdf)</A>
+]
+</P>
+
+<LI CLASS=green><A NAME="jwaits2001"></A><P>
+A. Takefusa<BR>
+<B>Bricks: A Performance Evaluation System for Scheduling Algorithms on the Grids</B>.<BR>
+<EM>JSPS Workshop on Applied Information Technology for Science (JWAITS 2001)</EM>. 2001.01.<BR>
+[<A HREF ="/takefusa/bricks/publications/jwaits2001-takefusa.pdf">Slides(pdf)</A> |
+<A HREF ="/takefusa/bricks/publications/jwaits2001-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=yellow><A NAME="ijhpc"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, 
+S. Sekiguchi, and U. Nagashima.<BR>
+<B>Performance evaluation model for scheduling in a global computing
+system</B>.<BR>
+<EM>The International Journal of High Performance Computing
+Applications</EM>, vol. 14, No. 3, pp. 268-279, 2000.<BR>
+[<A HREF ="/takefusa/bricks/publications/ijhpc-aida.ps.gz">Paper(ps)</A> | 
+<A HREF ="/takefusa/bricks/publications/ijhpc-aida.pdf">Paper(pdf)</A>]
+</P>
+
+<LI CLASS=red><A NAME="wgcc2000"></A><P>
+A. Takefusa, S. Matsuoka.<BR>
+<B>Performance Issues in Client-Server Global Computing</B>.<BR>
+<EM>International Workshop on Global and Cluster Computing (WGCC'2000)</EM>. 2000.03.<BR>
+[<A HREF="/takefusa/bricks/publications/wgcc2000-takefusa-abst.txt">Abstract</A> | 
+<A HREF ="/takefusa/bricks/publications/wgcc2000-takefusa.pdf">Slides(pdf)</A> |
+<A HREF ="/takefusa/bricks/publications/wgcc2000-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=blue><A NAME="hpdc99"></A><P>
+A. Takefusa, S. Matsuoka, H. Nakada, K. Aida, and U. Nagashima.<BR>
+<B>Overview of a Performance Evaluation System for Global Computing
+Scheduling Algorithms</B>.<BR>
+<EM>Proceedings of 8th IEEE International Symposium on High Performance
+Distributed Computing (HPDC-8)</EM>, pp. 97-104, 1999.08.<BR>
+[<A HREF="/takefusa/bricks/publications/hpdc99-abst.txt">Abstract</A> |
+ <A HREF="/takefusa/bricks/publications/hpdc99-takefusa.ps.gz">Paper(ps)</A> |
+ <A HREF="/takefusa/bricks/publications/hpdc99-takefusa.pdf">Slides(pdf)</A> |
+ <A HREF="/takefusa/bricks/publications/hpdc99-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=green><A NAME="nasa98"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, S. Sekiguchi, 
+and U. Nagashima.<BR>
+<B>A Performance Evaluation Model for Scheduling in Global Computing Systems
+</B>. <BR>
+<EM>First NASA Workshop on Performance-Engineered Information Systems</EM>,
+1998.09. <BR>
+[<A HREF="/takefusa/bricks/publications/nasa98-aida.pdf">Slides(pdf)</A>]
+</P>
+
+<LI CLASS=yellow><A NAME="hpdc98"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, and U. Nagashima. </BR>
+<B>Performance Evaluation Model for Job Scheduling in a Global Computing
+System</B>.<BR>
+<EM>Proceedings of 7th IEEE International Symposium on High Performance
+Distributed Computing</EM>, pp. 352-353, 1998.08.<BR>
+[<A HREF="/takefusa/bricks/publications/hpdc98-abst.txt">Abstract</A> | 
+ <A HREF="/takefusa/bricks/publications/hpdc98-aida.ps.gz">Paper(ps)</A> | 
+ <A HREF="/takefusa/bricks/publications/hpdc98-aida.pdf">Poster(pdf)</A>]
+</P>
+
+</UL>

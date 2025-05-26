@@ -1,0 +1,315 @@
+>>>>>>>>>> 1151519270
+[[仮想クラスタ予約]]
+
+- 構成
+
+ ┌───────┐    ┌────────┐
+ │予約テーブル  │    │予約設定テーブル│
+ └───────┘    └────────┘
+         │
+         ◆
+ ┌───────────┐
+ │予約Applianceテーブル │
+ └───────────┘
+         │  
+         ◆
+ ┌───────┐
+ │ VM テーブル  │
+ └───────┘
+
+- テーブル
+-- 予約設定テーブル(vcresource)
+ ・ frontends	TINYINT		ゲートウェイノード数
+ ・ compute	SMALLINT	ゲートウェイ以外のノード数
+ ・ memsize	INT		割り当て可能メモリサイズ
+ ・ disksize	INT		割り当て可能ディスクサイズ
+ ・ macaddr	VARCHAR(12)	MAC アドレス (予約毎に変化)
+ ・ macaddrmask	VARCHAR(12)	MAC アドレスマスク (未使用)
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+ ・ ipaddrmask	VARCHAR(8)	IP アドレスマスク (未使用)
+-- 予約テーブル(vcregist)
+ ※ id		INT
+ ・ start		DATETIME	予約開始時刻
+ ・ end		DATETIME	予約終了時刻
+ ・ memsize	INT		予約メモリサイズ
+ ・ disksize	INT		予約ディスクサイズ
+-- 予約 Appliance テーブル(vcappliance)
+ ※ id		INT
+ ＠ vcregist	INT		予約テーブル ID
+ ＠ appliance	INT		appliance ID
+ ・ nodes		SMALLINT	ノード数
+-- 予約ノードテーブル(vcnode)
+ ※ id		INT
+ ＠ vcappliance	INT		予約 appliance ID
+ ・ physical_id	SMALLINT	物理ノード番号
+ ・ virtual_id	SMALLINT	仮想ノード番号
+ ・ macaddr	VARCHAR(12)	MAC アドレス
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+>>>>>>>>>> 1151519341
+[[仮想クラスタ予約]]
+
+- 構成
+
+ ┌───────┐    ┌────────┐
+ │予約テーブル  │    │予約設定テーブル│
+ └───────┘    └────────┘
+         │
+         ◆
+ ┌───────────┐
+ │予約Applianceテーブル │
+ └───────────┘
+         │  
+         ◆
+ ┌───────┐
+ │ VM テーブル  │
+ └───────┘
+
+- テーブル
+-- 予約設定テーブル(vcresource)
+ ・ frontends	TINYINT		ゲートウェイノード数
+ ・ compute	SMALLINT	ゲートウェイ以外のノード数
+ ・ memsize	INT		割り当て可能メモリサイズ
+ ・ disksize	INT		割り当て可能ディスクサイズ
+ ・ macaddr	VARCHAR(12)	MAC アドレス (予約毎に変化)
+ ・ macaddrmask	VARCHAR(12)	MAC アドレスマスク (未使用)
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+ ・ ipaddrmask	VARCHAR(8)	IP アドレスマスク (未使用)
+frontends/compute は gateways/nongateways に変更予定
+-- 予約テーブル(vcregist)
+ ※ id		INT
+ ・ start		DATETIME	予約開始時刻
+ ・ end		DATETIME	予約終了時刻
+ ・ memsize	INT		予約メモリサイズ
+ ・ disksize	INT		予約ディスクサイズ
+-- 予約 Appliance テーブル(vcappliance)
+ ※ id		INT
+ ＠ vcregist	INT		予約テーブル ID
+ ＠ appliance	INT		appliance ID
+ ・ nodes		SMALLINT	ノード数
+-- 予約ノードテーブル(vcnode)
+ ※ id		INT
+ ＠ vcappliance	INT		予約 appliance ID
+ ・ physical_id	SMALLINT	物理ノード番号
+ ・ virtual_id	SMALLINT	仮想ノード番号
+ ・ macaddr	VARCHAR(12)	MAC アドレス
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+>>>>>>>>>> 1151877149
+[[仮想クラスタ予約]]
+
+- 構成
+
+ ┌───────┐    ┌────────┐
+ │予約テーブル  │    │予約設定テーブル│
+ └───────┘    └────────┘
+         │
+         ◆
+ ┌───────────┐
+ │予約Applianceテーブル │
+ └───────────┘
+         │  
+         ◆
+ ┌───────┐
+ │ VM テーブル  │
+ └───────┘
+
+- テーブル
+-- 予約設定テーブル(vcresource)
+ ・ gateways	TINYINT		ゲートウェイノード数
+ ・ nongateways	SMALLINT	ゲートウェイ以外のノード数
+ ・ memsize	INT		割り当て可能メモリサイズ
+ ・ disksize	INT		割り当て可能ディスクサイズ
+ ・ macaddr	VARCHAR(12)	MAC アドレス (予約毎に変化)
+ ・ macaddrmask	VARCHAR(12)	MAC アドレスマスク (未使用)
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+ ・ ipaddrmask	VARCHAR(8)	IP アドレスマスク (未使用)
+frontends/compute は gateways/nongateways に変更(7/3)
+-- 予約テーブル(vcregist)
+ ※ id		INT
+ ・ start		DATETIME	予約開始時刻
+ ・ end		DATETIME	予約終了時刻
+ ・ memsize	INT		予約メモリサイズ
+ ・ disksize	INT		予約ディスクサイズ
+-- 予約 Appliance テーブル(vcappliance)
+ ※ id		INT
+ ＠ vcregist	INT		予約テーブル ID
+ ＠ appliance	INT		appliance ID
+ ・ nodes		SMALLINT	ノード数
+-- 予約ノードテーブル(vcnode)
+ ※ id		INT
+ ＠ vcappliance	INT		予約 appliance ID
+ ・ physical_id	SMALLINT	物理ノード番号
+ ・ virtual_id	SMALLINT	仮想ノード番号
+ ・ macaddr	VARCHAR(12)	MAC アドレス
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+>>>>>>>>>> 1153257708
+[[仮想クラスタ予約]]
+
+- 構成
+
+ ┌───────┐    ┌────────┐
+ │予約テーブル  │    │予約設定テーブル│
+ └───────┘    └────────┘
+         │
+         ◆
+ ┌───────────┐
+ │予約Applianceテーブル │
+ └───────────┘
+         │  
+         ◆
+ ┌───────┐
+ │ VM テーブル  │
+ └───────┘
+
+- テーブル
+-- 予約設定テーブル(vcresource)
+ ・ gateways	TINYINT		ゲートウェイノード数
+ ・ nongateways	SMALLINT	ゲートウェイ以外のノード数
+ ・ memsize	INT		割り当て可能メモリサイズ
+ ・ disksize	INT		割り当て可能ディスクサイズ
+ ・ macaddr	VARCHAR(12)	MAC アドレス (予約毎に変化)
+ ・ macaddrmask	VARCHAR(12)	MAC アドレスマスク (未使用)
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+ ・ ipaddrmask	VARCHAR(8)	IP アドレスマスク (未使用)
+frontends/compute は gateways/nongateways に変更(7/3)
+-- 予約テーブル(vcregist)
+ ※ id		INT
+ ・ start		DATETIME	予約開始時刻
+ ・ end		DATETIME	予約終了時刻
+ ・ memsize	INT		予約メモリサイズ
+ ・ disksize	INT		予約ディスクサイズ
+ ・ status	INT		予約実行状態(実行中: 1, 停止中: 0)
+-- 予約 Appliance テーブル(vcappliance)
+ ※ id		INT
+ ＠ vcregist	INT		予約テーブル ID
+ ＠ appliance	INT		appliance ID
+ ・ nodes		SMALLINT	ノード数
+-- 予約ノードテーブル(vcnode)
+ ※ id		INT
+ ＠ vcappliance	INT		予約 appliance ID
+ ・ physical_id	SMALLINT	物理ノード番号
+ ・ virtual_id	SMALLINT	仮想ノード番号
+ ・ macaddr	VARCHAR(12)	MAC アドレス
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+>>>>>>>>>> 1156799615
+[[仮想クラスタ予約]]
+
+- 構成
+
+ ┌───────┐    ┌────────┐┌───────────┐
+ │予約テーブル  │    │予約設定テーブル││予約Applianceテーブル │
+ └───────┘    └────────┘└───────────┘
+         │
+         ◆
+ ┌───────┐
+ │ VM テーブル  │
+ └───────┘
+         │
+         ◆
+ ┌───────────┐
+ │ StorageMap テーブル  │
+ └───────────┘
+         ◆
+         │
+ ┌─────────┐
+ │ Storage テーブル │
+ └─────────┘
+
+- テーブル
+-- 予約設定テーブル(vcresource)
+ ・ gateways	TINYINT		ゲートウェイノード数
+ ・ nongateways	SMALLINT	ゲートウェイ以外のノード数
+ ・ memsize	INT		割り当て可能メモリサイズ
+ ・ disksize	INT		割り当て可能ディスクサイズ
+ ・ macaddr	VARCHAR(12)	MAC アドレス (予約毎に変化)
+ ・ macaddrmask	VARCHAR(12)	MAC アドレスマスク (未使用)
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+ ・ ipaddrmask	VARCHAR(8)	IP アドレスマスク (未使用)
+-- 予約 Appliance テーブル(vcappliance)
+ ※ id		INT
+ ＠ appliance	INT		appliance ID
+-- 予約テーブル(vcregist)
+ ※ id		INT
+ ・ start		DATETIME	予約開始時刻
+ ・ end		DATETIME	予約終了時刻
+ ・ memsize	INT		予約メモリサイズ
+ ・ disksize	INT		予約ディスクサイズ
+ ・ status	INT		予約実行状態(実行中: 1, 停止中: 0)
+-- 予約ノードテーブル(vcnode)
+ ※ id		INT
+ ＠ vcregist	INT		予約 ID
+ ＠ vcappliance	INT		予約 appliance ID
+ ・ physical_id	SMALLINT	物理ノード番号
+ ・ virtual_id	SMALLINT	仮想ノード番号
+ ・ macaddr	VARCHAR(12)	MAC アドレス
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+-- 予約ストレージマップ(vcstoragemap)
+ ※ id		INT
+ ＠ node		INT		ノード
+ ＠ storage	INT		ストレージ
+-- 予約ストレージ(vcstorage)
+ ※ id		INT
+ ・ mntpath	VARCHAR(256)	マウントパス
+ ・ mntopt	VARCHAR(64)	マウントオプション
+ ・ server	VARCHAR(64)	サーバアドレス/ポート
+ ・ authkey	VARCHAR(256)	認証鍵
+ ・ size		INT		サイズ
+>>>>>>>>>> 1157357397
+[[仮想クラスタ予約]]
+
+- 構成
+
+ ┌───────┐    ┌────────┐┌───────────┐
+ │予約テーブル  │    │予約設定テーブル││予約Applianceテーブル │
+ └───────┘    └────────┘└───────────┘
+         │
+         ◆
+ ┌───────┐
+ │ VM テーブル  │
+ └───────┘
+         │
+         ◆
+ ┌─────────┐    ┌───────────┐
+ │ Storage テーブル │◆─│StorageTarget テーブル│
+ └─────────┘    └───────────┘
+
+- テーブル
+-- 予約設定テーブル(vcresource)
+ ・ gateways	TINYINT		ゲートウェイノード数
+ ・ nongateways	SMALLINT	ゲートウェイ以外のノード数
+ ・ memsize	INT		割り当て可能メモリサイズ
+ ・ disksize	INT		割り当て可能ディスクサイズ
+ ・ macaddr	VARCHAR(12)	MAC アドレス (予約毎に変化)
+ ・ macaddrmask	VARCHAR(12)	MAC アドレスマスク (未使用)
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+ ・ ipaddrmask	VARCHAR(8)	IP アドレスマスク (未使用)
+-- 予約 Appliance テーブル(vcappliance)
+ ※ id		INT
+ ＠ appliance	INT		appliance ID
+-- 予約テーブル(vcregist)
+ ※ id		INT
+ ・ start		DATETIME	予約開始時刻
+ ・ end		DATETIME	予約終了時刻
+ ・ memsize	INT		予約メモリサイズ
+ ・ disksize	INT		予約ディスクサイズ
+ ・ status	INT		予約実行状態(実行中: 1, 停止中: 0)
+-- 予約ノードテーブル(vcnode)
+ ※ id		INT
+ ＠ vcregist	INT		予約 ID
+ ＠ vcappliance	INT		予約 appliance ID
+ ・ physical_id	SMALLINT	物理ノード番号
+ ・ virtual_id	SMALLINT	仮想ノード番号
+ ・ macaddr	VARCHAR(12)	MAC アドレス
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+-- 予約ストレージターゲット(vcstoragetarget)
+ ※ id		INT
+ ・ server	VARCHAR(64)	ターゲットアドレス
+ ・ tid		INT		TID
+ ・ size		INT		容量
+-- 予約ストレージ(vcstorage)
+ ※ id		INT
+ ＠ node		INT		ノード
+ ・ mntpath	VARCHAR(256)	マウントパス
+ ・ mntopt	VARCHAR(64)	マウントオプション
+ ・ target	VARCHAR(64)	iSCSI ターゲット
+ ・ size		INT		サイズ
+

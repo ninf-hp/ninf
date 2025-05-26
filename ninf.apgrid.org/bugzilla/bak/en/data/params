@@ -1,0 +1,137 @@
+$::param{'allowbugdeletion'} = '0';
+$::param{'allowemailchange'} = '0';
+$::param{'allowuserdeletion'} = '0';
+$::param{'browserbugmessage'} = 'this may indicate a bug in your browser.
+';
+$::param{'commentonaccept'} = '0';
+$::param{'commentonclearresolution'} = '0';
+$::param{'commentonclose'} = '0';
+$::param{'commentonconfirm'} = '0';
+$::param{'commentonduplicate'} = '0';
+$::param{'commentonreassign'} = '0';
+$::param{'commentonreassignbycomponent'} = '0';
+$::param{'commentonreopen'} = '0';
+$::param{'commentonresolve'} = '0';
+$::param{'commentonverify'} = '0';
+$::param{'cookiepath'} = '/bugzilla/en/';
+$::param{'curmilestone'} = '1';
+$::param{'defaultpriority'} = 'P2';
+$::param{'defaultquery'} = 'bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&emailassigned_to1=1&emailassigned_to2=1&emailreporter2=1&emailcc2=1&emailqa_contact2=1&order=%22Importance%22';
+$::param{'emailregexp'} = '^[^@]+@[^@]+\\.[^@]+$';
+$::param{'emailregexpdesc'} = 'A legal address must contain exactly one \'@\', and at least one \'.\' after the @.';
+$::param{'emailsuffix'} = '';
+$::param{'expectbigqueries'} = '0';
+$::param{'LDAPBaseDN'} = '';
+$::param{'LDAPmailattribute'} = 'mail';
+$::param{'LDAPserver'} = '';
+$::param{'letsubmitterchoosepriority'} = '1';
+$::param{'maintainer'} = 'aist-support@apgrid.org';
+$::param{'maxattachmentsize'} = '1000';
+$::param{'maxpatchsize'} = '1000';
+$::param{'mostfreqthreshold'} = '2';
+$::param{'move-button-text'} = 'Move To Bugscape';
+$::param{'move-enabled'} = '0';
+$::param{'move-to-address'} = 'bugzilla-import';
+$::param{'move-to-url'} = '';
+$::param{'moved-default-component'} = '';
+$::param{'moved-default-product'} = '';
+$::param{'moved-from-address'} = 'bugzilla-admin';
+$::param{'movers'} = '';
+$::param{'musthavemilestoneonaccept'} = '0';
+$::param{'mybugstemplate'} = 'buglist.cgi?bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=REOPENED&amp;email1=%userid%&amp;emailtype1=exact&amp;emailassigned_to1=1&amp;emailreporter1=1';
+$::param{'newchangedmail'} = 'From: bugzilla-daemon@m.aist.go.jp
+To: %to%
+Subject: [Bug %bugid%] %neworchanged%%summary%
+X-Bugzilla-Reason: %reasonsheader%
+
+%urlbase%show_bug.cgi?id=%bugid%
+
+%diffs%
+
+
+
+%reasonsbody%';
+$::param{'nummilestones'} = '10';
+$::param{'passwordmail'} = 'From: bugzilla-daemon@m.aist.go.jp
+To: %mailaddress%
+Subject: Your Bugzilla password.
+
+To use the wonders of Bugzilla, you can use the following:
+
+ E-mail address: %login%
+       Password: %password%
+
+ To change your password, go to:
+ %urlbase%userprefs.cgi
+';
+$::param{'queryagainstshadowdb'} = '0';
+$::param{'sendmailnow'} = '0';
+$::param{'shadowdb'} = '';
+$::param{'shutdownhtml'} = '';
+$::param{'supportwatchers'} = '0';
+$::param{'urlbase'} = 'http://ninf.apgrid.org/bugzilla/en/';
+$::param{'usebrowserinfo'} = '1';
+$::param{'usebuggroups'} = '0';
+$::param{'usebuggroupsentry'} = '0';
+$::param{'usedependencies'} = '1';
+$::param{'useLDAP'} = '0';
+$::param{'useqacontact'} = '0';
+$::param{'usequip'} = '0';
+$::param{'usestatuswhiteboard'} = '1';
+$::param{'usetargetmilestone'} = '0';
+$::param{'usevotes'} = '1';
+$::param{'voteremovedmail'} = 'From: bugzilla-daemon@m.aist.go.jp
+To: %to%
+Subject: [Bug %bugid%] Some or all of your votes have been removed.
+
+Some or all of your votes have been removed from bug %bugid%.
+
+%votesoldtext%
+
+%votesnewtext%
+
+Reason: %reason%
+
+%urlbase%show_bug.cgi?id=%bugid%
+';
+$::param{'webdotbase'} = '';
+$::param{'whinedays'} = '7';
+$::param{'whinemail'} = 'From: %maintainer%
+To: %email%
+Subject: Your Bugzilla buglist needs attention.
+
+[This e-mail has been automatically generated.]
+
+You have one or more bugs assigned to you in the Bugzilla 
+bugsystem (%urlbase%) that require
+attention.
+
+All of these bugs are in the NEW state, and have not been touched
+in %whinedays% days or more.  You need to take a look at them, and 
+decide on an initial action.
+
+Generally, this means one of three things:
+
+(1) You decide this bug is really quick to deal with (like, it\'s INVALID),
+    and so you get rid of it immediately.
+(2) You decide the bug doesn\'t belong to you, and you reassign it to someone
+    else.  (Hint: if you don\'t know who to reassign it to, make sure that
+    the Component field seems reasonable, and then use the "Reassign bug to
+    owner of selected component" option.)
+(3) You decide the bug belongs to you, but you can\'t solve it this moment.
+    Just use the "Accept bug" command.
+
+To get a list of all NEW bugs, you can use this URL (bookmark it if you like!):
+
+    %urlbase%buglist.cgi?bug_status=NEW&assigned_to=%userid%
+
+Or, you can use the general query page, at
+%urlbase%query.cgi.
+
+Appended below are the individual URLs to get to all of your NEW bugs that 
+haven\'t been touched for a week or more.
+
+You will get this message once a day until you\'ve dealt with these bugs!
+
+';
+1;

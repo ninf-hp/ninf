@@ -1,0 +1,463 @@
+<html>
+<head>
+<title>The User's Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<link rel=stylesheet href="style.css" media=all>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h2> The User's Manual </h2> 
+
+<ul>
+<li> <a href="#idl"> Build remote library </a> <br>
+<li> <a href="#interface"> Client Programming Interface</a><br>
+<li> <a href="#client"> Running the Ninf-G Client </a><br>
+<li> <a href="example.html"> Example Applications </a >
+<ul>
+<li> Gridfying a Numerical Library with GridRPC
+<li> Gridifying Programs that use Files
+<li> Using Multiple Servers for Parallel Programming on
+the Grid -- The Parameter Sweep Survey Example.
+  <ol> 
+    <li>  Calculating PI using a simple Monte Carlo Method
+    <li>  Gridifying the PI program
+    <li>  Employing Multiple Servers for Task Parallel
+    Computation
+    <li>  Dynamically Load Balancing Multiple Servers 
+   </ol>  
+</ul>
+</ul> 
+</font>
+
+<h3><a name="idl">Build Ninf-G remote libraries </a> </h3>
+The Ninf-G remote libraries are implemented as executable programs
+which contain network stub routine as its main routine, and spawned
+off by the Gram component on the Ninf-G system. We call such
+executable programs <i> Ninf-G executable </i> associated with its
+name, and executes the found executable, sets up an appropriate
+communication with the client. The stub routine handles the
+communication to the Ninf-G system and its client, including argument
+marshalling. The underlying executable can be written in any existing
+scientific languages such as Fortran, C, etc, as long as it can be
+executed in the host. <br>
+To register and publish your numerical libraries and computational
+resource, you first should provide interface information about those 
+numerical libraries and prepares the Ninf-G executable by performing
+the following task.
+
+<ul>
+  <li> Write a interface information of the numerical libraries you
+    wish to register using interface description language called
+    Ninf-G IDL. The complete syntax of Ninf-G IDL is described in the 
+    Appendix. 
+
+    The following code is a sample Ninf-G IDL for matrix multiplication. <br>
+<pre>
+Module mmul;
+
+Define dmmul(long mode_in int n, mode_in double A[n][n],
+mode_in double B[n][n], mode_out double C[n][n])
+&quot;... description ...&quot;
+Required &quot;libxxx.o&quot; /* specify library including this routine. */
+Calls &quot;C&quot; dmmul(n,A,B,C); /* Use C calling convention. */<br>
+</pre>
+
+As such, you should provide the following information in the Ninf-G IDL file. 
+
+<ul>
+  <li>Module name. 
+  <li>Interface Information(marshaling information) of each library routine. 
+  <li>Information to make whole Module. </li>
+</ul>
+   
+  <li>Compile a Ninf-G IDL with Ninf-G generator and generates a stub main
+    routine which bridges each numerical librarary and our Ninf-G
+    runtime routines, and Makefile to compile the whole program. 
+    <pre>% ns_gen &lt;IDL File&gt; </pre>
+    
+    This will make a Makefile named "module".mak, some
+     "_stub_XXX.c" files, XML files, and LDIF files. 
+
+  <li> Make Ninf-G executables by typing 
+   <pre> % make -f &lt;module_name&gt;.mak </pre>
+
+   This will make some "_stub_XXX" files 
+ 
+
+  <li>Copy the LDIF file within the directory ${GLOBUS_DEPLOY_PATH}/etc/gridrpc by
+    typing, 
+    <pre> make -f &lt;module_name&gt;.mak install </pre>
+
+    The LDIF file looks like the following, 
+<pre>     
+dn: rpcFuncname=mmul/dmmul, sw=GridRPC
+objectclass: GridRPCEntry
+hn:
+rpcFuncname: mmul/dmmul
+module: mmul
+entry: dmmul
+path: /usr/local/ninf/ninf-g/tests/mmul/_stub_dmmul
+stub:: PGZ1bmN0aW9uICB2ZXJzaW9uPSIyMjEuMDAwMDAwIiA+PGZ1
+ PSJwaSIgZW50cnk9InBpX3RyaWFsIiAvPiA8YXJnIGRhdGFfdHlwZT
+ cGU9ImluIiA+CjwvYXJnPgo8YXJnIGRhdGFfdHlwZT0ibG9uZyIgbW
+ Pgo8L2FyZz4KPGFyZyBkYXRhX3R5cGU9ImxvbmciIG1vZGVfdHlwZT
+</pre>
+<br>
+<strong>
+<h3>NOTES for dynamic linkage of the Globus shared libraries:<h3><br>
+The Globus dynamic linking libraries (shared libraries) must be linked
+with the Ninf-G stub executables.  In order to enable this, set the
+shared library linkage path appropriately according to the system on
+which the Ninf-G stubs are installed.
+For example, this is done by adding the location of Globus libraries
+(${GLOBUS_LOCATION}/lib) to the environment variable
+${LD_LIBRARY_PATH} of the Globus Gatekeeper spawning via inetd, or on
+Linux, add (${GLOBUS_LOCATION}/lib) in /etc/ld.so.conf.
+</strong>
+</ul>
+
+<h3><a name="interface"> Programming Interface </a> </h3>
+
+Before starting, be sure that the environment variables
+<i>GLOBUS_LOCATION</i> (for GT2) or <i>GLOBUS_INSTALL_PATH</i> (for Globus Ver.1), and <i>NS_DIR</i>  are defined appropriately.
+
+Since the original Ninf client programming interface was designed to be as
+language independent as possible, we have developed a variety of
+programming interfaces such as C, Fortran, Java, and Lisp. The concept
+of the Ninf-G system is the same. Currently the Ninf-G system supports
+the C interface, and we are in the process of building the Java
+interface and other language bindings. Ninf-G provides both Grid RPC native API (GRPC API) and Ninf
+compatible API (Ninf API).  Ninf API is a full-compatible API with
+Ninf version 1 which provides simple and easy programming interface to
+programmers.  GRPC API provides lower level and flexible programming
+interface to programmers.  According to the requirements, application
+programmers can build Grid-enabled applications using either GRPC API
+or Ninf API.  In this section, we introduce you several representative
+functions using C interface for both <a href="#grpcapi">GRPC API</a> 
+and <a href="#ninfapi">Ninf API</a>. The complete API reference is described in the Appendix. 
+
+<h3> <font color="red"><a name="grpcapi">Grid RPC API</a></font> </h3>
+
+<h3> Initialize </h3>
+
+This function read configuration file for your client program and
+set system parameters for Ninf-G.
+<pre>
+main (int argc, char **argv) {
+   char *conf_file = argv[1];
+
+   grpc_initialize(conf_file);
+   ...
+</pre>
+
+<h3> Synchronous Call </h3>
+
+The synchronous call to Ninf-G from C is the easiest to
+implement, just call the function, <i> grpc_call() </i> .
+
+This function returns an error code. It takes as arguments the name
+of a problem and the list of input data and output data. These inputs
+are listed according to the calling sequence defined in the
+corresponding Ninf IDL. The more detailed information on the Ninf-G IDL
+are described in the section called <a href="admin.html#idl"> Ninf-G IDL
+</a>
+
+The C prototype of the function is 
+
+<pre>
+grpc_call(grpc_function_handle_t *handle, &lt;argument list&gt;)
+</pre> 
+
+where *handle is a pointer to the handle to the numerical library on
+the Ninf-G system. Let us resume our example of the call to a simple 
+matrix multiplication. In C, the local function to this caliculation
+looks like 
+<pre>
+ mmul(double *A, double *B, double *C), 
+</pre>
+
+Meanwhile, the equivalent synchronous call to Ninf-G in C is 
+
+<pre>
+grpc_function_handle_t *handle;
+grpc_function_handle_init(&handle, "ninf.apgrid.org", 
+                          3030, "lib/mmul");
+status = grpc_call(&handle, A, B, C);
+</pre>
+
+As such, you should initialize a function handle to the Ninf-G remote
+library using <i> grpc_function_handle_init </i> which takes as
+arguments a server name, port number, and a module name of the
+library. 
+
+<h3> Asynchronous Call </h3>
+
+The standard grpc_call() RPC is synchronous in that the client waits
+until the completion of the computation on the server side. For
+task-parallel execution, Ninf-G facilitates several asynchronous call
+APIs. For example, the most basic asynchronous call  
+<pre> 
+int grpc_async_call(grpc_function_handle_t *handle, 
+                    &lt;argument list&gt;)
+</pre> 
+
+It is almost identical to <i> grpc_call </i> except that it returns immediately after
+all the arguments have been sent. The return value is the session ID
+of the asynchronous call; the ID is used for various synchronizations
+such as waiting for the return value of the call.
+<br>
+There are several calls for synchronization. The most basic is the
+<pre>
+grpc_wait(int sessionID); 
+grpc_wait_all();
+</pre>, 
+<i> grpc_wait() </i> is the function with which
+ we wait for the result of the asynchronous
+call with the supplied session ID. <i> grpc_wait_all() </i> waits for all
+preceding asynchronous invocations made. 
+
+
+<!--
+Here, we employ
+grpc_wait_all() to parallelize the above PI client so that it uses
+multiple simultaneous remote server calls:
+The following example shown below is the program which distributes the parallel
+tasks to multiple servers. 
+We specify the number of server hosts and their names in lines 1 and
+2-5, respectively. Line 6 is the port number used, and line 12 divides
+the number of Monte Carlo trials with the number of servers,
+determining the number of trials per server. The for loop in lines
+14-21 invokes the servers asynchronously: Line 16 generates the URI of
+the server, line 17 calls the server asynchronously, and line 22 waits
+for all the servers to finish. Line 23 aggregates the results returned
+from all the servers.  In this manner, we can easily write a parallel
+parameter sweep survey program using the task parallel primitives of
+GridRPC. We next modify the program to perform dynamic load balancing
+-->
+
+
+<h3><a name="client"> Running the Ninf-G Client </a> </h3>
+
+After developing the Ninf Client Application by the use of the
+programming interface, what you need to do for running the application
+are listed here. 
+
+
+<ul>
+<li> <h4> Compile your Ninf-G client application using <i> ns_client_gen </i></h4> 
+<pre>
+${NG_DIR}/bin/ns_client_gen -g -o test_client test_client.c 
+</pre>
+
+<li> <h4> Write a configuration file as the following. </h4> <br>
+<pre> 
+#
+#       Ninf-G Client Config File
+#
+
+port    = 24001                        # specify the port number
+serverhost      = brain.a02.aist.go.jp # Globus node 
+ldaphost        = brain.a02.aist.go.jp # LDAP Host
+ldapport        = 2135                 # LDAP Port number
+</pre>
+
+<li> <h4> Obtain a Globus proxy </h4>
+
+
+Before submitting any jobs to the Ninf-G system, you need to run the 
+following command and get a proxy certificate, which allows you to
+utilize any Ninf-G numerical libraries on the Globus resource without
+reentering your pass phrase while your proxy is active. 
+We assume you have already obtained a Globus Certificate
+from the Globus Certificate Authority and you are in the resources'
+grid mapfiles. 
+
+<pre> 
+% grid-proxy-init 
+</pre>
+
+You can set the time for the proxy to be in effect; use 
+<pre>
+% grid-proxy-init -hours (nhours) 
+</pre> 
+
+If you wish to determine your proxy status, use <i> grid-proxy-info
+-all </i> to display the contents or test the status of your proyx. 
+
+
+<li> <h4> Run the Ninf-G client </h4>
+<pre>
+% ./test_client config.cl
+</pre>
+
+</ul>
+
+
+<h3><a name="manage"> Managing Jobs </a> </h3>
+
+Since the Ninf-G system is built on top of the Globus, you can
+directly take advantage of the Globus commands for
+managing the submitted jobs such as checking, killing, and cleaning. 
+
+We give you very quick overview of the Globus commands, and more
+detailed explanation can be seen in the Globus manual. 
+
+<h3> Checking my job </h3>
+
+<pre>
+% globus-job-run &lt;hostname&gt; /bin/ps -u &lt;username&gt;
+</pre>
+
+When you submit a job to the batch scheduler, enter <i>
+globus-job-status </i> followed by the job contact string URL. 
+
+<pre>
+% globus-job-submit $lt;hostname$gt; $lt;command$gt;
+https://$lt;hostname$gt;:3031/342265377/
+% globus-job-status https://ninf.apgrid.org:3031/942265377/
+</pre>
+
+The different status are PENDING(waiting in the queue),
+ACTIVE(running), SUSPENDED, DONE, and FAILED. 
+
+<h3> Canceling/Cleaning a Job </h3> 
+
+If you interrupt the <i> globusrun </i> or <i> globus-job-run </i>
+process(by entering CTRL-C or sending it a SIGINT), your jobs should
+automatically be canceld. 
+
+
+<h3> <font color="red"><a name="ninfapi">Ninf API</a></font> </h3>
+
+<h3> Initialize </h3>
+
+This function parse argument list for your client program and retrieve
+arguments for Ninf-G system.  This function returns new argc value.
+Here is an example showing typical usage.
+<pre>
+main (int argc, char ** argv){
+	argc = Ninf_parse_arg(argc, argv);
+	...
+</pre>
+
+<h3> Synchronous call </h3>
+This function calls Ninf function on a remote server.
+The first argument specifies server and function.
+
+Here is an example that calls "mmul" function.
+<pre>
+     Ninf_call("mmul", n, A, B, C);
+</pre>
+
+You can omit the server name and port.
+In such case, a default server will be used.
+Default server can be specified by environment variable "NINF_SERVER"
+and "NINF_SERVER_PORT", or Ninf_parse_arg.
+
+This function returns 0 if succeed, returns -1 if failed.
+
+<h3> Asynchronous Call </h3>
+This function is almost same as Ninf_call, but it returns immediately.
+Using this function, you can invoke several sessions simultaneously.
+
+It returns non-negative ID if succeed, returns -1 if failed.
+
+<pre>
+     id = Ninf_call_async("mmul", n, A, B, C);
+</pre>
+
+There are several calls for synchronization. The most basic is the
+<pre>
+Ninf_wait(int sessionID); 
+Ninf_wait_all();
+</pre>, 
+<i> Ninf_wait() </i> is the function with which
+ we wait for the result of the asynchronous
+call with the supplied session ID. <i> grpc_wait_all() </i> waits for all
+preceding asynchronous invocations made. 
+
+<p> As mentioned above, <tt> Ninf_call() </tt> is the client interface to 
+  the Ninf compute and database servers.  In order to illustrate the programming 
+  interface with an example, let us consider a simple matrix multiply routine 
+  in C programs with the following interface: </p>
+<PRE>
+double A[N][N],B[N][N],C[N][N];   /* declaration */
+....
+dmmul(N,A,B,C);	                  /* calls matrix multiply, C = A * B */
+</PRE>
+When the <tt> dmmul </tt> routine is available on a Ninf server,
+the client program can call the remote library using  <tt> Ninf_call </tt>, 
+in the following manner:
+<PRE>
+Ninf_call(&quot;dmmul&quot;,N,A,B,C); /* call remote Ninf library on server */
+</PRE>
+Here, <tt> dmmul </tt> is the name of library registered as a Ninf
+executable on a server, and <tt> N,A,B,C </tt> are the same arguments.
+As we see here, the client user only needs to specify the name
+of the function as if he were making a local function call;
+<tt> Ninf_call() </tt> automatically determines the function arity and 
+the type of each argument, appropriately marshals the arguments, makes
+the remote call to the server, obtains the results, places the
+results in the appropriate argument, and returns to the client.
+In this way, the Ninf RPC is designed to give the users an
+illusion that arguments are shared between the client and the server.
+
+<P>
+The reader may also notice that the physical location of the Ninf server
+is not specified in the example. Ninf provides a variety of ways for
+the client to specify the server and its registered library: 
+<UL>
+<LI> Specify server with an environment variable.
+<LI> Directly specify server and library with an URL of the Ninf executable.
+</UL>
+<P>
+To realize such simplicity in the client programming interface,
+we designed Ninf RPC so that client function call obtains all the 
+interface information regarding the called library function at runtime
+from the server. Although this will cost an extra network round trip
+time, we judged that typical scientific applications are both
+compute and data intensive such that the overhead should be small
+enough. The interface information includes:
+<UL>
+<LI> the number of parameters.
+<LI> argument types.
+<LI> access mode of arguments (read or write).
+<LI> size of arguments.
+<LI> argument marshaling information.
+<LI> how to send and receive data from/to the Ninf server.
+</UL>
+The client function call requests the interface
+information of the calling function to the Ninf server, which in turn
+returns the registered Ninf executable interface information to the client. 
+The client library then interprets and marshals the arguments on the
+stack according to the supplied information. For variable-sized array
+arguments, the IDL must specify an expression that includes the input
+scalar arguments whereby the size of the arrays can be computed.
+This design is in contrast to traditional RPCs, where stub generation
+is done on the client side at compile time. As a result of dynamic
+interface acquisition, Ninf RPC does not require such compile-time
+activities at all, relieving the users from any code maintenance.
+<A HREF=#ninfnakada95>[2]</A> describes the structure of the 
+interface information and the protocol in detail.
+
+<P>
+In the above example, the client function call sends the input arrays,
+<tt>A</tt> and <tt>B</tt>,
+whose size is computed by the parameter <tt> N </tt>.
+The Ninf server invokes the Ninf executable of <tt> dmmul </tt> library,
+and forwards the input data to it.
+When the computation is done, the result is sent back to the client 
+through the server. The client function call stores the returned data at
+the location pointed by the argument, C.
+
+<P> The Ninf RPC may also be invoked asynchronously to exploit network-wide parallelism. 
+  It is possible to issue the request to a Ninf server, continue with the other 
+  computation, and poll for the request later. Multiple RPC requests to different 
+  servers are also possible. For this reason, the asynchronous Ninf PRC is an 
+  important feature for parallel programming.
+
+<hr> 
+<a href="example.html"> Next </a>
+
+</body>
+</html>

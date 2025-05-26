@@ -1,0 +1,42 @@
+ 関係ありそうな機能
+ - Intel VT-d　デバイスをゲストに直接マップ(IOMMU)
+ - Intel Flex Migragtion　異なるCPU型番へのマイグレーション（AMDへも?)
+ 
+ Intel VT-dは最新のXeonでサポートしているらしい。
+ http://softwarecommunity.intel.com/isn/Community/en-US/forums/permalink/30246340/30252182/ShowThread.aspx
+ 
+ Core i7という次期シリーズでサポート予定だが、未リリース。
+ ハイエンドで今年度中、コンシュマーレベルへはたいぶ先。
+ http://enterprise.watch.impress.co.jp/cda/topic/2008/08/20/13656.html
+ 
+ Core2シリーズは6300以降でないといけない。
+ http://www.intel.co.jp/jp/products/processor/core2duo/specifications.htm
+ 
+ チップセット一覧
+ http://www.intel.co.jp/jp/products/server/chipsets/index.htm
+ 
+ 
++http://enterprise.watch.impress.co.jp/cda/topic/2008/09/05/13785.html
+ 
+ 
+-
+ アキバから持ってきたPCはIntel Core2 CPU 6300 @1.86GHz。
+ 
+ 
+ 
+ 
+ 
+ - Gb Ethernet x2 
+ multiqueue対応だとVMのI/Oが高速になるとされるが、
+ Gb NICでは製品なし?
+ 10Gb Ethernetじゃないと意味がないのかも。
+ 
+ 
+ 
+ 
+ * AMD　　（Cluster2008の企業展示の人に聞いた） [#cba7f11d]
+ 
+ - IOMMU　チップセットサポートが必要。来年の8月ごろにリリース予定。ハイエンドに限らずすぐに展開予定。
+ - Nested Page xxx 現在Quad Core Opteron以上のものはサポート。Quad Coreが基準。
+ 非常に多くのメモリを積んでいる場合や、いくつものVMをホストしてロードが非常に高い場合は数十パーセント改善する。
+ - Intel <-> AMD 間ライブマイグレーション、ハード的にはすでにOK。ソフトウェアの対応はまだ。VMwareはもうすぐ。

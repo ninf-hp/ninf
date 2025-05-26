@@ -1,0 +1,26 @@
+<h1> Ninf Register</h1>
+
+Ninf registers computational routines to the Ninf Server.
+Ninf Register uses unix domain pipe and the pipe will be allocated 
+in the /tmp directory.
+
+<ul>
+	<li> -port NUM <br>
+	If you omit this flag, it will assume 3000.
+	<li> -register <br>
+	registers following arguments as routines..
+	<li> -remove  <br>
+	remove following arguments.
+	<li> -dump <br>
+	prints out currently registered routines.
+	<li> -stop <br>
+	kill the server. NOTE: no authorization.
+
+</ul>
+
+<h2> Example </h2>
+
+<pre> 
+> ninf_register -port 3000 _stub_sin
+
+> ninf_register -dump

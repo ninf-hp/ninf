@@ -1,0 +1,264 @@
+<HTML>
+<HEAD>
+      <LINK href="/styles/top.css" rel="stylesheet" type="text/css">
+      <LINK href="/styles/papers.css" rel="stylesheet" type="text/css">
+      <TITLE> Ninf Project Home Page </TITLE>
+</HEAD>
+<Link rev="made" href="mailto:EMAIL">
+<BODY bgcolor="#ffffff">
+
+<table border="0" width="100%">
+<tr><td colspan="2" > 
+<img class="logo" alt="Ninf LOGO" src="/image/Ninf-A.gif" width="110">
+
+<div class="title">
+Ninf: A Global Computing  Infrastructure
+</div>
+</td></tr>
+
+<tr> 
+<td valign="top" bgcolor="#e0ffe0" width="20%">
+
+
+<DIV class="menus">
+
+<SPAN class="menu">
+<a href="/welcome.ssi.html"><b>Top Page</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<b>Papers</b> <br>
+<font size="-1">
+<SPAN class="submenu"> [<a href="/papers/papers.ssi.html">English Papers</a>]</SPAN>
+<SPAN class="submenu"> [<a href="/papers/papers.j.ssi.html">Japanese Papers</a>]</SPAN>
+</font>
+</SPAN>
+
+<SPAN class="menu">
+<a href="/documents/welcome.ssi.html"><b>Documents</b></a>
+</SPAN>
+
+<!--
+<SPAN class="menu">
+<a href="/NinfDemo.ssi.html"> <b>DEMOs</b></a>
+</SPAN>
+-->
+
+<!--
+<SPAN class="menu">
+<a href="/topics.ssi.html"><b>Topics</b></a>
+</SPAN>
+-->
+
+<SPAN class="menu">
+<a href="/packages/welcome.ssi.html"><b>Download Package</b></a>
+</SPAN>
+
+<!--
+<SPAN class="menu">
+<a href="/ml/welcome.html"><b>Mailing Lists</a></a>
+</SPAN>
+-->
+
+<SPAN class="menu">
+<a href="/staff.ssi.html"><b>Members</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<a href="/related.ssi.html"><b>Related Work</b></a>
+</SPAN>
+
+<!--
+<SPAN class="menu">
+<a href="/private/index.ssi.html"><b>Internal Memo.</b></a> <br>
+(password required)
+</SPAN>
+-->
+<!--
+<SPAN class="menu">
+<b>Other Related Pages</b><br>
+<font size="-1">
+
+<SPAN class="submenu">  <a href="http://ninf.apgrid.org/bricks">Bricks Home Page</a></SPAN>
+<SPAN class="submenu">   <a href="http://www.apgrid.org"> Asia-Pasific Grid </a></SPAN>
+<SPAN class="submenu">   <a href="http://datafarm.apgrid.org"> DataFarm Project </a></SPAN>
+</SPAN>
+-->
+</DIV>
+
+
+<div class="contact">
+<b>Email:</b>ninf@aist.go.jp <br>
+<!-- <b>Phone:</b>+81(298)62-6600<br>
+<b>Fax:</b>  +81(298)62-6601<br> -->
+<b>Mail:</b><br>
+<span class="address">
+Ninf administration group<br>
+c/o Satoshi Sekiguchi<br>
+<br>
+National Institute of Advanced Industrial Science and Technology,<br>
+Grid Technology Research Center,<br>
+1-1-1 Umezono, Tsukuba, Ibaraki, <br>
+305-8568 JAPAN<br>
+</span>
+</font>
+</div>
+
+</td>
+<td valign="top">
+<DIV class="contents">
+<div class="subtitle">Download Patch for Ninf-G Ver. 2.4.0</div>
+<div class="section">About this patch</div>
+<div class="abstract">
+This patch fixes the following bugs of Ninf-G 2.4.0.
+<ul>
+  <li> Free memory will be accessed
+  <li> Ninf-G client aborts in grpc_function_handle_destruct() if there is an outstanding grpc_call() to the same function handle.
+  <li> A compile error occurs in AIX
+  <li> Java Client leaks memory and sockets
+</ul>
+In addition, this patch adds Java API manual.
+<br>
+Instructions for applying patch are as follows (instructions are included in the patch file itself).
+<pre>
+    % cd ng-2.4.0
+    % patch -p1 < ng-2.4.0-2.4.1.diff
+    % make distclean
+    % ./configure
+    % make
+    % make install
+</pre>
+Please click <a href="ng-2.4.0-2.4.1.diff.gz">here</a> for downloading patch for Ninf-G 2.4.0.
+</div>
+
+<div class="subtitle">Download Ninf-G Ver. 2.4.0</div>
+<div class="section">About Ninf-G 2.4.0</div>
+
+<div class="abstract">
+Ninf-G version 2 (Ninf-G2) is the supporting software for the development and execution of programs with the Grid Remote Procedure Call (GridRPC).  Ninf-G2 is a full implementation of the GridRPC API, a proposed GGF standard.  In addition to the GridRPC API, Ninf-G2 provides Ninf-G API for supporting 1) high performance on a large-scale computational Grid, 2) rich functionalities which are required to compensate for the heterogeneity and unreliability of a Grid environment, and 3) easy development and execution of Grid applications.<br>
+<br>
+Details are described in <a href="../documents/ng2-manual/overview.html">Overview section</a> in the <a href="../documents/ng2-manual/user-manual.html">Ninf-G version 2 users' manual</a>.  Installation instruction is described in the <a href="../documents/ng2-manual/install.html">Installation section</a> in the manual.
+<br>
+Ninf-G Version 2.4.0 is the latest version of Ninf-G2 and it is expected to be the final release of Ninf-G2.  This release includes the following new features and bug fixes:
+
+<ul>
+  <li> <font color="darkslateblue">New features</font> <br>
+    <ul>
+    <li> Thread-ID is put into log, when loglevel is set to 5(Debug).
+    <li> Ninf-G Executable retries to establish a connection to the Ninf-G client when the Ninf-G Executable could not connect to the Ninf-G client.
+    <li> The timeout value of a sessions can be specified by a session attribute.
+    <li> stdout and stderr of Ninf-G Executable can be put into files.
+    <li> "broadcast" and "allocate" modifier are added to Ninf-G IDL for MPI.
+      <ul>
+      <li> "broadcast" : broadcast the variable to all nodes
+      <li> "allocate"  : allocate memory area for the variable on all nodes, but the value is not copied.
+      </ul>
+    <li> ng_gen accepts CPP options.
+    <li> The compression for filename type variables is supported.
+    <li> Ninf-G client can re-read the client configuration file on-the-fly.  An API for re-read the client configuration file is added (grpc_config_file_read_np()).
+    <li> Ninf-G client can exit without waiting JOB_DONE message from the Globus jobmanager.
+    <li> Information of compression is added to grpc_session_info_t_np.
+    <li> Arguments and results can be divided into blocks when they are transferred between Ninf-G client and Ninf-G Executable.
+    <li> A tutorial document and sample programs are added into tutorial directory.
+    </ul>
+
+  <li> <font color="darkslateblue">Changes</font> <br>
+    <ul>
+    <li> The default value of loglevel was changed from 0 (None) to 2 (Error).
+    <li> More detailed messages are put into log of Ninf-G Executable
+    <li> The performance of sending/receiving data has been improved
+    <li> Filename type variables are transferred without using GASS.
+    <li> Implementation of grpc_probe_or() was changed to be compliant with the GridRPC API specification.
+    <li> Ninf-G system checks the result field in the protocol data.
+    <li> Ninf-G Executable does not catch SIGFEP, SIGSEGV, SIGILL and SIGQUIT.
+    <li> log_filePath can take the following keywords:
+      <ul>
+      <li> %t: the time of creation of the file (yyyymmdd-hhmmss-MMM)
+      <li> %p: process-ID
+      <li> %h: hostname
+      </ul>
+    <li> changed the name of API for getting information of the last session (grpc_get_last_error_np() -> grpc_last_error_get_np())
+    </ul>
+
+  <li> <font color="darkslateblue">Fixed BUGs</font> <br>
+    <ul>
+    <li> job_startTimeout is ignored when transfer_argument is set to "nowait".
+    <li> ninfg-user-env.sh script removes ${NG_PATH}* from $PATH.
+    <li> *_handle_is_ready() freezes when non-thread Ninf-G Client get information of Remote Class from Ninf-G Executable
+    <li> Ninf-G Executable failes in making a log directory when multiple Ninf-G Executables are invoked at the same time.
+    <li> Ninf-G Executable does not return an error immediately when it fails in making a directory for logfiles.
+    <li> Ninf-G client aborted when negative variable is set as job_startTimeout
+    <li> save_sessionInfo did't accept "-1" and "0".
+    <li> Ninf-G callback which has only OUT mode arguments causes an error.
+    <li> Ninf-G callback with no arguments causes an error.
+    <li> pthread Ninf-G Client sometimes freezes when it waits the completion of a session.
+    <br>
+    <li> Remote Function with no arguments cannot be called by "Calls".
+    <li> ng_gen can not process a big IDL file whose size is more than 4K Bytes.
+    <li> ng_gen overwrites the file which is specified as the 2nd argument.
+    <li> ng_gen detects an error if the callback type variable with no arguments is specified as the last argument of a Remote Function.
+    <br>
+    <li> Java client cannot invoke Ninf-G Executable without LocalLDIF files.
+    <li> Java client cannot process Ninf-G Expression which has more than 30 terms.
+    <li> Java client occasionally returns incorrect results.
+    <br>
+    <li> Shrink does not work correctly.
+    <li> Invalid parameter of shrink causes an abort.
+    <br>
+    <li> The number of MPI processes cannot be specified by a handle attribute of an object handle.
+    <li> handle_attr_get() causes Segmentation Fault for an initialized handle attribute.
+    </ul>
+</ul>
+See <a href="http://ninf.apgrid.org/documents/welcome.shtml">Ninf-G users' manual</a> for more details.<br>
+<a href="http://ninf.apgrid.org/documents/welcome.shtml">Tutorial documents and FAQ</a> are also available!
+</div>
+
+<div class="section"><font color="red">
+Download Packages of Ninf-G Ver. 2.4.0
+</font></div>
+<div class="section_contents">
+If you download Ninf-G, please subscribe to Ninf users' mailing list (ninf-users@apgrid.org) so that you can receive the latest information from the Ninf team.  The mailing list will be used for announcements of bug fixes and release of new versions as well as for information exchange between users.  If you have already been subscribed to this ML, you do not need to re-subscribe to this ML.  You can simply select "no" and leave an email address text box as empty.
+
+<form action="/cgi-bin/download.cgi" method="post">
+
+<center>
+<table>
+  <tr>
+    <td>
+      <b>Your mail address</b>
+    </td>
+    <td>
+      <input type="text" size="30" name="e-mail">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Subscribe to Ninf users' mailing list?</b>
+    </td>
+    <td>
+    <input type="radio" name="ml" value="join" checked>yes
+    <input type="radio" name="ml" value="no">no
+    </td>
+  </tr>
+</table>
+</center>  
+</div>
+
+<ul>
+<li>Ninf-G Version 2.4.0 Package: contact us
+<!-- <input type="submit" name="ninfg-ver2" value="Download">-->
+</li> 
+</ul>
+
+
+</body>
+</html>
+</DIV>
+</td>
+</tr>
+</table>
+
+</BODY>
+</html>
+
+

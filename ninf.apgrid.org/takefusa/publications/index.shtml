@@ -1,0 +1,35 @@
+<html>
+<head>
+<title> Publications</title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="style.css">
+</head>
+
+<body bgcolor="FFFFFF">
+<basefont size = 3>
+
+<h1>Publications</h1>
+
+<p align=right><a href="index_j.shtml">JAPANESE page is here.</a></p>
+
+<p>
+<ul>
+<li> <a href="#scheduling">Scheculing for Global Computing Systems</a>
+<li> <a href="#evaluation">Performance Evaluation of The Ninf System</a>
+</ul>
+</p>
+
+<a name="scheduling">
+<h2>Scheculing for Global Computing Systems</h2>
+<!--#include virtual="/takefusa/bricks/publications/bricks.shtml"-->
+
+<a name="evaluation">
+<h2>Performance Evaluation of The Ninf System</h2>
+<!--#include virtual="/takefusa/publications/ninf.shtml"-->
+
+<p>
+
+<a href="http://ninf.aprid.org/takefusa/">
+Atsuko Takefusa</a>
+
+</body>
+</html>

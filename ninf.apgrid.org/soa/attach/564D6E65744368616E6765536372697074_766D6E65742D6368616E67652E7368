@@ -1,0 +1,45 @@
+#!/bin/sh
+
+if [ $# -lt 2 ]; then
+    echo Usage: $0 vm-path vmnet-num
+    exit 1
+fi
+
+VMWARE_CMD="/usr/bin/vmware-cmd -q"
+VMPATH="$1"
+VMNET=vmnet$2
+
+if [ ! -e "${VMPATH}" ]; then
+    echo ${VMPATH} is not found.
+    exit 1
+fi
+if [ ! -e /dev/${VMNET} ]; then
+    echo /dev/${VMNET} is not found.
+    exit 1
+fi
+
+sed -i.bak -re 's/^ethernet0\.(connectionType\b|vnet\b).+$//g' "${VMPATH}"
+cat >> "${VMPATH}" <<EOF
+ethernet0.connectionType = "custom"
+ethernet0.vnet = "${VMNET}"
+EOF
+
+(${VMWARE_CMD} "${VMPATH}" getstate | grep -q on) || {
+    echo "VM (${VMPATH}) is not running."
+    exit 1
+}
+
+run_vmware_cmd() {
+    local CMD=$1
+    (${VMWARE_CMD} "${VMPATH}" ${CMD} > /dev/null) || {
+	echo "Failed to run '"${CMD}"'."
+	exit 1
+    }
+}
+
+run_vmware_cmd "setconfig ethernet0.connectionType custom"
+run_vmware_cmd "setconfig ethernet0.vnet ${VMNET}"
+run_vmware_cmd "disconnectdevice Ethernet0"
+run_vmware_cmd "connectdevice Ethernet0"
+
+exit 0

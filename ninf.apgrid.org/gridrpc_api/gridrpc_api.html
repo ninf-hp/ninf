@@ -1,0 +1,671 @@
+<html>
+<head>
+<title>  GridRPC API Proposal  </title>
+<STYLE type="text/css">
+  DIV.ref { 
+    margin:  0 10 10 30;
+  }
+  p.abstract {
+    border: solid; 
+    border-width: 1;
+    margin:  5 10 5 10;
+    padding: 5 5 5 5;
+  }
+  pre { 
+    border: solid; 
+    border-width: 2;
+    margin:  5 5 5 5;
+    padding: 5 5 5 5;
+  }
+  pre.reference { 
+    border: none;
+    margin:  5 5 5 5;
+    padding: 5 5 5 5;
+  }
+  pre.status {
+    margin:  10 5 0 5; 
+    padding: 0 5 0 5;
+  }
+  pre.server { 
+    color: blue;
+    margin:  0 5 10 5; 
+  }
+  pre.client { 
+    color: green;
+    margin:  0 5 10 5; 
+  }
+  pre.executable { 
+    color: red;
+    margin:  0 5 10 5; 
+  }
+</STYLE>
+</head>
+<BODY BGCOLOR="white">
+<hr>
+<center>
+<h1> GridRPC API Proposal  </h1>
+<h3> 中田秀基(AIST, Titech),田中良夫(AIST),松岡聡(Titech,JST),関口智嗣(AIST) </h3>
+</center>
+<hr>
+<center>
+<h3> 概要 </h3>
+</center>
+<p class=abstract>
+RPC(Remote Procedure Call)に基づく計算システムは、
+広域分散計算環境であるGrid上のミドルウェアの一形態として有望である。
+Grid上のRPCシステムは、Ninf、Netsolveなどいくつか提案されている。
+しかしAPIに標準規格が存在しないため、RPCシステムを用いて記述した
+プログラムに互換性がなく、このことがGrid上のRPCの普及を妨げている。
+本稿では、Grid上のRPCシステムの標準APIの候補として、一つのAPIを提案する。
+このAPIは、数年にわたるNinfシステムにおける経験に基づき、
+必要十分の機能を提供しながら、最小限となるように設定されている。
+我々はGlobal Grid Forumなどの場で、
+この規格案の標準化を促進していく予定である。
+</p>
+
+<h2> 1.はじめに </h2>
+<p>
+RPC(Remote Procedure Call)に基づく計算システムは、
+広域分散計算環境であるGrid上のミドルウェアの一形態として有望である。
+Grid上のRPCシステムは、Ninf<a href=#ref-1>[1]</a>、Netsolve<a href=#ref-2>[2]</a>
+などいくつか提案されており、
+それぞれさまざまな分野で実用的に使用されつつある。
+これらのRPCシステムは本質的に等価であるにもかかわらず、
+個々のAPIが異なるため、これらのRPCシステムを用いて記述した
+プログラムには互換性がなく、
+このことが、この種のシステムのさらなる普及を妨げている。
+<p>
+RPCシステムを利用したアプリケーションプログラムが
+システム間で互換性を保つための方法としては、
+1)システムの相互運用を可能にするブリッジを作成する、
+2)APIを共有化する、
+ことが考えられる。
+<p>
+われわれはかつて、前者のアプローチに従って、
+NetSolveとNinfの相互運用を可能にする
+ブリッジを提案・開発した<a href=#ref-3>[3]</a>。
+このブリッジを用いるとNinfシステムのサーバ群をNetSolveのサーバとして、
+NetSolveのサーバ群をNinfのサーバとして使用することができる。
+このため、同じプログラムで双方のサーバにアクセスできるだけでなく、
+同時に双方のサーバを使用することができる。
+しかし、ホップ数が増えることによって性能が低下すること、
+システムプロトコルの更新に追従して
+ブリッジモジュールを常に更新しつづけなければならないこと、
+それぞれの資源管理データのコンシステンシを保つのが
+難しいこと、N個のシステムに対してN<sup>2</sup>/2個の
+ブリッジが必要になることなどから、実用的ではないと判断した。
+<p>
+本稿では、後者のアプローチに従ってAPIの共有化を試みるべく、
+Grid上のRPCシステムの標準候補となるAPIを提案する。
+このAPIは、1)十分な記述力と一般性、
+2)既存のRPCシステムとの親和性、3)実装の容易さ、
+を念頭において定義されている。
+
+<p>
+以降、
+2.ではGrid上のRPCシステムに対する要請を整理する。
+3.では既存のRPCシステムのAPIについて述べる。
+4.で、GridRPCのAPIの方針を示し、
+5.で、本稿で提案するGridRPCのAPIを示す。
+さらに、このAPIを用いた典型的なプログラムを示す。
+
+<h2>2. Grid上のRPCシステム</h2>
+Gird上のRPCシステム(以降GridRPCシステム)は、
+クライアント・サーバ型の計算システムであり、
+サーバに存在する計算ルーチンをクライアント側のプログラムから、
+容易に実行できるようにすることを目的としている。
+<p>
+クライアント側には、プログラマに対してAPIを提供し、RPC呼び出しを
+行うクライアントライブラリが必要になる。
+<p>
+サーバ側には、提供するルーチンのインターフェイス情報記述から、
+スタブルーチンを生成するインターフェイス情報コンパイラ、
+RPC呼び出しを受けて、スタブルーチンを起動するなんらかの
+サーバが必要である。
+
+<h2> 3. 既存のGridRPCシステム </h2>
+ここでは既存のGridRPCシステムである
+NinfとNetSolveについて概説する。
+
+<h3> 3.1 Ninf </h2>
+Ninfシステムは旧電総研が中心となって開発した
+Grid向けRPCシステムである。
+特徴としては、以下が挙げられる。
+<ul>
+<li>  MetaServerと呼ぶプロキシ機構による動的負荷分散
+<li>  IDL記述が容易
+<li>  ファイル転送に対応
+<li>  サーバ側からクライアントの関数を呼び出すコールバック機能
+<li> サーバグループに対してスロットリングを行いながら
+RPCを行うグループAPI機能
+</ul>
+
+<h3>3.1.1 クライアントAPI</h3>
+\tabref{NinfAPI}にNinfのクライアントAPIを示す。
+Ninfのクライアントは基本的に単一のサーバに対する呼び出しを
+指向しており、サーバ名はオプション引数や環境変数で
+指定する。複数サーバに対する実行を行う際には
+プロキシとして機能するMetaServerをサーバとして
+指定することで実現する。
+<p>
+これでは不便なこともあるため、以下のようにRPCライブラリ名にホストとポート番号を
+エンコードすることで、プログラム中から直接サーバを指定することも
+できる。
+
+<pre>
+ninf://SERVER_NAME:PORT/module/function
+</pre>
+
+
+<table border=1>
+<caption>表１ NinfのクライアントAPI</caption>
+<tr><th >API関数名</th><th>機能</th></tr>
+<tr><td>int Ninf_call(char *, ...)</td><td>
+                                     ブロッキングRPC <br>
+                                     第1引数でRPCライブラリ名を指定する<br>
+                                     返り値は 成功時には NINF_OK、失敗時にはNINF_ERROR</td></tr>
+
+
+<tr><td>int Ninf_call_async(char *, ...) </td><td>
+                                     ノンブロッキングRPC <br>
+                                     第1引数でRPCライブラリ名を指定する<br>
+	                             返り値は 成功時には正の整数値であるセッションID<br>
+                                     失敗時にはNINF_ERROR</td></tr>
+
+<tr><td>int Ninf_session_probe(int)</td><td>
+                                    特定のノンブロッキングRPCが実行中かどうかの検出 <br>
+                                     引数はセッションID<br>
+                                     返り値は真偽値を示すint</td></tr>
+
+<tr><td>int Ninf_session_cancel(int)</td><td>
+                                    特定のノンブロッキングRPCの実行中止 <br>
+                                     引数はセッションID<br>
+                                     返り値は成功時にはTRUE、失敗時にはFALSE</td></tr>
+
+<tr><td>int Ninf_wait(int)</td><td>
+                                     特定のノンブロッキングRPCの終了を待つ <br>
+                                     引数はセッションID<br>
+	                             返り値は 成功時には NINF_OK、失敗時にはNINF_ERROR</td></tr>
+
+<tr><td>int Ninf_wait_all()</td><td>   
+                                     実行中のノンブロッキングRPCのすべての終了を待つ<br>
+	                             返り値は 成功時には NINF_OK、失敗時にはNINF_ERROR</td></tr>
+
+<tr><td>int Ninf_wait_any(int *)</td><td>        
+                                    実行中のノンブロッキングRPCのいずれかの終了を待つ<br>
+                                     第1引数のポインタに終了したセッションのIDを返す<br>
+	                             返り値は 成功時には NINF_OK、失敗時にはNINF_ERROR</td></tr>
+</table>
+
+<h3>3.1.2 サーバ側記述</h3>
+サーバ側でのIDL記述が容易なことはNinfの特徴の一つである。
+基本的にCにおける関数のインターフェイス定義に
+入出力のモードを追加したものである。
+\figref{NinfIDL}に行列の乗算ルーチンを
+表現したものを示す。
+
+<pre>
+  Define dmmul(mode_in  int n, 
+               mode_in  double A[n][n], 
+               mode_in  double B[n][n],
+               mode_out double C[n][n])
+  Required "mmul.o"
+  Calls "C" mmul(n,A,B,C);
+</pre>
+
+この記述をIDLコンパイラで処理することで、
+makeファイルとスタブメインが得られ、
+makeファイルを実行することで、実行バイナリが得られる。
+<p>
+Ninfシステムではこのバイナリをサーバに登録することで
+外部からのRPC呼び出しが可能になる。
+
+<h3>3.2 NetSolve</h3>
+NetSolveはテネシー大学のJack Dongarra教授らが開発した
+RPCシステムである。
+NetSolveには以下の特徴がある。
+<ul>
+<li> エージェントと呼ばれるスケジューリングモジュール
+<li> Matlab、Mathematicaなどの数式処理システムから呼び出すための
+インターフェイス
+<li> 大規模並列計算のためのFarming API
+<li> 関数を動的にサーバにシップして実行するUser Supplied Function 機能
+</ul>
+
+<h3>3.2.1 クライアントAPI</h3>
+\reftab{NetSolveAPI}にNetSolveのクライアントAPIの一部を示す。
+基本的にはNinfのそれと非常によく似ていることがわかる。
+相違点としては、
+Ninfでは複数のRPCの終了を待つAPIが豊富に用意されているが、
+NetSolveでは単一のRPCを待つAPIしか用意されていないことが
+わかる。これはFarming用の専用APIを持つため、不要と
+考えているためであろう。
+
+
+<table border=1>
+<caption>表2 NetSolveのクライアントAPI</caption>
+<tr><th>API関数名</th><th>機能</th></tr>
+<tr><td>int netsl(char *, ...)</td><td>
+                               ブロッキングRPC <br>
+                               第1引数でRPCライブラリ名を指定する<br>
+                               返り値は ステイタスコード</td></tr>
+
+<tr><td>int netslnb(char *, ...)</td><td>
+                               ノンブロッキングRPC <br>
+                               第1引数でRPCライブラリ名を指定する<br>
+                               返り値は 成功時には 正数であるのリクエストハンドル、<br>
+                               失敗時にはエラーコードを返す</td></tr>
+
+<tr><td>int netslpr(int)  </td><td>
+                       特定のノンブロッキングRPCが実行中かどうかの検出 <br>
+                       返り値はNetSolveNotReadyまたは NetSolveOK</td></tr>
+
+<tr><td>int netslwt(int)  </td><td>
+                               特定のノンブロッキングRPCの終了を待つ </td></tr>
+<table>
+
+<h3>3.2.2 サーバ側記述</h3>
+サーバ側の記述は非常に複雑である。
+\figref{NetSolveIDL}にLinear Solverのインターフェイスを
+記述したものを示す。
+
+<pre>
+@PROBLEM linsol
+@INCLUDE <math.h>
+@LIB -L/home/lib/
+@FUNCTION linsol
+@LANGUAGE FORTRAN
+@MAJOR COL
+@PATH LinearAlgebra/LinearSystems/
+@DESCRIPTION
+Solves the square linear system A*X = B. Where:
+A is a double-precision matrix of dimension NxN
+B is a double-precision matrix of dimension NxNRHS
+X is the solution
+@INPUT 2
+@OBJECT MATRIX D A
+Matrix A (NxN)
+@OBJECT MATRIX D B
+Matrix B (NxNRHS)
+@OUTPUT 1
+@OBJECT MATRIX D X
+Solution X (NxNRHS)
+@COMPLEXITY 3,3
+@CALLINGSEQUENCE
+@ARG I0
+@ARG I1,O0
+@ARG nI0,mI0,mI1
+@ARG nI1
+@ARG lI0
+@ARG lI1,lO0
+@CODE
+</pre>
+
+
+
+<h2>4. GridRPCのAPI策定の方針</h2>
+前節の2システムのAPIを踏まえて、以下の方針でAPIを策定した。
+
+<h3> 4.1 APIの範囲</h3>
+Grid上RPCの真の標準化のためには、
+クライアントAPIだけでなく、サーバ側のインターフェイス記述、
+サーバ側、クライアント側のメンテナンス用コマンドに
+いたるまで標準化しなければならない。
+<p>
+しかし、Grid上RPCの機構はまだ研究段階であり、
+クライアントAPI以外の部分は今後も変更が予想されるため、
+今回はクライアントAPIのみを対象とする。
+
+<h3> 4.2 機能の選択</h3>
+Ninfのコールバック機能、NetSolveのUser Supplied Function機能に関しては、
+システムの構造に強く依存し、用途も限られるため
+今回のAPIには含めない。
+<p>
+NinfのグループAPIとNetSolveのFarming APIは、
+双方ともアドホックに実装されている感があり、
+未成熟であることから、今回のAPIには含めない。
+ただし、今回のAPIを用いれば容易に実装できるものと思われる。
+
+<h3> 4.3 サーバ選択機能</h3>
+NinfにはMetaServer、NetSolveにはエージェントがあり、
+それぞれ自動的なサーバ選択と負荷分散を行う機能がある。
+<p>
+しかし、GridRPCをより高位のGridアプリケーションのビルディング
+ブロックとしてとらえるならば、スケジューリング機能はGridRPCに含めず、
+任意の機構が使用できるようにしたほうが、一般性が向上する
+と考えられる。
+このため、本APIではサーバを明示的に指定する関数のみを用意する。
+
+<h3> 4.4 リモート関数ハンドル</h3>
+RPC呼び出しは、リモート関数のハンドルを取得し、それを用いて行う。
+このようにリモート関数を抽象化しておくことで
+将来の負荷分散機構の導入が容易になるし、
+システム固有の問題を吸収することが容易になる
+
+<h3> 4.5 エラーコード、ステイタスコード</h3>
+エラーコード、ステイタスコードは直接プログラム中に現れるので
+これに関しても定義を行う必要がある。
+実際には、エラーやステイタスのバリエーションはシステムの構造に依存するため、
+完全な標準化は難しい。
+そこで、エラー、ステイタスのコードは、
+システムに依存しない一般的な用語を用いて定義し、
+実際のシステムとのマップはエラー文字列で行うことで対処する。
+<p>
+エラーコードはCのプリプロセッサで使用する文字列で定め、
+具体的な整数値は定めない。
+ステイタスコードは値も定める。
+
+<h2>5.GridRPCのAPI</h2>
+<h3>5.1 インクルードファイル</h3>
+インクルードファイル名は<code>grpc.h</code>とする。
+
+<h3>5.2 ステイタスコードとエラーコード</h3>
+ステイタスコードを表3に、エラーコードを表4に示す。
+
+<center>
+<table border=1>
+<caption> 表3 GridRPC ステイタスコード</caption>
+<tr><th>コード</th><th>値 </th><th>意味</th></tr>
+<tr><td> GRPC_OK </td><td>   0  </td><td> 成功と表す</td></tr>
+<tr><td> GRPC_ERROR </td><td> -1 </td><td> 失敗を表す</td></tr>
+</table>
+</center>
+
+<center>
+<caption>表4 GridRPC エラーコード</caption>
+<table border=2>
+<tr><th>コード</th><th>意味</th></tr>
+<tr><td>GRPCERR_NOERROR</td><td>  エラーではない</td></tr>
+<tr><td>GRPCERR_NOT_INITIALIZED   </td><td> 初期化がされていない</td></tr>
+<tr><td>GRPCERR_SERVER_NOT_FOUND </td><td> サーバが見つからない</td></tr>
+<tr><td>GRPCERR_CONNECTION_REFUSED </td><td> サーバへの接続に失敗した</td></tr>
+<tr><td>GRPCERR_NO_SUCH_FUNCTION </td><td> 指定した関数が存在しない</td></tr>
+<tr><td>GRPCERR_AUTHENTICATION_FAILED </td><td> サーバでの認証に失敗した</td></tr>
+<tr><td>GRPCERR_RPC_REFUSED           </td><td> サーバで実行する権限がない</td></tr>
+<tr><td>GRPCERR_COMMUNICATION_FAILED   </td><td> 通信に障害が起きた</td></tr>
+<tr><td>GRPCERR_PROTOCOL_ERROR     </td><td> プロトコルがおかしい</td></tr>
+<tr><td>GRPCERR_CLIENT_INTERNAL_ERROR     </td><td> クライアントの内部エラー</td></tr>
+<tr><td>GRPCERR_SERVER_INTERNAL_ERROR     </td><td> サーバの内部エラー</td></tr>
+<tr><td>GRPCERR_EXECUTABLE_DIED      </td><td> 実行ファイルがなんらかの理由で落ちた</td></tr>
+<tr><td>GRPCERR_SIGNAL_CAUGHT      </td><td> 計算中になんらかのシグナルが発生した</td></tr>
+<tr><td>GRPCERR_UNKNOWN_ERROR      </td><td> 不明なエラーが発生した</td></tr>
+</table>
+</center>
+
+
+<h3> 5.3 イニシャライザとファイナライザ</h3>
+初期化と後処理を行う関数である。
+
+<pre>
+int 
+  grpc_initialize(
+    char * config_file_name);
+</pre>
+コンフィギュレーションファイルを読み出して、
+RPCシステムに必要な初期化を行う。
+この関数が呼ばれるよりも前に、RPC用の関数を呼び出した
+場合には、正常な動作は保証されない。
+
+引数としてコンフィグレーションファイルの名前を与える。
+コンフィグレーションファイルの機能は、各システムの構成
+に依存するので、ここでは規定しない。
+初期化が成功すればGRPC_OK、失敗すればGRPC_ERRORを返す
+
+<pre>
+int grpc_finalize();
+</pre>
+RPCに使用した資源を解放する。この関数が呼ばれた以降
+にRPC用の関数を呼び出した場合には、正常な動作は保証されない。
+引数はなし。
+初期化が成功すればGRPC_OK、失敗すればGRPC_ERRORを返す
+
+<h3> 5.4 リモート関数ハンドル</h3>
+リモート関数のハンドルにはホスト情報と関数名の情報が収められる。
+リモート関数のハンドルを取得する関数は2つ用意した。
+
+<pre>
+int grpc_function_handle_default(
+    grpc_function_handle_t * handle, 
+    char * func_name);
+</pre>
+この関数はデフォルトのホスト、ポートを使用して、
+第1引数で与えられる構造体領域に書き込む。
+初期化が成功すればGRPC_OK、失敗すればGRPC_ERRORを返す。
+<p>
+<code> func_name</code>は構造体に埋め込まれて使用されるので、
+呼び出しが終わるまで、上書きや解放をしてはならない。
+
+<pre>
+int grpc_function_handle_init(
+    grpc_function_handle_t * handle, 
+    char * host_name,
+    int    port,
+    char * func_name);
+</pre>
+この関数は、サーバのホストとポートを明示的に
+指定してリモート関数ハンドルを取得する。
+初期化が成功すればGRPC_OK、失敗すればGRPC_ERRORを返す。
+<p>
+<code> host_name</code>、
+<code> func_name</code>は構造体に埋め込まれて使用されるので、
+呼び出しが終わるまでオーバライト、解放をしてはならない。
+
+
+<h3> 5.5  RPC呼び出し</h3>
+RPC呼び出しを行う関数にはブロッキングとノンブロッキングの
+2つがある。
+
+<pre>
+int grpc_call(
+    grpc_function_handle_t *, 
+    ...);
+</pre>
+第1引数で指定したハンドラを使用して
+ブロッキングでRPC呼び出しを行う。
+成功すればGRPC_OK、失敗すればGRPC_ERRORを返す。
+
+<pre>
+int grpc_call_async(
+    grpc_function_handle_t *, 
+    ...);
+</pre>
+第1引数で指定したハンドラを使用して
+ノンブロッキングでRPC呼び出しを行う。
+成功すればその呼び出しのハンドラとなる正数、セッションIDを返す。
+失敗すればGRPC_ERRORを返す。
+
+<h3> 5.6 ノンブロッキング呼び出しの操作</h3>
+ノンブロッキングで呼び出した関数に対しては
+いくつかの操作が可能である。操作はセッションIDを用いて行う。
+
+<pre>
+int grpc_probe(int sessionID);
+</pre>
+第1引数で指定する呼び出しが終了したかどうかを調べる。
+終了していれば1を、していなければ0を返す。
+調査自体に失敗すればGRPC_ERRORを返す。
+
+<pre>
+int grpc_cancel(int sessionID);
+</pre>
+実行中の関数をキャンセルする。
+成功すればGRPC_OK、失敗すればGRPC_ERRORを返す。
+関数がすでに終了していた場合にもGRPC_OKが返される。
+
+<pre>
+int grpc_wait(int sessionID);
+</pre>
+第1引数で指定する呼び出しの終了を待つ。
+成功すればGRPC_OK、失敗すればGRPC_ERRORを返す。
+
+<pre>
+int grpc_wait_and(
+    int * idArray, 
+    int length);
+</pre>
+複数の呼び出しがすべて終了するのを待つ。
+第1、第2引数でセッションIDの配列とその長さを指定する。
+すべての呼び出しが成功すればGRPC_OK、
+いずれかが失敗すればGRPC_ERRORを返す。
+
+<pre>
+int grpc_wait_or(
+    int * idArray, 
+    int   length, 
+    int * idPtr);
+</pre>
+複数の呼び出しのいずれかが終了するのを待つ。
+第1、第2引数でセッションIDの配列とその長さを指定する。
+終了した呼び出しが成功していればGRPC_OK、
+失敗していればGRPC_ERRORを返す。
+第3引数に終了したセッションのIDをセットする。
+
+<pre>
+int grpc_wait_all();
+</pre>
+それまでに行ったノンブロッキング呼び出しがすべて終了するのを待つ。
+すべての呼び出しが成功すればGRPC_OK、
+いずれかが失敗すればGRPC_ERRORを返す。
+
+
+<pre>
+int grpc_wait_any(
+    int * idPtr);
+</pre>
+複数の呼び出しのいずれかが終了するのを待つ。
+第1、第2引数でセッションIDの配列とその長さを指定する。
+終了した呼び出しが成功していればGRPC_OK、
+失敗していればGRPC_ERRORを返す。
+第1引数に終了したセッションのIDをセットする。
+
+<pre>
+grpc_function_handle_t *
+  grpc_get_handle(
+    int sessionId);
+</pre>
+引数で指定したセッションIDが使用したハンドルの
+ポインタを取得する。
+
+<h3> 5.7 エラー処理API</h3>
+
+<pre>
+int grpc_get_last_error();
+</pre>
+最後に行ったRPC処理のエラーコードを取得する
+
+<pre>
+int grpc_get_error(int sessionID);
+</pre>
+第1引数で指定されるセッションIDを
+持つセッションのエラーコードを取得する。
+セッションIDに対応するセッションが存在しない場合は -1を返す
+
+<pre>
+void grpc_perror(char * str);
+</pre>
+第1引数で与えた文字列の後に、
+最後に行ったRPC処理のエラー情報の文字列を付加して
+標準エラーに出力する。
+
+<pre>
+char * grpc_error_string(int error_code);
+</pre>
+第1引数で指定されるエラーコードに対応する文字列を返す。
+
+<h3>5.8 サンプルコード</h3>
+このAPIを使用して記述した典型的なクライアントコード例を示す。
+モンテカルロ法を用いてPIを計算するルーチンを複数のサーバ上で
+実行するプログラムである。
+
+<pre>
+#include "grpc.h"
+#define NUM_HOSTS 8
+char * hosts[] = {"host00", "host01", "host02", "host03", 
+                  "host04", "host05", "host06", "host07"};
+grpc_function_handle_t handles[NUM_HOSTS];
+int port = 4000;
+
+main(int argc, char ** argv){
+  double pi;
+  long times, count[NUM_HOSTS], sum;
+  char * config_file;
+  int i;
+  if (argc < 3){
+    fprintf(stderr, "USAGE: %s CONFIG_FILE TIMES \n", argv[0]);
+    exit(2);
+  }
+  config_file = argv[1];
+  times = atol(argv[2]) / NUM_HOSTS;
+
+  /* GRPCの初期化 */
+  if (grpc_initialize(config_file) != GRPC_OK){
+    grpc_perror("grpc_initialize");
+    exit(2);
+  }
+  /* ハンドルの初期化 */
+  for (i = 0; i < NUM_HOSTS; i++)
+    grpc_function_handle_init(&handles[i], hosts[i], port, "pi/pi_trial");
+
+  for (i = 0; i < NUM_HOSTS; i++)
+    /* ノンブロッキング呼び出しによる並列呼び出し*/
+    if (gprc_call_async(&handles[i], i, times, &count[i]) == GRPC_ERROR){
+      grpc_perror("pi_trial");
+      exit(2);
+    }
+  /* すべての呼び出しの終了を待つ */
+  if (grpc_wait_all() == GRPC_ERROR){
+    grpc_perror("wait_all");
+    exit(2);
+  }
+  /* PIの計算と表示 */  
+  for (i = 0, sum = 0; i < NUM_HOSTS; i++)
+    sum += count[i];
+  pi = 4.0 * ( sum / ((double) times * NUM_HOSTS));
+  printf("PI = %f\n", pi);
+  /* GRPC の後処理 */
+  grpc_finalize();
+}
+</pre>
+
+
+<h2> 6. おわりに</h2>
+本稿では、Grid上のRPCシステムの標準の候補としてAPIを提案した。
+現在、このAPIを実装するものとして、従来のNinfシステムの
+APIを改変したものと、
+グローバルコンピューティングツールキット
+Globus<a href=#ref-4>[4]</a>を用いて新たに実装した、
+Ninf-Gと呼ぶシステムを実装している。
+
+今後、実装したシステムを実プログラムに使用して、
+APIが十分であるかを検証するとともに、
+Global Grid Forum<a href=#ref-5>[5]</a>などの場で、標準化を呼びかけていく
+予定である。
+
+本APIはドラフトの段階であるため、今後多くの変更が予想される。
+変更したものは、随時Webページ
+<a href=http://ninf.apgrid.org/gridrpc_api>http://ninf.apgrid.org/gridrpc_api</a>
+で公開していく予定である。
+
+<h2> 参考文献 </h2>
+<pre class=reference>
+<a name=ref-1>[1]</a> Sato, M., Nakada, H., Sekiguchi, S., Matsuoka, S., Nagashima, U. and Takagi, H.: 
+  Ninf: A Network based Information Library for a Global
+  World-Wide Computing Infrastracture,  
+  Proc. of HPCN'97 (LNCS-1225), pp. 491--502 (1997).
+
+<a name=ref-2>[2]</a> Casanova, H. and Dongarra, J.: 
+  NetSolve: A Network Server for Solving Computational Science Problems,  
+  Proceedings of Super Computing '96 (1996).
+
+<a name=ref-3>[3]</a> Nakada, H., Sato, M. and Sekiguchi, S.: 
+  Design and Implementations of Ninf: towards a Global Computing Infrastructure,  
+  Future Generation Computing Systems, Metacomputing Issue, 
+  Vol.~15, No.~5-6, pp. 649--658 (1999).
+
+<a name=ref-4>[4]</a> Foster, I. and Kesselman, C.: 
+  Globus: A metacomputing infrastructure toolkit.,
+  Proc. of Workshop on Environments and Tools, SIAM. (1996).
+
+<a name=ref-5>[5]</a> Global Grid Forum
+  <a href=http://www.gridforum.org>http://www.gridforum.org</a>.
+</pre>

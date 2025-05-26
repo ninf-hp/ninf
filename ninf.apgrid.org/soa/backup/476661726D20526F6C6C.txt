@@ -1,0 +1,81 @@
+>>>>>>>>>> 1172124941
+* 構成 [#ud0d17e5]
+- メタデータサーバをフロントエンドに用意し，ファイルシステムノードを計算ノードに用意する．メタデータキャッシュサーバは利用しない．
+- shared_secret 認証のみとする．
+- gfarmfs-fuse を利用してアクセスする形とするが，自動マウントはしない．
+
+* Roll 作成時の問題 [#h8eba5f9]
+- /sbin/runuser を非対話的に実行するためには，ユーザ postgres の $HOME である /var/lib/pgsql に .ssh/id_rsa.pub を用意する必要があった．/etc/profile.d/ssh-key.sh のせい．
+
+* TODO [#s085a15a]
+- テスト
+>>>>>>>>>> 1172124941
+* 構成 [#ud0d17e5]
+- メタデータサーバをフロントエンドに用意し，ファイルシステムノードを計算ノードに用意する．メタデータキャッシュサーバは利用しない．
+- shared_secret 認証のみとする．
+- gfarmfs-fuse を利用してアクセスする形とするが，自動マウントはしない．
+
+* インストール方法 [#b1f5024f]
+
+ # rpm -Uvh http://www.rocksclusters.org/ftp-site/pub/rocks/rocks-4.2.1/upgrade/roll-install-4.2.1-0.i386.rpm
+ # roll-install gfarm_soa-4.2.1-0.i386.disk1.iso
+
+* Roll 作成時の問題 [#h8eba5f9]
+- /sbin/runuser を非対話的に実行するためには，ユーザ postgres の $HOME である /var/lib/pgsql に .ssh/id_rsa.pub を用意する必要があった．/etc/profile.d/ssh-key.sh のせい．
+
+* TODO [#s085a15a]
+- フロントエンド以外にメタデータサーバを用意できるように修正した Roll を用意する．
+-- gfarm-meta アプライアンスを用意する．
+-- SQL にメタデータサーバの情報を登録する．
+>>>>>>>>>> 1172124941
+* 構成 [#ud0d17e5]
+- メタデータサーバをフロントエンドに用意し，ファイルシステムノードを計算ノードに用意する．メタデータキャッシュサーバは利用しない．
+- shared_secret 認証のみとする．
+- gfarmfs-fuse を利用してアクセスする形とするが，自動マウントはしない．
+
+* インストール方法 [#b1f5024f]
+
+ # rpm -Uvh http://www.rocksclusters.org/ftp-site/pub/rocks/rocks-4.2.1/upgrade/roll-install-4.2.1-0.i386.rpm
+ # roll-install gfarm_soa-4.2.1-0.i386.disk1.iso
+ # /etc/rc.d/rocksconfig.d/post-50-gfarm-server
+ # /etc/rc.d/rocksconfig.d/post-50-gfarm-base
+
+* Roll 作成時の問題 [#h8eba5f9]
+- /sbin/runuser を非対話的に実行するためには，ユーザ postgres の $HOME である /var/lib/pgsql に .ssh/id_rsa.pub を用意する必要があった．/etc/profile.d/ssh-key.sh のせい．
+
+* TODO [#s085a15a]
+- フロントエンド以外にメタデータサーバを用意できるように修正した Roll を用意する．
+-- gfarm-meta アプライアンスを用意する．
+-- SQL にメタデータサーバの情報を登録する．
+>>>>>>>>>> 1172124941
+* 構成 [#ud0d17e5]
+- メタデータサーバをフロントエンドに用意し，ファイルシステムノードを計算ノードに用意する．メタデータキャッシュサーバは利用しない．
+- shared_secret 認証のみとする．
+- gfarmfs-fuse を利用してアクセスする形とするが，自動マウントはしない．
+
+* インストール方法 [#b1f5024f]
+
+- フロントエンドノードへのインストール
+
+ # rpm -Uvh http://www.rocksclusters.org/ftp-site/pub/rocks/rocks-4.2.1/upgrade/roll-install-4.2.1-0.i386.rpm
+ # roll-install gfarm_soa-4.2.1-0.i386.disk1.iso
+ # /etc/rc.d/rocksconfig.d/post-50-gfarm-server
+ # /etc/rc.d/rocksconfig.d/post-50-gfarm-base
+ # insert-ethers  （compute-gfarm を選択する）
+
+- 計算ノードでの操作
+
+  CD-ROM あるは PXE Boot で計算ノードをインストール
+
+
+* Roll 作成時の問題 [#h8eba5f9]
+- /sbin/runuser を非対話的に実行するためには，ユーザ postgres の $HOME である /var/lib/pgsql に .ssh/id_rsa.pub を用意する必要がある．/etc/profile.d/ssh-key.sh のせい．
+-- INTERACTIVE=false を設定して，config-gfarm の実行前に .ssh/id_rsa.pub を生成する方法で対処．
+- fuse-kernel パッケージはビルドしたノードのカーネルに依存する．本来は Gfarm に含めるパッケージでないし，CentOS 5 では問題にならない．
+-- 仮想クラスタのノードは SMP でないと仮定する．
+
+* TODO [#s085a15a]
+- フロントエンド以外にメタデータサーバを用意できるように修正した Roll を用意する．
+-- gfarm-meta アプライアンスを用意する．
+-- SQL にメタデータサーバの情報を登録する．
+

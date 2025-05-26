@@ -1,0 +1,26 @@
+ + 準備
+ ++ Rocks 4.1 の起動ディスクを用意する。
+ ftp://ftp.rocksclusters.org/pub/rocks/rocks-4.1/
+ から適当な 〜.iso を取得する。
+ 少なくとも、base, os, kernel を含んでいる必要がある。
+ ++ 起動ディスクに追加する Roll の iso イメージを用意する。
+ + 起動ディスクの内容を展開しておく。
+   mount -o loop 〜.iso /mnt/cdrom
+   (cd /mnt/cdrom; tar cf - .) | (cd /IMAGE; tar xvf -)
+   umount /mnt/cdrom
+ + 追加する Roll の iso イメージの内容をディレクトリに追加する。
+   mount -o loop myroll.iso /mnt/cdrom
+   (cd /mnt/cdrom; tar cf - myroll/) | (cd /IMAGE; tar xvf -)
+   umount /mnt/cdrom
+ + 必要な Roll を全て追加したら mkisofs で iso イメージを作る。
+  cd /IMAGE
+  mkisofs -v -r -J -o /RESULT/image.iso -b isolinux/isolinux.bin \
+  -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 \
+  -boot-info-table .
+ mkisofs がない場合は cdrtools package を入れる。
+ /RESULT/image.iso が所定の Roll を含んだインストールディスクとなる。
+ + DVD に書き込む。
+  dvdrecord -v -dao speed=1 dev=ATAPI:1,0,0 /RESULT/image.iso
+ 書き込み前に DVD を空にする場合は以下を実行しておく。
+  dvdrecord dev=ATAPI:1,0,0 blank=all
++※dvdrecord を使いこなせなせず書きこみできなかった。横井さんに教えてもらって、 GUI ベースのツール k3b で書き込みを行った。

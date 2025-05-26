@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf Executable  との交信のためのプロトコル</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf Executable  との交信のためのプロトコル">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html123 HREF="node10.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html121 HREF="node8.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html115 HREF="node8.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html124 HREF="node10.html"> Ninf Serverとの通信</A>
+<B>Up:</B> <A NAME=tex2html122 HREF="node8.html"> Ninf RPC   のプロトコル</A>
+<B> Previous:</B> <A NAME=tex2html116 HREF="node8.html"> Ninf RPC   のプロトコル</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00051000000000000000> Ninf Executable  との交信のためのプロトコル</A></H2>
+<P>
+<P>
+Ninf Executable  との通信は、xdrを用いたstream通信で行なう。
+<P>
+Ninf Executable  は、fork された後 execute されて実行されることを仮定して
+設計されている。
+Ninf Executable  の起動までの手順は以下の通りである。
+<UL><LI> Ninf Executable  は、起動されると、
+自分の parent processのプロセスid <code>&lt;ppid&gt;</code> を用いて
+<code>/tmp/ninf.&lt;ppid&gt;</code>という名前のunix domainのソケットに対してconnectする。
+<A NAME=tex2html5 HREF="footnode.html#82"><IMG ALIGN=BOTTOM ALT="gif" SRC="http://www.etl.go.jp:8080/etl/captain/icons/foot_motif.gif"></A>
+<P>
+<LI> connectが完了したら、自分のプロセスidをxdrでconnectしたsocketに
+書き込み、起動したことを通知する。これは、親プロセスの側でconnect してきた
+プログラムが本当に自分が起動したものであるかという、簡単な認証をおこなう
+ためである。
+<P>
+<LI> その後、コマンド実行ループを実行する。
+</UL>
+<P>
+コマンド実行ループは、コマンドを先頭とする入力を受け取り、それに対応す
+る出力するループである。出力は、Ninf Executable  を終了させるコマンド
+(<code>NINF_REQ_KILL</code>)以外は、ackコード(<code>NINF_ACK_ERROR</code>または、
+<code>NINF_ACK_OK</code>)を返し、<code>NINF_ACK_OK</code>の場合には、適当な出力を
+行う。コマンドは以下のものがある：
+<P>
+<UL><LI> <code>NINF_REQ_STUB_INFO</code><BR> 
+続く入力はなし。Ninf Procedure  のインターフェイス  を返す。
+<LI> <code>NINF_REQ_CALL</code><BR> 
+入力として、スカラ引数の値を受け取り、INで指定されている配列データを受
+け取る。これらのデータは <code>NINF_REQ_STUB_INFO</code>で取得したインターフェイス   に
+したがって行われなくてはならない。
+<P>
+計算が完了するとOUTで指定されている配列データを返す。client側では、このデー
+タを用いて、OUTで指定した配列をupdateする。
+<P>
+<LI> <code>NINF_REQ_DESCRIPTION</code><BR> 
+NINF IDLに記述されているdescription情報を返す。
+<P>
+<LI> <code>NINF_REQ_KILL</code><BR> 
+続く入力はなし。Ninf Executable  を終了させる。出力は行わない。
+</UL>
+<P>
+図<A HREF="node9.html#ninf_local_exec">3</A>に Ninf Executable  との交信の様子を示す。
+<P>
+<P><A NAME=181>&#160;</A><A NAME=ninf_local_exec>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="ninf_local_exec.gif">
+<BR><STRONG>図 3:</STRONG>  Ninf RPC   の用いるプロトコル<BR>
+<P>
+
+
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

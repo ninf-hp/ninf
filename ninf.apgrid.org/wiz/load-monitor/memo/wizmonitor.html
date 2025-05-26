@@ -1,0 +1,78 @@
+<h1> Wiz Monitor </h1>
+<hr>
+
+<h1> 構成 </h1>
+
+Monitor は、全世界から容易にアクセスできる必要があるため
+Javaアプレットとして実現されている。
+Javaアプレットはセキュリティ上の制約のため、
+アプレットが置かれているマシンに対してしかコネクションを張ることができない。
+このためモニタの構成は多少煩雑になっている。
+
+<p>
+モニタ は以下の要素からなる。
+<ul>
+<li> クラスタの各WS上に置くプローブ
+<li> プローブの出力を集計する集計器
+<li> 集計されたデータを中継する中継器
+<li> ブラウザ上にデータを表示するアプレット
+</ul>
+
+プローブはC++で実装されている。
+集計器、中継器はJavaで実装されている一つのプログラム
+であり、立ち上げ時のオプションによって振る舞いを変更している。
+
+
+<pre>
+
+ブラウザ    xxxx  xxxx  xxxx  xxxx  xxxx  xxxx  xxxx  xxxx
+
+ --------------------------------------------------------------
+
+中継             phase:4141         hpc:4141
+ --------------------------------------------------------------
+集計                     etlwiz:4141
+ --------------------------------------------------------------
+   wiz00  wiz01  wiz02  wiz03  wiz04  wiz05  wiz06  wiz07 ....
+
+</pre>
+
+各要素WS から 集計器へは push 型となっている。
+WSは、コネクションを張りっぱなしにし、一秒に一度負荷を
+報告する。
+中継器/ブラウザは pull型である。
+<p>
+
+各構成要素は、コネクションが切れると自動的に
+間隔をおいて再接続を試みるように出来ている。
+
+<h1> 使い方 </h1>
+
+<ul>
+<li> プローブ は prove2 というexecutable を用いる。
+このプログラムをremote から実行するためには、
+<code>
+/usr/users/nakada/ninf_test/bin/exec_monitor
+</code>
+を実行する。これはrsh を用いて wiz00-wiz31 上で probe プログラムを実行する。
+
+<li> 集計器 は  /usr/users/nakada/ninf_test/monitor/Monitor.class
+を用いる。etlwiz で実行する。
+<pre>
+$ cd /usr/users/nakada/ninf_test/monitor
+$ java Monitor
+<pre>
+<li> 中継器 も同じファイルを用いるが option で 集計器を指定する。
+<pre>
+$ cd /usr/users/nakada/ninf_test/monitor
+$ java Monitor -delegate etlwiz
+<pre>
+
+<li> ブラウザ上にデータを表示するアプレット<br>
+アプレットは、
+~nakada/ninf/MApplet.html 
+にある。
+
+phase, hpc ではモニタできるようにしておきたい。
+
+</ul>

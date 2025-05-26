@@ -1,0 +1,9 @@
+>>>>>>>>>> 1156400901
+iSCSI Target をホストするマシンへのコマンドは次の3つを用意する．
+
+** create-vs [#wbf0144a]
+
+** destroy-vs [#i97d1f84]
+
+** show-all-vs [#s7454ccb]
+

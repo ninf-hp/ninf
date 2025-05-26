@@ -1,0 +1,31 @@
+<h1> abstract </h1>
+
+<hr>
+
+タスクファーミングとは、大量の同じタスクを異なるパラメータで、複数の計算機
+で実行することである。このタスクファーミングの実行手段のひとつとしてGridRPCがある。
+GridRPCはグリッド上のミドルウェアであり、いくつかの
+アプリケーションの実装を通してその有効性が確認されている。
+しかし、GridRPC APIは簡潔さを旨に設計されているため、
+耐故障性
+やスケジューリングなどの機能を持たず、
+アプリケーションプログラマの負担となっている。
+本稿では、GridRPC API上に構築したタスクファーミングAPIの設計と実装について述べる。
+本APIはマスタ・ワーカ型の計算を支援することを意図して設計されており、
+再実行による耐故障性とセルフスケジューリングを実現する。
+また、タスクファーミングAPIを用いたプログラム例を示す。
+
+<hr>
+
+Task-farming means that to compute huge number of tasks for different 
+parameter on large number of computers.
+Grid RPC is a kind of middleware on the Grid, that is 
+considered to be suitable for task-farming, 
+While Grid RPC provides basic functionarity for task-farming,
+it lacks high-level features such as scheduling or fault tolerance, 
+due to its design principle,
+and burdens application programmer to implement them.
+
+In this paper we describe Task-farming API implemented on the GridRPC API.
+It is designed to ease the burden and to support master-worker computation.
+We also show the implementation of the API and a sample program which uses the API.

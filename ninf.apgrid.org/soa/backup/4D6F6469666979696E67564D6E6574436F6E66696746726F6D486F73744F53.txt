@@ -1,0 +1,39 @@
+>>>>>>>>>> 1156727026
+[[FrontPage]]
+
+* vmxファイルでのVirtual Switchの設定 [#ra007965]
+
+各VMの*.vmxファイルを見ると分かる通り、VMのNICであるethernet0は二つのパラメータでどのVirtual Switchに接続するか設定されている。
+
+- ethernet0.connectionType: bridged, host-only, nat, custom
+- ethernet0.vnet: vmnet0, vmnet1, ...
+
+connectionTypeがcustom以外のときは、vnetの値は無視される。ethernet0は、connectionTypeがbridgedなら、natならvmnet8、host-onlyならvmnet1にそれぞれ接続される。
+
+connectionTypeがcustomのときは、vnetの値で示されるVirtual Switchに接続される。
+
+* VMのethernet0がコネクトするVirtual Switchを切り替える方法 [#k1e7a1a5]
+
+ホスト(あるいは外部ホスト)からVMのethernet0がコネクトするVirtual Switchを切り替えるには、いくつか方法が考えられる。
+
+** VMを終了し、vmxファイルを変更し、VMを再起動する [#i37f471d]
+
+一番最初に思いつくやり方だが、VMの再起動に時間がかかり過ぎる。
+
+ $ vmware-cmd /path/to/vm.vmx stop
+ $ (modify /path/to/vm.vmx)
+ $ vmware-cmd /path/to/vm.vmx start
+
+** vmware-cmdでVMのconfigurationを変更し、VMをsuspend & resumeする [#o34a7520]
+
+VMを再起動するよりはましなやり方。vmware-cmdだけを使って実現できるので、誤って設定を壊す心配が少なく、リモートからでも実行できるというメリットがある。
+
+ $ vmware-cmd /path/to/vm.vmx setconfig ethernet0.connectionType custom
+ $ vmware-cmd /path/to/vm.vmx setconfig ethernet0.vnet vmnet1
+ $ vmware-cmd /path/to/vm.vmx suspend
+ $ vmware-cmd /path/to/vm.vmx start
+
+vmware-cmd <cfg> setconfigではVMの設定を変更できるが、変更した内容(の一部)はrunning VMの状態に即座には反映されず、stopしたりsuspendしたりしたタイミングでしか反映されないようだ。そのために上記ではsuspend & resumeしている。
+
+Server ConsoleからVirtual Switchの設定を変更する場合には、ほぼ即時にできるのでもう少し良い方法があるはず。
+

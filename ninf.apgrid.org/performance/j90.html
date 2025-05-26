@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<TITLE>Ninf (Network based Information Library for High Performance
+computing)</TITLE>
+</HEAD>
+
+<BODY>
+<BASEFONT SIZE = 4>
+
+<H2>j90 performance<BR></H2>
+
+<HR SIZE="3">
+<P>
+<FONT SIZE=5>Environment</FONT>
+<UL>
+<LI> Program<BR>
+     Linpack, Double, [sgefa, sgesl]<P>
+<LI> Client Machine:<BR>
+     etlhpc - SPARCStation20(60MHz, 2proc)<BR>
+     mem = 131072K (0x8000000)<P>
+<LI> Server Machine:<BR>
+     etlj90 - Cray J916(4 proc. 10 ns)<P>
+<LI> Bandwidth = 10 Mbps
+</UL>
+<P>
+<pre>
+
+<FONT SIZE=5>hpc - j90 ninf_call (peak)</FONT>
+
+matrix	init	trans	calc	total	performance	speed
+	[sec]	[sec]	[sec]	[sec]	[kflops]	[byte/sec]
+
+100	0.777	0.163	0.04	0.98	698		495755
+200		0.613	0.17	1.56	3480		524646
+400		2.163	0.91	3.85	11177		593254
+600		4.963	2.58	8.32	17396		581263
+800		8.733	5.50	15.01	22821		587016
+1000		13.393	10.15	24.32	27499		597925
+1200		19.273	16.88	36.93	31268		598226
+1400		26.063	25.99	52.83	34703		602049
+1600		34.113	37.30	72.19	37896		600733
+
+average							594352(except 100 and 200)
+							4.755 Mbps
+</pre>
+<HR SIZE="3">
+<P>
+<FONT SIZE=5>ninf_call elapsed time</FONT>
+<P>
+j90_ninf : ninf_call elapsed time<BR>
+j90_cal  : calculation time<BR>
+<P>
+<IMG SRC="graph1/j90_total3.gif">
+<br clear=all>
+<P>
+<HR SIZE="3">
+<P>
+<FONT SIZE=5>j90 performance</FONT>
+<P>
+j90_ninf_per : ninf_call performance<BR>
+j90_cal_per  : calculation performance<BR>
+<P>
+<IMG SRC="graph1/j90_total_per.gif">
+<br clear=all>
+<P>
+<!--HR SIZE="3"-->
+
+</pre>
+</BODY>
+</HTML>
+
+
+
+

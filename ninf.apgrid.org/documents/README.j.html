@@ -1,0 +1,59 @@
+<center>
+<h1> Ninf の使い方 </h1>
+</center>
+
+<h2> 1. Ninf Package の Make </h2>
+パッケージを展開したら、パッケージのトップディレクトリ(server)で
+<pre>
+   >./MAKE アーキテクチャ名
+</pre>
+とします。アーキテクチャ名としては、sunos, solaris, j90, linux, alpha が
+使用できます。
+このMAKEスクリプトは、それぞれのアーキテクチャ名のディレクトリを作成して、
+ソースディレクトリのそれぞれのファイルからのシンボリックリンクを張り、
+そこで make を実行します。
+
+<h2> 2. Ninf Client プログラムの作成 </h2>
+
+まず環境変数 NINF_DIR をそれぞれのアーキテクチャのパッケージをMakeした
+場所に設定します。
+例えば、パッケージをホームディレクトリに展開していて、アーキテクチャが
+solarisである場合は、.cshrc に
+
+<pre>
+  setenv NINF_DIR ~/server/solaris
+</pre>
+などと書きます。
+
+Makefile の先頭には以下の行を書きます。
+<pre>
+include $(NINF_DIR)/template
+</pre>
+すると、NINF_CFLAGS と NINF_LDFLAGSが使えるようになります。
+これらをつけると、Ninf_call 等が使えるようになります。
+
+たとえば
+<pre>
+ep_ninf_master: ep_ninf_master.c
+	$(CC) $(CFLAGS) $(NINF_CFLAGS) -o $@ $< $(LDFLAGS) $(NINF_LDFLAGS)
+</pre>
+のようにルールを記述します。
+
+<h2> 3. Ninf Executable の作成 </h2>
+2. と同様に環境変数 NINF_DIR をそれぞれのアーキテクチャのパッケージをMakeした
+場所に設定し、Makefile の先頭には以下の行を書きます。
+<pre>
+include $(NINF_DIR)/template
+</pre>
+
+これで、NINF_GENが定義されます。
+例えば ep_slave.o から _stub_ep を作成しようとしていて、IDLが ep.idlに
+書かれている場合には、Makefile は以下のように記述します。
+
+<pre>
+ep.mak: ep.idl
+	$(NINF_GEN) $<
+
+_stub_ep: ep_slave.o ep.mak
+	make -f ep.mak
+</pre>

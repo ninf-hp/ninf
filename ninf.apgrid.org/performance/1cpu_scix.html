@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<TITLE>Ninf (Network based Information Library for High Performance
+computing)</TITLE>
+</HEAD>
+
+<BODY>
+<BASEFONT SIZE = 4>
+
+<H2>ninf_call performance<BR></H2>
+
+<HR SIZE="3">
+<P>
+<FONT SIZE=5>Environment</FONT>
+<UL>
+<LI> <A HREF = "program.html">Program</A><BR>
+<UL>
+<LI>     Lapack, Double, [dgefa, dgesl]<BR>
+<LI>     libScix, float, [sgetrf, sgetrs]<P>
+</UL>
+<LI> Client Machine:<BR>
+     etlhpc - SPARCStation20(60MHz, 2proc)<BR>
+     mem = 131072K (0x8000000)<P>
+<LI> Server Machine:<BR>
+     etlj90 - Cray J90(4 proc. 10 ns)<BR>
+     mem = 512 Mbyte (total)<BR>
+     Bandwidth = 10 Mbps
+</UL>
+<P>
+<HR SIZE="3">
+<P>
+<FONT SIZE=5>Result</FONT> ( <A HREF = "1cpu_res">Data</A>)
+<P>
+<FONT SIZE=5>ninf_call elapsed time</FONT>
+<P>
+<A HREF = "graph1/1cpu_total.gif">1cpu_total.gif</A>
+<P>
+<TABLE>
+<TR><TD>1cpu_ninf</TD>  <TD>:</TD><TD>ninf_call(libScix) elapsed time</TD></TR>
+<TR><TD>lapack_ninf</TD> <TD>:</TD><TD>ninf_call(lapack) elapsed time</TD></TR>
+</TABLE>
+<P>
+<FONT SIZE=5>performance</FONT>
+<P>
+<A HREF = "graph1/1cpu_ninf_per.gif">1cpu_ninf_per.gif</A> : yrange[0:200M flops]<BR>
+<A HREF = "graph1/1cpu_ninf_per2.gif">1cpu_ninf_per2.gif</A> : yrange[0:45M flops]
+<P>
+<TABLE>
+<TR><TD>1cpu_per</TD> <TD>:</TD><TD>ninf_call(libScix) performance</TD></TR>
+<TR><TD>lapack_per</TD> <TD>:</TD><TD>ninf_call(lapack) performance</TD></TR>
+<TR><TD>1cpu_cal_per</TD> <TD>:</TD><TD>libScix calculation performance</TD></TR>
+<TR><TD>lapack_cal_per</TD><TD>:</TD><TD>lapack calculation performance</TD></TR>
+</TABLE>
+<P>
+<!--FONT SIZE=5>transmission speed</FONT>
+<P>
+<A HREF = "graph1/trans_speed.gif">trans_speed.gif</A><BR>
+<TABLE>
+<TR><TD>j90_speed</TD>  <TD>:</TD><TD> hpc-j90 bandwidth
+<TR><TD>taro_speed</TD> <TD>:</TD><TD> hpc-taro bandwidth
+</TABLE-->
+
+</BODY>
+</HTML>

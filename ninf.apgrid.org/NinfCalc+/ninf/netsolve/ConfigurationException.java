@@ -1,0 +1,1 @@
+package ninf.netsolve;import ninf.basic.NinfException;public class ConfigurationException extends NinfException{  public ConfigurationException(){    super();  }  public ConfigurationException(String str){    super(str);  }}

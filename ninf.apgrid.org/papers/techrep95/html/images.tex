@@ -1,0 +1,169 @@
+\batchmode
+\documentstyle[epsf]{jarticle}
+\makeatletter
+
+
+
+
+
+
+%
+
+%
+
+%
+
+%
+
+
+
+\newcommand {\epsfig}[3]{
+\begin{figure}[htbp]
+%
+\vspace*{-0.2cm}
+  \begin{center}
+    \epsfile{#1}
+  \end{center}
+%
+\vspace*{-0.4cm}
+  \caption{#2}
+  \label{#3}
+\vspace*{-0.4cm}
+\end{figure}}
+
+\def\ninfrpc{Ninf RPC}
+
+\def\ninftarget{Ninf Procedure}
+
+\def\ninfied{Ninf Executable}
+
+\def\interface{インターフェイス}
+
+\def\stubmain{スタブ}
+
+\makeatother
+\newenvironment{tex2html_wrap}{}{}
+\newwrite\lthtmlwrite
+\def\lthtmltypeout#1{{\let\protect\string\immediate\write\lthtmlwrite{#1}}}%
+\newbox\sizebox
+\begin{document}
+\pagestyle{empty}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{subsection}
+{\newpage
+\clearpage
+\samepage \begin{displaymath}sizeof(double) * size * size \end{displaymath}
+}
+
+\stepcounter{subsection}
+{\newpage
+\clearpage
+\samepage \begin{figure}[htbp]
+%
+\vspace*{-0.2cm}
+\begin{center}
+\epsfile{file=ninf_overview.eps,width=12cm}
+\end{center}
+%
+\vspace*{-0.4cm}
+
+\label{ninf_rpc}
+\vspace*{-0.4cm}
+\end{figure}
+}
+
+\stepcounter{subsection}
+{\newpage
+\clearpage
+\samepage \begin{figure}[htbp]
+%
+\vspace*{-0.2cm}
+\begin{center}
+\epsfile{file=ninf_construction.eps,width=14cm}
+\end{center}
+%
+\vspace*{-0.4cm}
+
+\label{ninf_construction}
+\vspace*{-0.4cm}
+\end{figure}
+}
+
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{section}
+\stepcounter{subsection}
+{\newpage
+\clearpage
+\samepage \begin{figure}[htbp]
+%
+\vspace*{-0.2cm}
+\begin{center}
+\epsfile{file=ninf_local_exec.eps,width=12cm}
+\end{center}
+%
+\vspace*{-0.4cm}
+
+\label{ninf_local_exec}
+\vspace*{-0.4cm}
+\end{figure}
+}
+
+\stepcounter{subsection}
+{\newpage
+\clearpage
+\samepage \begin{figure}[htbp]
+%
+\vspace*{-0.2cm}
+\begin{center}
+\epsfile{file=ninf_call.eps,width=15cm}
+\end{center}
+%
+\vspace*{-0.4cm}
+
+\label{ninf_call}
+\vspace*{-0.4cm}
+\end{figure}
+}
+
+\stepcounter{subsection}
+\stepcounter{section}
+\stepcounter{subsection}
+{\newpage
+\clearpage
+\samepage \begin{figure}[htbp]
+%
+\vspace*{-0.2cm}
+\begin{center}
+\epsfile{file=Ninf_IDL_overview.eps,width=15cm}
+\end{center}
+%
+\vspace*{-0.4cm}
+
+\label{ninf_stub_gen}
+\vspace*{-0.4cm}
+\end{figure}
+}
+
+\stepcounter{subsection}
+\stepcounter{subsection}
+{\newpage
+\clearpage
+\samepage \setbox\sizebox=\hbox{$*$}\lthtmltypeout{latex2htmlSize :tex2html_wrap_inline395: \the\ht\sizebox::\the\dp\sizebox.}\box\sizebox
+}
+
+{\newpage
+\clearpage
+\samepage \setbox\sizebox=\hbox{$/$}\lthtmltypeout{latex2htmlSize :tex2html_wrap_inline397: \the\ht\sizebox::\the\dp\sizebox.}\box\sizebox
+}
+
+{\newpage
+\clearpage
+\samepage \setbox\sizebox=\hbox{$\%$}\lthtmltypeout{latex2htmlSize :tex2html_wrap_inline399: \the\ht\sizebox::\the\dp\sizebox.}\box\sizebox
+}
+
+\stepcounter{section}
+\stepcounter{section}
+
+\end{document}

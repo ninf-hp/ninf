@@ -1,0 +1,16 @@
+
+Rapid progress in networking technology is now making global computing
+systems feasible. Although there have been proposals of global
+computing systems, it is still a research issue as to how to achieve
+efficient usage of computing resources in global computing. In
+particular, we need to devise appropriate scheduling
+strategies/algorithms of computing resources over wide-area networks,
+which are often dynamic and unstable in nature.
+This paper presents our
+preliminary scheduling framework for unifying application and job
+scheduling in global computing. The proposed framework establishes a
+layer of scheduling and resource allocation subframeworks.
+We show our software framework Ninf metaserver which provides low-level
+scheduler and resource monitor. 
+We also evaluate some scheduling strategies by actual environment and
+our performance evaluation model.

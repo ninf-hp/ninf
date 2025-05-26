@@ -1,0 +1,13 @@
+Module mp3d;
+
+Define mp3dx(IN int l_num_xcell, IN int l_num_ycell, IN int l_num_zcell, 
+	     IN int l_bc_cnt, IN int max_bcnt, 
+	     IN int tmpint[max_bcnt * 3], IN float tmpdata[max_bcnt * 6], 
+	     IN int max_mol, 
+	     display_init(IN int * i), 
+             l_do_display(IN int g_num[1], IN float d[max_mol * 6]))
+
+Required "mp3dx.o adv.o setup.o rand.o -lm"
+{
+      	mp3dx(l_num_xcell, l_num_ycell, l_num_zcell, l_bc_cnt, tmpint, tmpdata);
+}

@@ -1,0 +1,348 @@
+>>>>>>>>>> 1151961589
+[[VMplayer作業記録]]
+
+4 July  
+
+　今日の予定、結果
+   ・vmware_control.sh α版完成 WOW! WOW! WOW!
+   ・Binary file(vmware patch, BIOS)をRPM化-->rollのさらなる自動化をはかる
+   ・vmware_control.shにgemu起動部分追加 --> compute-x-x上でGuestOS imageをつくる。　　
+　
+   ・Rollにqemu　binary packageを追加、compute-x-x へdeploy. 
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy.
+
+　明日へ
+   ・Binary file(vmware patch, BIOS)をRPM化し、Rollへ追加する 
+　
+  懸案
+　 ・vmware_control.sh args -->  OS type "linux" or "win"を追加？
+>>>>>>>>>> 1151965769
+[[VMplayer作業記録]]
+
+4 July  
+
+　今日の予定、結果
+   ・vmware_control.sh α版完成 WOW! WOW! WOW!
+   ・Binary file(vmware patch, BIOS,qemu)をRPM化-->rollのさらなる自動化をはかる
+   ・vmware_control.shにgemu起動部分追加 --> compute-x-x上でGuestOS imageを作らせる。　
+
+    　
+　　#./vmware_control.sh
+       Usage: vmware_control.sh -f PATH TO THE VM CONFIGURATION FILE
+                                     -m MEMORYSIZE(MB)
+                                     -s DISKSIZE(GB)
+                                     -a MACADDRESS
+       vmware_control.sh -f /path/to/file -m 256 -s 10 -a 00:00:29:ad:61:13
+ 
+　明日へ
+
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加する
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy 
+
+懸案・メモ
+   
+   ・vmware_control.sh args -->  OS type "linux" or "win"を追加？
+　　・vmware_control.shのerror check（memory=100Gなど）を強化、WebGUIにもerror check機能を追加してもらう
+>>>>>>>>>> 1151976351
+[[VMplayer作業記録]]
+
+4 July  
+
+　今日の予定、結果
+   ・vmware_control.sh α版完成 WOW! WOW! WOW!
+   ・Binary file(vmware patch, BIOS,qemu)をRPM化した-->さらなるインストール自動化が可能  
+   ・vmware_control.shにgemu起動部分追加した --> compute-x-x上でGuestOS imageを作らせる。　
+
+    　
+　　#./vmware_control.sh
+       Usage: vmware_control.sh -f PATH TO THE VM CONFIGURATION FILE
+                                     -m MEMORYSIZE(MB)
+                                     -s DISKSIZE(GB)
+                                     -a MACADDRESS
+       vmware_control.sh -f /path/to/file -m 256 -s 10 -a 00:00:29:ad:61:13
+ 
+　明日へ
+
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加する
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy 
+
+懸案・メモ
+   
+   ・vmware_control.sh args -->  OS type "linux" or "win"を追加？
+　　・vmware_control.shのerror check（memory=100Gなど）を強化、WebGUIにもerror check機能を追加してもらう
+>>>>>>>>>> 1152046921
+[[VMplayer作業記録]]
+
+5 July
+
+  今日の予定、結果
+   ・VMware ACEをためす
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加する
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy 
+
+
+
+  
+4 July  
+
+　今日の予定、結果
+   ・vmware_control.sh α版完成 WOW! WOW! WOW!
+   ・Binary file(vmware patch, BIOS,qemu)をRPM化した-->さらなるインストール自動化が可能  
+   ・vmware_control.shにgemu起動部分追加した --> compute-x-x上でGuestOS imageを作らせる。　
+
+    　
+　　#./vmware_control.sh
+       Usage: vmware_control.sh -f PATH TO THE VM CONFIGURATION FILE
+                                     -m MEMORYSIZE(MB)
+                                     -s DISKSIZE(GB)
+                                     -a MACADDRESS
+       vmware_control.sh -f /path/to/file -m 256 -s 10 -a 00:00:29:ad:61:13
+ 
+　明日へ
+
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加する
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy 
+
+懸案・メモ
+   
+   ・vmware_control.sh args -->  OS type "linux" or "win"を追加？
+　　・vmware_control.shのerror check（memory=100Gなど）を強化、WebGUIにもerror check機能を追加してもらう
+>>>>>>>>>> 1152061491
+[[VMplayer作業記録]]
+
+5 July
+
+  今日の予定、結果
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加した
+   ・Rollにvmware_control.shを追加、compute-x-x へdeployできた
+   ・vmware_control.shからparameterを指定し、GuestOS構築成功した
+
+  
+  明日へ
+   ・Vmware ACEをためす
+   ・VNC passwordの部分の実装
+   
+
+  懸案・メモ
+   ・自作vmplayer-update.rpmのspec fileのさらなるチューニングが必要
+   ・qemu.rpm, vmplayer-update.rpmのarchitecture最適化? or noarchが必要
+
+
+
+
+
+4 July  
+
+　今日の予定、結果
+   ・vmware_control.sh α版完成 WOW! WOW! WOW!
+   ・Binary file(vmware patch, BIOS,qemu)をRPM化した-->さらなるインストール自動化が可能  
+   ・vmware_control.shにgemu起動部分追加した --> compute-x-x上でGuestOS imageを作らせる。　
+
+    　
+　　#./vmware_control.sh
+       Usage: vmware_control.sh -f PATH TO THE VM CONFIGURATION FILE
+                                     -m MEMORYSIZE(MB)
+                                     -s DISKSIZE(GB)
+                                     -a MACADDRESS
+       vmware_control.sh -f /path/to/file -m 256 -s 10 -a 00:00:29:ad:61:13
+ 
+　明日へ
+
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加する
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy 
+
+懸案・メモ
+   
+   ・vmware_control.sh args -->  OS type "linux" or "win"を追加？
+   ・vmware_control.shのerror check（memory=100Gなど）を強化、WebGUIにもerror check機能を追加してもらう
+>>>>>>>>>> 1152143190
+[[VMplayer作業記録]]
+
+
+6 July
+
+  今日の予定、結果
+   ・vmware_control.shにオプションを追加し、rollを更新した
+   ・vncserver調査中
+   
+
+  
+  明日へ
+   ・Vmware ACEをためす
+   ・VNC passwordの部分の実装
+   
+
+  懸案・メモ
+   ・VNCの代替物は？
+   
+
+5 July
+
+  今日の予定、結果
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加した
+   ・Rollにvmware_control.shを追加、compute-x-x へdeployできた
+   ・vmware_control.shからparameterを指定し、GuestOS構築成功した
+
+  
+  明日へ
+   ・Vmware ACEをためす
+   ・VNC passwordの部分の実装
+   
+
+  懸案・メモ
+   ・自作vmplayer-update.rpmのspec fileのさらなるチューニングが必要
+   ・qemu.rpm, vmplayer-update.rpmのarchitecture最適化? or noarchが必要
+
+
+
+
+
+4 July  
+
+　今日の予定、結果
+   ・vmware_control.sh α版完成 WOW! WOW! WOW!
+   ・Binary file(vmware patch, BIOS,qemu)をRPM化した-->さらなるインストール自動化が可能  
+   ・vmware_control.shにgemu起動部分追加した --> compute-x-x上でGuestOS imageを作らせる。　
+
+    　
+　　#./vmware_control.sh
+       Usage: vmware_control.sh -f PATH TO THE VM CONFIGURATION FILE
+                                     -m MEMORYSIZE(MB)
+                                     -s DISKSIZE(GB)
+                                     -a MACADDRESS
+       vmware_control.sh -f /path/to/file -m 256 -s 10 -a 00:00:29:ad:61:13
+ 
+　明日へ
+
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加する
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy 
+
+懸案・メモ
+   
+   ・vmware_control.sh args -->  OS type "linux" or "win"を追加？
+   ・vmware_control.shのerror check（memory=100Gなど）を強化、WebGUIにもerror check機能を追加してもらう
+>>>>>>>>>> 1152576709
+[[VMplayer作業記録]]
+
+11 July
+
+  今日の予定、結果
+   ・Rocks4.1　vnc-server-4.0-8.1について
+
+       char* passwd = getpass("Password: ");
+    if (!passwd) {
+      perror("getpass error");
+      exit(1);
+    }
+    if (strlen(passwd) < 6) {
+      if (strlen(passwd) == 0) {
+        fprintf(stderr,"Password not changed\n");
+        exit(1);
+      } 
+
+   getpass(3)だと、/dev/ttyからよむので、標準入力から
+　　パスワードをくわせるのが無理。
+
+　　一方、FC5などのvnc-server-4.1*はStdinからできる
+
+　　static char* getpassword(const char* prompt) {
+  PlainPasswd buf(256);
+  fputs(prompt, stdout);
+  enableEcho(false);
+  char* result = fgets(buf.buf, 256, stdin);
+  enableEcho(true);
+  if (result) {
+    if (result[strlen(result)-1] == '\n')
+      result[strlen(result)-1] = 0;
+    return buf.takeBuf();
+  }
+  return 0;
+}
+  
+
+　・だからといって、Rocks 4.1にvnc-server-4.1*.rpmをいれようとすると、
+　　パッケージ依存関係でエラーが出て、これらのパッケージを全部アップグレードする
+　　と、違うところで問題が発生しそう。
+
+   ・#!/usr/bin/expect
+    set PASS '\<var name="Private_PureRootPassword"/>'
+    spawn vncpasswd
+    expect Password: { send $PASS; send "\r" }
+    expect Verify: { send $PASS; send "\r"}
+    expect eof exit 0
+
+    Anacondaが実行されている間だけ、<var name="Private_PureRootPassword"/>
+   が参照できるので、違うときにexpectを実行してパスワードを食わせても、参照できない。
+
+  明日へ
+   ・vnc-server-4.1.*ならStdinが使えるので、依存関係を大きく変更しないよう、
+　　　Rocks4.1でvnc-server-4.1ソースからrpmをつくる。
+   
+   
+
+  懸案・メモ
+   ・vncでひっかかるとは、つまらん
+
+6 July
+
+  今日の予定、結果
+   ・vmware_control.shにオプションを追加し、rollを更新した
+   ・vncserver調査中
+   
+
+  
+  明日へ
+   ・Vmware ACEをためす
+   ・VNC passwordの部分の実装
+   
+
+  懸案・メモ
+   ・VNCの代替物は？
+   
+
+5 July
+
+  今日の予定、結果
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加した
+   ・Rollにvmware_control.shを追加、compute-x-x へdeployできた
+   ・vmware_control.shからparameterを指定し、GuestOS構築成功した
+
+  
+  明日へ
+   ・Vmware ACEをためす
+   ・VNC passwordの部分の実装
+   
+
+  懸案・メモ
+   ・自作vmplayer-update.rpmのspec fileのさらなるチューニングが必要
+   ・qemu.rpm, vmplayer-update.rpmのarchitecture最適化? or noarchが必要
+
+
+
+
+
+4 July  
+
+　今日の予定、結果
+   ・vmware_control.sh α版完成 WOW! WOW! WOW!
+   ・Binary file(vmware patch, BIOS,qemu)をRPM化した-->さらなるインストール自動化が可能  
+   ・vmware_control.shにgemu起動部分追加した --> compute-x-x上でGuestOS imageを作らせる。　
+
+    　
+　　#./vmware_control.sh
+       Usage: vmware_control.sh -f PATH TO THE VM CONFIGURATION FILE
+                                     -m MEMORYSIZE(MB)
+                                     -s DISKSIZE(GB)
+                                     -a MACADDRESS
+       vmware_control.sh -f /path/to/file -m 256 -s 10 -a 00:00:29:ad:61:13
+ 
+　明日へ
+
+   ・Binary file(vmware patch, BIOS、qemu)をRPM化したものを、Rollへ追加する
+   ・Rollにvmware_control.shを追加、compute-x-x へdeploy 
+
+懸案・メモ
+   
+   ・vmware_control.sh args -->  OS type "linux" or "win"を追加？
+   ・vmware_control.shのerror check（memory=100Gなど）を強化、WebGUIにもerror check機能を追加してもらう
+

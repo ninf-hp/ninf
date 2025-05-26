@@ -1,0 +1,3 @@
+echo "java -classpath ~/src/bricks/dist/bricks.jar bricks.Simulate -times 10 -server_log -network_log -prefix c1 case1_1.conf"
+java -classpath ~/src/bricks/dist/bricks.jar bricks.Simulate -times 10 -server_log -network_log -prefix c1 case1_1.conf
+

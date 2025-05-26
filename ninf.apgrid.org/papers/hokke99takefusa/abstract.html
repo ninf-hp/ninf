@@ -1,0 +1,37 @@
+<h1> Abstract </h1>
+<hr>
+グローバルコンピューティングシステムが複数提案される一方，グローバルコ
+ンピューティングシステムのスケジューリング手法に対する考察が不十分であ
+る．これは大規模かつ再現性のある評価実験が困難であることに起因する．本
+稿ではグローバルコンピューティングシステムのスケジューリングアルゴリズ
+ムとそのフレームワークのための評価基盤を提供するシミュレータBricksを提
+案する．Bricksでは様々なシミュレーション環境やスケジュールアルゴリズム
+およびスケジューリングに関するモジュールを設定可能である．また，これら
+のモジュールを既存グローバルコンピューティングシステムモジュールに置き
+換えることで，Bricks上での既存システムの機能試験を実施することができる．
+他システムのBricksへの組み込み例としてリソース情報の予測システムである
+NWSを用いて本システムの評価実験を行ったところ，Bricksが実環境と同等の
+挙動を示すことを確認した．さらに，NWSがBricks上で正常に動作したことか
+ら，Bricksが既存の外部モジュールに対して機能試験環境を提供できることを
+示した．
+
+<p>
+
+While there have been several proposals of high performance global
+computing systems, scheduling schemes for the systems have not been
+well investigated.  The reason is difficulties of evaluation by
+large-scale benchmarks with reproducible results. This paper describes
+an overview of the Bricks simulator that evaluates scheduling schemes
+on a typical high-performance global computing system. Bricks can
+simulate various behaviors of global computing systems, especially the
+behavior of networks and resource scheduling algorithms.  Moreover,
+Bricks is componentalized such that not only its constituents could be
+replaced to simulate various different system algorithms, but also
+allows incorporation of existing global computing components via its
+foreign interface.  To test the validity of the latter
+characteristics, we incorporated the NWS %(Network Weather Service)
+system, which monitors and forecasts global computing systems
+behavior.  Experiments were conducted by running NWS under a real
+environment versus the simulated environment given the observed
+parameters of the real environment.  Under both environments, NWS
+behaved similarly, making quite comparative forecasts.

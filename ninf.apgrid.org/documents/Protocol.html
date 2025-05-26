@@ -1,0 +1,679 @@
+<HEAD>
+<TITLE> Ninf Protocol </TITLE>
+</HEAD>
+<BODY>
+<P>
+<center>
+<H1> Ninf Protocol </H1>
+</center>
+<hr>
+<H1>1. Purpose of this Document </H1>
+
+This document describes the protocol used by Ninf System 
+from Client implementor's point of view.
+There are some more commands used internally within NinfServer/NinfExecutable,
+but they are not shown in this document because they have nothing 
+to do with the client.
+
+<P>
+
+<H1>2. Overview </H1>
+<H1>2.1 Overview of Ninf RPC </H1>
+
+<IMG  ALIGN=RIGHT ALT="" SRC="ninf_overview.gif">
+
+The Ninf system is consist of client program, the server and 
+the numerical computation routines.
+To provide a numerical computation routine,
+the provider should provide the routine itself and 
+interface description in Ninf IDL(Interface Description Language).
+Ninf Stub generator reads the IDL description and 
+generates a stub routine which bridges Ninf client library 
+and the numerical routine.
+These three routines (the numerical routine, client library, and the stub routine)
+like together and make a executable file.
+We call it Ninf Executable.
+A ninf executable has the information about the numerical routine in itself.
+Ninf Server make an access to the executable and get the interface information
+in advance of the client request.
+When a client make a call, firstly gets the interface,
+and using the information, marshals arguments and send them.
+
+<H1>2.1 Protocol Overview </H1>
+Ninf has two layers of protocol,
+NinfServer Protocol which is used to communicate NinfServer and
+NinfExecutable Protocol which is used to communicate NinfExecutable.
+The latter is implemented on the former.
+NinfServer Protocol is implemented on the TCP/IP.
+
+<pre>
++----------------------------+
+|  Ninf Executable Protocol  |
++----------------------------+
+|    Ninf Server Protocol    |
++----------------------------+
+|          TCP/IP            |
++----------------------------+
+</pre>
+<P>
+
+<H1>3. NinfServer Protocol </H1>
+This protocol use packet communication.
+Using this protocol, a client program can
+get interface information, 
+invoke NinfExecutable, 
+kill NinfExecutable,
+and encapsulate communication using NinfExecutable Protocol.
+
+Current implementation limits the maximum packet size to 4K bytes,
+but implementer can choose arbitrary size.
+
+<P>
+Packet is consist of header part and data part.
+In the header, there are
+<P>
+<UL>
+<LI> size: Size of the packet including header
+<LI> code: Command 
+<LI> arg1,arg2:  arguments.
+</UL>
+
+Each of these are encoded into network byte ordered 4 bytes length integer.
+
+<pre>
+  +---------------------+          -+
+  |     Packet Size     |  4 bytes  |
+  +---------------------+           |
+  |     Packet Code     |  4 bytes  |
+  +---------------------+           +- Header
+  |     Argument 1      |  4 bytes  |
+  +---------------------+           |
+  |     Argument 2      |  4 bytes  |
+  +---------------------+          -+
+  |                     |  
+  =      Data Part      =  Packet Size - 16 bytes
+  |                     |  
+  +---------------------+
+</pre>
+
+
+Commands(codes) are the following.
+
+<h2> Client -> Server </h2>
+<UL><LI> <code>NINF_PKT_REQ_STUB_INFO:  4</code><BR> 
+Requests interface information.
+In the data part, the function name encoded in XDR format should be placed.
+The server reply using <code>NINF_PKT_RPY_STUB_INFO</code> packet.
+
+<pre>
++----+-+-+-+---------------------------+
+|size|4|X|X| xdr encoded function name |
++----+-+-+-+---------------------------+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_REQ_CALL: 6</code><BR> 
+Invoke the Ninf Executable specified by the arg1.
+If succeeded, the server reply using <code>NINF_PKT_RPY_CALL</code> packet.
+<pre>
++----+-+-----+-+
+| 16 |6|index|X|
++----+-+-----+-+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_KILL: 1</code><BR> 
+Kill the Ninf Executable which is currently executed.
+
+<pre>
++----+-+-+-+
+| 16 |1|X|X|
++----+-+-+-+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_TO_STUB: 2</code><BR> 
+This packet encapsulates the communication to Executables.
+
+<pre>
++----+-+-+-+---------------------------+
+|size|2|X|X| executable protocol data  |
++----+-+-+-+---------------------------+
+</pre>
+<p>
+
+<h2> Client <- Server </h2>
+<LI> <code>NINF_PKT_RPY_STUB_INFO: 5</code><BR> 
+This is used to reply a <code>NINF_PKT_REQ_STUB_INFO</code> packet.
+The function index is stored in arg1 field, 
+and interface information is stored in data part.
+
+<pre>
++----+-+-----+-+-----------+
+|size|5|index|X| interface |
++----+-+-----+-+-----------+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_RPY_CALL: 7</code><BR> 
+This packet shows previous <code>NINF_PKT_REQ_CALL</code> 
+succeeded.
+<pre>
++----+-+-+-+
+| 16 |7|X|X|
++----+-+-+-+
+</pre>
+<P>
+<LI> <code>NINF_PKT_TO_CLIENT: 3</code><BR> 
+This packet encapsulates the communication from Executables.
+
+<pre>
++----+-+-+-+---------------------------+
+|size|3|X|X| executable protocol data  |
++----+-+-+-+---------------------------+
+</pre>
+<p>
+<LI> <code>NINF_PKT_ERROR: -1</code><BR> 
+This packet shows that the previous request failed.
+
+<pre>
++----+-+-+-+
+| 16 |7|X|X|
++----+-+-+-+
+</pre>
+</UL>
+<P>
+<IMG  ALIGN=BOTTOM ALT="" SRC="ninf_call.gif">
+<P>
+
+<H1>4. Ninf Executable Protocol </H1>
+
+Communication between a client program and a NinfExecutable
+is embedded in the NinfServer Protocol.
+Client puts all the command/data to the Executable in some
+<code>NINF_PKT_TO_STUB</code> packets.
+The NinfServer get the packets, remove headers, and forward 
+them to the Executable.
+Executable sends all the command/data to the NinfServer
+using plain stream.
+NinfServer cuts it into proper sized packets and put them 
+<code>NINF_PKT_TO_CLIENT</code> command and forward them
+to the client program.
+<p>
+
+NinfExecutable protocol is a stream based protocol.
+First, sender sends command which is encoded by 4 bytes XDR format,
+and then send the command argument, if needed.
+NinfExecutable commands are as follows.
+
+<P>
+Client -> Executable
+<UL>
+<LI> <code>NINF_REQ_STUB_INFO: 2</code><BR> 
+No argument data. Requests interface information of the Executable.
+<p>
+If succeeded, the command sender will receives 
+<code>NINF_OK</code> command
+followed by the XDR encoded interface information.
+<p>
+NOTE: Usually, clients retrieve the information from the NinfServer,
+so this command is not used by clients.
+<p>
+<LI> <code>NINF_REQ_CALL: 1</code><BR> 
+Executes the Executable.
+Encoded parameters for the numerical routine embedded in the Executable 
+will follow this command.
+<p> 
+On success,
+<code>NINF_OK</code> command 
+followed by the output parameters encoded in the same fashion
+is returned.
+<P>
+<LI> <code>NINF_REQ_KILL: 3</code><BR> 
+Kill the Ninf Executable.
+<P>
+</ul>
+Client <- Executable
+<ul>
+<LI> <code>NINF_ACK_OK: 0</code><br>
+Shows the previous command succeeded.
+<p>
+<LI> <code>NINF_ACK_ERROR: -1</code><br>
+Shows the previous command failed.
+Error code (an integer) follows.
+<p>
+</UL>
+
+Following psuedo code shows the way to make a Ninf_call.
+'PKT' and 'DATA'  stand for packet structure and data part of the structure,
+respectively.
+
+<pre>
+   /*   get stub interface  */
+   /*   make packet and send */
+   init_data(DATA);
+   add_data(DATA, NinfLibraryName);
+   PKT = make_packet(NINF_PKT_REQ_STUB_INFO, dummy, DATA);
+   send_pkt(PKT);
+
+   /*   receive packet and decode */
+   PKT = receive_pkt();
+   if (NINF_PKT_RPY_STUB_INFO == get_code(PKT))
+       interface = decode_stub_interface(get_data(PKT));
+   index = get_arg1(PKT);
+
+   /*  index represent the NinfLibrary */
+   PKT = make_packet(NINF_PKT_REQ_CALL, index, dummy_data);
+   send_pkt(PKT);
+   PKT = receive_pkt();
+   if (get_code(PKT) != NINF_PKT_RPY_CALL){
+	/* failed  */
+   }
+
+   /*  request call accepted  */
+   /* setup data for the  NinfExecutable */
+   init_data(DATA);
+   add_data(DATA, NINF_REQ_CALL);
+   add_data(DATA, encodeded_parameters);
+
+   /*  make packet and send */
+   PKT = make_packet(NINF_PKT_TO_STUB, dummy, encoded_parameters);	
+   send_pkt(PKT);
+
+   /*  receive packet */
+   PKT = receive_pkt();	
+   if (get_code(PKT) != NINF_PKT_TO_CLIENT){
+        /* failed */
+   }
+   DATA = get_data(PKT);
+   if (get_first_data(DATA) != NINF_OK){
+        /* failed */
+   }
+   decode_parameter(get_rest_data(DATA));
+</pre>
+
+This code assumes that the input/output parameters can be 
+encoded into just one packet.
+If the parameter is big enough, you must cut it into several parts,
+and put them in several packets.
+
+<h1>5. Structure and transferring of Interface Information</h1>
+
+<h2>5.1 Structure of Interface Information</h2>
+Interface Information is represented by the following structure.
+
+<pre>
+typedef struct ninf_stub_information
+{
+  int version_major,version_minor;	/* protocol version */
+  int info_type;			/* information type */
+  char module_name[MAX_NAME_LEN];	/* module name */
+  char entry_name[MAX_NAME_LEN];	/* entry name */
+  int nparam;
+  struct ninf_param_desc * params;
+  int order_type;
+  NINF_EXPRESSION order;
+  char * description;
+};
+</pre>
+
+'Version_major' and 'version_minor' represent version number 
+of Ninf Protocol, but is not used currently.
+'Info_type' is not used, too.
+'Module_name' and 'entry_name' stand for the numerical routine name.
+'Nparam' represents number of parameters for the routine.
+'Params' is a pointer to the array of parameter structures.
+'Order_type' and 'order' represent 
+order of computation cost.
+<p>
+
+The following structure 'ninf_param_desc' represents
+each parameter.
+	
+<pre>
+struct ninf_param_desc {
+  enum data_type param_type;	/* argument type */
+  enum mode_spec param_inout;	/* IN/OUT */
+  int ndim;			/* number of dimensions */
+  struct {
+    VALUE_TYPE size_type;
+    int size;
+    NINF_EXPRESSION size_exp;
+    VALUE_TYPE start_type;
+    int start;
+    NINF_EXPRESSION start_exp;
+    VALUE_TYPE end_type;
+    int end;
+    NINF_EXPRESSION end_exp;
+    VALUE_TYPE step_type;
+    int step;
+    NINF_EXPRESSION step_exp;
+  } dim[MAX_DIM];
+};
+</pre>
+
+'param_type' represents data type of the parameter,
+using the enumeration below.
+
+<pre>
+typedef enum data_type
+{
+    UNDEF,	/* undefined */
+    VOID,
+    CHAR,
+    SHORT,
+    INT,
+    LONG,
+    LONGLONG,
+    UNSIGNED_CHAR,
+    UNSIGNED_SHORT,
+    UNSIGNED,
+    UNSIGNED_LONG,
+    UNSIGNED_LONGLONG,
+    FLOAT,
+    DOUBLE,
+    LONG_DOUBLE,
+    STRING_TYPE,
+    FUNC_TYPE,
+    BASIC_TYPE_END
+} DATA_TYPE;
+</pre>
+
+'param_inout' represents I/O mode of the parameter
+using enumeration below.
+
+<pre>
+typedef enum mode_spec
+{
+    MODE_NONE = 0,
+    MODE_IN = 1,	/* default */
+    MODE_OUT = 2,
+    MODE_INOUT = 3,
+
+    MODE_WORK = 4,      /* mode for work space */
+} MODE_SPEC;
+</pre>
+
+'ndim' represent the number of dimension of the parameter.
+If ndim equals zero, the parameter is scalar.
+Structure 'dim' stores information on each dimension,
+size, range, and stride.
+'dim[0]' stores the first(lowest) dimension information
+and, 'dim[1]' stores the second dimension, and so on.
+<p>
+Each dimension has size, start point, end point, step(stride).
+Each of them is represented by a trio below.
+<pre>
+    VALUE_TYPE XXX_type;
+    int XXX;
+    NINF_EXPRESSION XXX_exp;
+</pre>
+
+XXX_type is encoded by the following enumeration.
+<pre>
+typedef enum value_type
+{
+    VALUE_NONE = 0,	/* default */
+    VALUE_CONST = 1,	/* default, given in constant */
+    VALUE_IN_ARG = 2,	/* specified by IN scalar paramter */
+    VALUE_BY_EXPR = 3, 	/* computed by interpreter */
+    VALUE_OP = 4,       /* operation code */
+    VALUE_END_OF_OP = 5, /* end of expression */
+    VALUE_ERROR = -1
+} VALUE_TYPE;
+</pre>
+If XXX_type is VALUE_CONST, value of XXX stands for the trio.
+If XXX_type is VALUE_IN_ARG, the value of XXXth parameter stands for the trio.
+If XXX_type is VALUE_BY_EXPR, the value of XXX_exp stands for the trio.
+<p>
+
+XXX_exp is a structure as follows.
+<pre>
+typedef struct ninf_expression 
+{
+  VALUE_TYPE type[20];
+  int val[20];
+} NINF_EXPRESSION;
+</pre>
+Actually, this is 20 pair of type and value.
+We encode numerical expression into this structure 
+using reversed Poland notation.
+<p>
+
+Here, the type can be VALUE_OP , and it stand for the operator.
+If the type is VALUE_OP, the val must be on of the follows.
+
+<pre>
+#define OP_VALUE_PLUS  1                /* '+' */
+#define OP_VALUE_MINUS 2                /* '-' */
+#define OP_VALUE_MUL   3                /* '*' */
+#define OP_VALUE_DIV   4                /* '/' */
+#define OP_VALUE_MOD   5                /* '%' */
+#define OP_VALUE_UN_MINUS   6           /* '-' */
+#define OP_VALUE_BEKI   7               /* '^' */
+</pre>
+
+<h2>5.2 Example of Interface Information </h2>
+
+Let's see a practical example.
+
+The following is a IDL file.
+<pre>
+Module sample;
+
+Define mmul(long mode_in int n, mode_in double A[n][n+1-1], 
+	mode_in double B[n][n+2-3+1],
+	mode_out double C[n*n])
+Required &quot;sample.o&quot;
+CalcOrder n^3
+Calls &quot;C&quot; mmul(n,A,B,C);
+</pre>
+
+This IDL file makes the interface structure below.
+
+<pre>
+{
+	0,0,0,	&quot;sample&quot;,&quot;mmul&quot;,4,
+	param_desc, 
+		3, 
+			{ {2,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,3,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+	stub_description
+};
+</pre>
+'param_desc' above is defined as follows.
+
+
+<pre>
+struct ninf_param_desc param_desc[] = {
+	{ 5, 1, 0,},
+	{ 13, 1, 2,{
+		{ 3, 2, { {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		{ 2, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+	{ 13, 1, 2,{
+		{ 3, 1, { {2,1,4,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,2,1,3,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		{ 2, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+	{ 13, 2, 1,{
+		{ 3, 3,	{ {2,2,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+};
+
+</pre>
+
+Let's take a precise look one by one.
+<p>
+The first parameter is represented as follows:
+<pre>
+	{ 5, 1, 0,},
+</pre>
+This means, this parameter type is long(param_type = 5) and scalar (ndim = 0)
+and the mode is in (param_inout = 1).
+<p>
+The second parameter is represented as follows:
+<pre>
+	{ 13, 1, 2,{
+		{ 3, 2, { {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		{ 2, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+</pre>
+This shows, this parameter type is double(param_type = 13) and 
+2 dimensional array (ndim = 2), and mode is 'in' (param_inout = 1).
+<p>
+
+The following part represent the first dimension of the parameter.
+<pre>
+// size		{ 3, 2, { {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+// start	  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+// end		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+// step		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+</pre>
+
+The first <code>3</code> means, the 'size' is expressed by a expression.
+As you can see in the original IDL file, 
+the original expression is <code>'n + 1 - 1'</code>.
+In reversed Poland notation, it is represented as <code> 'n 1 + 1 -'</code>.
+
+<pre>
+  {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+</pre>
+represent the expression. Each column makes a pair.
+[2,0] means 0th parameter of the interface, namely "n".
+[1,1] represent constant '1', [4,1] represent a operator
+'+' and [4,2] represent '-'.
+The last pair, [5,0] is just a expression terminator.
+
+<h2> 5.3  Transfer of Interface Information </h2>
+To transfer the interface information,
+basically, encode the structure in the XDR fashion and send it.
+But to reduce the communication,
+following short cuts are adopted.
+
+<ul>
+<li> The number of Parameter structures which will be encoded is
+     specified by nparam.
+<li> The number of dimension structures which will be encoded is
+     specified by ndim.
+<li> XXX_exp is encoded only if XXX_type is VALUE_BY_EXPR
+
+The following code fragment is 
+pseudo code for encoding interface information structure.
+<pre>
+  trans_int(version_major);
+  trans_int(version_minor);
+  trans_int(info_type);
+  trans_string(module_name);
+  trans_string(entry_name);  	
+
+  trans_int(nparam);
+  for (int i = 0; i &lt; nparam; i++){
+     trans_enum(params[i]-&gt;param_type);
+     trans_enum(params[i]-&gt;param_inout);
+     trans_int (params[i]-&gt;ndim);
+     for (int j = 0; j &lt; params[i]-&gt;ndim; i++){
+         trans_enum(((params[i]-&gt;dim)[j]).size_type);
+         trans_int (((params[i]-&gt;dim)[j]).size);
+         if (((params[i]-&gt;dim)[j]).size_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).size_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).size_exp.val[k]);
+            }
+         trans_enum(((params[i]-&gt;dim)[j]).start_type);
+         trans_int (((params[i]-&gt;dim)[j]).start);
+         if (((params[i]-&gt;dim)[j]).start_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).start_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).start_exp.val[k]);
+            }
+         trans_enum(((params[i]-&gt;dim)[j]).end_type);
+         trans_int (((params[i]-&gt;dim)[j]).end);
+         if (((params[i]-&gt;dim)[j]).end_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).end_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).end_exp.val[k]);
+            }
+         trans_enum(((params[i]-&gt;dim)[j]).step_type);
+         trans_int (((params[i]-&gt;dim)[j]).step);
+         if (((params[i]-&gt;dim)[j]).step_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).step_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).step_exp.val[k]);
+            }
+     }
+  }
+  trans_enum(order_type);
+  if (order_type == VALUE_BY_EXPR)
+    for(int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+      trans_int(order.type[k]);
+      trans_int(order.val[k]);
+    }
+  trans_string(description);
+</pre>
+
+
+<h1> 6.  Encoding / Decoding of Arguments</h1>
+Data should be encoded into XDR format.
+<p>
+In the Client -> Executable communication,
+all scalar parameters should be encoded and sent 
+to the executable in advance of non-scalar parameters.
+The reason is scalar parameters may be used to specify the 
+size of non-scalar parameters.
+<p>
+For arrayed parameters, if start, end, or step are specified,
+only the specified part of the array should be transferred.

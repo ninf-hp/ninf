@@ -1,0 +1,1 @@
+// NinfCallable.javapackage ninf.MetaServer;import ninf.basic.*;import ninf.client.*;import java.io.IOException;public interface NinfCallable {  public Stoppable call(NinfPacket pkt, XDRInputStream is, XDROutputStream os)     throws NinfException;}// end of NinfCallable.java

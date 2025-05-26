@@ -1,0 +1,55 @@
+<ul>
+<li><p>
+竹房 あつ子, 小川 宏高, 松岡 聡, 中田 秀基, 高木 浩光, 佐藤 三久, 関口 智嗣, 長嶋 雲兵. 
+<b>複数クライアントによるLAN/WANでの<i>Ninf</i>の性能</b>.
+<em>情報処理学会 論文集</em>,
+Vol. 39, No. 6, pp. 1827-1838, 1998.<br>
+<a href="/takefusa/ninf/publications/sipp98-takefusa.ps">PostScript(Japanese)</a>
+</p>
+
+<li> <p>
+A. Takefusa, S. Matsuoka, H. Ogawa, H. Nakada, H. Takagi, M. Sato, S. Sekiguchi, U. Nagashima.
+<b>Multi-client Performance Analysis of High-Performance Global Computing</b>.
+Proceedings of 
+<a href="http://matsu-www.supercomp.org/sc97/">
+<em>the 1997 ACM/IEEE Supercomputing Conference</em></a>,
+November 1997<br>
+<a href="/takefusa/ninf/publications/sc97/">HTML</a> | 
+<a href="/takefusa/ninf/publications/sc97/sc97-submit.ps.gz">PostScript</a> |
+<a href="/takefusa/ninf/publications/sc97/sc97_slides/index.htm">Slides</a>
+</p>
+
+<li> <p>
+S. Matsuoka, H. Ogawa, A. Takefusa, H. Nakada, K. Aida.
+<b>Pleliminary Study of Global Job Scheduling for Ninf:
+a Global Computing System</b>.
+<em>Proceedings of International Workshop on Innovative Architectures '97</em>,
+1997<br>
+<a href="/takefusa/ninf/publications/others/iwia97.ps">PostScript(English)</a>
+</p>
+
+<li> <p>
+小川 宏高, 竹房 あつ子, 中田 秀基, 合田 憲人, 松岡 聡.
+<b>高性能広域計算システム Ninf のスケジューリングに関する予備的考察</b>.
+<em>IPSJ SIG Notes, 97-HPC-67 (SWoPP '97)</em>,
+pp. 85-90, August 1997.<br>
+<a href="/takefusa/ninf/publications/swopp97/swopp97.ps">PostScript</a></p>
+
+<li> <p>
+竹房 あつ子, 小川 宏高, 松岡 聡, 中田 秀基, 佐藤 三久, 関口 智嗣, 長嶋 雲兵. 
+<b>マルチクライアントによるネットワーク数値情報システム <i>Ninf</i> の性能</b>.
+<em>情報処理学会・電子通信処理学会 並列処理シンポジウム JSPP'97</em>,
+pp. 273-280, May 1997.<br>
+<a href="/takefusa/ninf/publications/jspp97/jspp97-takefusa.ps">PostScript(Japanese)</a> |
+<a href="/takefusa/ninf/publications/jspp97/jspp97_ohp/index.html">Slides(Japanese)</a>
+</p>
+
+<li> <p>
+竹房 あつ子, 小川 宏高, 松岡 聡, 中田 秀基, 佐藤 三久, 関口 智嗣, 長嶋 雲兵.
+<b>ネットワーク数値情報システム <i>Ninf</i>: マルチクライアント環境での性能</b>.
+<em>IPSJ SIG Notes, 97-HPC-65 (Hokke '97)</em>,
+pp. 3-8, March 1997.<br>
+<a href="/takefusa/ninf/publications/hokke97/hokke97-takefusa.ps">PostScript(Japanese)</a> |
+<a href="/takefusa/ninf/publications/hokke97/hokke97_ohp/index.html">Slides(Japanese)</a>
+</p>
+</ul>

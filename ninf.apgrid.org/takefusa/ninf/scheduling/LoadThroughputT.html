@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Experimental Results with Ninf MetaServer - Load + Thoughput (Predict Throughput)</title>
+</head>
+
+<body bgcolor="FFFFFF">
+<basefont size = 3>
+
+<h2>Experimental Results with Ninf MetaServer</h2>
+<h3>Load + Thoughput (Predict Throughput)</h3>
+
+<applet name="Load" code="ptplot.Plot" width=700 height=100
+	archive="ptplot/ptplot.zip">
+<param name="pxgraphargs" value="-t 'Ninf_call' -0 J90 -1 UltraSPAEC -nl -m sample/LoadThroughputTScheduler_3051_client.plt sample/LoadThroughputTScheduler_3052_client.plt">
+<param name="background" value="ffffff">
+</applet>
+<br>
+
+<applet name="Load" code="ptplot.Plot" width=700 height=200
+	archive="ptplot/ptplot.zip">
+<param name="pxgraphargs" value="-t Load -0 J90 -1 UltraSPAEC -m sample/LoadThroughputTScheduler_3051_load.plt sample/LoadThroughputTScheduler_3052_load.plt">
+<param name="background" value="ffffff">
+</applet>
+<br>
+
+<applet name="Thru" code="ptplot.Plot" width=700 height=200
+	archive="ptplot/ptplot.zip">
+<param name="pxgraphargs" value="-t Throughput -x 'Elapsed Time' -y Byte/sec -0 J90 -1 UltraSPARC -m sample/LoadThroughputTScheduler_3051_thru.plt sample/LoadThroughputTScheduler_3052_thru.plt">
+<param name="background" value="ffffff">
+</applet>
+
+<p>
+<font size=2>
+<a href="http://www.sap.is.ocha.ac.jp/~takefusa/">
+http://www.sap.is.ocha.ac.jp/~takefusa/</a>
+</font>
+</body>
+</html>

@@ -1,0 +1,1 @@
+package ninf.netsolve;public class ServerStatus {  public String desc;  public int ip_addr;  public int host_status;  public int server_status;  public int number_problems;}

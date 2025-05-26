@@ -1,0 +1,164 @@
+#!/usr/bin/expect -f
+#
+set force_conservative 0  ;# set to 1 to force conservative mode even if
+			  ;# script wasn't run conservatively originally
+if {$force_conservative} {
+	set send_slow {1 .1}
+	proc send {ignore arg} {
+		sleep .1
+		exp_send -s -- $arg
+	}
+}
+
+#spawn echo $argc
+#spawn echo $argv
+#for {set i 0} {$i < $argc} {incr i} {
+#	set tmp [lindex $argv $i]
+#	if {$tmp == "-u" } {
+#		incr i
+#		set userid [lindex $argv $i]
+#	} elseif {$tmp == "-p"} {
+#		incr i
+#		set passwd [lindex $argv $i]
+#	}
+#}
+
+set cmdname "sw-vconfig"
+
+set cmd [lindex $argv 0]
+set address [lindex $argv 1]
+set vlanid [lindex $argv 2]
+set userid "admin"
+set passwd "admin"
+set prompt "Vty-(\[0-9\]+)"
+set timeout 10
+
+if {($argc < 3) || (($cmd != "del") && ($cmd != "add"))} {
+	puts "$cmdname: invalid arguments"
+	puts "useage: $cmdname add | del ipaddr vlan-id ifname...\r"
+	puts "\tadd:\tadd tagged vlan\r"
+	puts "\tdel:\tdelete tagged vlan\r"
+	puts "\tipaddr:\tip address of DELL5224 L2 switch\r"
+	puts "\tvlanid:\tvlan id number\r"
+	puts "\tifname:\tinterface number, example 1/1...1/24\r"
+	exit -1
+}
+#puts "$cmdname $cmd $address $ifname $vlanid $userid $passwd ${prompt}"
+
+# login
+spawn telnet $address
+expect {
+	-exact "Username: " {
+		send -- "$userid\r"
+		exp_continue
+	} 
+	-exact "\rPassword: " {
+		send -- "$passwd\r"
+		exp_continue
+	}
+	-re "${prompt}#" { 
+		#puts "OK LOGIN\r"
+	}
+
+	put "\r$cmdname: invalid $address $userid $passwd"
+	exit -1
+}
+
+send -- "config\r"
+expect -re "${prompt}\\(config\\)#"
+
+# config mode create vlan
+if {$cmd == "add"} {
+	send -- "vlan database\r"
+	expect -re "${prompt}\\(config-vlan\\)#" 
+	send -- "vlan $vlanid media ethernet\r"
+	expect {
+		-exact "% Invalid input detected" {
+			puts "\r$cmdname: invalid vlan id($vlanid)"
+			exit -1
+		}
+		-re "${prompt}\\(config-vlan\\)#" { 
+			#puts "OK CREATE VLAN\r"
+		}
+	}
+	send -- "exit\r"
+	expect -re "${prompt}\\(config\\)#"
+}
+
+# config mode set interface
+
+for {set i 3} {$i < $argc} {incr i} {
+	set ifname [lindex $argv $i]
+	send -- "interface ethernet $ifname\r"
+	expect {
+		-exact "% Invalid parameter value/range" {
+			puts "\r$cmdname: invalid ifname ($ifname)"
+			exit -1
+		}
+		-re "${prompt}\\(config-if\\)#" { 
+			#puts "OK INTERFACE $ifname\r"
+		}
+	}
+}
+
+for {set i 3} {$i < $argc} {incr i} {
+	set ifname [lindex $argv $i]
+
+	send -- "interface ethernet $ifname\r"
+	expect -re "${prompt}\\(config-if\\)#"
+
+	if {$cmd == "add"} {
+		send -- "switchport allowed vlan add $vlanid tagged\r"
+	} else {
+		send -- "switchport allowed vlan remove $vlanid\r"
+	}
+	expect {
+		-exact "% Invalid input detected" { 
+			puts "\r$cmdname: vlan id ($vlanid)"
+			exit -1
+		}
+		-exact "is not exist" { 
+			#puts "OK SWITCHEDPORT NO VLAN"
+		}
+		-re "${prompt}\\(config-if\\)#" { 
+			#puts "OK SWITCHEDPORT"
+		}
+	}
+}
+
+send -- "exit\r"
+expect -re "${prompt}\\(config\\)#"
+
+# end config mode
+send -- "exit\r"
+expect -re "${prompt}#"
+
+if {$cmd == "del"} {
+	send -- "show vlan\r"
+	expect {
+		-re "$vlanid  Static \[\\s\]* Active Eth" {
+			#puts "\rVLAN DATABESE NOT DELETE"
+		}
+		-re "$vlanid  Static \[\\s\]* Active" {
+			#puts "\rVLAN DATABESE DELETE"
+			send -- "config\r"
+			expect -re "${prompt}\\(config\\)#"
+			send -- "vlan database\r"
+			expect -re "${prompt}\\(config-vlan\\)#" 
+			send -- "no vlan $vlanid\r"
+			expect -re "${prompt}\\(config-vlan\\)#" 
+			send -- "exit\r"
+			expect -re "${prompt}\\(config\\)#" 
+			send -- "exit\r"
+			expect -re "${prompt}#" 
+		}
+		-re "${prompt}#" {
+		}
+	}
+}
+
+send -- "show vlan\r"
+expect -re "${prompt}#"
+send -- "exit\r"
+expect eof
+exit 0

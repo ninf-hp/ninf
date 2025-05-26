@@ -1,0 +1,32 @@
+<h1> Abstract </h1>
+<hr>
+広域に分散した各種資源を集合的に使用して大規模計算を行う計算機構
+Gridが注目を集めている。
+多様な管理主体に属する資源から構成されるGrid環境上のプログラムを多くのユーザに
+使用させるためには、ポータルと呼ばれる機構が必要である。
+このため、Gridへのポータルを構築するためのツールキットがいくつか提案されている。
+しかしこれらのツールキットを用いる場合でも、ポータル構築者が
+フロントエンドとなるポータルのユーザインターフェイス部、
+バックエンドとなる実際のGridプログラム
+の2つを記述しなければならず、ポータル構築者の負担が大きい。
+われわれは、前者に対してXMLベースのユーザインターフェイス
+生成系を、後者に対してGrid RPCシステムであるNinf-Gを使用することで
+プログラマの負荷を軽減するポータル開発キットを提案する。
+さらに、提案したシステムを用いて、実用的なプログラムをポータル化し
+有効性を確認した。
+
+<hr>
+As the Grid proliferates as the next-generation wide-area
+high-performance computing infrastructure, end-user Grid interfaces in
+the form of "Grid Portals" is becoming increasingly important,
+especially computational scientists and engineers. Although several
+Grid portal toolkits and proposals have been proposed, a Grid Portal
+creator must construct and deploy both the user interface and the
+application portions of the Grid Portal, resulting in considerable
+programming efforts. We aim to easen this burden by applying the
+state-of-the-art Web/XML interface generation technologies for the
+former, and the Ninf-G GridRPC system for easily "Gridifying"
+exisiting applications for the latter, and realizing their seamless
+integration. The resulting system which we call the "Ninf Portal"
+allowed concise description and easy deployment of a sample 
+application on the Grid with very small programming efforts.

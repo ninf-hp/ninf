@@ -1,0 +1,63 @@
+[[VMware Player Rollの使用方法]]
+
+VMware Player Rollの使用方法（Version0.1）
+-既存FrontendにVMware Player Rollを追加する
+
+
+ Step 0: mount -o loop vmplayer-4.1-0.i386.disk1.iso /mnt/cdrom
+         (CD mediaの場合はmount /mnt/cdrom)
+
+ Step 1:  rocks-dist --install copyroll
+
+ Step 2: cd /home/install && rocks-dist dist
+
+-VMware Playerのpatch, disk-image, BIOSを用意
+
+ Step 3: cd /export/apps  
+
+ Step 4:tar xvfz vmware-any-any-update99-tyokoi.tar.gz
+
+ Step 5: mkdir /export/apps/vmware-config
+
+ Step 6: cp rocks_client_pxe.nvram rocks_client_pxe.nvram \
+          /export/apps/vmware-config
+
+-新しいApplianceを追加（既存FrontendにRollを追加する時のみ必要。Frontend新規構築時は不要）
+
+ Step 7: /opt/rocks/sbin/add-new-appliance --appliance-name "vmplayer" 
+          --xml-config-file-name vmplayer-compute
+
+-HostOSをinstallする
+
+ 
+
+ Step 8: "insert-ethers"を実行し、”Vmplayer”を選択する
+
+ Step 9: Boot CDでclient nodeを起動させる
+
+-GuestOSをinstallする
+ Step 10: ssh vmplayer-0-0
+
+ Step 11: vncserver
+
+ Step 12: 他のマシンからvncviewer vmplayer-0-0:1
+
+ Step 13: Frontend node上でinsert-ethersを実行し、"Compute"を選択
+
+ Step 14: (vmplayer-0-０上)  vmplayer /state/partition1/vmware/guestos00/rocks_client_pxe.vmx
+
+
+-メモー：
+
+     Case A : ユーザがHostOSへのaccess権限を持たず、GuestOSのみへのアクセス権限を持つ
+
+              -GuestOS installation（Step10 - 14）の自動化が必要。
+              -HostOSへのaccess制限をどう実装するかは要検討。
+　　　　　　  -ssh port forwardingの導入
+              -GuestOSのvnc passwdを初期化する（HostOSと無関係のもの）
+
+
+　　 Case B :　ユーザがHostOSおよびGuestOSへのaccess権限を持つ　　　　　　　   
+               -GuestOS installation（Step10 - 14）の自動化が必要。
+　　　　　　　 -HostOS (root?) passwordからGuestOS vncpasswdへの継承が必要
+　

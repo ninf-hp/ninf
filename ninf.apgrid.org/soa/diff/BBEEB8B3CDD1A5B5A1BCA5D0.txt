@@ -1,0 +1,24 @@
+ [[FrontPage]]
+ 
+-- rocknroll.hpcc.jp
++* rocknroll.hpcc.jp [#n5ed0892]
+ 
+-- Atholon 64 X2
+-
++- Atholon 64 x 2
+ - Mem 4G, (only 3.5 G of them are recognized by the mother board)
+ - HDD 400G x2 
+ -- 50 G for system.
+ -- 350G + 400G forms one volume group
+ 
++* XGtest2.hpcc.jp [#ma5ad5ff]
++- Xeon 3.0 GHz x 2
++- Memory 1GB
++- CentOS 4.3
++- 2.6.9-34.0.2.ELsmp
++
++* XGtest3.hpcc.jp [#xdd83be9]
++- Xeon 3.0 GHz x 2
++- Memory 1GB
++- Fedora Core Linux 4
++- 2.6.16.20 SMP

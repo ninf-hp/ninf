@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf Server</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf Server">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html90 HREF="node7.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html88 HREF="main.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html82 HREF="node5.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html91 HREF="node7.html"> Ninf Register</A>
+<B>Up:</B> <A NAME=tex2html89 HREF="main.html">無題</A>
+<B> Previous:</B> <A NAME=tex2html83 HREF="node5.html"> Ninf RPC  システムの構成</A>
+<BR> <HR> <P>
+<H1><A NAME=SECTION00030000000000000000> Ninf Server</A></H1>
+<P>
+Ninf Server は、Ninf RPC  の中核をなす
+マスター・スレーブ式の並行実行サーバプログラムである。
+マスターサーバは、特定のポートからのコネクションを受け付けると
+スレーブサーバプロセスを一つ起動する。実際のコネクションに対する
+処理はスレーブサーバが受け持ち、マスターサーバは常にポートからの
+コネクションを受け付けている。
+<P>
+Ninf Server の役割は、クライアントからのリクエストにしたがって、
+Ninf Executable  のインターフェイス  を転送したり、
+Ninf Executable  を実際に起動したり、
+クライアントからのメッセージをNinf Executable  に中継したりすることである。
+これらの過程は<A HREF="node10.html#ninfServerProtocol">5.2</A>に示すプロトコルで
+行なわれる。
+<P>
+クライアントからの要求はNinf Executable  の名前でなく関数名で行なわれる。
+このため Ninf Server は関数名からNinf Executable  を特定するテーブルを持つ
+必要がある。このテーブルへの登録は次章で述べる Ninf Register で
+行なわれる。このとき、Ninf Server は実際に Ninf Executable  を
+起動し、そのNinf Executable  からインターフェイス  を得、これもテーブルに登録する。
+このため、クライアントからインターフェイス  を要求された際には、
+実際にNinf Executable  を起動することなくインターフェイス  を返答することができる。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

@@ -1,0 +1,329 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+
+<!--
+     The contents of this file are subject to the Mozilla Public
+     License Version 1.1 (the "License"); you may not use this file
+     except in compliance with the License. You may obtain a copy of
+     the License at http://www.mozilla.org/MPL/
+    
+     Software distributed under the License is distributed on an "AS
+     IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+     implied. See the License for the specific language governing
+     rights and limitations under the License.
+    
+     The Original Code is the Bugzilla Bug Tracking System.
+    
+     The Initial Developer of the Original Code is Netscape Communications
+     Corporation. Portions created by Netscape are
+     Copyright (C) 1998 Netscape Communications Corporation. All
+     Rights Reserved.
+    
+     Contributor(s): 
+
+     Contributor(s): Terry Weissman <terry@mozilla.org>
+-->
+<head>
+<TITLE>A Bug's Life Cycle</TITLE>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-JP">
+</head>
+<body>
+<h1 ALIGN=CENTER>バグのライフサイクル</h1>
+<!--
+The <B>status</B> and <B>resolution</B> field define and track the
+life cycle of a bug.
+ -->
+<B>ステータス</B>と<B>処理方法</B>の項目はバグのライフサイクルを形づくります。
+<a name="status"></a>
+<p>
+<TABLE BORDER=1 CELLPADDING=4>
+
+<TR ALIGN=CENTER VALIGN=TOP>
+<TD WIDTH="50%"><H1>STATUS</H1> <TD><H1>RESOLUTION</H1>
+
+<TR VALIGN=TOP>
+<!--
+<TD>The <B>status</B> field indicates the general health of a bug. Only
+certain status transitions are allowed.
+<TD>The <b>resolution</b> field indicates what happened to this bug.
+ -->
+<TD><B>ステータス</B>の項目は、バグのおおよその状態を示します。
+ステータスの移行ルートは限られています。
+<TD><b>処理方法</b>の項目は、そのバグに起こったことを示します。
+
+<TR VALIGN=TOP><TD>
+<DL><DT><B>
+<A HREF="confirmhelp.html">UNCONFIRMED</A></B>
+<!--
+<DD> This bug has recently been added to the database.  Nobody has
+     validated that this bug is true.  Users who have the "canconfirm"
+     permission set may confirm this bug, changing its state to NEW.
+     Or, it may be directly resolved and marked RESOLVED.
+ -->
+<DD> (アンコンファームド) このバグは最近データベースに追加されました。
+     このバグが本当なのかはまだ誰も確認していません。
+     "canconfirm" 許可を持つユーザーはこのバグを承認して、バグの状態を NEW にすることができます。または直接解決して RESOLVED にします。
+
+<DT><B>NEW</B> 
+<!--
+<DD> This bug has recently been added to the assignee's list of bugs
+     and must be processed. Bugs in this state may be accepted, and
+     become <B>ASSIGNED</B>, passed on to someone else, and remain
+     <B>NEW</B>, or resolved and marked <B>RESOLVED</B>.
+ -->
+<DD> (ニュー) このバグは最近担当者のバグリストに追加されたので、
+     処理される必要があります。
+     この状態のバグは引き受けられて <B>ASSIGNED</B> になるか、
+     他の誰かに渡されて <B>NEW</B> のままか、解決されて <B>RESOLVED</B> になります。
+
+<DT><B>ASSIGNED</B> 
+<!--
+<DD> This bug is not yet resolved, but is assigned to the proper
+     person. From here bugs can be given to another person and become
+     <B>NEW</B>, or resolved and become <B>RESOLVED</B>.
+ -->
+<DD>(アサインド) このバグはまだ解決されていませんが、適切な人に割り当てられています。
+    この状態から、他の人に渡されて <B>NEW</B> になることもあります。
+    または解決されて <B>RESOLVED</B> になります。
+
+<DT><B>REOPENED</B>
+<!--
+<DD>This bug was once resolved, but the resolution was deemed
+     incorrect.  For example, a <B>WORKSFORME</B> bug is
+     <B>REOPENED</B> when more information shows up and the bug is now
+     reproducible.  From here bugs are either marked <B>ASSIGNED</B>
+     or <B>RESOLVED</B>.
+ -->
+<DD>(リオープンド) このバグは一度解決されましたが、処理方法が正しく
+    なかったとされました。
+    たとえば、<B>WORKSFORME</B> バグにさらに情報が寄せられたとき
+    <B>REOPENED</B> になります。
+    この状態から、バグは <B>ASSIGNED</B> にマークされるか、
+    <B>RESOLVED</B> になります。
+</DL>
+<TD>
+<DL>
+<!--
+<DD> No resolution yet. All bugs which are in one of these "open" states
+     have the resolution set to blank. All other bugs
+     will be marked with one of the following resolutions.
+ -->
+<DD>まだ解決されていません。
+    これら、"open" (未解決) 状態のバグは、処理方法が空になっています。
+    これらのバグは以下の処理方法のどれかにマークされます。
+</DL>
+
+<TR VALIGN=TOP><TD>
+<DL>
+<DT><B>RESOLVED</B> 
+<!--
+<DD> A resolution has been taken, and it is awaiting verification by
+     QA. From here bugs are either re-opened and become
+     <B>REOPENED</B>, are marked <B>VERIFIED</B>, or are closed for good
+     and marked <B>CLOSED</B>.
+ -->
+<DD> (リゾルブド) とりあえず解決され、QA の確認待ちになっています。
+     この状態から、バグは再開されて <B>REOPENED</B> 状態になるか、
+     <B>VERIFIED</B> にマークされるか、
+     または問題無いので閉じられ <B>CLOSED</B> になります。
+
+<DT><B>VERIFIED</B>
+<!--
+<DD> QA has looked at the bug and the resolution and agrees that the
+     appropriate resolution has been taken.  Bugs remain in this state
+     until the product they were reported against actually ships, at
+     which point they become <B>CLOSED</B>.
+ -->
+<DD> (ベリファイド) QA はバグとその処理方法を見て、適切な解決が施されたと同意します。
+     プロダクトが実際に出荷されるまではこの状態です。
+     そうしたら、バグは <B>CLOSED</B> になります。
+
+<DT><B>CLOSED</B> 
+<!--
+<DD> The bug is considered dead, the resolution is correct. Any zombie
+     bugs who choose to walk the earth again must do so by becoming
+     <B>REOPENED</B>.
+ -->
+<DD> (クローズド) このバグは死んだと考えられ、処理方法は正確です。
+     ゾンビとなってよみがえり再び地上を歩き出したバグは <B>REOPENED</B>になります。
+</DL>
+
+<TD>
+<DL>
+<DT><B>FIXED</B>
+<!--
+<DD> A fix for this bug is checked into the tree and tested.
+ -->
+<DD> (フィクスト) このバグの修正はツリーに入力され、テストされました。
+<DT><B>INVALID</B>
+<!--
+<DD> The problem described is not a bug 
+ -->
+<DD> (インバリッド) 入力された問題はバグではありません。
+<DT><B>WONTFIX</B>
+<!--
+<DD> The problem described is a bug which will never be fixed.
+ -->
+<DD> (ウォントフィクス) 入力された問題はバグですが、ずっと修正されません。
+<DT><B>LATER</B>
+<!--
+<DD> The problem described is a bug which will not be fixed in this
+     version of the product.
+ -->
+<DD> (レイター) 入力された問題はバグですが、このバージョンでは修正されません。
+<DT><B>REMIND</B>
+<!--
+<DD> The problem described is a bug which will probably not be fixed in this
+     version of the product, but might still be.
+ -->
+<DD> (リマインド) 入力された問題はバグですが、おそらくこのバージョンでは修正されないでしょう。ひょっとしたらされるかもしれません。
+
+<DT><B>DUPLICATE</B>
+<!--
+<DD> The problem is a duplicate of an existing bug. Marking a bug
+     duplicate requires the bug# of the duplicating bug and will at
+     least put that bug number in the description field.
+ -->
+<DD> (デュプリケート) この問題は既存のバグと重複しています。
+     バグを duplicate とマークするにはその既存バグの番号を必要とします。
+     マークすると、その番号はコメント欄に自動的に入力されます。
+<DT><B>WORKSFORME</B>
+<!--
+<DD> All attempts at reproducing this bug were futile, reading the
+     code produces no clues as to why this behavior would occur. If
+     more information appears later, please re-assign the bug, for
+     now, file it.
+ -->
+<DD> (ワークスフォーミー) このバグを再現しようとしましたができませんでした。
+     コードを読んでみても、なぜそのようになるか分かりません。
+     もしさらに情報があれば、このバグを再割り当てしてください。 
+     今のところはファイルするだけにしておきます。
+</DL>
+</TABLE>
+
+<H1>その他の項目</H1>
+
+<table border=1 cellpadding=4><tr><td>
+<h2><a name="severity">重要度 (深刻度)</a></h2>
+
+<!--
+This field describes the impact of a bug.
+ -->
+このフィールドにはバグの影響を記述します。
+<p>
+<p>
+ 
+<table>
+<!--
+<tr><th>Blocker</th><td>Blocks development and/or testing work
+<tr><th>Critical</th><td>crashes, loss of data, severe memory leak 
+<tr><th>Major</th><td>major loss of function 
+<tr><th>Minor</th><td>minor loss of function, or other problem where easy workaround is present 
+<tr><th>Trivial</th><td>cosmetic problem like misspelled words or misaligned text 
+<tr><th>Enhancement</th><td>Request for enhancement
+ -->
+<tr><th>Blocker</th><td>(ブロッカー) 開発、またテスト作業を阻害する
+<tr><th>Critical</th><td>(クリティカル) クラッシュ、データの紛失、ひどいメモリリーク
+<tr><th>Major</th><td>(メジャー) 機能の大部分の損失
+<tr><th>Minor</th><td>(マイナー) 機能の一部が動かない、または単純な回避策のある問題
+<tr><th>Trivial</th><td>(トリビアル) ミススペルなどの表面的な問題
+<tr><th>Enhancement</th><td>(エンハンスメント) 機能拡張の要望
+</table> 
+
+</td><td>
+
+<h2><a name="priority">優先順位</a></h2>
+
+<!--
+This field describes the importance and order in which a bug should be
+fixed.  This field is utilized by the programmers/engineers to
+prioritize their work to be done.  The available priorities are:
+ -->
+この項目には重要性やバグ修正の順番を記述します。
+この項目はプログラマ/エンジニアが自分の仕事を順番付けするのに利用されます。
+利用可能な優先順位:
+
+<p>
+<p>
+
+<table>
+<tr><th>P1</th><td>最重要
+<tr><th>P2</th><td>
+<tr><th>P3</th><td>
+<tr><th>P4</th><td>
+<tr><th>P5</th><td>それほど重要でない
+</table>
+</tr></table>
+
+<h2><a name="rep_platform">プラットフォーム</a></h2>
+<!--
+This is the hardware platform against which the bug was reported.  Legal
+platforms include:
+ -->
+これはバグの報告されたハードウェアプラットフォームです。
+指定可能なプラットフォームには以下のものがあります:
+
+<UL>
+<LI> All (全てのプラットフォームで発生; クロスプラットフォームなバグ)
+<LI> Macintosh
+<LI> PC
+<LI> Sun
+<LI> HP
+</UL>
+
+<!--
+<b>Note:</b> Selecting the option "All" does not select bugs assigned against all platforms.  It
+merely selects bugs that <b>occur</b> on all platforms.
+ -->
+<b>注意:</b> 
+すべてのプラットフォームでは起こらないバグの場合、'All' は選びません。どのプラットフォームでも<b>再現</b>できるバグだけ 'All' を選びます。
+
+<h2><a name="op_sys">OS</a></h2>
+<!--
+This is the operating system against which the bug was reported.  Legal
+operating systems include:
+ -->
+バグの報告された OS です。
+指定可能な OS には以下のものがあります:
+
+
+<UL>
+<LI> All (全ての OS で発生; クロスプラットフォームなバグ)
+<!-- (happens on all operating systems; cross-platform bug) -->
+<LI> Windows 95
+<LI> Mac System 8.0
+<LI> Linux
+</UL>
+
+<!--
+Note that the operating system implies the platform, but not always.
+For example, Linux can run on PC and Macintosh and others.
+ -->
+OS が指定されればプラットフォームは指定されたも同然ですが、いつもそうではないことに注意してください。
+たとえば、Linux は PC や Macintosh などで動作します。
+
+<h2><a name="assigned_to">担当者</a></h2>
+
+<!--
+This is the person in charge of resolving the bug.  Every time this
+field changes, the status changes to <B>NEW</B> to make it easy to see
+which new bugs have appeared on a person's list.
+ -->
+バグを解決する担当の人です。
+この項目が変更された場合は常にそのステータスは <B>NEW</B> になります。
+こうなることで、その人のリストにバグが現れ、確認が容易になります。
+
+<!--
+The default status for queries is set to NEW, ASSIGNED and REOPENED. When
+searching for bugs that have been resolved or verified, remember to set the
+status field appropriately. 
+ -->
+検索におけるステータス条件のデフォルトは NEW, ASSIGNED, REOPENED です。
+RESOLVED, または VERIFIED のバグを検索する時は、ステータス項目を適切にセットするのを忘れないでください。
+
+
+<hr>
+<!-- hhmts start -->
+Last modified: Sun Apr 14 12:51:23 EST 2002
+<!-- hhmts end -->
+</body> </html>

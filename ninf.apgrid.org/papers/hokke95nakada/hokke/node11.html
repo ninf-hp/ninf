@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> トランザクション</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" トランザクション">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html156 HREF="node12.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html154 HREF="node10.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html148 HREF="node10.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html157 HREF="node12.html"> 分散並列実行</A>
+<B>Up:</B> <A NAME=tex2html155 HREF="node10.html"> メタサーバ
+  による分散並列実行</A>
+<B> Previous:</B> <A NAME=tex2html149 HREF="node10.html"> メタサーバ
+  による分散並列実行</A>
+<BR> <HR> <P>
+<H3><A NAME=SECTION00035100000000000000> トランザクション</A></H3>
+<P>
+メタサーバ
+  によって、分散並列実行をするためには、
+計算のどの部分を並列実行して良いか、を
+何らかの方法で指定する必要がある。
+<P>
+このための概念としてトランザクションを導入した。
+トランザクションは、いくつかのninf call をまとめたもので、
+トランザクション内の計算の順序はデータ依存関係を
+保持する限り、自由に変更しても構わない。
+<P>
+トランザクションはユーザが明示的に指定しなければならない。
+このために新たに二つのライブラリ関数をを用意した。
+<code>Ninf_check_in()</code>がトランザクションの開始を意味し、
+<code>Ninf_check_out()</code>はトランザクションの終了を意味する。
+この領域で囲まれた命令がトランザクションを構成する。
+トランザクションの開始と終了は、動的に行なわれるため、
+トランザクション内部に分岐などの構造を含むことも可能である。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

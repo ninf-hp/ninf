@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf Call によるオーバーヘッド</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf Call によるオーバーヘッド">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html284 HREF="node24.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html282 HREF="node21.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html276 HREF="node22.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html285 HREF="node24.html"> メタサーバ
+  による forwarding </A>
+<B>Up:</B> <A NAME=tex2html283 HREF="node21.html"> 評価</A>
+<B> Previous:</B> <A NAME=tex2html277 HREF="node22.html"> 評価環境</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00052000000000000000> Ninf Call によるオーバーヘッド</A></H2>
+<P>
+Ninf call を用いずに、行列を生成し計算した場合の
+実行時間は2.19秒であった。
+Ninf call を用いた場合には、3.26秒となりNinf を
+用いたことによるオーバーヘッドは1.07秒程度である。
+<P>
+通信されるデータ量は行列3つで240,000bytes であり、
+スループットを考えると、0.2 秒程度かかると考えられる。
+残りの0.8秒ほどのオーバーヘッドは、
+コネクション、ライブラリ関数のfork, exec、
+データのセットアップなどによるものと考えられる。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

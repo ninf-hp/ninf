@@ -1,0 +1,25 @@
+>>>>>>>>>> 1214162149
+- /opt/vc/sbin~
+実行ファイル
+- /opt/vc/pylib~
+ライブラリディレクトリ
+-- /opt/vc/pylib/vmtype/rocks5common/~
+仮想クラスタとして Rocks を動かす場合の処理 (モジュール vmtype.rocks5common)
+(restore/lightsout/Ganglia設定)
+--- /opt/vc/pylib/vmtype/rocks5xen/~
+Xen 上で Rocks5 仮想クラスタを動かす場合の処理 (モジュール vmtype.rocks5xen)
+--- /opt/vc/pylib/vmtype/rocks5vmware/~
+VMware 上で Rocks5 仮想クラスタを動かす場合の処理 (モジュール vmtype.rocks5vmware)
+-- /opt/vc/pylib/vcluster/
+各仮想クラスタ種別に対応する処理
+--- /opt/vc/pylib/vcluster/rocks5/~
+Rocks5 仮想クラスタに対応する処理 (モジュール vcluster.rocks5)
+--- /opt/vc/pylib/vcluster/noaction/~
+予約のみでなにも行わない場合 (モジュール vcluster.noaction)
+--- /opt/vc/pylib/vcluster/gwonly/~
+仮想フロントエンドノードのみ起動する (モジュール vcluster.gwonly)
+--- /opt/vc/pylib/vcluster/parallel/~
+全ノードを同時に起動する (モジュール vcluster.parallel)
+--- /opt/vc/pylib/vcluster/sequential/~
+全ノードを順に起動する (モジュール vcluster.sequential)
+

@@ -1,0 +1,25 @@
+ <center> <H1>  他の研究との比較 </H1> </center> <hr noshade width = 80% algn = "center"> <H2>
+<font size=6><em>Mentat</em></font>
+<li> MPL(C++の拡張)を用いた、分散並列実行系。
+<li> 特定のクラスのメソッドを分散実行の対象とする。
+<p>
+
+<dt>Ninfの利点 
+<dd> 言語を新たに設定していないので習得の手間がかからない。
+<dt>Ninfの欠点
+<dd> トランザクションの中でninf_callの結果を参照すると、
+実際にはその時点で実行されていないのでおかしな結果が得られてしまう。
+<PRE>
+    Ninf_check_in();
+    Ninf_call(&quot;mmul&quot;,N,A,B,E);
+    check(E)             /* おかしな結果が得られる*/
+    Ninf_call(&quot;mmul&quot;,N,C,D,F);
+    Ninf_call(&quot;mmul&quot;,N,E,F,G);
+    Ninf_check_out();
+</PRE>
+
+ <hr> <center><table><td><h2>　　　　　　　　　　　　　　　</td><td></td><td></td><td><h2><em>　　　　　　　HOKKE' 96 </td></table></center>
+
+
+
+

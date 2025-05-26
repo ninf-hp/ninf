@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{ninf-sekiguchi94}
+関口智嗣, 佐藤三久, 長島雲兵.
+\newblock ネットワーク数値情報ライブラリ: - ninf の設計 -.
+\newblock {\em 情報処理学会研究報告 HPC},  Vol.~94, No.~94-HPC-52, pp.~127,
+  1994.
+
+\bibitem{ninf-iioka95}
+飯岡美恵, 新居由佳子, 長島雲兵, 関口智嗣, 佐藤三久, 松岡聡, 細矢治夫.
+\newblock ネットワーク数値情報ライブラリ ninf の通信方法の予備的考察.
+\newblock {\em 情報処理学会研究報告 HPC},  Vol.~95, No.~28-HPC-55, pp.~81--88,
+  march 1995.
+
+\end{thebibliography}

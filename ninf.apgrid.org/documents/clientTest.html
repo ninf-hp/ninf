@@ -1,0 +1,41 @@
+<center> 
+<h1> Testing Client </h1>
+</center>
+<hr>
+
+<h2> Samples </h2>
+
+This package includes very few client test programs
+which can connects our test server directly.
+
+Firstly, make sure you already set the 'NINF_DIR' variable to point to 
+the installed package directory.
+Then, go to the '$(NINF_DIR)/clientTest' directory and just type 'make'.
+
+You'll get two programs.
+<ul>
+<li> test : do matrix multiply
+<li> linpack: do linpack benchmark
+<li> matrix_demo-ninf: do lapack benchmark
+</ul>
+
+You should specify our server 'ninf.apgrid.org' and port 3030.
+<pre>
+> test -server ninf.apgrid.org -port 3030
+
+> linpack -server ninf.apgrid.org -port 3030
+
+> test_lapack  -server ninf.apgrid.org -port 3030
+</pre>
+
+Note: 'matrix_demo-ninf' requires a data file. The shell script file 
+'test_lapack' gives it.
+
+You can use NINF_SERVER and NINF_SERVER_PORT variables.
+<pre>
+> set NINF_SERVER ninf.apgrid.org
+> set NINF_SERVER_PORT 3030
+> test
+> linpack
+</pre>
+

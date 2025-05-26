@@ -1,0 +1,459 @@
+<h1> Ninf Interface Description Language </h1>
+
+<h2> IDL File and  Stub Generator </h2>
+
+To register numerical libraries 
+you have to provide interface informations of the libraries.
+A Interface Description Language called 'Ninf IDL' is used for this purpose.
+Stub generator interprets a Ninf IDL file,
+and generates stub main routine files and a makefile.
+The figure below gives overview of stub generator behavior.
+
+<p>
+<IMG SRC="Ninf_IDL_overview.gif">
+<p>
+
+
+<h2>IDL File </h2>
+You should provide following informations in IDL File.
+<ul>
+<li>
+        Module name.
+<li>
+        Interface Information(marshaling information) of each library routine.
+<li>
+        Information to make whole Module.
+</ul>
+
+The stub generator generate stub main routine which bridges
+each numerical library and our ninf runtime routines,
+and Makefile to compile the whole program.
+
+The generator is named 'ninf_gen'.
+You should provide the idl filename as the first argument.
+<pre>
+         ninf_gen file.idl
+</pre>
+
+This will make a Makefile named 'module.mak' and some '_stub_XXX.c' files.
+To make Ninf Executables, you should type:
+<pre>
+        make -f module.mak	
+</pre>
+
+It will make some '_stub_XXX' files.
+
+<h2> Ninf IDL Syntax </h2>
+
+The following statements can be used in the NINF IDL files.
+
+<ul>
+<li> <code>Module</code> module_name <code>;</code><br>
+
+This statement specifies the module name.
+Ninf_gen will generate a Makefile named <module_name>.mak.
+
+<p>
+<li> <code>CompileOptions "</code> .... <code> ";</code><br>
+This statement specifies some definition whish should be 
+used in the resulting makefile.
+
+<p>
+<li> <code> FortranFormat "</code>....<code>";</code><br>
+Some fortran compiler have strange convention for generating
+labels from function name.
+For example a compiler compiles function named 'FFT' into '_FFT_'.
+Our stub routine uses C, not FORTRAN, so we have to handle 
+these conventions in someway.
+<p>
+This statement provides translation format.
+It is similar to the printf format string.
+You can use following two special characters in the string.
+<ul>
+<li> <code>%s</code> : original function name
+<li> <code>%l</code> : capitalized original function name
+</ul> 
+We can cope with almost all strange conventions using these two.
+<p>
+
+For example, consider to put under score before and after the function name.
+
+<pre>
+FortranFormat "_%s_";
+</pre> 
+
+With this statement,
+<pre>
+Calls "Fortran" FFT(n,x,y);
+</pre>
+will generate function call in C, <code>_FFT_(n, x, y)</code> .
+
+<p>
+
+<li> <code> Library "</code>....<code>";</code><br>
+This statement specifies object files and libraries for 
+each functions.
+
+<p>
+<li> <code> Globals { </code> ... C descriptions ... <code> }</code><br>
+This statement declares global variables shared by all routines.
+
+<p>
+<li> <code> Define </code> ninf-name <code> (</code> paramter1, paramter2, ....<code> )</code><br>
+[<code>"</code>description<code>"</code> ] <br>
+[<code>Required</code> <code>"</code>files-or-libs<code>"</code>]<br>
+{ <code>{</code> C descriptions <code> }</code> | <code> Calls</code> lang-spec function-name <code>(</code> arg1,arg2, ...<code> );</code>}<br>
+
+This statement declares function interface and 
+libraries needed by the function.
+
+<p>
+For 'lang-spec', you specify the language you implement your 
+numerical library.
+Currently, you can use 'fortran' of 'C'.
+'C' is default.
+Using this information, the stub generator changes 
+function call sequence.
+For fortran libraries, the format string specified in FortranFormat statement
+will be used.
+
+<p>
+Each parameter must follow the following syntax.
+
+<center>
+ [mode-spec] [type-spec] param-name 
+[ <code>[</code> dimension [<code> :</code> range] <code>]</code>]+
+</center>
+
+For 'type-spec', you specify data type for the parameter.
+You can use, float, double, signed/unsigned char, short, int, long, longlong.
+NOTE: sizes of these data-types do not depend on platforms.
+The sizes is specified by XDR, 
+char 1 byte, short 2 byte, int 4 byte, long 4byte, longlong 8byte,
+float 4byte, double 8byte .
+<p>
+For 'mode-spec', you specify input/output mode:
+IN, OUT, INOUT, WORK.
+'IN' means that the parameter will be transferred from client to server.
+'OUT' means the opposite.
+'INOUT' means that the parameter will be transferred from client to server 
+firstly, and after the calculation, it will go back to the client.
+Parameter marked as 'WORK' will not be transferred.
+Specified memory area will be just allocated on the server side.
+You can not use 'OUT' for scalar types.
+<p>
+For arrays, you can specify, size, upper-limit, lower-limit, stride. 
+These can be omitted, except for size.
+For these values, you can use some expressions.
+<p>
+Expression can include constants, other IN-moded scalar parameter in the 
+function definition, and some operators.
+We provide just 5 operators: +,-,*,/,%.
+Priority among these operators is same as ANSI C.
+You can also use parentheses in expressions.
+
+</ul>
+
+<h2> Ninf IDL syntax </h2>
+
+<PRE>
+/* program toplevel */
+program:  /* empty */
+      | declaration_list
+    ;
+
+declaration_list: 
+      declaration
+    | declaration_list declaration
+    ;
+
+declaration:
+      ``Module'' IDENTIFIER ';'
+    | ``FortranFormat'' STRING ';'
+    | ``CompileOptions'' STRING ';'
+    | ``Globals'' globals_body
+    | ``Define'' interface_definition opt_string required interface_body
+    ;
+
+interface_definition: 
+        IDENTIFIER '(' parameter_list ')'
+    ;
+
+parameter_list:
+       parameter
+    | parameter_list ',' parameter
+    ;
+
+parameter: 
+       decl_specifier declarator
+    ;
+
+decl_specifier: 
+    type_specifier
+    | MODE
+    | MODE type_specifier
+    | type_specifier MODE
+    | type_specifier MODE type_specifier
+    ;
+
+type_specifier:
+      TYPE
+    | TYPE TYPE
+    | TYPE TYPE TYPE    /* ex. unsigned long int */
+    ;
+
+declarator:
+      IDENTIFIER
+    | '(' declarator ')'
+    | declarator '['expr_or_null ']'
+    | declarator '['expr ':' range_exprs ']'
+    | '*' declarator
+    ;
+
+range_exprs:
+       expr     /* upper limit */
+     | expr ',' expr    /* lower limit and upper limit */
+     | expr ',' expr ',' expr /* lower, upper and step */
+
+opt_string: 
+    /* empty */ 
+    | STRING 
+    ;
+
+language_spec: 
+    /* empty */ 
+    | ``fortran''
+    | ``C''
+    ;
+
+required:
+    /* empty */ 
+    | ``Required'' STRING
+    ;
+
+interface_body:
+    '{' /* C statements */ '}'
+    | ``Calls'' opt_string IDENTIFIER '(' id_list ')' ';'
+    ;
+
+globals_body:
+    '{'/* C statements */ '}'
+    ;
+
+id_list: IDENTIFIER
+    | id_list ',' IDENTIFIER
+    ;
+
+/* index description */
+expr_or_null: 
+       expr 
+    | /* null */
+    ;
+
+expr:     
+      unary_expr
+    | expr '/' expr
+    | expr '%' expr
+    | expr '+' expr
+    | expr '-' expr
+    | expr '*' expr
+    ;
+
+unary_expr:  
+      primary_expr
+    | '*' expr
+    | '-' expr
+    ;
+
+primary_expr:
+     primary_expr '[' expr ']'
+    | IDENTIFIER
+    | CONSTANT
+    | '('  expr  ')'
+    ;
+
+/* TYPE = int, unsigned, char, short, long, long float, double */
+/* MODE = mode_in, mode_out, mode_inout, mode_work, IN, OUT, INOUT, WORK*/
+/* IDENTIFIER = name */
+/* CONSTANT = integer literals 、floating point literals */
+/* STRING = &quot;...&quot; */
+</PRE>
+
+
+<h2> IDL Sample </h2>
+<P>
+sample.idl:
+
+<PRE>Module sample;
+Library &quot;-lm&quot;;
+
+Globals { int x,y,z; }
+
+Define sin(IN double d, OUT double result[])
+&quot; This is test ...&quot;
+{    
+    double sin();
+    *result = sin(d);
+}
+
+Define mmul(long mode_in int n, mode_in double A[n][n], 
+    mode_in double B[n][n],
+    mode_out double C[n][n])
+Required &quot;sample.o&quot;
+Calls &quot;C&quot; mmul(n,A,B,C);
+
+Define mmul2(long mode_in int n, mode_in double A[n*n+1-1], 
+        mode_in double B[n*n+2-3+1],
+        mode_out double C[n*n])
+Required &quot;sample.o&quot;
+Calls &quot;C&quot; mmul(n,A,B,C);
+
+
+Define FFT(IN int n,IN int m, OUT float x[n][m], float INOUT y[m][n])
+Required &quot;sample.o&quot;
+Calls &quot;Fortran&quot; FFT(n,x,y);
+</PRE>
+
+<h2> stub generator output</h2>
+sample.mak:
+
+<PRE>
+# This file 'sample.mak' was created by ninf_gen. Don't edit
+
+# CompileOptions:
+
+# stub sources
+NINF_STUB_SRC = _stub_sin.c  _stub_mmul.c  _stub_FFT.c 
+
+# stub programs
+NINF_STUB_PROGRAM = _stub_sin _stub_mmul _stub_FFT
+
+all: $(NINF_STUB_PROGRAM)
+
+_stub_sin:
+    $(CC) $(LDFLAGS) -o _stub_sin _stub_sin.c ninf_stub_lib.a  -lm
+
+_stub_mmul:
+    $(CC) $(LDFLAGS) -o _stub_mmul _stub_mmul.c ninf_stub_lib.a sample.o -lm
+
+_stub_mmul2:
+    $(CC) $(LDFLAGS) -o _stub_mmul2 _stub_mmul2.c ninf_stub_lib.a sample.o -lm
+
+_stub_FFT:
+    $(CC) $(LDFLAGS) -o _stub_FFT _stub_FFT.c ninf_stub_lib.a sample.o -lm
+
+
+clean:
+    rm $(NINF_STUB_PROGRAM)
+
+# END OF Makefile
+</PRE>
+
+
+<P>
+_stub_mmul2.c:
+<P>
+
+<PRE>/* _stub_mmul2.c : generated by ./ninf_gen, don't edit. */
+#include &quot;ninf_stub.h&quot;
+
+NINF_STUB_INFO ninf_stub_info = {
+0,0,0,  &quot;sample&quot;,&quot;mmul2&quot;,4,
+{
+        { 5, 1, 0,},
+        { 13, 1, 1,{
+                { 3, 2, 
+                        {
+                          {2,2,4,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,3,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                },
+                }},
+        { 13, 1, 1,{
+                { 3, 1, 
+                        {
+                          {2,2,4,1,4,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,3,2,1,3,2,1,1,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                },
+                }},
+        { 13, 2, 1,{
+                { 3, 3, 
+                        {
+                          {2,2,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                },
+                }},
+}
+};
+
+/* Globals */
+ int x,y,z; 
+
+/* Stub Main program */
+main(argc,argv){
+        long n;
+        double *A;
+        double *B;
+        double *C;
+
+        Ninf_stub_INIT(argc,argv);
+        while(Ninf_stub_REQ()){
+                Ninf_stub_SET_ARG(&amp;n,0);
+                Ninf_stub_SET_ARG(&amp;A,1);
+                Ninf_stub_SET_ARG(&amp;B,2);
+                Ninf_stub_SET_ARG(&amp;C,3);
+                mmul(n,A,B,C);
+                Ninf_stub_END();
+        }
+        Ninf_stub_EXIT();
+}
+ /* END OF Stub Main */
+</PRE>
+

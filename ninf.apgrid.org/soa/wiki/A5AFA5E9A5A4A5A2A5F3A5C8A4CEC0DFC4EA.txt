@@ -1,0 +1,84 @@
+* CentOS 4.3 での設定 [#j273e862]
+
+デフォルトのカーネル（2.6.9-34.EL）にはsfnetのiSCSI（[http://linux-iscsi.sourceforge.net/ linux-iscsi] 4.x）モジュールが含まれている．sfnetは多くの商用ストレージでサポートされ，2.6.10のカーネルまで対応しているらしい．2.6.11以上のカーネルはopen-iscsi（linux-iscsi 5.x）となる．
+
+iscsi-initiator-utilsパッケージがインストールされているかを確認し，なければインストールする．
+
+  # yum install iscsi-initiator-utils
+
+InitiatorNameは自動的に設定されるが，設定されていない場合は便宜的に`/sbin/iscsi-iname`コマンドで名前を生成して設定する．ちゃんとした運用のためには名前付けを考える必要がある．
+
+  # cat /etc/initiatorname.iscsi
+  InitiatorName=iqn.1987-05.com.cisco:01.ef82a0bb711c
+
+/etc/iscsi.confを編集して，DiscoveryAddressを次のように設定する．アクセス制御やiSCSIの各種パラメータもこのファイルに記述することになる．
+
+  DiscoveryAddress=163.220.30.231:3260
+
+iscsi.confの設定後，次のコマンドでiSCSIを使えるようにする．iscsiスクリプト内ではドライバのロード，TCPのパラメータ設定，iscsidの起動等を行っている．
+
+  # /etc/init.d/iscsi start
+  Checking iscsi config:                                     [  OK  ]
+  Loading iscsi driver:                                      [  OK  ]
+  Starting iscsid:                                           [  OK  ]
+
+`iscsi-ls`コマンドでターゲットの情報を確認できる．この時点で，SCSIディスクとして見えるようになっている．
+
+  # /sbin/iscsi-ls
+  *******************************************************************************
+  SFNet iSCSI Driver Version ...4:0.1.11(12-Jan-2005)
+  *******************************************************************************
+  TARGET NAME             : iqn.2006.06.jp.hpcc.XGtestPC3:gridvon-exp.soa.aist
+  TARGET ALIAS            :
+  HOST ID                 : 9
+  BUS ID                  : 0
+  TARGET ID               : 0
+  TARGET ADDRESS          : 163.220.30.231:3260,1
+  SESSION STATUS          : ESTABLISHED AT Thu Jul 27 19:23:48 JST 2006
+  SESSION ID              : ISID 00023d000001 TSIH 200
+  *******************************************************************************
+
+あとは通常のディスクと同様に，Linux パーティションを作成，ファイルシステムを構築，マウントして使うことができる．
+
+  # fdisk /dev/sdb
+  # mkfs -t ext3 /dev/sdb1
+  # mount /dev/sdb1 /mnt/iscsi
+
+
+* Fedora Core 4 での設定 [#qd769d56]
+
+* Fedora Core 5 での設定(うまくいかない?) [#td8a2454]
+
+Kernelは2.6.17-1.2157_FC5。
+
+ # yum -y install iscsi-initiator-utils
+ # /sbin/chkconfig iscsi on
+ # /etc/init.d/iscsi start
+ # /sbin/iscsiadm -m discovery --type sendtargets --portal 163.220.30.231:3260
+ [54748e] 163.220.30.231:3260,1 iqn.2006.06.jp.hpcc.XGtestPC3:tanimura.soa.aist
+ [0bbbb0] 163.220.30.231:3260,1 iqn.2006.06.jp.hpcc.XGtestPC3:gridvon-exp.soa.aist
+ # /sbin/iscsiadm -m node -r 0bbbb0 --login
+ scsiadm: iscsid reported error (9 - internal error)
+
+とエラーメッセージが出る。デバッグオプションを付けて実行してみるとこんな感じ。
+
+ # /sbin/iscsiadm -d 8 -m node -r 0bbbb0 --login
+ iscsiadm: updating defaults from '/etc/iscsid.conf'
+ iscsiadm: updated 'node.startup', 'manual' => 'automatic'
+ iscsiadm: updated 'node.session.timeo.replacement_timeout', '0' => '0'
+ iscsiadm: updated 'node.session.err_timeo.abort_timeout', '10' => '10'
+ iscsiadm: updated 'node.session.err_timeo.reset_timeout', '30' => '30'
+ iscsiadm: updated 'node.session.iscsi.InitialR2T', 'No' => 'No'
+ iscsiadm: updated 'node.session.iscsi.ImmediateData', 'Yes' => 'Yes'
+ iscsiadm: updated 'node.session.iscsi.FirstBurstLength', '262144' => '262144'
+ iscsiadm: updated 'node.session.iscsi.MaxBurstLength', '16776192' => '16776192'
+ iscsiadm: updated 'node.session.iscsi.DefaultTime2Wait', '0' => '0'
+ iscsiadm: updated 'node.session.iscsi.DefaultTime2Retain', '0' => '0'
+ iscsiadm: updated 'node.session.iscsi.MaxConnections', '1' => '0'
+ iscsiadm: searching for key '163.220.30.231:3260#163.220.30.231:3260,1#iqn.2006.06.jp.hpcc.XGtestPC3:tanimura.soa.aist'
+ iscsiadm: searching for key '163.220.30.231:3260#163.220.30.231:3260,1#iqn.2006.06.jp.hpcc.XGtestPC3:gridvon-exp.soa.aist'
+ iscsiadm: iscsid reported error (9 - internal error)
+
+よく分からないね。
+
+↑リリースされているopen-iscsiの最新バージョンは1.0-485で，これに含まれる互換パッチはカーネル2.6.15までの分しかない．また，2.6.16，2.6.17のカーネル本体に含まれるiSCSIのドライバとリリース版のopen-iscsiのコマンドとの相性が微妙な感じ（FC4ではログイン時にカーネルパニックが発生．SVN版を落としてモジュール，コマンドともに入れ直すと大丈夫だった．）

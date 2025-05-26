@@ -1,0 +1,11 @@
+AddType text/html .shtml
+AddHandler server-parsed .shtml
+Redirect /nakada http://ninf.etl.go.jp/~nakada
+Redirect /jojo   http://staff.aist.go.jp/hide-nakada/jpop
+Redirect /jpop  http://staff.aist.go.jp/hide-nakada/jpop
+
+RewriteEngine on
+
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+

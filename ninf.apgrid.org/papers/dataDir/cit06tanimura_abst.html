@@ -1,0 +1,4 @@
+<h1> Abstract </h1>
+<hr>
+In the framework of GridRPC, a new function that allows direct data transfer between RPC servers is implemented for ef cient execution of a Task Sequencing job in a grid environment. In Task Sequencing, RPC requires dependency between input and output parameters, which means output of a previous RPC becomes the input of the next RPC. In this study, the direct transfer of data is implemented using the grid  lesystem without destroying the GridRPC programming model and without changing very many parts of the existing Ninf-G implementation. Our Task Sequencing API library analyzes RPC arguments to detect intermediate data after task submissions, and reports the information to GridRPC servers so that the intermediate data is created on the grid  lesystem. Through our performance evaluation on LAN and on the Japan-US grid environment, it was verified that the function achieved performance improvement in distributed Task Sequencing.
+<hr>

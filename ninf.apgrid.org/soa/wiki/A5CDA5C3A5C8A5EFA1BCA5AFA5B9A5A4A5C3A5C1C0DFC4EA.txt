@@ -1,0 +1,72 @@
+[[ネットワークスイッチ設定]]
+
+1. コマンド
+- DELL5224のtagged vlanを追加／削除する
+- 各ポートのモードはデフォルト(hybrid mode)を想定
+- DELL5224のユーザ／パスワードはスクリプトに埋め込み
+- DELL5224のプロンプトはデフォルト("Vty-%1d")を想定
+- 正常終了時は0, 異常終了時は-1でexitする
+- expect のスクリプト
+
+useage: sw-vconfig add | del ipaddr vlan-id ifname...
+        add:    add tagged vlan
+        del:    delete tagged vlan
+        ipaddr: ip address of DELL5224 L2 switch
+        vlanid: vlan id number
+        ifname: interface number, example 1/1...1/24
+
+例1：DELL5224 のポート 1/20 1/21 1/22 1/23 に vlan 900 を追加
+ ./sw-vconfig add 163.220.110.241 900 1/20 1/21 1/22 1/23
+
+例2：DELL5224 のポート 1/20 1/21 1/22 1/23 から vlan 900 を削除
+ ./sw-vconfig del 163.220.110.241 900 1/20 1/21 1/22 1/23
+
+2. テスト環境
+
+    グリッド実験線側    ホスト名  クラスタ内LAN側　　　　　DELL5224
+ -- eth0 163.220.30.153 :grmpi08: eth1 163.220.110.108 -- 1/1
+ -- eth0 163.220.30.154 :grmpi09: eth1 163.220.110.109 -- 1/2
+ -- eth0 163.220.30.155 :grmpi0a: eth1 163.220.110.110 -- 1/3
+ -- eth0 163.220.30.156 :grmpi0b: eth1 163.220.110.111 -- 1/4
+ -- eth0 163.220.30.157 :grmpi0c: eth1 163.220.110.112 -- 1/5
+ -- eth0 163.220.30.158 :grmpi0d: eth1 163.220.110.113 -- 1/6
+ -- eth0 163.220.30.159 :grmpi0e: eth1 163.220.110.114 -- 1/7
+ -- eth0 163.220.30.160 :grmpi0f: eth1 163.220.110.115 -- 1/8
+                                       163.220.110.241 -- vlan 1
+
+3. test.sh によるテスト内容
+
+1) クラスタ内LAN側に vlan 900(192.168.100.xx) のインタフェースを作成し
+sw-vconfig コマンドで vlan 900 を接続して ssh で date コマンドを実行す
+る。
+
+2) sw-vconfig コマンドで vlan 900 の設定を解除して、クラスタ内LAN側に
+vlan 900 のインタフェースを削除する。
+
+ [root@grmpi08 dell5224]# ./test.sh
+ ./sw-vconfig add 163.220.110.241 900 1/1 1/2 1/3 1/4 1/5 1/6 1/7 1/8
+ 163.220.110.108:        Added VLAN with VID == 900 to IF -:eth1:-
+ 163.220.110.109:        Added VLAN with VID == 900 to IF -:eth1:-
+ 163.220.110.110:        Added VLAN with VID == 900 to IF -:eth1:-
+ 163.220.110.111:        Added VLAN with VID == 900 to IF -:eth1:-
+ 163.220.110.112:        Added VLAN with VID == 900 to IF -:eth1:-
+ 163.220.110.113:        Added VLAN with VID == 900 to IF -:eth1:-
+ 163.220.110.114:        Added VLAN with VID == 900 to IF -:eth1:-
+ 163.220.110.115:        Added VLAN with VID == 900 to IF -:eth1:-
+ ssh 192.168.100.108 date :Fri Sep 15 15:33:32 JST 2006
+ ssh 192.168.100.109 date :Fri Sep 15 15:33:17 JST 2006
+ ssh 192.168.100.110 date :Fri Sep 15 15:33:33 JST 2006
+ ssh 192.168.100.111 date :Fri Sep 15 15:33:26 JST 2006
+ ssh 192.168.100.112 date :Fri Sep 15 15:33:39 JST 2006
+ ssh 192.168.100.113 date :Fri Sep 15 15:33:38 JST 2006
+ ssh 192.168.100.114 date :Fri Sep 15 15:33:24 JST 2006
+ ssh 192.168.100.115 date :Fri Sep 15 15:33:22 JST 2006
+ 163.220.110.108:        Removed VLAN -:eth1.900:-
+ 163.220.110.109:        Removed VLAN -:eth1.900:-
+ 163.220.110.110:        Removed VLAN -:eth1.900:-
+ 163.220.110.111:        Removed VLAN -:eth1.900:-
+ 163.220.110.112:        Removed VLAN -:eth1.900:-
+ 163.220.110.113:        Removed VLAN -:eth1.900:-
+ 163.220.110.114:        Removed VLAN -:eth1.900:-
+ 163.220.110.115:        Removed VLAN -:eth1.900:-
+ ./sw-vconfig del 163.220.110.241 900 1/1 1/2 1/3 1/4 1/5 1/6 1/7 1/8

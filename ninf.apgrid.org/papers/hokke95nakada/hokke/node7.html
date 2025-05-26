@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> メタサーバ
+  アーキテクチャの設計</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" メタサーバ
+  アーキテクチャの設計">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html116 HREF="node8.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html114 HREF="node5.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html108 HREF="node6.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html117 HREF="node8.html"> Ninf サーバ
+  の選択</A>
+<B>Up:</B> <A NAME=tex2html115 HREF="node5.html">  メタサーバ
+  </A>
+<B> Previous:</B> <A NAME=tex2html109 HREF="node6.html">  メタサーバ
+  の設計方針</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00032000000000000000> メタサーバ
+  アーキテクチャの設計</A></H2>
+<P>
+上記の要件をみたすようにメタサーバ
+  を以下の様に設計した。
+<P>
+<UL><LI> メタサーバ
+  は、クライアントからのリクエストをNinf サーバ
+  に中継する。
+メタサーバ
+  には複数のNinf サーバ
+  を登録することができ、
+メタサーバ
+  は、計算のリクエストを適切なNinf サーバ
+  に対して
+委譲する。 ``適切''なNinf サーバ
+  に関しては後で述べる。
+<P>
+<LI> メタサーバ
+  は他のメタサーバ
+  と通信し、情報を共有する。<BR> 
+メタサーバ
+  を単体のサーバとして設計すれば、情報の管理は
+集中するため容易になるが、将来的にボトルネックになることは
+容易に想像がつく。
+複数のメタサーバ
+  を独立して立てることも考えられるが、
+新たにNinf サーバ
+  を立てる際には、可能な限り多くの
+メタサーバ
+  に登録してもらわなければならない。これは
+繁雑である。これを避けるために、メタサーバ
+  間での通信の
+プロトコルを作成し、メタサーバ
+  間での情報の共有を可能にした。
+これにより、Ninf サーバ
+  を立てる際には、最寄りのメタサーバ
+  に対して
+登録を行なえば、その情報は自然に伝搬するため、世界中からアクセス
+されることが可能になる。
+<P>
+<LI> 並列実行を実現するために、クライアントプログラムに計算のトランザクション
+という概念を導入する。<BR> 
+トランザクションは、いくつかの連続する Ninf計算の呼びだしであり、
+ユーザによって明示的に定義される。
+クライアントは、トランザクションを一括して、メタサーバ
+  に投げる。
+メタサーバ
+  はトランザクションを構成する計算を適宜スケジューリングし、
+Ninf サーバ
+  に計算を依頼する。
+トランザクションの設定はプログラムへのわずかな変更で行なえる。
+<P>
+</UL>
+<P>
+メタサーバ
+  の構造を図<A HREF="node7.html#metaservernet">5</A>に示す。
+<P><A NAME=153>&#160;</A><A NAME=metaservernet>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="img6.gif">
+<BR><STRONG>図:</STRONG> メタサーバ
+  ネットワーク<BR>
+<P><BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

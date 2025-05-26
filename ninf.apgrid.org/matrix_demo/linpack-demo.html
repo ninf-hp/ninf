@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<TITLE> Ninf and Matrix Market (LinpackDemo)</TITLE>
+</HEAD>
+<Link rev="made" href="mailto:EMAIL">
+<BODY bgcolor="#ffffff">
+<CENTER>
+<img alt="Ninf LOGO" src="/image/Ninf-A.gif">
+<img alt="[IMAGE]" src="images/market.gif" width="40%">
+</CENTER>
+<H1 ALIGN=CENTER> 
+Ninf: A Network based Information Library <br>
+for Global World-Wide Computing Infrastructure
+</H1>
+<p><hr>
+
+<form method="POST" action="/cgi-bin/linpack-demo.cgi">
+
+<ul>
+
+<p><li><b> Matrix Size </b>:  <br>
+<select name="matrix_size">
+<option value="100" selected> 100
+<option value="200"> 200
+<option value="400"> 400
+<option value="600"> 600
+<option value="1000"> 1000
+</select>
+
+<p><li><b> Ninf Server </b>: <br>
+<select name="server">
+<!--
+<option value="hpc420-2" selected> SUN Enterprise 3000
+-->
+<option value="hpc420-2"> Sun Ultra 80
+</select>
+
+<p><li><b> Demostarion </b>: <br>
+<select name="demo">
+<option value="ALL"> Both (Ninf and Local execution)
+<option value="NINF" selected> Ninf execution
+<!--
+<option value="REMOTE"> Remote execution on hpc
+-->
+<option value="LOCAL"> Local execution on Ultra 80
+</select>
+
+</ul>
+
+<p>
+
+<input type="reset" value="Clear Form">
+<input type="submit" value="Submit Query">
+
+</form>
+
+<p>
+<hr>
+<address>
+Copyright (C) 1996 <a href="mailto:ninf@apgrid.org"><i>ninf@apgrid.org</i></a>
+</address>
+</body>
+</html>

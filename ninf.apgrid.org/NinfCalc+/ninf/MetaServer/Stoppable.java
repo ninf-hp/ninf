@@ -1,0 +1,1 @@
+package ninf.MetaServer;public interface Stoppable{  public void stop();}

@@ -1,0 +1,38 @@
+<h1> Abstract </h1>
+<hr>
+グリッドの使用が広く広まるにつれ、
+グリッドにおけるフォールトトレランスは重要な研究テーマになりつつある。
+グリッドでは計算資源は豊富であるが、不安定であり、専用の資源ではないため、
+すべての段階での障害をユーザ透過に扱わなければならない。
+GridRPCは、グリッド環境におけるプログラミングモデルの一つである。
+本研究では、GridRPCにおける計算の過程において、
+フォールトトラランスのさまざまな側面に対し、
+それぞれを別々に対処する必要があることを示す。
+今回、計算時におけるフォールトトレランスを実現するために
+GridRPCシステムであるNinfをCondorと統合した。
+この統合はユーザ透過であり、
+粒度の大きい計算に対しオーバヘッドが比較的小さいことが分かった。
+しかし、粒度の小さい計算に対しては、
+計算の起動に対してのチェックポイントライブラリ転送のコスト以外に、
+変則的なオーバヘッドが生じる。
+
+<hr>
+
+Fault Tolerance is becoming an increasingly important research topic in
+the Grid as it gains widespread use. The availability of abundance of
+albeit unstable resources in non-dedicated environments mandate that all
+faults in the stages of user computation be handled in a transparent and
+graceful fashion. Our analysis shows that, in GridRPC, which is one of
+the viable programming models and systems for the Grid, variable stages
+during the computation exhibits various facets of fault tolerance, and
+as such they must be handled in a stage-by-stage basis. An experiment in
+integrating Ninf, a GridRPC system, with the Condor system for
+ checkpointing to enable fault 
+tolerance for computation shows that the integration is largely
+transparent to the user, and for large-grained computations, the
+overhead is relatively small. On the other hand, overhead for
+smaller-grained computations exhibits anomolous and spurious overhead,
+in addition to overhead incurred for transfer of the checkpointing
+library on each invocation, and we are conducting further investigation
+on its viability.
+

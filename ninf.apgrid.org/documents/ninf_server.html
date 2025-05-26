@@ -1,0 +1,59 @@
+<html>
+<head><title> NinfServer </title></head>
+<body>
+
+<center>
+<h1> NinfServer </h1>
+</center>
+<hr>
+<h2> Role of NinfServer  </h2>
+NinfServer serves pre-registered computational routines.
+
+<h2> Usage </h2>
+The executable file of NinfServer is 'ninf_serv_tcp'.
+
+<pre>
+> ninf_serv_tcp [-port PORT] [-daemon] [configuration_file_name]
+</pre>
+
+<p>
+<ul>
+<li> <code> -port PORT </code> <br>
+This flag specifies port number
+and may overrides configuration file.
+The port number can be specified by environment variable 'NINF_SERVER_PORT'.
+The priority is as follows.
+<pre>
+by flag &gt by configuration file &gt by environment variable 
+&gt default port = 3000 
+</pre>
+
+
+<li> <code> -daemon </code> <br>
+This flag makes NinfServer running in daemon mode.
+</ul>
+
+<h2> configuration file </h2>
+
+In the configuration file, we can use following notations.
+<ul>
+<li> port number<br>
+<pre>
+port portNo
+</pre>
+
+<p>
+<li> stubs <br>
+<pre>
+stubs [stub_filename | stub_dirname]
+</pre>
+If stub_filename specified, the file will be registered.
+If stub_dirname specified, all the stub files(named _stub_*) 
+in the directory will be registered.
+<p>
+<li> MetaServer host-name and port-number<br>
+<pre>
+metaserver hostname portNo
+</pre>
+</ul>
+

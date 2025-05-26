@@ -1,0 +1,247 @@
+<html>
+<head><title> netCFD </title></head>
+<Link rev="made" href="mailto:EMAIL">
+<body bgcolor="#fffff0">
+<center>
+<h1> netCFD: a Ninf CFD component for Global Computing,
+and Java applet GUI </h1>
+<h3>
+Parallel & Distributed System Performance TRC Laboratory <br>
+	Real World Computing Partnership, JAPAN
+</h3>
+</center>
+<hr>
+<p>
+NetCFD is a Ninf computational component for CFD (Computational Fluid
+Dynamics) in a global computing environment.  The netCFD applet GUI
+loaded in your Web browser allows a remote user to control and
+visualize the CFD computation interactively. Ninf is a Japanese global
+computing infrastructure project which involves RWCP, the
+Electrotechnical Laboratory (ETL), the Tokyo Institute of
+Technology, and several collaborators.  Ninf Remote Procedure Call
+(RPC) provides an interface to a parallel CFD program running on any
+high performance platforms.  The netCFD turns high performance
+platforms such as supercomputers and MPPs, clusters into valuable
+components for global computing.
+<p>
+<h3> Index: </h3>
+<dl>
+<dt><dd>
+<img src="red-ball.gif">
+<a href=#intro> Introduction </a>
+<dt><dd>
+<img src="red-ball.gif">
+<a href=#interface> netCFD Ninf Interface </a>
+<dt><dd>
+<img src="red-ball.gif">
+<a href=#femflow> femFlow: a CFD program with FEM </a>
+<dt><dd>
+<img src="red-ball.gif">
+<a href=#GUI> netCFD Java applet GUI </a>
+<dt><dd>
+<img src="red-ball.gif">
+<a href=#demo> Demo </a>
+<dt><dd>
+<img src="red-ball.gif">
+<a href=figures.html> Figures </a>
+</dl>
+
+<hr>
+<h2><img align="middle" alt="pd-mark" src="pd-mark.gif">
+<a name=intro>
+Introduction: 
+</a>
+</h2>
+Remarkable growth of computer network technology has resulted a
+variety of information services accessible through the Internet.
+While most existing global network services such as e-mail, file
+archives, and the WWW, are limited to merely sharing data resources,
+the global network could be far better utilized, embodying the
+potential to provide a computational environment to share
+computational resources including CPUs and disk storage. The coming of
+gigabit information superhighway will further enhance the vision of
+world-wide global computing resources, being able to tap into powers
+of enormous numbers of computers with idle computation cycles. For the
+global network computing, libraries and systems such as Legion and
+NetSolve have been proposed.
+<p>
+On the other hand, it has become possible to cluster high-performance
+commodity workstations and PCs to build cost-effective parallel
+computing platforms using high-speed interconnect technologies such as
+ATM, Fibre Channel and Myrinet. These interconnects, ``killer
+switch'', have performance and scalability of the MPP interconnect and
+the flexibility of a local area network.  It is viable to build
+parallel systems that are fast, inexpensive, and highly available, by
+simply connecting these switches together with the last high
+performance commodity components.
+<p>
+As an infrastructure for world-wide global computing in scientific
+computation, we are currently pursuing the Ninf (Network based
+Information Library for high performance computing) project.  The goal
+of Ninf is to provide a useful interface to a variety of high
+performance computing platform such as the clusters for global
+scientific computing with computational resources distributed in a
+world-wide global network.  The basic Ninf system supports
+client-server based computing.  The computational resources are
+available as remote libraries at a remote computation host which can
+be called through the global network from a programmer's client
+program written in existing languages such as Fortran, C, or C++ using
+Ninf remote procedure call (RPC).  The programmer can build a global
+computing systems by using the Ninf remote libraries as its
+components, without being aware of complexities and hassles of network
+programming.
+<br>
+<img src="Ninf.gif">
+<br>
+For the detail of Ninf, check <a href="http://ninf.etl.go.jp">
+http://ninf.etl.go.jp/ </a>
+
+<p>
+The netCFD is a Ninf global computing component for CFD (Computational
+Fluid Dynamics) computation, providing interfaces to CFD programs
+running on MPP's and clusters, a single Workstation via Ninf RPC.
+CFD is one of the most important application areas which requires
+high performance computing.
+The netCFD applet GUI loaded in a Web browser allows a
+remote user to control and visualize the CFD computation
+interactively.  The netCFD Ninf component can be used as a part of 
+other global computing systems as well.
+The netCFD turns high performance platforms
+such as supercomputers and MPPs, clusters into valuable components for
+global computing. 
+
+<hr>
+<h2><img align="middle" alt="pd-mark" src="pd-mark.gif">
+<a name=interface>
+netCFD Ninf Interface:
+</a>
+</h2>
+In the current version of netCFD, the interface is designed for
+our CFD program called femFlow, which simulates a give system using
+Finite Element Method. 
+<p>
+The main function in the netCFD is "femFlow" which start to 
+execute the CFD program. The following fragment describes the
+interface to "femFlow" in the Ninf IDL:
+<pre>
+Define femFlow(IN int id, IN float header[24],IN int n_node,IN int n_elem,
+               IN float x[n_node],IN float y[n_node],IN float z[n_node],
+               IN float u[n_node],IN float v[n_node],IN float w[n_node],
+               IN float t[n_node],IN float p[n_node],
+	       IN char uf[n_node],IN char vf[n_node],IN char wf[n_node],
+               IN char tf[n_node],IN char pf[n_node],
+               IN short elems[n_elem*8],IN int npe, IN char  pe[n_elem],
+               flowDisplay(IN int step[1],IN double ctime[1],
+                           IN double delta[1],IN float data[n_node*5]))
+</pre>
+The IN arguments are sent to the "femFlow" Ninf Stub program through
+the Ninf server to call the CFD main program. The last argument is the
+call back function in a client side to receive the resulting data
+containing the velocity and pressure, temperature of each mesh node at
+each simulation time step. 
+In netCFD applet GUI, the call backed function is to
+visualize the data.
+<p>
+Other functions are provided to restart the suspended simulation and
+replay the last few steps.
+Some mesh data files are also stored in the Ninf server, and retrieved 
+through the Ninf RPC.
+<img src="NetCFD0.gif">
+
+<hr>
+<h2><img align="middle" alt="pd-mark" src="pd-mark.gif">
+<a name=femflow>
+femFlow: a CFD program with FEM
+</a>
+</h2>
+The CFD program used in the netCFD is a parallel 3D CFD program, femFlow,
+written in C++ and MPI.
+In a parallel environment, the Ninf stub program in the server forks
+the parallel process in the parallel platform, and communicates with them.
+In a single processor environment, the sequential version is directly
+linked to the stub program to execute the program.
+<p>
+The used modeling and numerical methods are as follows:
+<ul>
+<li> Basic Equations 
+<ul>
+<li> Equation of Continuity
+<li> Equation of Motion (Navier-Stokes Equation)
+<li> Equation of Mechanical Energy
+</ul>
+<li> Discretization Method 
+<ul> 
+<li> Finite Element Method (FEM)
+<li> 8-nodes isoparametric element
+<li> High-order upwind finite element scheme
+</ul>
+<li> Matrix Solver 
+<ul>
+<li> SCG (Scaled Conjugate Gradient) Method
+</ul>
+<li> Time integration
+<ul>
+<li> SMAC Method
+</ul>
+<li> Parallelized
+ by domain decomposition
+<li> Object-oriented design in C++
+</ul>
+
+<hr>
+<h2><img align="middle" alt="pd-mark" src="pd-mark.gif">
+<a name=GUI>
+netCFD Java applet GUI:
+</a>
+</h2>
+The netCFD applet GUI is an Java applet which allows a
+remote user to control and visualize the CFD computation in a web
+browser interactively. It uses the Java Ninf RPC interfaces to retrieve
+the mesh data and execute the simulation in the Ninf server.
+<p>
+The simple version just loads the give mesh data file in the HTML file 
+and start the simulation.
+<p>
+The interactive version allows a user to select a mesh data file and
+control the simulation.
+In the vector mode, the vector at each node indicates the direction of 
+flow. The color shows the value of the selected data item including 
+velocity and pressure, temperature at each node. In the element mode,
+each element is painted using the color of the value at its center.
+The mesh mode shows the original mesh data and boundary condition.
+<p>
+Note that the current version supports only 2D mesh data.
+
+<hr>
+<h2><img align="middle" alt="pd-mark" src="pd-mark.gif">
+<a name=demo>
+Demonstration in this site:
+</a>
+</h2>
+The Ninf server and femFlow (sequential) is running on SUN Enterprise
+450 at this site(pdplab.trc.rwcp.or.jp).
+<p>
+<font color="red">
+Note the following browser is required:
+<ul>
+<li> IE 4.0 or later
+<li> netscape navigator 4.07, communicator 4.5 or later
+</ul>
+</font>
+
+<ul>
+<li> <h2> <a href = "simpleflow.html"> 
+netCFD: simple version </a> </h2> 
+Non-interactive version. It shows the flow and pressure around a cylinder.
+
+<li> <h2> <a href = "showflow.html" target=top> 
+netCFD: interactive version </h2> </a>
+You can select some mesh files in the server.
+It allows you to control and change the visualization mode interactively.
+</ul>
+</body>
+</html>
+
+
+
+

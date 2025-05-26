@@ -1,0 +1,41 @@
+ * 構成 [#ud0d17e5]
+ - メタデータサーバをフロントエンドに用意し，ファイルシステムノードを計算ノードに用意する．メタデータキャッシュサーバは利用しない．
+ - shared_secret 認証のみとする．
+ - gfarmfs-fuse を利用してアクセスする形とするが，自動マウントはしない．
+ 
+ * インストール方法 [#b1f5024f]
+ 
+ - フロントエンドノードへのインストール
+ 
+  # rpm -Uvh http://www.rocksclusters.org/ftp-site/pub/rocks/rocks-4.2.1/upgrade/roll-install-4.2.1-0.i386.rpm
+  # roll-install gfarm_soa-4.2.1-0.i386.disk1.iso
+  # /etc/rc.d/rocksconfig.d/post-50-gfarm-server
+  # /etc/rc.d/rocksconfig.d/post-50-gfarm-base
+  # insert-ethers  （compute-gfarm を選択する）
+ 
+ - 計算ノードでの操作
+ 
+   CD-ROM あるは PXE Boot で計算ノードをインストール
+ 
+ 
+ * Roll 作成時の問題 [#h8eba5f9]
+ - /sbin/runuser を非対話的に実行するためには，ユーザ postgres の $HOME である /var/lib/pgsql に .ssh/id_rsa.pub を用意する必要がある．/etc/profile.d/ssh-key.sh のせい．
+ -- INTERACTIVE=false を設定して，config-gfarm の実行前に .ssh/id_rsa.pub を生成する方法で対処．
+ - fuse-kernel パッケージはビルドしたノードのカーネル（uname -r で取得）に依存する．本来は Gfarm に含めるパッケージでないが，CentOS 5 にも現時点（2007年5月15日）で用意されていない．
+ -- 選択1）仮想クラスタのノードは SMP でないと仮定する． → ×
+--- 選択2) fuse.spec を修正して fuse-kernel-smp の RPM を別途用意する． → ×
++-- 選択2）fuse.spec を修正して fuse-kernel-smp の RPM を別途用意する． → ×
+ -- 選択3）Gfarm の設定時に fuse のカーネルモジュールをビルド＆インストールする．
+ +++ rocks/src/roll/etc/Rolls.mk の中で INCLUDE_SRPMS=1 に設定する．
+ +++ gfarm_soa/SRPMS/ に fuse の src.rpm を置く．
+ +++ post-50-gfarm-base のスクリプトの中で以下を実行するようにする．
+ 
+  rpm -ivh /home/install/rocks-dist/lan/i386/SRPMS/fuse-<version>.src.rpm
+  rpmbuild -bb /usr/src/redhat/SPECS/fuse.spec
+  rpm -ivh /usr/src/redhat/RPMS/i386/fuse-kernel-<version>.<arch>.rpm
+ 
+ 
+ * TODO [#s085a15a]
+ - フロントエンド以外にメタデータサーバを用意できるように修正した Roll を用意する．
+ -- gfarm-meta アプライアンスを用意する．
+ -- SQL にメタデータサーバの情報を登録する．

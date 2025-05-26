@@ -1,0 +1,1 @@
+package ninf.netsolve;public class UpfUnsafeException extends Exception {  UpfUnsafeException(String s) {    super(s);  }  UpfUnsafeException() {    super();  }}

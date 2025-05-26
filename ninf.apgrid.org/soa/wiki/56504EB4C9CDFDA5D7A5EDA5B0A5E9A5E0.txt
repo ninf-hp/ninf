@@ -1,0 +1,264 @@
+* 目次 [#pc06e3fc]
+#contents
+----
+* 準備 [#r23cacf0]
+
+パッケージ＆ソースコードをget
+ svn export http://gfm81.apgrid.org/svn/openvpn/vpn
+
+** パッケージ [#v5a1ff94]
+
+- vpnhub-x.x.x-y.noarch.rpm
+- CentOS4を想定。SRPMもあるのでbuildしてもよい。
+
+** 依存パッケージ [#qd38baf9]
+- openvpn >= 2.0.0
+- bridge-utils
+- ruby >= 1.8.0
+- ruby-sqlite3
+- iproute
+
+** 予約ポートの確認 [#gf002d50]
+
+/etc/vpnhub/config.rb で設定可能。
+
+*** UDPポート1194から1214まで [#s424a1be]
+
+OpenVPN。
+ 必要なポート数＝（VPN対象インタフェースの数 ＋ 自分からつなぎに行くVPNセッション数）
+
+
+*** TCPポート8081 [#aa2bce72]
+
+管理プログラムXMLRPC。
+
+** FWの設定(iptables) [#qe9c5ba6]
+
+デフォルトの設定によっては明示的な設定が不要かもしれない。
+
+*** UDPポート1194から1214まで [#f5d44909]
+外部との通信は内向き外向きともACCEPT。
+ iptables -I INPUT 1 --proto udp --dport 1194 -i eth1 -j ACCEPT
+
+
+*** TCPポート8081 [#m75605e0]
+サイト内のCMがXMLRPC経由でVPNを制御するのであれば、
+プライベートネットワークからはACCEPT。
+ iptables -I INPUT 1 --proto tcp --dport 8081 -i eth0 -j ACCEPT
+
+
+*** ブリッジインタフェース [#i4c91fef]
+
+FOWARDチェーンのデフォルトポリシーがDROPなら必須。
+これがないとIPv4なフレームのみDROPされてしまう。
+
+一見すると第3層に対するフィルタリング機構（iptables, ip6tables）はまったく作用しないと思っていたけれど、
+あるブリッジにenslaveされているインタフェース同士でフレームが転送されるときには、FORWARDチェーンが作用するようだ。
+
+http://ebtables.sourceforge.net/br_fw_ia/br_fw_ia.html
+
+ iptables -I FORWARD 1 -i br+ -j ACCEPT
+
+GWノードが仮想クラスタネットワークに参加するなら必要。
+ iptables -I INPUT 1  -i br+ -j ACCEPT
+
+*** デバッグ [#h2278f12]
+
+例えば、
+ iptables -A FORWARD -j LOG --log-prefix "iptables " --log-level debug
+
+ Aug 27 15:57:00 vmware-server-gw-0-0 kernel: iptables IN=br_s0 OUT=br_s0 
+ PHYSIN=eth0.100 PHYSOUT=tap_s0 SRC=10.0.16.2 DST=226.85.53.115 LEN=36 TOS=0x00 
+ PREC=0x00 TTL=1 ID=59621 DF PROTO=UDP SPT=32768 DPT=8649 LEN=16
+
+
+** FWの設定(ebtables) [#d363d816]
+
+ARPおよびIPv{4,6}以外のEthernetフレームは不要なはず。
+トポロジを検出する類のプロトコルはVPNしてしまうと動作に支障をきたす。
+
+802.3のフレームはブロックする。
+ ebtables -A FORWARD -p LENGTH -j DROP
+ ebtables -A INPUT -p LENGTH -j DROP
+ ebtables -A INPUT -p LENGTH -j DROP
+
+
+Per-VLAN Spanning-Tree +
+ /usr/sbin/tcpdump -ni eth0.100 not ip and not arp and not ip6 -vvve -s 0
+ 10:55:50.141934 00:0d:bd:ac:fa:90 > 01:00:0c:cc:cc:cd, 802.3, length 64: LLC, dsap SNAP (0xaa), ssap SNAP (0xaa), cmd 0x03: oui Cisco (0x00000c), pid Unknown (0x010b): Unnumbered, ui, Flags [Command], length 50
+
+
+IEEE スパニングツリー 802.1d
+ 11:03:36.552150 00:0d:bc:8d:65:86 > 01:80:c2:00:00:00, 802.3, length 60: LLC, dsap 0x42, ssap 0x42, cmd 0x03, 802.1d config 8000.00:0e:38:3d:8e:00.8127 root 8000.00:0d:29:86:a0:00 pathcost 8 age 2 max 20 hello 2 fdelay 15
+
+Per-VLAN Spanning-Tree + (tcpdumpのバージョン違い?)
+ 11:03:41.420229 00:0d:bc:8d:65:86 > 01:00:0c:cc:cc:cd, 802.3, length 64: LLC, dsap 0xaa, ssap 0xaa, cmd 0x03, snap 0:0:c:1:b sap aa ui/C len=39
+
+
+
+* インストール [#w62e22af]
++ 依存パッケージのインストール
++ vpnhub-#{version}.noarch.rpm のインストール
++ iptablesの設定確認
++ /etc/init.d/vpnhub start
+
+　vpnhubdプロセスが立ち上がっていればOK。
+
+* ディレクトリ構成 [#mf902399]
+
+** 実行プログラム [#w16d2a8e]
+
+vpnhubdはVPN管理デーモン。システム起動時から実行されて、XMLRPC経由で命令を受け取る。OpenVPNの立ち上げ等を行う。
+
+vpnconfigはVPN設定ツール。XMLRPC経由でvpnhubdに対してリクエストを実行する。
+
+vpnhubd-updateはセッション情報の更新などに用いる。内部的に使用。
+
+ /usr/bin/vpnconfig
+ /usr/bin/vpnhubd
+ /usr/bin/vpnhubd-update
+
+
+
+** 設定ファイル。 [#xcf656e2]
+OpenVPNで認証に用いるX.509証明書など。配布パッケージ中であらかじめ用意。
+いずれサイトごとに用意することになるでしょう。
+ /etc/vpnhub/
+ /etc/vpnhub/ca.crt
+ /etc/vpnhub/client1.crt
+ /etc/vpnhub/client1.csr
+ /etc/vpnhub/client1.key
+ /etc/vpnhub/dh1024.pem
+ /etc/vpnhub/server.crt
+ /etc/vpnhub/server.key
+
+
+vpnhubdの設定ファイル。
+ /etc/vpnhub/config.rb
+
+
+OpenVPNがセッション確立あるいは破棄時に実行。ステータス情報を更新。
+ /etc/vpnhub/update-session.sh
+
+
+起動スクリプト。各ランレベルの起動スクリプトディレクトリにリンクされて、システム起動時に実行されるはず。
+ /etc/rc.d/init.d/vpnhub
+
+
+** ライブラリ [#k650a98f]
+ /usr/lib/site_ruby/1.8/vpnhub.rb
+ /usr/lib/site_ruby/1.8/vpnhub/netutils.rb
+ /usr/lib/site_ruby/1.8/vpnhub/openvpn.rb
+ /usr/lib/site_ruby/1.8/vpnhub/session.rb
+
+
+** ドキュメント [#j35270e4]
+ /usr/share/doc/vpnhub-0.0.1/README
+
+
+** ログ [#g4f5349a]
+- /var/log/vpnhubd.log
+- /var/log/daemonなどsyslog
+
+** OpenVPN接続状態DB [#c68b2be7]
+確立中のOpenVPN接続は、session.db (SQLite3 DB)中に情報を保存。
+ /var/lib/vpnhub/session.db
+
+
+VPNセッションの情報は、vpnhubdプロセスのメモリ上に存在するものの、
+加えて、OpenVPN自体の接続情報はDB中に保持している。
+
+- OpenVPNが新しい接続を確立あるいは破棄すると、任意のシェルスクリプト(ここではupdate-session.sh）を実行してくれて、接続の詳細が記録できる。
+- とりあえずSQLiteのDBで保存。んが、わざわざDB使うほどでもという気もする。
+
+* 使い方 [#ua21e76d]
+
+ /usr/bin/vpnconfig [options]
+  mode options:
+        --addhub     eth0.100
+        --delhub     eth0.100
+        --connect    eth0.100 163.220.100.100:1194
+        --disconnect eth0.100 163.220.100.100:1194
+        --status
+  XMLRPC options:
+        --host  hostname        "localhost"
+        --path  path            "/RPC2"
+        --port  port            "8081"
+        --user  username        "username"
+        --pass  password        "password"
+
+
+新しい仮想スイッチを作る。成功すると仮想スイッチのIDがかえる。
+ # vpnconfig --addhub eth0.100
+ 163.220.61.178:1214
+ 
+ # vpnconfig --addhub eth0.101
+ 163.220.61.178:1213
+
+eth0.100の仮想スイッチをリモート仮想スイッチにつなぐ
+ # vpnconfig --connect eth0.100 192.50.100.100:1195
+
+さらに、eth0.100の仮想スイッチをリモート仮想スイッチにつなぐ
+ # vpnconfig --connect eth0.100 172.20.100.123:1200
+
+状態表示
+ # vpnconfig --status
+ VPNHubs:
+   eth0.100     163.220.61.178:1214     br_s0   tap_s0  12241
+   eth0.101     163.220.61.178:1213     br_s1   tap_s1  12298
+ Sessions:
+   eth0.100       connected to          192.50.100.100:1195
+   eth0.100       connected to          172.20.100.123:1200
+   eth0.100       connected from        ...
+   eth0.100       not connected to      ...
+
+
+ある接続を終了
+ # vpnconfig --disconnect eth0.100 172.20.100.123:1200
+
+仮想スイッチを消す
+ # vpnconfig --delhub eth0.100
+
+
+* トラブルシューティング [#p1dea66a]
+- GWノードのデフォルトルートは外向きか？（CMでないこと）
+- FWの設定は適切か
+- 前回不正終了して未使用のネットワークインタフェースが残っているときは、vpnhubd --cleanupで消せる
+- ダミーネットワークインタフェースを使ってテストできる
+ modprobe dummy numdummies=20
+ ifconfig dummy0; ifconfig dummy1
+- tcpdump -i tap_s0などしてみる
+
+
+* 詳しい技術メモ [#wbdc376c]
+
+OpenVPN自体が、セッションとその先に存在するMACアドレスからなる経路表を保持しているようだ。また、ブリッジは、ポート（enslaveなネットワークインタフェース）とその先に存在するMACアドレスからなる経路表を保持している。OpenVPNが"mode server"なときは、複数のセッションに対してひとつのtapインタフェースしか使用しないので、前者の経路表が内部で必要になる。
+
+ OpenVPN CLIENT LIST
+ Updated,Mon Aug 27 21:22:09 2007
+ Common Name,Real Address,Bytes Received,Bytes Sent,Connected Since
+ client1,163.220.61.178:1213,12719389,18043975,Mon Aug 27 17:00:07 2007
+ client1,192.50.74.154:1213,413308385,518802063,Thu Aug 23 15:36:59 2007
+ ROUTING TABLE
+ Virtual Address,Common Name,Real Address,Last Ref
+ 00:50:56:00:01:07,client1,192.50.74.154:1213,Mon Aug 27 15:35:07 2007
+ 00:1a:92:e5:6a:05,client1,192.50.74.154:1213,Mon Aug 27 15:35:20 2007
+ 00:50:56:00:01:09,client1,192.50.74.154:1213,Mon Aug 27 21:00:28 2007
+ 00:ff:15:a7:c9:8c,client1,163.220.61.178:1213,Mon Aug 27 21:22:08 2007
+ 00:50:56:00:01:0a,client1,192.50.74.154:1213,Mon Aug 27 15:35:45 2007
+ 00:0e:0c:65:0a:49,client1,192.50.74.154:1213,Mon Aug 27 15:35:32 2007
+ 00:ff:e7:8b:01:e2,client1,192.50.74.154:1213,Thu Aug 23 15:37:03 2007
+ 00:1a:92:e5:64:6e,client1,192.50.74.154:1213,Mon Aug 27 15:35:25 2007
+ GLOBAL STATS
+ Max bcast/mcast queue length,2
+ END
+
+VPN管理ツールは、"addhub eth0.100" した時点で、tapデバイスを作成しeth0.100とブリッジする。そして、そのtapデバイスを使ってOpenVPNをサーバモードで立ち上げる。
+OpenVPNの待ち受けアドレスおよびポートを実行結果として返す。
+サーバモードで動作するOpenVPNは複数のクライアントからの接続を受け付ける。
+
+"connect eth0.100 ip:port" すると、あらたにtapデバイスを作成し、eth0.100がenslaveされているブリッジに追加する。そして、そのtapデバイスを使ってOpenVPNをip:portに対してクライアントモードで立ち上げる。
+
+このとき、仮にip:portにOpenVPNサーバが存在しなくても、クライアントの起動は成功することに注意。以後、ip:portに対してセッションの確立を継続して試み続ける。
+
+セッション確立時には、OpenVPNが指定のシェルスクリプトを実行してくれるので、activeなセッションのリストを更新できる。セッションを破棄するときも同様。

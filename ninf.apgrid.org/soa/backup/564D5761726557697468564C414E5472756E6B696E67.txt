@@ -1,0 +1,267 @@
+>>>>>>>>>> 1156296847
+[[FrontPage]]
+
+参考: [[Tagging VLAN+ VMWare]]
+
+作業はFC5上で行った。
+
+* ホスト上の802.1Q VLAN deviceの設定 [#xd6c8de2]
+
+root権限でvconfigを実行する。
+
+ # /sbin/vconfig add eth0 1
+
+次にsystem-config-networkコマンドで設定を行う。以下の3つのファイルが作られるようだ。
+
+- /etc/sysconfig/network-scripts/ifcfg-eth0.1
+- /etc/sysconfig/networking/devices/ifcfg-eth0.1
+- /etc/sysconfig/networking/profiles/default/ifcfg-eth0.1
+
+全部中身は一緒で下のような内容。最初の一つだけが使われ、残りはsystem-config-networkコマンドが内部的に使っている様子。
+
+ # Please read /usr/share/doc/initscripts-*/sysconfig.txt
+ # for the documentation of these parameters.
+ ONBOOT=yes
+ USERCTL=no
+ IPV6INIT=no
+ PEERDNS=yes
+ GATEWAY=192.50.74.1
+ TYPE=Ethernet
+ DEVICE=eth0.1
+ HWADDR=00:11:25:43:3b:73
+ BOOTPROTO=none
+ NETMASK=255.255.255.0
+ IPADDR=192.50.74.94
+
+あとは/etc/sysconfig/networkに以下を追加して、/etc/init.d/network restartするか再起動すればeth0.1がupな状態になる。
+
+ VLAN=yes
+
+* VMware ServerのVirtual Bridgeの設定 [#u71a7691]
+
+vmware-config.plを用いて、
+
+- VMnet0 -> eth0 ブリッジ接続
+- VMnet2 -> eth0.1 ブリッジ接続
+
+となるように設定する(VMnet1にしてもよいが、一応host-only用に予約されている)。結果的には/etc/vmware/locationsに以下の行が加えられる。
+
+ answer VNET_0_INTERFACE eth0
+ answer VNET_2_INTERFACE eth0.1
+
+起動時に/etc/init.d/vmwareがこの設定を読み込んで自動的に以下のようにvmnet-bridgeを立ち上げてくれる。
+
+ /usr/bin/vmnet-bridge -d /var/run/vmnet-bridge0.pid /dev/vmnet0 eth0
+ /usr/bin/vmnet-bridge -d /var/run/vmnet-bridge2.pid /dev/vmnet2 eth0.1
+
+/etc/vmware/locationsを手で編集するのはあまりお勧めしない。なぜなら、このファイルはvmware-config.plを実行するたびに追記されるようになっていて、「宣言的に」設定を記述するためのファイルではないからだ。適当に設定を追加すると設定自体を破壊しかねない。
+
+* VMのネットワークの設定 [#fe7603e3]
+
+上の設定で/dev/vmnet0と/dev/vmnet2が利用できるようになっているものとする。
+
+VMware Server ConsoleのVM->Settings->Ethernet 1からGuestOSのNICがどのVMnetを利用して接続するかを選択できる。Bridged, NAT, Host-only, Customの4種類のNetwork Connectionがあるが、結局のところ、
+
+- Bridged -> Customで/dev/vmnet0を選ぶ
+- NAT -> Customで/dev/vmnet8を選ぶ
+- Host-only -> Customで/dev/vmnet1を選ぶ
+
+という意味なので、ここで可能な選択肢は
+
+- /dev/vmnet0を選ぶ
+- /dev/vmnet2を選ぶ
+- もう一個NICを追加して両方選ぶ
+
+の3つしかない。このあたりの設定は*.vmxファイルの以下の設定に対応しているので、*.vmxファイルを更新してVMを起動し直すこともできる。
+
+ ethernet0.connectionType = "custom"
+ ethernet0.vnet = "/dev/vmnet0"
+
+で、結果だが、
+
+- /dev/vmnet0 → 当然通信できる
+- /dev/vmnet2 → 通信できない
+- もう一個NICを追加して両方選ぶ → 意味なさそうなので試していない
+
+となった。vmnet2でうまく通信できない理由に関しては心当たりはあるのだが、説明に図が必要なので後ほど。
+
+どうやったら「うまく通信できるのか」に関してはno idea。多分無理じゃないかと思う。
+>>>>>>>>>> 1156360321
+[[FrontPage]]
+
+参考: [[Tagging VLAN+ VMWare]]
+
+作業はFC5上で行った。
+
+* ホスト上の802.1Q VLAN deviceの設定 [#xd6c8de2]
+
+root権限でvconfigを実行する。
+
+ # /sbin/vconfig add eth0 1
+
+次にsystem-config-networkコマンドで設定を行う。以下の3つのファイルが作られるようだ。
+
+- /etc/sysconfig/network-scripts/ifcfg-eth0.1
+- /etc/sysconfig/networking/devices/ifcfg-eth0.1
+- /etc/sysconfig/networking/profiles/default/ifcfg-eth0.1
+
+全部中身は一緒で(というかハードリンクになっている)下のような内容。最初の一つだけが使われ、残りはsystem-config-networkコマンドが内部的に使っている様子。
+
+ # Please read /usr/share/doc/initscripts-*/sysconfig.txt
+ # for the documentation of these parameters.
+ ONBOOT=yes
+ USERCTL=no
+ IPV6INIT=no
+ PEERDNS=yes
+ GATEWAY=192.50.74.1
+ TYPE=Ethernet
+ DEVICE=eth0.1
+ HWADDR=00:11:25:43:3b:73
+ BOOTPROTO=none
+ NETMASK=255.255.255.0
+ IPADDR=192.50.74.94
+
+あとは/etc/sysconfig/networkに以下を追加して、/etc/init.d/network restartするか再起動すればeth0.1がupな状態になる。
+
+ VLAN=yes
+
+* VMware ServerのVirtual Bridgeの設定 [#u71a7691]
+
+vmware-config.plを用いて、
+
+- VMnet0 -> eth0 ブリッジ接続
+- VMnet2 -> eth0.1 ブリッジ接続
+
+となるように設定する(VMnet1にしてもよいが、一応host-only用に予約されている)。結果的には/etc/vmware/locationsに以下の行が加えられる。
+
+ answer VNET_0_INTERFACE eth0
+ answer VNET_2_INTERFACE eth0.1
+
+起動時に/etc/init.d/vmwareから呼び出される/usr/lib/vmware/net-services.shがこの設定を読み込んで自動的に以下のようにvmnet-bridgeを立ち上げてくれる。
+
+ /usr/bin/vmnet-bridge -d /var/run/vmnet-bridge0.pid /dev/vmnet0 eth0
+ /usr/bin/vmnet-bridge -d /var/run/vmnet-bridge2.pid /dev/vmnet2 eth0.1
+
+/etc/vmware/locationsを手で編集するのはあまりお勧めしない。なぜなら、このファイルはvmware-config.plを実行するたびに追記されるようになっていて、「宣言的に」設定を記述するためのファイルではないからだ。適当に設定を追加すると設定自体を破壊しかねない。
+
+* VMのネットワークの設定 [#fe7603e3]
+
+上の設定で/dev/vmnet0と/dev/vmnet2が利用できるようになっているものとする。
+
+VMware Server ConsoleのVM->Settings->Ethernet 1からGuestOSのNICがどのVMnetを利用して接続するかを選択できる。Bridged, NAT, Host-only, Customの4種類のNetwork Connectionがあるが、結局のところ、
+
+- Bridged -> Customで/dev/vmnet0を選ぶ
+- NAT -> Customで/dev/vmnet8を選ぶ
+- Host-only -> Customで/dev/vmnet1を選ぶ
+
+という意味なので、ここで可能な選択肢は
+
+- /dev/vmnet0を選ぶ
+- /dev/vmnet2を選ぶ
+- もう一個NICを追加して両方選ぶ
+
+の3つしかない。このあたりの設定は*.vmxファイルの以下の設定に対応しているので、*.vmxファイルを更新してVMを起動し直すこともできる。
+
+ ethernet0.connectionType = "custom"
+ ethernet0.vnet = "/dev/vmnet0"
+
+で、結果だが、
+
+- /dev/vmnet0 → 当然通信できる
+- /dev/vmnet2 → 通信できない
+- もう一個NICを追加して両方選ぶ → 意味なさそうなので試していない
+
+となった。vmnet2でうまく通信できない理由に関しては心当たりはあるのだが、説明に図が必要なので後ほど。
+
+どうやったら「うまく通信できるのか」に関してはno idea。多分無理じゃないかと思う。
+>>>>>>>>>> 1156727380
+[[FrontPage]]
+
+参考: [[Tagging VLAN+ VMWare]]
+
+作業はFC5上で行った。
+
+* ホスト上の802.1Q VLAN deviceの設定 [#xd6c8de2]
+
+root権限でvconfigを実行する。
+
+ # /sbin/vconfig add eth0 1
+
+次にsystem-config-networkコマンドで設定を行う。以下の3つのファイルが作られるようだ。
+
+- /etc/sysconfig/network-scripts/ifcfg-eth0.1
+- /etc/sysconfig/networking/devices/ifcfg-eth0.1
+- /etc/sysconfig/networking/profiles/default/ifcfg-eth0.1
+
+全部中身は一緒で(というかハードリンクになっている)下のような内容。最初の一つだけが使われ、残りはsystem-config-networkコマンドが内部的に使っている様子。
+
+ # Please read /usr/share/doc/initscripts-*/sysconfig.txt
+ # for the documentation of these parameters.
+ ONBOOT=yes
+ USERCTL=no
+ IPV6INIT=no
+ PEERDNS=yes
+ GATEWAY=192.50.74.1
+ TYPE=Ethernet
+ DEVICE=eth0.1
+ HWADDR=00:11:25:43:3b:73
+ BOOTPROTO=none
+ NETMASK=255.255.255.0
+ IPADDR=192.50.74.94
+
+あとは/etc/sysconfig/networkに以下を追加して、/etc/init.d/network restartするか再起動すればeth0.1がupな状態になる。
+
+ VLAN=yes
+
+* VMware ServerのVirtual Bridgeの設定 [#u71a7691]
+
+vmware-config.plを用いて、
+
+- VMnet0 -> eth0 ブリッジ接続
+- VMnet2 -> eth0.1 ブリッジ接続
+
+となるように設定する(VMnet1にしてもよいが、一応host-only用に予約されている)。結果的には/etc/vmware/locationsに以下の行が加えられる。
+
+ answer VNET_0_INTERFACE eth0
+ answer VNET_2_INTERFACE eth0.1
+
+起動時に/etc/init.d/vmwareから呼び出される/usr/lib/vmware/net-services.shがこの設定を読み込んで自動的に以下のようにvmnet-bridgeを立ち上げてくれる。
+
+ /usr/bin/vmnet-bridge -d /var/run/vmnet-bridge0.pid /dev/vmnet0 eth0
+ /usr/bin/vmnet-bridge -d /var/run/vmnet-bridge2.pid /dev/vmnet2 eth0.1
+
+/etc/vmware/locationsを手で編集するのはあまりお勧めしない。なぜなら、このファイルはvmware-config.plを実行するたびに追記されるようになっていて、「宣言的に」設定を記述するためのファイルではないからだ。適当に設定を追加すると設定自体を破壊しかねない。
+
+* VMのネットワークの設定 [#fe7603e3]
+
+上の設定で/dev/vmnet0と/dev/vmnet2が利用できるようになっているものとする。
+
+VMware Server ConsoleのVM->Settings->Ethernet 1からGuestOSのNICがどのVMnetを利用して接続するかを選択できる。Bridged, NAT, Host-only, Customの4種類のNetwork Connectionがあるが、結局のところ、
+
+- Bridged -> Customで/dev/vmnet0を選ぶ
+- NAT -> Customで/dev/vmnet8を選ぶ
+- Host-only -> Customで/dev/vmnet1を選ぶ
+
+という意味なので、ここで可能な選択肢は
+
+- /dev/vmnet0を選ぶ
+- /dev/vmnet2を選ぶ
+- もう一個NICを追加して両方選ぶ
+
+の3つしかない。このあたりの設定は*.vmxファイルの以下の設定に対応しているので、*.vmxファイルを更新してVMを起動し直すこともできる。
+
+ ethernet0.connectionType = "custom"
+ ethernet0.vnet = "/dev/vmnet0"
+
+%%で、結果だが、%%
+
+- %%/dev/vmnet0 → 当然通信できる%%
+- %%/dev/vmnet2 → 通信できない%%
+- %%もう一個NICを追加して両方選ぶ → 意味なさそうなので試していない%%
+
+%%となった。vmnet2でうまく通信できない理由に関しては心当たりはあるのだが、説明に図が必要なので後ほど。%%
+
+%%どうやったら「うまく通信できるのか」に関してはno idea。多分無理じゃないかと思う。%%
+
+いやうまくいった。
+

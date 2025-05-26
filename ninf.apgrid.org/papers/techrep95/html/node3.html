@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf RPC   への要請</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf RPC   への要請">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html62 HREF="node4.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html60 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html54 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html63 HREF="node4.html"> Ninf RPC   の概要</A>
+<B>Up:</B> <A NAME=tex2html61 HREF="node2.html"> Ninf RPC  の設計</A>
+<B> Previous:</B> <A NAME=tex2html55 HREF="node2.html"> Ninf RPC  の設計</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00021000000000000000> Ninf RPC   への要請</A></H2>
+<P>
+複数の計算機で計算を行なう場合に重要になる点の一つとして
+引数の引渡し方法がある。呼出側のプログラムと呼ばれる側のプログラム
+の間に、引数の型、大きさ、順番などに関して、
+何らかの形で合意がなければならない。
+<P>
+単純に計算をサーバ・クライアントに分散するものとしては
+UNIX RPC(Remote Procedure Call)がある。
+UNIX RPCは、サーバから起動されるターゲットプログラムと
+クライアントのプログラムの間には密な関係があることを
+前提としており、このため引数は単一の構造体として渡している。
+しかし、このためにはターゲットプログラムとクライアントが
+引数のための構造体の記述を共有している必要がある。
+このためRPCをもちいてNinf を実現するには引数構造体の
+ヘッダーファイルを例えば ftp などで取得しなければならない。
+<P>
+Ninfは、クライアントプログラムのプログラマには、計算機ネットワークに
+関する知識を要求しない手法を目的としている。このため上記のような方法はとれない。
+これを解決するためには、ターゲットのインターフェイス 
+を動的に転送する必要がある。
+<P>
+
+また、Ninf のターゲットである数値演算分野では、計算ライブラリに対する
+データの転送量が動的に変化する場合がある。
+たとえば行列の乗算を例にとって考えてみよう。
+一般に行列のサイズは行列乗算プログラムのコンパイル時には
+決定しない。このため演算ライブラリは、引数によって行列のサイズを指定する。
+このライブラリのインターフェイスは下のようになる。
+<PRE>matrix_multiply(int size, double * A, double * B, double * C)
+</PRE>
+これは一辺<code>size</code> の行列 <code>A</code> と <code>B</code>を乗算して
+<code>C</code>に代入するという計算ライブラリのインターフェイス  である。
+このとき、乗算ルーチンを呼び出すメインプログラムと乗算ルーチンの間で、
+インターフェイスとしては、Integer 一つとポインタが3つが渡されている
+だけである。
+しかし実際に計算を行なうには、行列<code>A</code>,<code>B</code>,<code>C</code> のそれぞれに対して
+
+<PRE> size * size * sizeof(double) </PRE>
+
+
+の大きさの領域を共有しなければならない。
+<P>
+単一のプロセッサで実行する場合には、
+メインプログラムと乗算ルーチンが全メモリ領域を共有
+しているのでこれは問題にならない。
+しかし乗算ルーチンを別の計算機で実行するためには、
+この領域を転送しなければならない。
+このため行列のサイズが変化すると転送量が変化することになる。
+UNIX RPCではこれを実現することはできない。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

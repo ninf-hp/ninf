@@ -1,0 +1,681 @@
+ * Sec [#a0c215dc]
+ - REST
+ 
+ |TLEFT:|LEFT:|LEFT:|LEFT:|LEFT:|LEFT:|c
+ |内容|パス|GET|POST|PUT|DELETE|
+ |パラメータ一覧|/vc/cgi-bin/vc_vc.py/parameters.py|○ (参照)|○ (変更)|×|×|
+ |外部ネットワーク諸元|/vc/cgi-bin/vc_pc.py/externalnet.py|○ (参照)|○ (追加/変更)|×|○ (削除)|
+ |物理クラスタノード一覧|/vc/cgi-bin/physical_clusters.py|○ (参照)|○ (メモリ/ディスク/使用不可設定)|×|×|
+ |iSCSI一覧|/vc/cgi-bin/physical_clusters.py/iSCSI|○ (参照)|○ (追加/変更)|×|○ (削除)|
+ |仮想クラスタ一覧|/vc/cgi-bin/virtual_clusters.py|○ (参照)|○ (登録)|×|×|
+ |仮想クラスタノード一覧|/vc/cgi-bin/virtual_clusters.py/[n]|○ (参照)|○ (クラスタ/ノード状態変更)|×|×|
+ |仮想クラスタ起動シーケンス一覧|/vc/cgi-bin/virtual_clusters.py/boot_sequence|○ (参照)|○ (追加/変更)|×|○ (削除)|
+ 
+ ----
+ 
+ ** 共通 [#vdc51475]
+ 
+ - JavaScript での XML 文書の送信
+     // XML の DOM を構築
+     var dom = document.implementation.createDocument("", "", null);
+     var request = dom.createElement("RegisterVirtualCluster");
+     ...
+     var d = (new XMLSerializer).serializeToString(request);
+     // IE の場合は new ActiveXObject("Msxml2.XMLHTTP"); など
+     var http_request = new XMLHttpRequest();
+     http_request.overrideMimeType('text/xml');
+     // 送信
+     http_request.onreadystatechange = function() {
+ 	document.body.style.cursor = 'auto';
+ 	alertContents(http_request); };;
+     http_request.open(method, url, true);
+     http_request.setRequestHeader('Content-Type', 'text/xml;charset=UTF-8');
+     http_request.send(d);
+ 
+ - Enumeration (仮想クラスタ状態など)はコード値/文字列ペアで返す。
+       ただし、POST 時にはコード値のみ評価。
+       例: <VcMode ModeCode="1" ModeString="reserved"/>
+ - POST/DELETE 成功時は GET 時と同じものを返す。
+ - エラー応答
+ エラー時は以下の形式で返す。
+  <?xml version="1.0" ?>
+  <ERROR message="Short description">
+  Long description(e.g. stack trace)&lt;br&gt;written in encoded-HTML format.
+  </ERROR>
+ 
+ ** ユーザ画面 [#m4b72aed]
+ - 物理クラスタノード一覧
+  /vc/cgi-bin/physical_clusters.py の GET/POST
+  <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+   <PNodeList>
+     <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+       <PNodeNetwork>
+         <Interface Device="eth0">
+           <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+           <Ipaddr>10.1.1.1</Ipaddr>
+         </Interface>
+         <Interface Device="eth1">
+           <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+           <Ipaddr>192.50.74.153</Ipaddr>
+         </Interface>
+       </PNodeNetwork>
+       <PNodeStatus StatusCode="1100">none</PNodeStatus>
+       <PNodeName>ai03</PNodeName>
+       <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+       <PNodeType>manager</PNodeType>
+       <PNodeAppliance>frontend</PNodeAppliance>
+     </PNode>
+     <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+       <PNodeNetwork>
+         <Interface Device="eth0">
+           <Ipmask>255.255.0.0</Ipmask>
+           <Macaddr>00:16:3e:00:00:04</Macaddr>
+           <Ipaddr>10.1.255.250</Ipaddr>
+         </Interface>
+       </PNodeNetwork>
+       <PNodeStatus StatusCode="1100">none</PNodeStatus>
+       <PNodeName>compute-0-0</PNodeName>
+       <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+       <PNodeType>none</PNodeType>
+       <PNodeAppliance>compute</PNodeAppliance>
+     </PNode>
+     <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+       <PNodeNetwork>
+         <Interface Device="eth0">
+           <Ipmask>255.255.0.0</Ipmask>
+           <Macaddr>00:90:cc:de:83:21</Macaddr>
+           <Ipaddr>10.1.255.253</Ipaddr>
+         </Interface>
+         <Interface Device="eth1">
+           <Macaddr>00:17:31:91:d3:ac</Macaddr>
+           <Ipaddr>192.50.74.155</Ipaddr>
+         </Interface>
+       </PNodeNetwork>
+       <PNodeStatus StatusCode="1100">none</PNodeStatus>
+       <PNodeName>vm-container-0-1</PNodeName>
+       <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+       <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+       <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+       <PNodeType>gateway</PNodeType>
+       <PNodeAppliance>vm-container</PNodeAppliance>
+     </PNode>
+   </PNodeList>
+  </PhysicalCluster>
+ 
+ - 仮想クラスタ一覧
+  /vc/cgi-bin/virtual_clusters.py の GET
+  <RegistrationList>
+   <Entry VcID="16" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16">
+     <VcStatus StatusCode="230">running</VcStatus>
+       <VcEnd>2009-11-08T13:53:00.000</VcEnd>
+       <VcStart>2009-10-08T13:53:00.000</VcStart>
+       <VcMode ModeCode="2">-</VcMode>
+       <VcStatusMsg>running</VcStatusMsg>
+     </Entry>
+  </RegistrationList>
+ -- 仮想クラスタステータスコード
+ --- StatusCode="110" → "stopped"
+ --- StatusCode="230" → "running"
+ - 仮想クラスタ登録要求
+  /vc/cgi-bin/virtual_clusters.py の POST
+  <RegisterVirtualCluster xsi:noNamespaceSchemaLocation="vc_reg.xsd">
+   <VcInfo>Rocks</VcInfo>
+   <VcDescription>User Defined Cluster Name</VcDescription>
+   <VcStart>2008-2-13 15:39:00</VcStart>
+   <VcEnd>2008-3-13 15:39:00</VcEnd>
+   <VcRootPassword>geheim</VcRootPassword>
+   <VcPublicKey>
+  ssh-dss AAAAB3NzaC1kc3...
+   </VcPublicKey>
+   <VcRequireNodes VMType="xen" ApplianceName="frontend" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+   <VcRequireNodes VMType="xen" ApplianceName="compute" NodeNum="1" NodeMemsize="1536" StorageType="local" StorageSize="30720"/>
+  </RegisterVirtualCluster>
+ - 仮想クラスタ状態
+  /vc/cgi-bin/virtual_clusters.py/[n] の GET/POST
+  <Entry VcID="16" VcURI="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16">
+   <VcInfo/>
+     <VcStatus StatusCode="230">running</VcStatus>
+     <VcEnd>2009-11-08T13:53:00.000</VcEnd>
+     <VcDescription/>
+     <VcSubnet>
+       <SubnetIPMask>255.255.0.0</SubnetIPMask>
+       <SubnetVLAN>100</SubnetVLAN>
+       <SubnetIPAddr>10.1.0.0</SubnetIPAddr>
+     </VcSubnet>
+   <VcNodeList>
+     <VNode VNodeID="2">
+       <VNodeStatus StatusCode="1170">running</VNodeStatus>
+       <VNodeExtNetwork>
+         <VNodeExtNetworkMask>255.255.255.0</VNodeExtNetworkMask>
+         <VNodeExtNetworkDomain>hpcc.jp</VNodeExtNetworkDomain>
+         <VNodeExtNetworkMacaddr>00:50:56:00:00:3b</VNodeExtNetworkMacaddr>
+         <VNodeExtNetworkIpaddr>192.50.74.161</VNodeExtNetworkIpaddr>
+         <VNodeExtNetworkGateway>192.50.74.1</VNodeExtNetworkGateway>
+       </VNodeExtNetwork>
+       <VNodeStatusMsg>running</VNodeStatusMsg>
+       <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+       <PNodeName>vm-container-0-4</PNodeName>
+       <VNodeAppliance>frontend</VNodeAppliance>
+       <VNodeName>frontend-16-0-0</VNodeName>
+       <VNodeStorageList>
+         <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+       </VNodeStorageList>
+       <VNodeAliasName>frontend-16-0-0</VNodeAliasName>
+       <VNodeMemsize>800</VNodeMemsize>
+       <VNodeNetwork>
+         <VNodeNetworkMacaddr>00:50:56:00:00:3a</VNodeNetworkMacaddr>
+         <VNodeNetworkIpaddr>10.1.0.1</VNodeNetworkIpaddr>
+       </VNodeNetwork>
+       <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/2/mode">start</VNodeMode>
+     </VNode>
+     <VNode VNodeID="3">
+       <VNodeStatus StatusCode="1170">running</VNodeStatus>
+       <VNodeStatusMsg>running</VNodeStatusMsg>
+       <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+       <PNodeName>vm-container-0-6</PNodeName>
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-0</VNodeName>
+       <VNodeStorageList>
+         <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+       </VNodeStorageList>
+       <VNodeAliasName>compute-16-0-0</VNodeAliasName>
+       <VNodeMemsize>800</VNodeMemsize>
+       <VNodeNetwork>
+         <VNodeNetworkMacaddr>00:50:56:00:00:3d</VNodeNetworkMacaddr>
+         <VNodeNetworkIpaddr>10.1.0.2</VNodeNetworkIpaddr>
+       </VNodeNetwork>
+       <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/3/mode">start</VNodeMode>
+     </VNode>
+     <VNode VNodeID="4">
+       <VNodeStatus StatusCode="1170">running</VNodeStatus>
+       <VNodeStatusMsg>running</VNodeStatusMsg>
+       <VNodeProcessorPercentage>100</VNodeProcessorPercentage>
+       <PNodeName>vm-container-0-7</PNodeName>
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-1</VNodeName>
+       <VNodeStorageList>
+         <VNodeStorage VStorageSize="30" VStorageType="NFS"/>
+       </VNodeStorageList>
+       <VNodeAliasName>compute-16-0-1</VNodeAliasName>
+       <VNodeMemsize>800</VNodeMemsize>
+       <VNodeNetwork>
+         <VNodeNetworkMacaddr>00:50:56:00:00:3f</VNodeNetworkMacaddr>
+         <VNodeNetworkIpaddr>10.1.0.3</VNodeNetworkIpaddr>
+       </VNodeNetwork>
+       <VNodeMode ModeCode="103" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/node/4/mode">start</VNodeMode>
+     </VNode>
+   </VcNodeList>
+   <VcStart>2009-10-08T13:53:00.000</VcStart>
+   <VcMode ModeCode="2" url="http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/16/mode">-</VcMode>
+   <VcStatusMsg>running</VcStatusMsg>
+  </Entry>
+ 仮想クラスタ削除は DELETE ではなく、 status="kill" への状態変更を契機にシーケンス処理によって行う 
+ - 起動シーケンス設定
+  <BootSequenceList>
+   <AvailableTypes SeqType="vcrocks">Rocks 5 boot sequence</AvailableTypes>
+   <AvailableTypes SeqType="vcseq">Sequential boot sequence</AvailableTypes>
+   <AvailableTypes SeqType="vcpar">Parallel boot sequence</AvailableTypes>
+   <AvailableTypes SeqType="vcgwonly">Boot gateway only</AvailableTypes>
+   <BootSequence id=1 VcInfo="Rocks" SeqType="vcrocks" />
+   <BootSequence id=2 VcInfo="SomeOS (Sequential Boot)" SeqType="vcseq" />
+   <BootSequence id=3 VcInfo="SomeOS (Parallel Boot)" SeqType="vcpar" />
+  <BootSequenceList>
+ -- BootSequence で OS 種別に対応する起動手順を設定する。
+ -- AvailableTypes は Python module と対応する部分で更新不可。
+ ** 管理画面 [#d8106b8e]
+ - パラメータ設定
+  /vc/cgi-bin/vc_vc.py/parameters.py の POST
+  <ParameterList>
+   <VcParameter VcParameterName="memsize" VcParameterValue="760"/>
+   <VcParameter VcParameterName="disksize" VcParameterValue="30720"/>
+   <VcParameter VcParameterName="maxmemsize" VcParameterValue="760"/>
+   <VcParameter VcParameterName="maxdisksize" VcParameterValue="30720"/>
+   <VcParameter VcParameterName="iscsiport" VcParameterValue="3260"/>
+   <VcParameter VcParameterName="iscsivolgrp" VcParameterValue="vcvolgrp"/>
+   <VcParameter VcParameterName="organization" VcParameterValue="SDSC"/>
+   <VcParameter VcParameterName="locality" VcParameterValue="San Diego"/>
+   <VcParameter VcParameterName="state" VcParameterValue="California"/>
+   <VcParameter VcParameterName="country" VcParameterValue="US"/>
+   <VcParameter VcParameterName="latlong" VcParameterValue="N32.87 W117.22"/>
+   <VcParameter VcParameterName="timezone" VcParameterValue="Asia/Tokyo"/>
+   <VcParameter VcParameterName="publicNTPHos" VcParameterValue="pool.ntp.org"/>
+   <VcParameter VcParameterName="multicast" VcParameterValue="226.85.53.115"/>
+   <VcParameter VcParameterName="publicDNS" VcParameterValue="192.50.74.11"/>
+   <VcParameter VcParameterName="central" VcParameterValue="192.50.74.163"/>
+   <VcParameter VcParameterName="vmstartdelay" VcParameterValue="20"/>
+  </ParameterList>
+ - 外部ネットワーク設定
+  /vc/cgi-bin/vc_pc.py/externalnet.py の PUT
+  <VcExtNetworkList>
+   <VcExtNetwork VcExtID="1" VcExtDomain="hpcc.jp" VcExtGateway="192.50.74.1" VcExtHostname="ai17" VcExtIpaddr="192.50.74.172" VcExtIpmask="255.255.255.0"/>
+  </VcExtNetworkList>
+ - iSCSI設定
+  /vc/cgi-bin/physical_clusters.py/iSCSI の POST
+  <VcIscsiList>
+   <Iscsi IscsiID="1">
+   <IscsiAddr>10.10.10.1</IscsiAddr>
+   <IscsiPort>3260</IscsiPort>
+   <IscsiVolGroup>VolGroup01</IscsiVolGroup>
+   <IscsiSize>100000</IscsiSize>
+   </Iscsi>
+  </VcIscsiList>
+ ** クラスタ登録 [#b97110a2]
+ - クラスタ登録
+  <PlaceList>
+   <PlaceEntry url="x.x.x.x"/>
+   <Cert>xxxxxxxx</Cert>
+  </PlaceList>
+ - クラスタ一覧
+  <PlaceList>
+   <PlaceEntry id="1" url="http://x.x.x.x/vc/cgi-bin/vc_vc.py">
+    <MACmin>00:50:56:00:01:00</MACmin>
+    <MACmax>00:50:56:00:02:00</MACmax>
+    <Cert>xxxxxxxx</Cert>
+   </PlaceEntry>
+   <PlaceEntry id="2" url="http://y.y.y.y/vc/cgi-bin/vc_vc.py">
+    <MACmin>00:50:56:00:03:00</MACmin>
+    <MACmax>00:50:56:00:04:00</MACmax>
+    <Cert>xxxxxxxx</Cert>
+   </PlaceEntry>
+  </PlaceList>
+ 
+ * 動的配置対応のためのプロトコル追加 [#t41313b3]
+ 
+ - 資源配置プログラム登録
+ ++ プログラム登録要求 (資源配置プログラムからマネージャへ)
+   PUT /vc/cgi-bin/allocater.py
+ 要求メッセージ
+  <AllocationPlan cmd="candidate-request" url="http://ホスト名:ポート番号/パス" version="1.0" />
+  要求時に自身のプロトコルバージョンを通知する。
+ 応答メッセージ
+  <AllocationPlan cmd="candidate-response" status="ok"/>
+ 
+ ++ プログラム登録可否の確認 (マネージャから資源配置プログラムへ)
+   GET <登録要求時に指定されたURL>
+ 要求メッセージ
+  <AllocationPlan cmd="candidate-notify" version="1.0" />
+  プロトコルバージョンの確認を行う。
+ 応答メッセージ
+  <AllocationPlan cmd="candidate-acknowledge" status="ok" />
+ 
+ - 資源予約時確認
+ ++ 資源配置可否確認要求 (マネージャから資源配置プログラムへ)
+   GET 指定されたURL
+  <AllocationPlan cmd="checkonly-request">
+    <!--
+      割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+    -->
+    <Entry VcID="16">
+     <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+     <VcNodeList>
+      <VNode VNodeID="1">
+       <VNodeAppliance>frontend</VNodeAppliance>
+       <VNodeName>frontend-16-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+      <VNode VNodeID="2">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+      <VNode VNodeID=3">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-1</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+     </VcNodeList>
+     <VcStart>2009-09-07T13:10:00.000</VcStart>
+    </Entry>
+  
+    <!--
+      利用可能な物理クラスタのリスト
+    -->
+    <Resource>
+     <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+       <PNodeList>
+         <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+               <Ipaddr>10.1.1.1</Ipaddr>
+             </Interface>
+             <Interface Device="eth1">
+               <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+               <Ipaddr>192.50.74.153</Ipaddr>
+             </Interface>
+           </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>ai03</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+           <PNodeType>manager</PNodeType>
+           <PNodeAppliance>frontend</PNodeAppliance>
+         </PNode>
+         <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Ipmask>255.255.0.0</Ipmask>
+               <Macaddr>00:16:3e:00:00:04</Macaddr>
+               <Ipaddr>10.1.255.250</Ipaddr>
+             </Interface>
+            </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>compute-0-0</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+           <PNodeType>none</PNodeType>
+           <PNodeAppliance>compute</PNodeAppliance>
+         </PNode>
+         <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Ipmask>255.255.0.0</Ipmask>
+               <Macaddr>00:90:cc:de:83:21</Macaddr>
+               <Ipaddr>10.1.255.253</Ipaddr>
+             </Interface>
+             <Interface Device="eth1">
+               <Macaddr>00:17:31:91:d3:ac</Macaddr>
+               <Ipaddr>192.50.74.155</Ipaddr>
+             </Interface>
+           </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>vm-container-0-1</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+           <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+           <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+           <PNodeType>gateway</PNodeType>
+           <PNodeAppliance>vm-container</PNodeAppliance>
+         </PNode>
+       </PNodeList>
+      </PhysicalCluster>
+    </Resource>
+    <!--
+      既に登録されている仮想クラスタのリスト
+    -->
+    <ExistingEntries>
+    <Entry VcID="15">
+     <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+     <VcNodeList>
+      <VNode VNodeID="1">
+       <VNodeAppliance>frontend</VNodeAppliance>
+       <VNodeName>frontend-16-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+      <VNode VNodeID="2">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-15-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+      <VNode VNodeID=3">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-15-0-1</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+     </VcNodeList>
+     <VcStart>2009-09-07T13:10:00.000</VcStart>
+    </Entry>
+    </ExistingEntries>
+  </AllocationPlan>
+ 応答メッセージ
+  <AllocationPlan cmd="checkonly-response" status="ok" />
+ 
+ - 資源配置
+ ++ 資源配置要求 (マネージャから資源配置プログラムへ)
+   GET 指定されたURL
+  <AllocationPlan cmd="allocate-request">
+    <!--
+      割り当て対象の仮想クラスタ予約情報 (物理ノード位置の部分が空)
+    -->
+    <Entry VcID="16">
+     <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+     <VcNodeList>
+      <VNode VNodeID="1">
+       <VNodeAppliance>frontend</VNodeAppliance>
+       <VNodeName>frontend-16-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+      <VNode VNodeID="2">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+      <VNode VNodeID=3">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-1</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+      </VNode>
+     </VcNodeList>
+     <VcStart>2009-09-07T13:10:00.000</VcStart>
+    </Entry>
+  
+    <!--
+      利用可能な物理クラスタのリスト
+    -->
+    <Resource>
+     <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+       <PNodeList>
+         <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+               <Ipaddr>10.1.1.1</Ipaddr>
+             </Interface>
+             <Interface Device="eth1">
+               <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+               <Ipaddr>192.50.74.153</Ipaddr>
+             </Interface>
+           </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>ai03</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+           <PNodeType>manager</PNodeType>
+           <PNodeAppliance>frontend</PNodeAppliance>
+         </PNode>
+         <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Ipmask>255.255.0.0</Ipmask>
+               <Macaddr>00:16:3e:00:00:04</Macaddr>
+               <Ipaddr>10.1.255.250</Ipaddr>
+             </Interface>
+            </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>compute-0-0</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+           <PNodeType>none</PNodeType>
+           <PNodeAppliance>compute</PNodeAppliance>
+         </PNode>
+         <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Ipmask>255.255.0.0</Ipmask>
+               <Macaddr>00:90:cc:de:83:21</Macaddr>
+               <Ipaddr>10.1.255.253</Ipaddr>
+             </Interface>
+             <Interface Device="eth1">
+               <Macaddr>00:17:31:91:d3:ac</Macaddr>
+               <Ipaddr>192.50.74.155</Ipaddr>
+             </Interface>
+           </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>vm-container-0-1</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+           <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+           <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+           <PNodeType>gateway</PNodeType>
+           <PNodeAppliance>vm-container</PNodeAppliance>
+         </PNode>
+       </PNodeList>
+      </PhysicalCluster>
+    </Resource>
+    <!--
+      現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+    -->
+    <ExistingVirtualClusters>
+      <VirtualCluster>
+         ...略...
+      </VirtualCluster>
+    </ExistingVirtualClusters>
+  </AllocationPlan>
+ 応答メッセージ
+  <AllocationPlan cmd="allocate-response" status="ok">
+    <!-- 既存ノードの移動 -->
+    <PrepareAllocate>
+      <MoveVNode target="1-2" to="vm-container-5-0" />
+    </PrepareAllocate>
+    <!-- 新規ノード配置 -->
+    <!--
+      割り当て対象の仮想クラスタ予約情報 (物理ノード位置を指定して返す)
+    -->
+    <Entry VcID="16">
+     <VcEnd>2009-09-07T13:10:00.000</VcEnd>
+     <VcNodeList>
+      <VNode VNodeID="1">
+       <VNodeAppliance>frontend</VNodeAppliance>
+       <VNodeName>frontend-16-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+       <PNodeName>vm-container-0-1</PNodeName>
+      </VNode>
+      <VNode VNodeID="2">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-0</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+       <PNodeName>vm-container-0-2</PNodeName>
+      </VNode>
+      <VNode VNodeID=3">
+       <VNodeAppliance>compute</VNodeAppliance>
+       <VNodeName>compute-16-0-1</VNodeName>
+       <VNodeStorageList>
+        <VNodeStorage VStorageSize="30" VStorageType="iSCSI"/>
+       </VNodeStorageList>
+       <VNodeMemsize>800</VNodeMemsize>
+       <PNodeName>vm-container-0-3</PNodeName>
+      </VNode>
+     </VcNodeList>
+     <VcStart>2009-09-07T13:10:00.000</VcStart>
+    </Entry>
+  </AllocationPlan>
+ - 資源再配置~
+ マネージャは資源配置プログラムに対して、
+ 定期的に (現状では 1 分毎に) ノードの再配置が必要か問い合わせを行う。
+ ++ 資源再配置要求 (マネージャから資源配置プログラムへ)
+  <AllocationPlan cmd="rellocate-request">
+    <!--
+      利用可能な物理クラスタのリスト
+    -->
+    <Resource>
+     <PhysicalCluster url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py">
+       <PNodeList>
+         <PNode NodeID="1" enabled="yes" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Macaddr>00:90:cc:de:8d:c8</Macaddr>
+               <Ipaddr>10.1.1.1</Ipaddr>
+             </Interface>
+             <Interface Device="eth1">
+               <Macaddr>00:1a:92:e5:69:f9</Macaddr>
+               <Ipaddr>192.50.74.153</Ipaddr>
+             </Interface>
+           </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>ai03</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/1/nodemode">none</PNodeMode>
+           <PNodeType>manager</PNodeType>
+           <PNodeAppliance>frontend</PNodeAppliance>
+         </PNode>
+         <PNode NodeID="15" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Ipmask>255.255.0.0</Ipmask>
+               <Macaddr>00:16:3e:00:00:04</Macaddr>
+               <Ipaddr>10.1.255.250</Ipaddr>
+             </Interface>
+            </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>compute-0-0</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/15/nodemode">none</PNodeMode>
+           <PNodeType>none</PNodeType>
+           <PNodeAppliance>compute</PNodeAppliance>
+         </PNode>
+         <PNode NodeID="3" enabled="no" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3">
+           <PNodeNetwork>
+             <Interface Device="eth0">
+               <Ipmask>255.255.0.0</Ipmask>
+               <Macaddr>00:90:cc:de:83:21</Macaddr>
+               <Ipaddr>10.1.255.253</Ipaddr>
+             </Interface>
+             <Interface Device="eth1">
+               <Macaddr>00:17:31:91:d3:ac</Macaddr>
+               <Ipaddr>192.50.74.155</Ipaddr>
+             </Interface>
+           </PNodeNetwork>
+           <PNodeStatus StatusCode="1100">none</PNodeStatus>
+           <PNodeName>vm-container-0-1</PNodeName>
+           <PNodeMode ModeCode="100" url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/nodemode">none</PNodeMode>
+           <LocalStorage url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/localstorage">0</LocalStorage>
+           <PNodeMemory url="http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py/node/3/memory">850</PNodeMemory>
+           <PNodeType>gateway</PNodeType>
+           <PNodeAppliance>vm-container</PNodeAppliance>
+         </PNode>
+       </PNodeList>
+      </PhysicalCluster>
+    </Resource>
+    <!--
+      現在実行中の仮想クラスタのリスト (物理ノード上の位置を含む)
+    -->
+    <ExistingVirtualClusters>
+      <VirtualCluster>
+         ...略...
+      </VirtualCluster>
+    </ExistingVirtualClusters>
+  </AllocationPlan>
+ ++ 資源再配置応答 (資源配置プログラムからマネージャへ)~
+ 資源配置プログラムは、再配置が相当と判断したものについて、
+ その内容をマネージャに応答する。
+  <AllocationPlan cmd="rellocate-response" status="ok">
+    <!-- 既存ノードの移動 -->
+    <PrepareAllocate>
+      <MoveVNode target="1-2" to="vm-container-5-0" />
+    </PrepareAllocate>
+  </AllocationPlan>
+ 
+ ** CPU 使用率予約の参照/変更 [#cc2dfe09]
+ URL は http://ホスト名/vc/cgi-bin/virtual_clusters.py/[クラスタID]/node/[ノードID]/processorPercentage
++ 例: http://gdcweb00.hpcc.jp/vc/cgi-bin/virtual_clusters.py/43/node/3/processorPercentage
+ + 参照~
+ http://ホスト名/vc/cgi-bin/virtual_clusters.py/[クラスタID]/node/[ノードID]/processorPercentage から GET すると、以下の内容が取得できる。
+  <VNodeProcessorPercentage>30</VNodeProcessorPercentage>
+ + 更新~
+ http://ホスト名/vc/cgi-bin/virtual_clusters.py/[クラスタID]/node/[ノードID]/processorPercentage に以下のフォーマットで POST すると更新できる。
+  <VNodeProcessorPercentage>[新しいCPU使用率]</VNodeProcessorPercentage>

@@ -1,0 +1,849 @@
+>>>>>>>>>> 1205079524
+* 仮想クラスタ [#ucf9e7cc]
+
+ ai03 マルチサイト環境をセットアップし、仮想クラスタ
+ (ID=17)を起動しましたのでお知らせします。
+ 仮想クラスタには ai05.hpcc.jp から ssh で入ることができます。
+ デモまでこの仮想クラスタは仮想 compute ノードの増減を除いて
+ このままにしておきます。
+ 以下の物理ノードが仮想 compute に割当て可能です。
+ ai03
+        vmware-server-0-x       6台
+ ai18
+        vmware-server-0-x       5台
+ rock1
+        vmware-server-0-x       1台
+ gfrm51 クラスタについては外部から HTTP/HTTPS 接続ができない
+ ためにマルチサイトへの参加を断念しました。
+>>>>>>>>>> 1205089253
+* javafx interface [#qc9f06ba]
+起動中のノードの取得
+ cluster-fork hostname | grep -v down  | egrep -v '^$' | awk '{split($1, a, ":"); print a[1]}'
+
+これを/bin/alive に設定
+
+* 仮想クラスタ [#ucf9e7cc]
+
+ ai03 マルチサイト環境をセットアップし、仮想クラスタ
+ (ID=17)を起動しましたのでお知らせします。
+ 仮想クラスタには ai05.hpcc.jp から ssh で入ることができます。
+ デモまでこの仮想クラスタは仮想 compute ノードの増減を除いて
+ このままにしておきます。
+ 以下の物理ノードが仮想 compute に割当て可能です。
+ ai03
+        vmware-server-0-x       6台
+ ai18
+        vmware-server-0-x       5台
+ rock1
+        vmware-server-0-x       1台
+ gfrm51 クラスタについては外部から HTTP/HTTPS 接続ができない
+ ためにマルチサイトへの参加を断念しました。
+
+*万能ロール [#rc072bd5]
+ 
+ １、config ファイル
+　ai03の/root/work/config
+ [node]
+ frontend=ai03
+ compute00=vmware-server-gw-0-0
+ compute01=vmware-server
+ #compute01-rack-rank=0-0
+ 
+  [path]
+ frontend=/tmp
+ compute=/tmp
+ scriptfile=a.sh
+ 
+ 実行ターゲットから外したい項目については、行先頭に"#"を入れてください。
+ 上記configではvmware-server-gw-0-0および、すべてのvmware-serverがターゲットに
+ になります。コメントアウトすれば、vmware-server-gw-0-0、vmware-server-0-0のみで す。
+ 
+ 2、自動モード
+ cronで１分おきに/root/work/configの更新有無（epoch time）を
+ 監視しているので、 更新が見つかると即座に
+ 　cpexec.pyが実行されます。
+ 
+ ３、手動モード
+ configを編集後に/root/work/cpexec.pyをたたけばOKです。
+ 
+ 注意事項：
+　cronで監視しているため、configファイルパスは固定です。変更されるならソースの中の
+ CONFIG_FILEを変更していただればと思います。
+
+* デモ用クラスタ [#d370b90a]
+ 1.  Ai03 Cluster(Akiba)
+    Cluster Manager :   ai03.hpcc.jp  (192.50.74.153)
+    GW      Node      :   ai04.hpcc.jp  (192.50.74.154)
+    VFrontend node :    ai05.hpcc.jp  (192.50.74.155)
+    vmware-server-0-x   :    6ノード
+    iSCSI node :           iscsi11           (10.10.10.11)
+    
+ 2. Ai18 Cluster (Akiba)
+    Cluster Manager :   ai18.hpcc.jp   (192.50.74.173)
+    GW      Node      :   ai19.hpcc.jp   (192.50.74.174)
+    VFrontend node :    ai20.hpcc.jp  (192.50.74.175)
+    vmware-server-0-x   :    5ノード
+    iSCSI node :           iscsi12           (10.10.10.12)
+ 
+ 3. Gfm51 Cluster(Tsukuba)
+    Cluster Manager :   gfm51.apgrid.org  (163.220.60.99)
+    GW      Node      :   gfm52.apgrid.org  (163.220.60.100)
+    VFrontend node :    vm162.apgrid.org (163.220.61.162)
+    vmware-server-0-x   :    6ノード
+
+ 4. Rock1 Cluster (Minimi-suna iDC)
+    Cluster Manager :   rock1.lab.hoster.jp  (211.130.165.176)
+    GW      Node      :   rock2.lab.hoster.jp  (211.130.165.175)
+    VFrontend node :    rock3.lab.hoster.jp  (211.130.165.174)
+    vmware-server-0-x  :    1ノード
+ 
+ 注意事項：
+ ・Rock1 clusterのhostnameはDNSに登録されていません。
+ ・Trouble shootingや性能を考慮し、ai03(main) -- ai18(sub)
+  をマルチサイトデモ用に使いたいと思います。物理的な距離を強調
+  したい場合は、ai03(main) -- gfm51(sub)。
+
+
+*RRD [#d716ddc1]
+ ノード数
+ ai05:/var/run/rrd-nodes.rrd
+ http://ai05.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-nodes.rb > /tmp/log 2>&1 & と起動済み
+ 
+ スループット
+ ai04:/var/run/vpn-*.rrd
+ http://ai04.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-thpt.rb /var/run/vpns-1214-tap_s7.status > /tmp/rrd.log 2>&1 と起動済み
+>>>>>>>>>> 1205095755
+* javafx interface [#qc9f06ba]
+起動中のノードの取得
+ tentakel hostname | grep -v '###' | grep -v "down" | awk '{split($1,a,"."); print a[1]}'
+
+これを/bin/alive に設定.
+cluster-forkよりずっと早い．
+
+* 仮想クラスタ [#ucf9e7cc]
+
+ ai03 マルチサイト環境をセットアップし、仮想クラスタ
+ (ID=17)を起動しましたのでお知らせします。
+ 仮想クラスタには ai05.hpcc.jp から ssh で入ることができます。
+ デモまでこの仮想クラスタは仮想 compute ノードの増減を除いて
+ このままにしておきます。
+ 以下の物理ノードが仮想 compute に割当て可能です。
+ ai03
+        vmware-server-0-x       6台
+ ai18
+        vmware-server-0-x       5台
+ rock1
+        vmware-server-0-x       1台
+ gfrm51
+        vmware-server-0-x       6台
+
+**予約(ノード追加)方法 [#cf7def24]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration') で
+デモ用に予約された仮想クラスタの ID を確認する (12 番が実行されているはずです)
++ 予約画面 'Register a New Virtual Cluster' に行く。
+++ 'Append Node To :' に 12 を入れる(仮想ノード追加対象クラスタの指定)。
+++ 追加ノード数を指定する。compute の StorageType が local になっている側にノード数を指定。
+++ 時間/パスワードなどの情報は、既に存在するので指定しなくてよい(指定しても無視)。
+++ Register ボタンを押して追加を実行する
+(実行後は再度予約一覧画面で状態を確認するようにしてください)。
++ しばらくすると自動的にノード追加処理が実行されます。
+
+**ノード削除方法 [#e9049433]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration')で
+全ノードの状態を表示します。
++ 各ノードの 'Mode' の列がクリックできます。二回クリックすると
+'Stop', 'Start', 'Remove' のボタンが表示されます。さらにボタン'Remove'を押すと
+当該ノードの Mode が削除要求状態に代わります。
++ 削除したいノード全てについて上記操作を繰り返してください。
++ 予約一覧画面を reload し、ノード削除が完了(表示から完全に消える)した
+ことを確認してください。
+
+*万能ロール [#rc072bd5]
+ 
+ １、config ファイル
+　ai03の/root/work/config
+ [node]
+ frontend=ai03
+ compute00=vmware-server-gw-0-0
+ compute01=vmware-server
+ #compute01-rack-rank=0-0
+ 
+  [path]
+ frontend=/tmp
+ compute=/tmp
+ scriptfile=a.sh
+ 
+ 実行ターゲットから外したい項目については、行先頭に"#"を入れてください。
+ 上記configではvmware-server-gw-0-0および、すべてのvmware-serverがターゲットに
+ になります。コメントアウトすれば、vmware-server-gw-0-0、vmware-server-0-0のみで す。
+ 
+ 2、自動モード
+ cronで１分おきに/root/work/configの更新有無（epoch time）を
+ 監視しているので、 更新が見つかると即座に
+ 　cpexec.pyが実行されます。
+ 
+ ３、手動モード
+ configを編集後に/root/work/cpexec.pyをたたけばOKです。
+ 
+ 注意事項：
+　cronで監視しているため、configファイルパスは固定です。変更されるならソースの中の
+ CONFIG_FILEを変更していただればと思います。
+
+* デモ用クラスタ [#d370b90a]
+ 1.  Ai03 Cluster(Akiba)
+    Cluster Manager :   ai03.hpcc.jp  (192.50.74.153)
+    GW      Node      :   ai04.hpcc.jp  (192.50.74.154)
+    VFrontend node :    ai05.hpcc.jp  (192.50.74.155)
+    vmware-server-0-x   :    6ノード
+    iSCSI node :           iscsi11           (10.10.10.11)
+    
+ 2. Ai18 Cluster (Akiba)
+    Cluster Manager :   ai18.hpcc.jp   (192.50.74.173)
+    GW      Node      :   ai19.hpcc.jp   (192.50.74.174)
+    VFrontend node :    ai20.hpcc.jp  (192.50.74.175)
+    vmware-server-0-x   :    5ノード
+    iSCSI node :           iscsi12           (10.10.10.12)
+ 
+ 3. Gfm51 Cluster(Tsukuba)
+    Cluster Manager :   gfm51.apgrid.org  (163.220.60.99)
+    GW      Node      :   gfm52.apgrid.org  (163.220.60.100)
+    VFrontend node :    vm162.apgrid.org (163.220.61.162)
+    vmware-server-0-x   :    6ノード
+
+ 4. Rock1 Cluster (Minimi-suna iDC)
+    Cluster Manager :   rock1.lab.hoster.jp  (211.130.165.176)
+    GW      Node      :   rock2.lab.hoster.jp  (211.130.165.175)
+    VFrontend node :    rock3.lab.hoster.jp  (211.130.165.174)
+    vmware-server-0-x  :    1ノード
+ 
+ 注意事項：
+ ・Rock1 clusterのhostnameはDNSに登録されていません。
+ ・Trouble shootingや性能を考慮し、ai03(main) -- ai18(sub)
+  をマルチサイトデモ用に使いたいと思います。物理的な距離を強調
+  したい場合は、ai03(main) -- gfm51(sub)。
+
+
+*RRD [#d716ddc1]
+ ノード数
+ ai05:/var/run/rrd-nodes.rrd
+ http://ai05.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-nodes.rb > /tmp/log 2>&1 & と起動済み
+ 
+ スループット
+ ai04:/var/run/vpn-*.rrd
+ http://ai04.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-thpt.rb /var/run/vpns-1214-tap_s7.status > /tmp/rrd.log 2>&1 と起動済み
+>>>>>>>>>> 1205111492
+* javafx interface [#qc9f06ba]
+起動中のノードの取得
+ tentakel hostname | grep -v '###' | grep -v "down" | awk '{split($1,a,"."); print a[1]}'
+
+これを/bin/alive に設定.
+cluster-forkよりずっと早い．
+
+* condor 設定 [#nce1c681]
+/share/apps/condor
+
+ yum install compat-libstdc++-33
+
+- ノード追加時にしなければならないこと
+ root で
+ rpm -i /home/condor/compat-libstdc++-33-3.2.3-47.3.i386.rpm
+ condor で
+ mkdir -p /home/condor/hosts/$HOSTNAME/log
+ mkdir -p /home/condor/hosts/$HOSTNAME/spool
+ mkdir -p /home/condor/hosts/$HOSTNAME/execute
+
+
+* 仮想クラスタ [#ucf9e7cc]
+
+ ai03 マルチサイト環境をセットアップし、仮想クラスタ
+ (ID=17)を起動しましたのでお知らせします。
+ 仮想クラスタには ai05.hpcc.jp から ssh で入ることができます。
+ デモまでこの仮想クラスタは仮想 compute ノードの増減を除いて
+ このままにしておきます。
+ 以下の物理ノードが仮想 compute に割当て可能です。
+ ai03
+        vmware-server-0-x       6台
+ ai18
+        vmware-server-0-x       5台
+ rock1
+        vmware-server-0-x       1台
+ gfrm51
+        vmware-server-0-x       6台
+
+**予約(ノード追加)方法 [#cf7def24]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration') で
+デモ用に予約された仮想クラスタの ID を確認する (12 番が実行されているはずです)
++ 予約画面 'Register a New Virtual Cluster' に行く。
+++ 'Append Node To :' に 12 を入れる(仮想ノード追加対象クラスタの指定)。
+++ 追加ノード数を指定する。compute の StorageType が local になっている側にノード数を指定。
+++ 時間/パスワードなどの情報は、既に存在するので指定しなくてよい(指定しても無視)。
+++ Register ボタンを押して追加を実行する
+(実行後は再度予約一覧画面で状態を確認するようにしてください)。
++ しばらくすると自動的にノード追加処理が実行されます。
+
+**ノード削除方法 [#e9049433]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration')で
+全ノードの状態を表示します。
++ 各ノードの 'Mode' の列がクリックできます。二回クリックすると
+'Stop', 'Start', 'Remove' のボタンが表示されます。さらにボタン'Remove'を押すと
+当該ノードの Mode が削除要求状態に代わります。
++ 削除したいノード全てについて上記操作を繰り返してください。
++ 予約一覧画面を reload し、ノード削除が完了(表示から完全に消える)した
+ことを確認してください。
+
+*万能ロール [#rc072bd5]
+ 
+ １、config ファイル
+　ai03の/root/work/config
+ [node]
+ frontend=ai03
+ compute00=vmware-server-gw-0-0
+ compute01=vmware-server
+ #compute01-rack-rank=0-0
+ 
+  [path]
+ frontend=/tmp
+ compute=/tmp
+ scriptfile=a.sh
+ 
+ 実行ターゲットから外したい項目については、行先頭に"#"を入れてください。
+ 上記configではvmware-server-gw-0-0および、すべてのvmware-serverがターゲットに
+ になります。コメントアウトすれば、vmware-server-gw-0-0、vmware-server-0-0のみで す。
+ 
+ 2、自動モード
+ cronで１分おきに/root/work/configの更新有無（epoch time）を
+ 監視しているので、 更新が見つかると即座に
+ 　cpexec.pyが実行されます。
+ 
+ ３、手動モード
+ configを編集後に/root/work/cpexec.pyをたたけばOKです。
+ 
+ 注意事項：
+　cronで監視しているため、configファイルパスは固定です。変更されるならソースの中の
+ CONFIG_FILEを変更していただればと思います。
+
+* デモ用クラスタ [#d370b90a]
+ 1.  Ai03 Cluster(Akiba)
+    Cluster Manager :   ai03.hpcc.jp  (192.50.74.153)
+    GW      Node      :   ai04.hpcc.jp  (192.50.74.154)
+    VFrontend node :    ai05.hpcc.jp  (192.50.74.155)
+    vmware-server-0-x   :    6ノード
+    iSCSI node :           iscsi11           (10.10.10.11)
+    
+ 2. Ai18 Cluster (Akiba)
+    Cluster Manager :   ai18.hpcc.jp   (192.50.74.173)
+    GW      Node      :   ai19.hpcc.jp   (192.50.74.174)
+    VFrontend node :    ai20.hpcc.jp  (192.50.74.175)
+    vmware-server-0-x   :    5ノード
+    iSCSI node :           iscsi12           (10.10.10.12)
+ 
+ 3. Gfm51 Cluster(Tsukuba)
+    Cluster Manager :   gfm51.apgrid.org  (163.220.60.99)
+    GW      Node      :   gfm52.apgrid.org  (163.220.60.100)
+    VFrontend node :    vm162.apgrid.org (163.220.61.162)
+    vmware-server-0-x   :    6ノード
+
+ 4. Rock1 Cluster (Minimi-suna iDC)
+    Cluster Manager :   rock1.lab.hoster.jp  (211.130.165.176)
+    GW      Node      :   rock2.lab.hoster.jp  (211.130.165.175)
+    VFrontend node :    rock3.lab.hoster.jp  (211.130.165.174)
+    vmware-server-0-x  :    1ノード
+ 
+ 注意事項：
+ ・Rock1 clusterのhostnameはDNSに登録されていません。
+ ・Trouble shootingや性能を考慮し、ai03(main) -- ai18(sub)
+  をマルチサイトデモ用に使いたいと思います。物理的な距離を強調
+  したい場合は、ai03(main) -- gfm51(sub)。
+
+
+*RRD [#d716ddc1]
+ ノード数
+ ai05:/var/run/rrd-nodes.rrd
+ http://ai05.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-nodes.rb > /tmp/log 2>&1 & と起動済み
+ 
+ スループット
+ ai04:/var/run/vpn-*.rrd
+ http://ai04.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-thpt.rb /var/run/vpns-1214-tap_s7.status > /tmp/rrd.log 2>&1 と起動済み
+>>>>>>>>>> 1205125487
+* javafx interface [#qc9f06ba]
+起動中のノードの取得
+ tentakel hostname | grep -v '###' | grep -v "down" | awk '{split($1,a,"."); print a[1]}'
+
+これを/bin/alive に設定.
+cluster-forkよりずっと早い．
+
+* condor 設定 [#nce1c681]
+/share/apps/condor
+
+ yum install compat-libstdc++-33
+
+- user condor
+ ~condor を +rx しておくこと．  
+
+- ノード追加時にしなければならないこと
+ root で
+ rpm -i /home/condor/compat-libstdc++-33-3.2.3-47.3.i386.rpm
+ condor で
+ mkdir -p /home/condor/hosts/$HOSTNAME/log
+ mkdir -p /home/condor/hosts/$HOSTNAME/spool
+ mkdir -p /home/condor/hosts/$HOSTNAME/execute
+
+- スループット測定
+ tar ボールを展開，memo の内容に従う．
+
+ - start condor
+ - exec ./qmonitor to keep condor busy
+ - exec ./start_measurement
+ - exec ./rrdtool_cgi.py
+ - test it with wget-test
+
+
+
+
+
+* 仮想クラスタ [#ucf9e7cc]
+
+ ai03 マルチサイト環境をセットアップし、仮想クラスタ
+ (ID=17)を起動しましたのでお知らせします。
+ 仮想クラスタには ai05.hpcc.jp から ssh で入ることができます。
+ デモまでこの仮想クラスタは仮想 compute ノードの増減を除いて
+ このままにしておきます。
+ 以下の物理ノードが仮想 compute に割当て可能です。
+ ai03
+        vmware-server-0-x       6台
+ ai18
+        vmware-server-0-x       5台
+ rock1
+        vmware-server-0-x       1台
+ gfrm51
+        vmware-server-0-x       6台
+
+**予約(ノード追加)方法 [#cf7def24]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration') で
+デモ用に予約された仮想クラスタの ID を確認する (12 番が実行されているはずです)
++ 予約画面 'Register a New Virtual Cluster' に行く。
+++ 'Append Node To :' に 12 を入れる(仮想ノード追加対象クラスタの指定)。
+++ 追加ノード数を指定する。compute の StorageType が local になっている側にノード数を指定。
+++ 時間/パスワードなどの情報は、既に存在するので指定しなくてよい(指定しても無視)。
+++ Register ボタンを押して追加を実行する
+(実行後は再度予約一覧画面で状態を確認するようにしてください)。
++ しばらくすると自動的にノード追加処理が実行されます。
+
+**ノード削除方法 [#e9049433]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration')で
+全ノードの状態を表示します。
++ 各ノードの 'Mode' の列がクリックできます。二回クリックすると
+'Stop', 'Start', 'Remove' のボタンが表示されます。さらにボタン'Remove'を押すと
+当該ノードの Mode が削除要求状態に代わります。
++ 削除したいノード全てについて上記操作を繰り返してください。
++ 予約一覧画面を reload し、ノード削除が完了(表示から完全に消える)した
+ことを確認してください。
+
+*万能ロール [#rc072bd5]
+ 
+ １、config ファイル
+　ai03の/root/work/config
+ [node]
+ frontend=ai03
+ compute00=vmware-server-gw-0-0
+ compute01=vmware-server
+ #compute01-rack-rank=0-0
+ 
+  [path]
+ frontend=/tmp
+ compute=/tmp
+ scriptfile=a.sh
+ 
+ 実行ターゲットから外したい項目については、行先頭に"#"を入れてください。
+ 上記configではvmware-server-gw-0-0および、すべてのvmware-serverがターゲットに
+ になります。コメントアウトすれば、vmware-server-gw-0-0、vmware-server-0-0のみで す。
+ 
+ 2、自動モード
+ cronで１分おきに/root/work/configの更新有無（epoch time）を
+ 監視しているので、 更新が見つかると即座に
+ 　cpexec.pyが実行されます。
+ 
+ ３、手動モード
+ configを編集後に/root/work/cpexec.pyをたたけばOKです。
+ 
+ 注意事項：
+　cronで監視しているため、configファイルパスは固定です。変更されるならソースの中の
+ CONFIG_FILEを変更していただればと思います。
+
+* デモ用クラスタ [#d370b90a]
+ 1.  Ai03 Cluster(Akiba)
+    Cluster Manager :   ai03.hpcc.jp  (192.50.74.153)
+    GW      Node      :   ai04.hpcc.jp  (192.50.74.154)
+    VFrontend node :    ai05.hpcc.jp  (192.50.74.155)
+    vmware-server-0-x   :    6ノード
+    iSCSI node :           iscsi11           (10.10.10.11)
+    
+ 2. Ai18 Cluster (Akiba)
+    Cluster Manager :   ai18.hpcc.jp   (192.50.74.173)
+    GW      Node      :   ai19.hpcc.jp   (192.50.74.174)
+    VFrontend node :    ai20.hpcc.jp  (192.50.74.175)
+    vmware-server-0-x   :    5ノード
+    iSCSI node :           iscsi12           (10.10.10.12)
+ 
+ 3. Gfm51 Cluster(Tsukuba)
+    Cluster Manager :   gfm51.apgrid.org  (163.220.60.99)
+    GW      Node      :   gfm52.apgrid.org  (163.220.60.100)
+    VFrontend node :    vm162.apgrid.org (163.220.61.162)
+    vmware-server-0-x   :    6ノード
+
+ 4. Rock1 Cluster (Minimi-suna iDC)
+    Cluster Manager :   rock1.lab.hoster.jp  (211.130.165.176)
+    GW      Node      :   rock2.lab.hoster.jp  (211.130.165.175)
+    VFrontend node :    rock3.lab.hoster.jp  (211.130.165.174)
+    vmware-server-0-x  :    1ノード
+ 
+ 注意事項：
+ ・Rock1 clusterのhostnameはDNSに登録されていません。
+ ・Trouble shootingや性能を考慮し、ai03(main) -- ai18(sub)
+  をマルチサイトデモ用に使いたいと思います。物理的な距離を強調
+  したい場合は、ai03(main) -- gfm51(sub)。
+
+
+*RRD [#d716ddc1]
+ ノード数
+ ai05:/var/run/rrd-nodes.rrd
+ http://ai05.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-nodes.rb > /tmp/log 2>&1 & と起動済み
+ 
+ スループット
+ ai04:/var/run/vpn-*.rrd
+ http://ai04.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-thpt.rb /var/run/vpns-1214-tap_s7.status > /tmp/rrd.log 2>&1 と起動済み
+>>>>>>>>>> 1205137138
+* javafx interface [#qc9f06ba]
+起動中のノードの取得
+ tentakel hostname | grep -v '###' | grep -v "down" | awk '{split($1,a,"."); print a[1]}'
+
+これを/bin/alive に設定.
+cluster-forkよりずっと早い．
+
+* condor 設定 [#nce1c681]
+/share/apps/condor
+
+ yum install compat-libstdc++-33
+
+- user condor
+ ~condor を +rx しておくこと．  
+
+- ノード追加時にしなければならないこと
+ root で
+ rpm -i /home/condor/compat-libstdc++-33-3.2.3-47.3.i386.rpm
+ condor で
+ mkdir -p /home/condor/hosts/$HOSTNAME/log
+ mkdir -p /home/condor/hosts/$HOSTNAME/spool
+ mkdir -p /home/condor/hosts/$HOSTNAME/execute
+ mkdir /var/lock/condor
+ chown /var/lock/condor
+ chgrp /var/lock/condor
+
+- スループット測定
+ tar ボールを展開，memo の内容に従う．
+
+ - start condor
+ - exec ./qmonitor to keep condor busy
+ - exec ./start_measurement
+ - exec ./rrdtool_cgi.py
+ - test it with wget-test
+
+
+
+
+
+* 仮想クラスタ [#ucf9e7cc]
+
+ ai03 マルチサイト環境をセットアップし、仮想クラスタ
+ (ID=17)を起動しましたのでお知らせします。
+ 仮想クラスタには ai05.hpcc.jp から ssh で入ることができます。
+ デモまでこの仮想クラスタは仮想 compute ノードの増減を除いて
+ このままにしておきます。
+ 以下の物理ノードが仮想 compute に割当て可能です。
+ ai03
+        vmware-server-0-x       6台
+ ai18
+        vmware-server-0-x       5台
+ rock1
+        vmware-server-0-x       1台
+ gfrm51
+        vmware-server-0-x       6台
+
+**予約(ノード追加)方法 [#cf7def24]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration') で
+デモ用に予約された仮想クラスタの ID を確認する (12 番が実行されているはずです)
++ 予約画面 'Register a New Virtual Cluster' に行く。
+++ 'Append Node To :' に 12 を入れる(仮想ノード追加対象クラスタの指定)。
+++ 追加ノード数を指定する。compute の StorageType が local になっている側にノード数を指定。
+++ 時間/パスワードなどの情報は、既に存在するので指定しなくてよい(指定しても無視)。
+++ Register ボタンを押して追加を実行する
+(実行後は再度予約一覧画面で状態を確認するようにしてください)。
++ しばらくすると自動的にノード追加処理が実行されます。
+
+**ノード削除方法 [#e9049433]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration')で
+全ノードの状態を表示します。
++ 各ノードの 'Mode' の列がクリックできます。二回クリックすると
+'Stop', 'Start', 'Remove' のボタンが表示されます。さらにボタン'Remove'を押すと
+当該ノードの Mode が削除要求状態に代わります。
++ 削除したいノード全てについて上記操作を繰り返してください。
++ 予約一覧画面を reload し、ノード削除が完了(表示から完全に消える)した
+ことを確認してください。
+
+*万能ロール [#rc072bd5]
+ 
+ １、config ファイル
+　ai03の/root/work/config
+ [node]
+ frontend=ai03
+ compute00=vmware-server-gw-0-0
+ compute01=vmware-server
+ #compute01-rack-rank=0-0
+ 
+  [path]
+ frontend=/tmp
+ compute=/tmp
+ scriptfile=a.sh
+ 
+ 実行ターゲットから外したい項目については、行先頭に"#"を入れてください。
+ 上記configではvmware-server-gw-0-0および、すべてのvmware-serverがターゲットに
+ になります。コメントアウトすれば、vmware-server-gw-0-0、vmware-server-0-0のみで す。
+ 
+ 2、自動モード
+ cronで１分おきに/root/work/configの更新有無（epoch time）を
+ 監視しているので、 更新が見つかると即座に
+ 　cpexec.pyが実行されます。
+ 
+ ３、手動モード
+ configを編集後に/root/work/cpexec.pyをたたけばOKです。
+ 
+ 注意事項：
+　cronで監視しているため、configファイルパスは固定です。変更されるならソースの中の
+ CONFIG_FILEを変更していただればと思います。
+
+* デモ用クラスタ [#d370b90a]
+ 1.  Ai03 Cluster(Akiba)
+    Cluster Manager :   ai03.hpcc.jp  (192.50.74.153)
+    GW      Node      :   ai04.hpcc.jp  (192.50.74.154)
+    VFrontend node :    ai05.hpcc.jp  (192.50.74.155)
+    vmware-server-0-x   :    6ノード
+    iSCSI node :           iscsi11           (10.10.10.11)
+    
+ 2. Ai18 Cluster (Akiba)
+    Cluster Manager :   ai18.hpcc.jp   (192.50.74.173)
+    GW      Node      :   ai19.hpcc.jp   (192.50.74.174)
+    VFrontend node :    ai20.hpcc.jp  (192.50.74.175)
+    vmware-server-0-x   :    5ノード
+    iSCSI node :           iscsi12           (10.10.10.12)
+ 
+ 3. Gfm51 Cluster(Tsukuba)
+    Cluster Manager :   gfm51.apgrid.org  (163.220.60.99)
+    GW      Node      :   gfm52.apgrid.org  (163.220.60.100)
+    VFrontend node :    vm162.apgrid.org (163.220.61.162)
+    vmware-server-0-x   :    6ノード
+
+ 4. Rock1 Cluster (Minimi-suna iDC)
+    Cluster Manager :   rock1.lab.hoster.jp  (211.130.165.176)
+    GW      Node      :   rock2.lab.hoster.jp  (211.130.165.175)
+    VFrontend node :    rock3.lab.hoster.jp  (211.130.165.174)
+    vmware-server-0-x  :    1ノード
+ 
+ 注意事項：
+ ・Rock1 clusterのhostnameはDNSに登録されていません。
+ ・Trouble shootingや性能を考慮し、ai03(main) -- ai18(sub)
+  をマルチサイトデモ用に使いたいと思います。物理的な距離を強調
+  したい場合は、ai03(main) -- gfm51(sub)。
+
+
+*RRD [#d716ddc1]
+ ノード数
+ ai05:/var/run/rrd-nodes.rrd
+ http://ai05.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-nodes.rb > /tmp/log 2>&1 & と起動済み
+ 
+ スループット
+ ai04:/var/run/vpn-*.rrd
+ http://ai04.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-thpt.rb /var/run/vpns-1214-tap_s7.status > /tmp/rrd.log 2>&1 と起動済み
+>>>>>>>>>> 1205166630
+* javafx interface [#qc9f06ba]
+起動中のノードの取得
+ tentakel hostname | grep -v '###' | grep -v "down" | awk '{split($1,a,"."); print a[1]}'
+
+これを/bin/alive に設定.
+cluster-forkよりずっと早い．
+
+* condor 設定 [#nce1c681]
+/share/apps/condor
+
+ yum install compat-libstdc++-33
+
+- user condor
+ ~condor を +rx しておくこと．  
+
+- ノード追加時にしなければならないこと
+ root で
+ rpm -i /home/condor/compat-libstdc++-33-3.2.3-47.3.i386.rpm
+ condor で
+ mkdir -p /home/condor/hosts/$HOSTNAME/log
+ mkdir -p /home/condor/hosts/$HOSTNAME/spool
+ mkdir -p /home/condor/hosts/$HOSTNAME/execute
+ mkdir /var/lock/condor
+ chown /var/lock/condor
+ chgrp /var/lock/condor
+
+- スループット測定
+ tar ボールを展開，memo の内容に従う．
+
+ - start condor
+ - exec ./qmonitor to keep condor busy
+ - exec ./start_measurement
+ - exec ./rrdtool_cgi.py
+ - test it with wget-test
+
+
+
+
+
+* 仮想クラスタ [#ucf9e7cc]
+
+ ai03 マルチサイト環境をセットアップし、仮想クラスタ
+ (ID=17)を起動しましたのでお知らせします。
+ 仮想クラスタには ai05.hpcc.jp から ssh で入ることができます。
+ デモまでこの仮想クラスタは仮想 compute ノードの増減を除いて
+ このままにしておきます。
+ 以下の物理ノードが仮想 compute に割当て可能です。
+ ai03
+        vmware-server-0-x       6台
+ ai18
+        vmware-server-0-x       5台
+ rock1
+        vmware-server-0-x       1台
+ gfrm51
+        vmware-server-0-x       6台
+
+**予約(ノード追加)方法 [#cf7def24]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration') で
+デモ用に予約された仮想クラスタの ID を確認する (12 番が実行されているはずです)
++ 予約画面 'Register a New Virtual Cluster' に行く。
+++ 'Append Node To :' に 12 を入れる(仮想ノード追加対象クラスタの指定)。
+++ 追加ノード数を指定する。compute の StorageType が local になっている側にノード数を指定。
+++ 時間/パスワードなどの情報は、既に存在するので指定しなくてよい(指定しても無視)。
+++ Register ボタンを押して追加を実行する
+(実行後は再度予約一覧画面で状態を確認するようにしてください)。
++ しばらくすると自動的にノード追加処理が実行されます。
+
+**ノード削除方法 [#e9049433]
++ 予約一覧画面(http://ai03.hpcc.jp/vc/user.html の 'View Registration')で
+全ノードの状態を表示します。
++ 各ノードの 'Mode' の列がクリックできます。二回クリックすると
+'Stop', 'Start', 'Remove' のボタンが表示されます。さらにボタン'Remove'を押すと
+当該ノードの Mode が削除要求状態に代わります。
++ 削除したいノード全てについて上記操作を繰り返してください。
++ 予約一覧画面を reload し、ノード削除が完了(表示から完全に消える)した
+ことを確認してください。
+
+*万能ロール [#rc072bd5]
+ 
+ １、config ファイル
+　ai03の/root/work/config
+ [node]
+ frontend=ai03
+ compute00=vmware-server-gw-0-0
+ compute01=vmware-server
+ #compute01-rack-rank=0-0
+ 
+  [path]
+ frontend=/tmp
+ compute=/tmp
+ scriptfile=a.sh
+ 
+ 実行ターゲットから外したい項目については、行先頭に"#"を入れてください。
+ 上記configではvmware-server-gw-0-0および、すべてのvmware-serverがターゲットに
+ になります。コメントアウトすれば、vmware-server-gw-0-0、vmware-server-0-0のみで す。
+ 
+ 2、自動モード
+ cronで１分おきに/root/work/configの更新有無（epoch time）を
+ 監視しているので、 更新が見つかると即座に
+ 　cpexec.pyが実行されます。
+ 
+ ３、手動モード
+ configを編集後に/root/work/cpexec.pyをたたけばOKです。
+ 
+ 注意事項：
+　cronで監視しているため、configファイルパスは固定です。変更されるならソースの中の
+ CONFIG_FILEを変更していただればと思います。
+
+* デモ用クラスタ [#d370b90a]
+ 1.  Ai03 Cluster(Akiba)
+    Cluster Manager :   ai03.hpcc.jp  (192.50.74.153)
+    GW      Node      :   ai04.hpcc.jp  (192.50.74.154)
+    VFrontend node :    ai05.hpcc.jp  (192.50.74.155)
+    vmware-server-0-x   :    6ノード
+    iSCSI node :           iscsi11           (10.10.10.11)
+    
+ 2. Ai18 Cluster (Akiba)
+    Cluster Manager :   ai18.hpcc.jp   (192.50.74.173)
+    GW      Node      :   ai19.hpcc.jp   (192.50.74.174)
+    VFrontend node :    ai20.hpcc.jp  (192.50.74.175)
+    vmware-server-0-x   :    5ノード
+    iSCSI node :           iscsi12           (10.10.10.12)
+ 
+ 3. Gfm51 Cluster(Tsukuba)
+    Cluster Manager :   gfm51.apgrid.org  (163.220.60.99)
+    GW      Node      :   gfm52.apgrid.org  (163.220.60.100)
+    VFrontend node :    vm162.apgrid.org (163.220.61.162)
+    vmware-server-0-x   :    6ノード
+
+ 4. Rock1 Cluster (Minimi-suna iDC)
+    Cluster Manager :   rock1.lab.hoster.jp  (211.130.165.176)
+    GW      Node      :   rock2.lab.hoster.jp  (211.130.165.175)
+    VFrontend node :    rock3.lab.hoster.jp  (211.130.165.174)
+    vmware-server-0-x  :    1ノード
+ 
+ 注意事項：
+ ・Rock1 clusterのhostnameはDNSに登録されていません。
+ ・Trouble shootingや性能を考慮し、ai03(main) -- ai18(sub)
+  をマルチサイトデモ用に使いたいと思います。物理的な距離を強調
+  したい場合は、ai03(main) -- gfm51(sub)。
+
+  ---
+ UCSDにクラスタをセットアップしました。
+ ほぼ２のやり方でインストールして（セントラルサーバは自前で立てましたが）、
+ vmware-server-gwを１台、vmware-serverを3台作りました。
+ 
+ 残りの作業は日本から遠隔でお願いできますでしょうか。
+ 
+ 用意したグローバルアドレスは以下のとおりです。
+ CM
+ aistviz.rocksclusters.org   137.110.119.116
+ 
+ GW
+ aistdemo1.rocksclusters.org   137.110.119.123   (not 117!!!)
+ 
+ VFrontend
+ aistdemo2.rocksclusters.org    137.110.119.118
+ 
+ VFrontend （予備）
+ aistdemo3.rocksclusters.org    137.110.119.119
+
+
+*RRD [#d716ddc1]
+ ノード数
+ ai05:/var/run/rrd-nodes.rrd
+ http://ai05.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-nodes.rb > /tmp/log 2>&1 & と起動済み
+ 
+ スループット
+ ai04:/var/run/vpn-*.rrd
+ http://ai04.hpcc.jp/rrd/ で値を確認できます。
+ ruby rrd-thpt.rb /var/run/vpns-1214-tap_s7.status > /tmp/rrd.log 2>&1 と起動済み
+

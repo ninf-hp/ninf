@@ -1,0 +1,25 @@
+>>>>>>>>>> 1155571668
+[[FrontPage]]
+
+- Atholon 64 X2
+>>>>>>>>>> 1155572102
+[[FrontPage]]
+
+- Atholon 64 X2
+
+- Mem 4G, (only 3.5 G of them are recognized by the mother board)
+- HDD 400G x2 
+-- 50 G for system.
+-- 350G + 400G forms one volume group
+>>>>>>>>>> 1156450624
+[[FrontPage]]
+
+- rocknroll.hpcc.jp
+
+- Atholon 64 X2
+
+- Mem 4G, (only 3.5 G of them are recognized by the mother board)
+- HDD 400G x2 
+-- 50 G for system.
+-- 350G + 400G forms one volume group
+

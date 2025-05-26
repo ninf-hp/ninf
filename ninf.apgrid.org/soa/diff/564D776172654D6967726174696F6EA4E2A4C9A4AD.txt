@@ -1,0 +1,44 @@
++[[FrontPage]]
+ 
++*vmware-cmd command [#l925a356]
++
++Register and Unregister
++
++ #vmware-cmd -s register /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx 
++ #vmware-cmd -s unregister /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx 
++
++Start and Stop
++
++ #vmware-cmd /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx start
++ #vmware-cmd /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx stop hard
++
++Suspend and Resume
++
++ #vmware-cmd /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx suspend hard
++ #vmware-cmd /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx start
++
++
++*.vmx file [#i942bf97]
++
++ .vmem(vmware swap file) disableし、 UUIDをkeepしたいので、.vmxに下記を追加する。
++
++　mainMem.useNamedFile = "FALSE"
++　MemTrimRate = "0"
++　uuid.action = "keep"
++
++
++*Configuration fileの共有 [#k709b220]
++ Cluster Managerの/etc/exportsを下記のように変更する
++
++ /export 10.0.0.0/255.0.0.0(rw,async,no_root_squash)
++
++ #mkdir /export/apps/vmware
++
++後は各vmware-server-0-0から/share/apps/vmware/の中にGuestOS1をinstallし、
++suspendしておく。vmware-server-0-1から
++ 
++ #vmware-cmd -s register /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx 
++ #vmware-cmd /share/apps/vmware/fc4_iscsi/fc4_iscsi.vmx start
++
++　
++

@@ -1,0 +1,49 @@
+>>>>>>>>>> 1156823876
+[[FrontPage]]
+
+* VMware Server, VMwareToolsなどのTips [#y77c45e5]
+
+** VMwareToolsをnon-interactiveにインストールする [#v0055473]
+
++ GuestOS用のVMwareTools-XX.rpmを用意する。
++ VMwareToolsをインストールする。
+ # rpm -Uvh VMwareTools-XX.rpm
++ vmware-config-tools.plを実行する。
+ # /usr/bin/vmware-config-tools.pl --prebuilt --default
+>>>>>>>>>> 1156824577
+[[FrontPage]]
+
+* VMware Server, VMware&size(0){ };ToolsなどのTips [#y77c45e5]
+
+#contents
+
+** VMware&size(0){ };Toolsをnon-interactiveにインストールする [#v0055473]
+
++ GuestOS用のVMwareTools-XX.rpmを用意する。
++ VMware&size(0){ };Toolsをインストールする。
+ # rpm -Uvh VMwareTools-XX.rpm
++ vmware-config-tools.plを実行する。
+ # /usr/bin/vmware-config-tools.pl --prebuilt --default
+
+この方法で/usr/sbin/vmware-guestdは間違いなく起動するはず。
+>>>>>>>>>> 1156869912
+[[FrontPage]]
+
+* VMware Server, VMware&size(0){ };ToolsなどのTips [#y77c45e5]
+
+#contents
+
+** VMware&size(0){ };Toolsをnon-interactiveにインストールする [#v0055473]
+
++ GuestOS用のVMwareTools-XX.rpmを用意する。
++ VMware&size(0){ };Toolsをインストールする。
+ # rpm -Uvh VMwareTools-XX.rpm
++ vmware-config-tools.plを実行する。
+ # /usr/bin/vmware-config-tools.pl --prebuilt --default
+
+この方法で/usr/sbin/vmware-guestdは間違いなく起動するはず。
+
+場合によっては、ethXが落ちた状態になっていることがあるので、以下のようにして再設定する必要があるかも。
+
+ # /etc/init.d/network restart
+

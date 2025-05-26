@@ -1,0 +1,59 @@
+ [[Tagging VLAN + VMWare]]
+ 
+ -VLANの設定
+  Step 0: /etc/sysconfig/networkに2行追加
+           VLAN=yes
+           VLAN_NAME_TYPE=DEV_PLUS_VID
+       
+           VLAN_NAME_TYPEに指定できる要素は４通り
+         　VLAN_PLUS_VID ==> vlan0002
+           VLAN_PLUS_VID_NO_PAD ==> vlan2
+           DEV_PLUS_VID ==> eth0.0002
+           DEV_PLUS_VID_NO_PAD ==> eth0.2
+ 
+  Step 1:  #vi /etc/sysconfig/network-scripts/ifcfg-eth0.0002
+            
+            DEVICE=eth0.0002
+            BOOTPROTO=none
+            ONBOOT=yes
+            USERCTL=no
+            IPV6INIT=no
+            #IPADDR=192.50.74.162
+            #NETMASK=255.255.255.0
+            #GATEWAY=192.50.74.1
+            TYPE=Ethernet
+            #IPアドレスが必要？
+ 
+  Step 2: #vconfig add eth0 0002
+ 
+  
+ -VMWare /dev/vmnet*の設定
+  Step 3: vmware-config.plを実行すると/dev/vmnet(0-8)が生成されるが、
+           udev使用のため、sysfsではない（使われない）vmnet3,4,5..が
+           hostOSを再起動すると削除されてしまう.これを防ぐには
+           再起動するまえなら
+           #cp -a /dev/vm* /etc/udev/devices
+           再起動後なら
+           #mknod -m 0600 /dev/vmnet3 c 119 3
+           #mknod -m 0600 /dev/vmnet4 c 119 4
+                  ;;
+           #cp -a /dev/vm* /etc/udev/devices
+ 
+  
+ -Bridge
+   Step 4: #/usr/bin/vmnet-bridge -d /var/run/vmnet-bridge3.pid /dev/vmnet3 eth0
+           (HostOSが再起動すると設定が消えるので要注意)
+ 
+ -いろいろなケース
+   Step 5: HostOS NIC =1 && HostOS VLAN NIC >= 1の場合
+ 　　　　　
+ -懸案、メモ
+  ・vmnet-bridge以外に、brctl を使うとどう変わる？
+  ・GuestOS(1-2) --> /dev/vmnet3 --> eth0.0003 --> eth0
+    のように、GuestOS数が１もしくは２の場合はどう変わる？
+  ・GuestOSの数が２までという仕様なら、vlanは要らない？
++   （Rocks compute-x-xのNICは2個ともprivate IP？）
+    GuestOS1 --> /dev/vmnet3 --> eth0
+    GuestOS2 --> /dev/vmnet4 --> eth1
+    なぜセパレートが必要だったっけ？ 
+ 　　　　　

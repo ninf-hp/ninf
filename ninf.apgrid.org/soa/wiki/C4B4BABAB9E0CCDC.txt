@@ -1,0 +1,88 @@
+#contents
+
+** RHEL5 Beta2 での iSCSI の動作状況 [#r179479e]
+- iSCSI Target については IET 0.4.14 であれば問題ない．
+-- IET はカーネル 2.6.14 以降をサポートしており，RHEL5 Beta2 は 2.6.18 ベースである．
+- デフォルトのパッケージに Open iSCSI が入っているが，FC6 の最新版（2007/2）とバージョンが異なり，iscsiadm のオプション（-i）に相違があり，どのデバイスでアタッチしたのか知る方法の実装に違いが出てくる可能性がある．
+-- FC6 の Open iSCSI：iscsi-initiator-utils-6.2.0.747-0.0.fc6
+-- RHEL5-Beta2 の Open iSCSI：iscsi-initiator-utils-6.2.0.695-0.7.el5
+- ローカルに Initiator と Target を用意した際，40GB のディスクスペースに対してmkfs.ext3 を実行すると iscsid が CPU リソースを使い切り，固まった？ディスクスペースが10GB だと問題なく実行できた．
+
+
+** LVM の制限 [#l243184e]
+
+- LVM1は1つのVGから切り出せるLV数は255に制限されるが，LVM2では無制限である．
+- LVM1は1つのVGに登録できるPV数は255に制限されるが，LVM2では無制限である．
+- PEサイズは8KBから16GBまで可変．デフォルトは4MB．
+- LVM1は1つのLVに対して65534のPE数しか設定できないため，PE=4MBではLV=256GB程度となる．LVM2はこのような制限がない．
+-- 2.4カーネルではブロックデバイスの制限につき，最大LVサイズは2TB．
+-- 2.6カーネル＋32bit CPUでは最大LVサイズは16TB．
+-- 2.6カーネル＋64bit CPUでは最大LVサイズは8EB．
+
+
+
+** LVMで論理ボリュームを切り出していく際にどれだけのオーバーヘッドがあるのか？ [#s010c020]
+
+GB <-> MB 変換のため，vgdisplayのGB表示の際に小数点以下が全て表示されないことにより，順に切り出す際に見かけの誤差がある．最初からMB表示しておけば，vgdisplayで表示された分だけきっちりと確保できる．特に，`/usr/sbin/vgdisplay --units m`で表示されるMB単位のディスクスペースはきっちりと確保できる．
+
+vgdisplayの領域表示は，VG作成時に設定するPEサイズで割り切れるようになっているように思える（未確認）．
+
+
+** iSCSI Targetとセッションを確立できた場合，どのSCSIデバイスとして見えるようになっているかを知る方法は（dmesg以外では）？ [#f4b4e0aa]
+
+"-l"オプションを付けてiscsi-lsコマンドを実行すれば，Device情報が表示される．以下の例では，/dev/sdbとして見えている．
+
+  # /sbin/iscsi-ls -l
+  *******************************************************************************
+  SFNet iSCSI Driver Version ...4:0.1.11(12-Jan-2005)
+  *******************************************************************************
+  TARGET NAME             : iqn.2006.06.jp.hpcc.XGtestPC3:gridvon-exp.soa.aist
+  TARGET ALIAS            :
+  HOST ID                 : 5
+  BUS ID                  : 0
+  TARGET ID               : 0
+  TARGET ADDRESS          : 163.220.30.231:3260,1
+  SESSION STATUS          : ESTABLISHED AT Tue Aug 15 15:17:48 JST 2006
+  SESSION ID              : ISID 00023d000001 TSIH 300
+  
+  DEVICE DETAILS:
+  ---------------
+  LUN ID : 0
+    Vendor: IET      Model: VIRTUAL-DISK     Rev: 0
+    Type:   Direct-Access                    ANSI SCSI revision: 04
+    page83 type1: 49455400000000000000000001000000c4e161000f000000
+    page80: 0a
+    Device: /dev/sdb
+  *******************************************************************************
+
+
+
+** 非対話的にパーティションを切る方法は？ [#h7613dd1]
+
+1つの大きなLinuxパーティションを切るには，次のようにsfdiskコマンドを実行するようにスクリプトを書けばよい．sfdiskコマンドは，CentOS 4.3ではutil-linuxパッケージに含まれる．
+
+  sfdisk /dev/sdb << EOF
+  ;
+  EOF
+
+
+** Logical Volumeの動的なサイズ変更は可能か？ [#tcab44e0]
+
+利用するファイルシステムに依存する．
+  ext2/ext3  mount したまま変更するにはカーネルに ext2online パッチが必要
+  reiserfs   mount/unmount に関係なく変更可能，縮小時は unmount されていることが望ましい
+  xfs        mount したまま変更する必要あり，縮小はできない
+  jfs        mount したまま変更する必要あり，縮小はできない
+
+
+FC3〜5，CentOS4 では ext2online でオンラインリサイズ（拡大のみ）が可能．FC6 では resize2fs に ext2online の機能が内蔵されたので，resize2fs でオフラインの拡大・縮小とオンラインで拡大可能．RHEL5 beta2 でも resize2fs のバージョンが 1.39 なので FC6 と同じ．（2007/2/16，小川さんより）
+
+参考：~
+http://www.tldp.org/HOWTO/LVM-HOWTO/extendlv.html~
+http://www.tldp.org/HOWTO/LVM-HOWTO/reducelv.html
+
+ローカルにマウントしている場合，以下のコマンドでサイズ変更が可能であった．（FC4，kernel 2.6.16.20）
+  # lvextend -L+1G /dev/sp/test-host
+  # ext2online
+
+ただし，iSCSI 経由でマウントしている場合は，initiator 側でサイズが変化しない．initiator をいったん落とし，iSCSI Target 側の再起動まで行なえば新しいサイズが反映される．

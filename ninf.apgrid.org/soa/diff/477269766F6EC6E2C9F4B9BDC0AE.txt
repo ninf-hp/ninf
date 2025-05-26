@@ -1,0 +1,46 @@
+ - /opt/vc/cgi-bin~
+ CGI スクリプトを格納するディレクトリ
+ - /opt/vc/html~
+ HTML ファイルを格納するディレクトリ
+ - /opt/vc/mnt~
+ ISO 展開時にテンポラリに使用するディレクトリ
+ - /opt/vc/sbin~
+ 実行ファイルを格納するディレクトリ
+ - /opt/vc/pylib~
+ ライブラリディレクトリ
+ -- /opt/vc/pylib/register/~
+ 予約関係の python スクリプト
+ -- /opt/vc/pylib/vcdb/~
+ DB 関係の python スクリプト
+ -- /opt/vc/pylib/vcxml/~
+ XML 関係の python スクリプト
+ -- /opt/vc/pylib/vmtype/~
+ 仮想ノード/VM に関する処理
+  仮想ノードの mode/status 状態遷移
+  mode/status コード値/文字列変換メソッド
+  VM 起動/停止処理
+ --- /opt/vc/pylib/vmtype/rocks5common/~
+ 仮想クラスタとして Rocks を動かす場合の処理 (モジュール vmtype.rocks5common)~
+ (restore/lightsout/Ganglia設定)
+ --- /opt/vc/pylib/vmtype/rocks5xen/~
+ Xen 上で Rocks5 仮想クラスタを動かす場合の処理 (モジュール vmtype.rocks5xen)
+ --- /opt/vc/pylib/vmtype/rocks5vmware/~
+ VMware 上で Rocks5 仮想クラスタを動かす場合の処理 (モジュール vmtype.rocks5vmware)
+ -- /opt/vc/pylib/vcluster/~
+ 各仮想クラスタ種別に対応する処理~
+ これ以下のモジュールには以下が必要:
+  仮想クラスタの mode/status 状態遷移
+  mode/status コード値/文字列変換メソッド
+  予約時間到達時の処理
+  予約時間終了時の処理
++ ノード追加/削除処理
+ --- /opt/vc/pylib/vcluster/rocks5/~
+ Rocks5 仮想クラスタに対応する処理 (モジュール vcluster.rocks5)~
+ --- /opt/vc/pylib/vcluster/noaction/~
+ 予約のみでなにも行わない場合 (モジュール vcluster.noaction)
+ --- /opt/vc/pylib/vcluster/gwonly/~
+ 仮想フロントエンドノードのみ起動する (モジュール vcluster.gwonly)
+ --- /opt/vc/pylib/vcluster/parallel/~
+ 全ノードを同時に起動する (モジュール vcluster.parallel)
+ --- /opt/vc/pylib/vcluster/sequential/~
+ 全ノードを順に起動する (モジュール vcluster.sequential)

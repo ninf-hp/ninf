@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if [ $# -lt 2 ]
+then
+  echo "usage: rjava HOSTNAME CLASSNAME [ARGS]"
+  exit -1
+fi
+
+PRG=`type -path $0` >/dev/null 2>&1
+JARFILE=${PRG%/*}/rjava.jar
+
+CLASSNAME="silf.rjava.RJavaClientSSH"
+HOST="$1"
+shift 1
+
+if [ ! -f $JARFILE ] 
+then
+  echo "No rjava.jar file in ${PRG%/*}"
+  exit -1	
+fi
+
+CLASSPATH=$JARFILE:$CLASSPATH
+#echo $CLASSPATH
+
+rsh="$RJAVA_RSH"
+rcp="$RJAVA_RCP"
+java="$RJAVA_JAVA"
+
+exec java -cp $CLASSPATH "$CLASSNAME" -shell ${rsh:=ssh} -cp ${rcp:=scp} -java ${java:=java} "-jar" "$JARFILE" "-host" "$HOST" "$@" 

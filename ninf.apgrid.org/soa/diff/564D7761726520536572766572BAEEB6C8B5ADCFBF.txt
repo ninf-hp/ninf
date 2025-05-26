@@ -1,0 +1,18 @@
+ [[VMware Server作業記録]]
+ 
+ 21 Aug
+ 　VMware Serverの起動方法
+ 
+  Step0: vmware-cmd -s register /root/vmware/guestos00.vmx (<==vmware_control.shによって生成されたもの)
+ 
+  
+  Step1: vmware-cmd /root/vmware/guestos00.vmx start  (guestos00.vmxまでの絶対パス指定が必要)
+ 
+- Step1: vmware-cmd /root/vmware/guestos00.vmx stop hard
++ Step2: vmware-cmd /root/vmware/guestos00.vmx stop hard
+ 
+- Step2: vmware-cmd -l
++ Step3: vmware-cmd -s unregister /root/vmware/guestos00.vmx
+ 
++ Step4: vmware-cmd -l
++

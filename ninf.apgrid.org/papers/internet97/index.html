@@ -1,0 +1,1221 @@
+<HTML>
+<HEAD>
+<TITLE>
+Ninflet: Java による World-Wide High Performance Computing 環境</TITLE>
+</HEAD>
+
+<BODY>
+<H1 ALIGN=CENTER>
+Ninflet: Java による World-Wide <BR>
+High Performance Computing 環境</H1>
+
+<DL>
+<DT>高木 浩光
+(<A HREF="mailto:takagi@center.nitech.ac.jp">takagi@center.nitech.ac.jp</A>)
+名古屋工業大学
+<DT>松岡 聡
+(<A HREF="mailto:matsu@is.titech.ac.jp">matsu@is.titech.ac.jp</A>)
+東京工業大学
+<DT>中田 秀基
+(<A HREF="mailto:nakada@etl.go.jp">nakada@etl.go.jp</A>)
+電子技術総合研究所
+<DT>関口 智嗣
+(<A HREF="mailto:sekiguchi@etl.go.jp">sekiguchi@etl.go.jp</A>)
+電子技術総合研究所
+<DT>佐藤 三久
+(<A HREF="mailto:msato@rwcp.or.jp">msato@rwcp.or.jp</A>)
+新情報処理開発機構
+<DT>長嶋 雲兵
+(<A HREF="mailto:umpei@is.ocha.ac.jp">umpei@is.ocha.ac.jp</A>)
+お茶の水女子大学
+</DL>
+
+<H2 ALIGN=CENTER>概要</H2>
+<P>
+<BLOCKQUOTE>
+インターネット上の遊休計算機の計算パワーを世界規模で共有、
+共同利用するための環境として、
+Java の secure で architechture neutral な特長を活かした、
+「Ninflet システム」を提案する。
+本論文では、Ninflet システムの基本アーキテクチャ、並列分散処理への応用、
+運用形態に関する考察、関連研究について述べる。
+</BLOCKQUOTE>
+</P>
+
+<HR>
+
+<H2><A NAME="Contents">目次</A></H2>
+
+<UL>
+<LI> <A HREF="#backgorund">1. はじめに</A>
+<LI> <A HREF="#architecture">2. Ninflet システムのアーキテクチャ</A>
+  <UL>
+  <LI> <A HREF="#overview">2.1. daemon の稼働準備から Ninflet の実行まで</A>
+  <LI> <A HREF="#administration">2.2. Server の Ninflet 受け入れ条件の設定</A>
+  <LI> <A HREF="#checkpointing">2.3. Checkpointing と Ninflet Migration</A>
+  <LI> <A HREF="#security">2.4. セキュリティモデル</A>
+  </UL>
+<LI> <A HREF="#distributed-comp">3. 並列/分散処理への応用</A>
+  <UL>
+  <LI> <A HREF="#master-slave">3.1. Master-Slave パターンによる分散実行</A>
+  <LI> <A HREF="#results">3.2 実行例</A>
+  </UL>
+<LI> <A HREF="#service">4. サービスの運用形態</A>
+<LI> <A HREF="#related-works">5. 関連研究</A>
+<LI> <A HREF="#conclusion">6. おわりに</A>
+<LI> <A HREF="#references">参考文献</A>
+</UL>
+<HR>
+
+<H2><A NAME="background">1. はじめに</A></H2>
+
+<P>
+世界規模で結ばれたコンピュータネットワークにより、
+地球上の任意の地域に置かれた計算機に対して
+遠隔的に計算をさせることが原理的に可能となった。
+これにより、
+夜間の遊休計算機を地球の裏側の昼間の地域に貸し出して
+有効利用するとことが可能となる。
+近年のインターネットの大衆化に伴い、
+ネットワークに接続された計算機の数は爆発的に増加しつつあり、
+世界には膨大な数の遊休計算機が存在していると考えられる。
+</P>
+
+<P>
+我々はこれまでに、インターネット上の計算資源を仮想的に共有するシステム
+として Ninf (Network based Information library for High Performance Computing)
+[<A HREF="#bib-ninf-sekiguchi94">1</A>]
+[<A HREF="#bib-ninf-pooma">2</A>]
+[<A HREF="#bib-ninf-InetConf96">3</A>]
+[<A HREF="#bib-ninf-hpcn">4</A>]
+[<A HREF="#bib-ninf-JSPP97-nakada">5</A>]
+[<A HREF="#bib-ninf-SC97-takefusa">6</A>]
+を提案してきた。
+Ninf の目的は、
+数値計算アルゴリズムのライブラリや数値情報データベースを通じて、
+主に科学技術計算分野の情報および計算資源を提供・共有する
+ことにある。
+Ninf システムは、サーバー・クライアントモデルに基づいており、
+Ninf サーバ上に予め用意されている計算ルーチンを、
+クライアントであるユーザプログラムから RPC (Remote Procedure Call) で
+呼び出すことを実現するものである。
+</P>
+
+<P>
+このような world-wide computing システムが成功する鍵は、
+サーバ提供者をどれだけ多く確保できるかにある。
+小規模なコミュニティの中で計算機を共有するのであれば、
+互いに相手が必要としている計算ルーチンを自分の計算機にインストールして
+協力し合うといったことも可能であろうが、
+より大規模に、すなわち不特定多数で、互いの計算機を共有しあおうとすると、
+必要な計算ルーチンをサーバにインストールするための管理コストが爆発的に増大し、
+これは非現実的なものとなってしまう。
+この問題を回避するには、
+ユーザが自分の必要とする計算ルーチンを
+自らサーバ上にインストールして計算させられるための機構が必須と考える。
+</P>
+
+<P>
+しかし、このようなプログラムを送付して実行させる機構を採り入れる場合には、
+セキュリティ上の問題を解決する必要がある。
+例えば、ユーザ定義の計算ルーチンによってサーバ上のファイルを消去する
+といったことができてはならない。
+一般にこの種の問題の解決には以下に挙げる手法が知られている。
+
+<DL>
+<DT>(a) インタプリタ方式</DT>
+<DD> 
+計算ルーチンの記述言語を特定のインタプリタ型言語に限定し、
+インタプリタ上で危険な命令および処理の実行を禁止する。
+</DD>
+
+<DT>(b) 実行時コンパイル方式</DT>
+<DD>
+計算ルーチンをソースコードでサーバへ送付し、
+これを受け取ったサーバホストがこれをコンパイルして実行する。
+このときコンパイル前のプリプロセッサによって、
+危険な処理部分をソースコードレベルで検出し、危険なルーチンの実行を禁止する。
+</DD>
+
+<DT>(c) システムコールトラップ方式</DT>
+<DD>
+計算ルーチンをバイナリコードで送付し、サーバはそれをそのまま実行するが、
+ファイル操作等のシステムコールをトラップして、実行不能にする。
+</DD>
+</DL>
+
+これらそれぞれの方式の特質を比較すると、次のことが言える。
+<OL>
+<LI> (a) では一般に計算速度が遅い。
+<LI> (a), (b) では計算ルーチンを記述する言語が限定される。
+<LI> (c) ではサーバとして利用できる計算機のプロセッサおよび OS が限定される。
+</OL>
+</P>
+
+<P>
+ここで、(a) 方式によってこれを既に実現している言語システムとして
+Java に着目する。Java は、
+
+<UL>
+<LI>
+ファイルやネットワークへのアクセス、
+異なる ThreadGroup のスレッドに対する操作などの可否を制御する
+java.lang.SecurityManager クラス
+
+<LI>
+不正なメモリ番地へのアクセスを起こさないことを保証する、
+排除されたポインタ演算や添字チェックされる配列といった言語仕様
+
+<LI>
+不正なコードが含まれていないかチェックする bytecode verifier
+
+<LI>
+異なる ClassLoader からロードされた同名のクラスを別クラスとして扱う機構
+
+<LI>
+
+<LI>
+異なる package のクラスに対するアクセスを禁止できる機構
+
+</UL>
+
+といったセキュリティのための機構を持っており、
+これらに基づく Java の安全性は、
+そのひとつの応用である「Applet」のフレームワークにより既に実証されている。
+そしてこれらは、
+我々が目的とする world-wide computing システムの構築に求められる
+セキュリティ上の要件を満たすに十分なものである。
+</P>
+
+<P>
+一般に (a) の方式には先に述べた 1, 2 の問題点があるが、
+Java を用いる場合には次のことがいえると考える。
+
+<OL>
+<LI>
+高度な最適化を伴う JIT (Just-In-Time) コンパイラ
+(ネイティブコードに変換しながら実行するシステム)
+の開発が進みつつあり、
+前述1.の速度が遅いという問題点は改善されつつある。
+そして、
+今後も存続するであろう Java のインターネットにおける市場価値から、
+この技術開発は、他の言語に比較して急速に進み続けるだろうと期待
+できる。
+</LI>
+
+<LI>
+従来より、科学技術計算のプログラミングには FORTRAN が用いられてきており、
+他の言語へのシフトは起きにくいと考えられてきたが、
+並列プログラムを容易に構成するといった観点から
+オブジェクト指向技術を応用した科学技術計算の重要性
+[<A HREF="#bib-ISCOPE97">7</A>]
+が認識されるようになってきており、そのようななかで
+Java 言語は、
+単なるインターネット関連ソフトウェアの開発用としてだけでなく、
+その理解のしやすさ、安全性などから、
+汎用のプログラミング言語としても高い評価を受けており、
+科学技術計算にも利用しようという動きが活発化
+[<A HREF="#bib-java-for-cse">8</A>] してきている。
+このことから、前述2.の言語が限定されるという問題点は、
+ある程度許容できる。
+</OL>
+
+これらの点から、world-wide computing 環境の実現のために Java を採用する
+ことは、現時点において最適な選択の一つであると考える。
+</P>
+
+<P>
+本論文では、Java をベースとした world-wide computing 環境のひとつとして
+「Ninflet」システムを提案する。
+以下、2節でシステムの概要について述べ、3節でサーバの管理機能について述べ、
+4節でその運用形態の可能性について述べる。
+</P>
+
+<H2><A NAME="architecture">2. Ninflet システムのアーキテクチャ</A></H2>
+
+<H3><A NAME="overview">2.1. daemon の稼働準備から Ninflet の実行まで</A></H3>
+
+<P>
+Ninflet システムの利用者には、
+計算機の貸し出しをする<STRONG>計算機提供者</STRONG>の立場と
+計算の依頼を発行する<STRONG>ユーザプログラマ</STRONG>の立場とがある。
+Ninflet システムは、2つの daemon プログラム
+「<STRONG>Ninflet Server</STRONG>」(以下単に「Server」)、
+「<STRONG>Ninflet Dispatcher</STRONG>」(以下単に「Dispatcher」)と、
+必要に応じて起動される
+{<STRONG>クライアントプログラム</STRONG>、<STRONG>Ninflet プログラム</STRONG>から構成される。
+これに HTTP サーバ (ないし FTP サーバ)、WWW ブラウザが併用される。
+</P>
+
+<P>
+計算機提供者は、その計算機上で Server を daemon プロセスとして
+稼動させておく。
+この起動の際に、少なくとも一つの Dispatcher を URL で指定する。
+これにより、このとき指定した Dispatcher から、
+実行すべきジョブが指示されることになる
+(<A HREF="#fig-1-a">図1(a)</A>)。
+</P>
+
+<P>
+これとは別に、
+どこかのホスト上で Dispatcher daemon が稼動している必要がある。
+ある Server が起動されると、
+その Server の登録要求が Dispatcher に対して発行され、
+これを受けた Dispatcher は、その Server を利用可能な Server として
+自分自身に登録する
+(<A HREF="#fig-1-b">図1(b)</A>)。
+</P>
+
+<HR>
+
+<P ALIGN=CENTER>
+
+<A NAME="fig-1-a">
+<IMG ALT="図1(a)" SRC="fig-1-a.gif"><BR>
+(a) Ninflet Server が自分を Dispatcher に登録<BR>
+</A>
+
+<A NAME="fig-1-b">
+<IMG ALT="図1(b)" SRC="fig-1-b.gif"><BR>
+(b) 複数の Server が登録されている状態<BR>
+</A>
+
+<A NAME="fig-1-c">
+<IMG ALT="図1(c)" SRC="fig-1-c.gif"><BR>
+(c) クライアントプログラムが Codebases を指定して Dispatcher 上に
+Session インスタンスを作成<BR>
+</A>
+
+<A NAME="fig-1-d">
+<IMG ALT="図1(d)" SRC="fig-1-d.gif"><BR>
+(d) クライアントプログラムが Dispatcher に Ninflet のインスタンス化を指示<BR>
+</A>
+
+<A NAME="fig-1-e">
+<IMG ALT="図1(e)" SRC="fig-1-e.gif"><BR>
+(e) Dispatcher がひとつの Server を選択してこれに Ninflet 
+のインスタンス化を委譲<BR>
+</A>
+
+<A NAME="fig-1-f">
+<IMG ALT="図1(f)" SRC="fig-1-f.gif"><BR>
+(f) 指定されたクラスを Server がロードしてインスタンス化<BR>
+</A>
+
+<A NAME="fig-1-g">
+<IMG ALT="図1(g)" SRC="fig-1-g.gif"><BR>
+(g) クライアントプログラムが直接 Ninflet のメソッドを呼び出す<BR>
+</A>
+</P>
+<P ALIGN=CENTER>
+図1. Ninflet 起動の手順
+</P>
+
+<HR>
+
+<P>
+一方、ユーザプログラマは、
+実行させたい計算を二つのプログラムとして実装する。
+ひとつは Server 上で実行されるべき Ninflet プログラム
+(これを単に「<STRONG>Ninflet</STRONG>」と呼ぶ)で、
+JP.go.etl.ninflet.Ninflet のサブクラスとして作成する。
+もうひとつはユーザプログラマが所有しているホスト上で実行させる
+クライアントプログラムである。
+ユーザプログラマは作成した Ninflet (とそれが利用するクラス群) を、
+自分が利用できる任意の Web サーバ(HTTP サーバないし FTP サーバ) 上に置く。
+そしてクライアントプログラム内で、その Ninflet プログラムの所在を URL 
+で指定する
+(<A HREF="#fig-1-c">図1(c)</A>)。
+</P>
+
+<P>
+ユーザプログラマは、計算を実行させたいとき、
+作成したクライアントプログラムを起動する。
+このときどれかひとつの Dispatcher を指定する。
+クライアントプログラムは、起動されるとまず、
+指定された Dispatcher に対するリモート参照を取得する。
+次にこの Dispatcher に対して <STRONG>Session</STRONG> インスタンスの作成を依頼する。
+このとき、<STRONG>Codebases</STRONG> クラスのインスタンスに、
+サーバで実行されるクラスのパッケージ名とそのクラスファイル
+の所在 URL との対応表を渡しておく
+(<A HREF="#fig-1-c">図1(c)</A>)。
+これは、後に目的の Ninflet がインスタンス化される際に、
+Server によって使用される。
+</P>
+
+<P>
+例えば、クライアントプログラムは
+<A HREF="#fig-2">図2</A>(上)
+のように作成される。
+Codebases クラスのインスタンスに、
+作成した Ninflet の所在 URL を設定している。
+具体的には、
+パッケージ JP.ac.nitech.center.takagi.ninflet 以下のクラスは
+http://www.center.nitech.ac.jp/~takagi/ninflet/ を codebase
+とするよう指定している。
+そして、newSession メソッドで、
+指定した Dispatcher 上に Session インスタンスを作成する際に、
+この codebase リストを渡している。
+</P>
+
+<HR>
+
+<A NAME="fig-2">
+<PRE>
+::::::::::::::
+Main.java
+::::::::::::::
+package JP.ac.nitech.center.takagi.ninflet.examples.batch;
+import JP.go.etl.ninflet.Codebases;
+import JP.go.etl.ninflet.dispatcher.Dispatcher;
+import JP.go.etl.ninflet.dispatcher.DispatcherImpl;
+import JP.go.etl.ninflet.dispatcher.Session;
+import java.net.*;
+import java.rmi.*;
+public class Main {
+    public static void main(String[] args) thorws Exception {
+        String dispatcherURL = "rmi://ninf.apgrid.org/ninflet/dispatcher";
+        Dispatcher dispatcher = DispatcherImpl.getDispatcher(dispatcherURL);
+        Codebases cb = new Codebases();
+        cb.add(
+            "JP.ac.nitech.center.takagi.ninflet", 
+            new URL("http://www.center.nitech.ac.jp/~takagi/java/Ninflet/")
+        );
+        Session session = dispatcher.newSession(cb);
+        Ninflet job = session.newNinflet(MatrixMultNinflet.class);
+        invoke(job);
+    }
+    static private void invoke(Ninflet job) throws Exception {
+        Matrix m1;
+        Matrix m2;
+(入力部省略)
+        MatrixMultInitValue v = new MatrixMultInitValue(m1, m2);
+        job.init(v);
+        job.run();
+        Matrix m3 = job.getResults().result;
+(出力部省略)
+    }
+}
+::::::::::::::
+MatrixMultNinflet.java
+::::::::::::::
+package JP.ac.nitech.center.takagi.ninflet.examples.batch;
+import JP.go.etl.ninflet.NinfletImpl;
+public class MatrixMultNinflet extends NinfletImpl {
+    Matrix m1, m2, m3;
+    public void init(InitValue val) {
+        MatrixMultInitValue v = (MatrixMultInitValue)val;
+        this.m1 = v.m1;
+        this.m2 = v.m2;
+        m3 = new Matrix(m1.rows(), m1.cols());
+    }
+    public void run() {
+        for (int x = 0; x &lt; m3.rows(); x++) {
+            for (int y = 0; y &lt; m3.cols(); y++) {
+(略)
+    }
+    public Results getResults() {
+        return new MatrixMultResults(m3);
+    }
+}
+</PRE>
+
+<P ALIGN=CENTER>
+図2. クライアントプログラム(上)と Ninflet プログラム(下) の例
+(Exception の処理を省略)
+</P>
+
+</A>
+
+<HR>
+
+<P>
+次にクライアントプログラムは、newNinflet メソッドにより、
+Ninflet のインスタンスを適当な Server 上に作成するよう
+Dispatcher に指示する
+(<A HREF="#fig-1-d">図1(d)</A>)。
+これにより、Dispatcher は、
+自分に登録されている利用可能な Server の中から適当なひとつの Server を選択し、
+これに対して、クライアントプログラムにより指定された Ninflet クラスの
+インスタンスを生成するよう指示する
+(<A HREF="#fig-1-e">図1(e)</A>)。
+</P>
+
+<P>
+Server は指定された Ninflet クラスのインスタンスを生成する際に、
+まず、そのインスタンス専用のクラスローダとして
+NinfletClassLoader のインスタンスを生成する。
+このとき、先ほど設定された Codebases がそのクラスローダに渡され、
+クラスローダはこの情報に基づいて、要求されている Ninflet クラスの
+クラスファイルを socket 経由でロードする
+(<A HREF="#fig-1-f">図1(f)</A>)。
+また、同時に必要となる他のクラスもこのクラスローダによりオンデマンドに
+ロードされる。
+</P>
+
+<P>
+そしてロードされたクラスのインスタンスがひとつ作られ、
+これへのリモートリファレンスが Dispatcher へ、
+そしてクライアントへと返される。
+そしてその後は、
+クライアントプログラムから直接 Server 上の Ninflet インスタンスを呼び出す
+(<A HREF="#fig-1-g">図1(g)</A>)。
+</P>
+
+<P>
+なお、リモートメソッド呼び出しのためには、JDK 1.1 以降で標準装備されている
+Java RMI の機能を使用している。
+</P>
+
+<H3><A NAME="administration">2.2. Server の Ninflet 受け入れ条件の設定</A></H3>
+
+<P>
+Ninflet Server では、Dispatcher からの Ninflet 発行要求の受け入れの
+許可/拒否の条件を設定することができる。
+設定の変更は、Server daemon 稼働中であっても、Web ブラウザから
+操作することができる。
+このために Ninflet Server は簡易 HTTP サーバの機能を持っており、
+HTML の FORM や Java Applet を用いて Web ブラウザから Ninflet Serverを
+コントロールできる。
+</P>
+
+<P>
+最も基本的な設定項目は、Ninflet 受け入れの許可/不許可の即時切替えである。
+計算機提供者は、自分がその計算機を使用していない間だけ Ninflet の
+受け入れを許可することができる。
+不許可に設定されている場合、Dispatcher はその Server に Ninflet インスタ
+ンスの作成を依頼することをしない。
+また、タイマー機能により、指定した時間帯の間だけ許可状態に切替えるよう
+設定することができる。
+これにより、不在にする夜間、休日だけ毎日許可するといったことが可能となる。
+</P>
+
+<P>
+受け入れ設定が不許可に切替えられる際に、既に実行中の Ninflet が存在した
+場合、その Ninflet に対して<STRONG>退去命令</STRONG>が発行される。
+退去命令を受けた Ninflet の動作については次節で述べるが、
+Ninflet の退去動作にある程度の時間がかかる (退去命令が発行されても
+しばらくの間負荷を消費し続ける) 場合がある。
+そこで計算機提供者は<STRONG>退去猶予時間</STRONG>を設定できるようにしている。
+退去命令を発行した後、退去猶予時間として設定された時間が過ぎても
+Ninflet が負荷を消費しているようであれば、強制退去命令が発行されて、
+Ninflet のすべての Thread が中止させられる。
+また強制退去ボタンも用意している。
+</P>
+
+<P>
+これらの機能により、
+長時間にわたり実行を続けるタイプの Ninflet を受け入れても、
+計算機提供者に不利益のないよう配慮されており、
+安心して計算機を提供していただけるようになっている。
+</P>
+
+<H3><A NAME="checkpointing">2.3. Checkpointing と Ninflet Migration</A></H3>
+
+<P>
+十分な数の計算機提供者を確保するためは、計算機提供者に不利益が及ばないよ
+う配慮する必要があり、Server により Ninflet の実行が途中で中止させられる
+ことは受け入れざるを得ない。
+一方、特に科学技術計算を目的とした利用においては、ひとつの Ninflet の
+実行が長時間に及ぶ場合が多く、途中で中止させられてしまう可能性も高く
+なる。実行が長時間に及ぶものほど、中止された際の損失は大きい。
+</P>
+
+<P>
+そこで、Ninflet には、立ち退き命令が Server によって発行されたときに、
+計算の途中結果を退避させる機能を用意している。
+退避は、Dispatcher により指示されたところに対してなされる。
+退避された Ninflet は、
+Dispatcher により再割当される別の Server 上で再実行を開始することができる。
+</P>
+
+<P>
+このような、計算の途中結果の退避および実行の再開という仕組みは、
+従来より `checkpointing' として知られ、
+長時間の実行を要する科学技術計算のアプリケーションなどにおいて、
+しばしば、プログラマによって明示的にプログラムされている。
+コンパイラによる自動的な checkpointing の研究
+[<A HREF="#bib-compiler-checkpointing">9</A>]
+もあるが、
+現在の版の Ninflet では、ユーザプログラマによる明示的な checkpointing
+が必要となっている。
+すなわち、ユーザプログラマは、まず、Ninflet の計算ルーチン中のループ内の
+適切な位置に checkpoint() メソッドの呼び出しを挿入する。
+これにより、スーパークラスである NinfletImpl クラスが
+オブジェクトの退避を行なう。
+そして、ユーザプログラマは、この Ninflet が再実行させられた際に、
+計算ルーチン中の既に済んでいる部分をスキップするように、アルゴリズムを
+工夫しておく。
+</P>
+
+<P>
+checkpointing には以下の 3 レベルを用意した。
+
+<DL>
+<DT> レベル1
+<DD> checkpoint() メソッドが呼ばれる毎に状態を退避する。
+
+<DT> レベル2
+<DD> checkpoint では現在の状態の複製を作成して内部に保持ておき、
+Server によって退去命令が発行されると即座に、
+前回作成したの複製を退避する。
+
+<DT> レベル3
+<DD> 通常 checkpoint では何もしないでおき、
+Server によって退去命令が発行されたら、次の checkpoint で
+状態を退避する。
+
+</DL>
+
+これらは次のように使い分けることができる。
+レベル1 の利用は、Server の稼働しているホスト自体がクラッシュあるいは
+ネットワーク的に unreachable になる場合にも備えることになるが、
+checkpointing のオーバーヘッドが大きく、
+checkpoint の挿入位置に十分に配慮せねばならない。
+レベル3 の利用は、最も checkpointing のオーバーヘッドが少なく、
+無駄になる計算の量も少ないが、
+Server 管理者が、退去猶予時間を短く設定している場合に強制的に中止
+されてしまう可能性がある。
+レベル2 の利用は、比較的小さなオーバヘッドである程度の安全性を確保できるが、
+計算が少し無駄になることがある。
+これらは、プログラムのアルゴリズムの特性に応じて選択する。
+</P>
+
+<P>
+退避された Ninflet が別の Server 上で再実行される場合、
+クライアントプログラムのインスタンスが保持している Ninflet 
+オブジェクトへのリモートリファレンスも、これに応じて指す場所を
+変更する必要がある。
+これがユーザプログラマが意識する必要なく実現されるために、
+newNinflet メソッドで返されるオブジェクトは、
+RMI の stub の外にもう一段かぶせられた Ninflet stub としており、
+この Ninflet stub が参照先の自動更新の役割を担っている。
+具体的には、
+Dispatcher により、このオブジェクトが別の Server に migrate したこと
+が通知されると、ここで指定される新しい Ninflet リモートリファレンス
+に切替えるという動作をする。
+またこの機能により同時に、
+Server が応答しなくなって RemoteException が発生したような場合にも、
+新たな Ninflet オブジェクトを別の Server に作成して再実行するよう
+Dispatcher に指示することも実現している。
+</P>
+
+<H3><A NAME="security">2.4. セキュリティモデル</A></H3>
+
+<P>
+Ninflet のセキュリティモデルは 
+JP.go.etl.ninflet.server.NinfletSecurityManager によって定義され、
+以下のポリシーを持つ。
+
+<UL>
+<LI> ファイルシステムへのアクセスを禁止。
+<LI> RMI 以外のネットワーク接続を禁止。
+<LI> Ninflet のサブクラス以外に対する RMI 接続を禁止。
+<LI> AWT によるウィンドウの作成を禁止。
+</UL>
+
+その他、AppletSecurityManager と同様に、System.exit() の禁止、
+新たな ClassLoader 作成の禁止、
+異なる ThreadGroup の Thread に対する操作などを禁止
+をしている。
+</P>
+
+<P>
+Applet のセキュリティモデルと異なる点は、AWT の操作も禁止している点
+である。Ninflet では基本的に計算だけができれば十分であるので、
+このような厳しいセキュリティポリシーでも妥当といえる。
+</P>
+
+<P>
+また、標準の RMISecutiryManager のモデルと異なり、
+クラスファイルを取ってきたホスト以外に対する RMI 接続を許可している。
+これは Applet の、codebase のホストにしか socket 接続を許可しない
+というセキュリティポリシーよりも緩くなっている。
+ただし、すべての RMI 接続を許可してしまうと、firewall 内
+に存在する他の RMI アプリケーションに不正にアクセスすることを許して
+しまう可能性があるため、接続先を Ninflet のサブクラスのみに限定して
+いる。
+</P>
+
+<H2><A NAME="distributed-comp">3. 並列/分散処理への応用</A></H2>
+
+<H3><A NAME="master-slave">3.1. Master-Slave パターンによる分散実行</A></H3>
+
+<P>
+Ninflet システムでは、さまざまな並列/分散処理を支援するクラスライブラリ
+を併せて提供していく予定であるが、現時点ではまず、Master-Slave パターン
+に基づいた分散実行を支援するライブラリを用意している。
+</P>
+
+<P>
+Master-Slave パターンは、問題が多数の独立な小問題に分割できる場合に適用
+できるもので、分割された小問題を Worker (Slave) としてプログラムする。
+Master は問題を分割して Worker を生成する役割と、Worker の結果を
+結合して最終的な解を構成する役割を担う。
+</P>
+
+<P>
+Ninflet システムでは、JP.go.etl.ninflet.lib.masterslave パッケー
+ジの Master クラスおよび Worker クラスをサブクラス化することで、
+応用プログラムを作成する。
+ここでは、例題として作成した `NPB Kernel EP' を紹介する。
+これは NAS (Numerical Aerospace Simulation Facility)
+ parallel benckmark 
+[<A HREF="#bib-NPB">10</A>] の embarrassingly parallel benckmark
+として定義されたもので、
+モンテカルロ法によって円周率を求めるアルゴリズムである。
+この問題では、乱数による試行は完全に独立に行なうことができ、
+それぞれの試行一回のコストが一定であることから、容易に負荷を等分
+させることができるという、
+最も Master-Slave パターンによる実装が適したプログラムの一つである。
+</P>
+
+<P>
+このプログラムの一部を<A HREF="#fig-3">図3</A>に示す。
+Worker のサブクラスとして作成した EPWorker では、
+run() メソッドに計算のメインループを記述し、init() メソッドに
+部分問題のパラメータにしたがった初期設定を記述している。
+そして、Master のサブクラスとして作成した EPMaster では、
+getWorkerClass メソッドで Worker のクラスを指定し、
+initWorker メソッドで Worker の初期化方法、すなわち問題の部分問題への
+分割方法を記述し、
+combineResultOf メソッドで Worker の結果を結合して最終解を構築する
+方法を記述している。
+EPMasetr はクライアントプログラムの一部として実行され、
+EPWorker は Ninflet として Ninflet Server 上で実行される。
+この例題では、問題を 10 個の部分問題に分割して、10 個の Ninflet を
+同時に作り実行させている。
+</P>
+
+<HR>
+
+<A NAME="fig-3">
+<PRE>
+::::::::::::::
+EPWorker.java
+::::::::::::::
+package JP.ac.nitech.center.takagi.ninflet.examples.ep;
+import JP.go.etl.ninflet.lib.masterslave.Worker;
+import JP.go.etl.ninflet.InitValues;
+public class EPWorker extends Worker {
+    int numOfPairsToGenerated;
+    LinearCongruentialGenerator random;
+    int qLength;
+    public void init(InitValues vals) {
+        EPWorkerInitValues v = (EPWorkerInitValues)vals;
+        numOfPairsToGenerated = v.numOfPairsToGenerated;
+        double seed = getSeed(
+            v.serialNum * numOfPairsToGenerated * 2, v.seed, v.a
+        );
+        random = new LinearCongruentialGenerator(seed, v.a);
+        qLength = v.qLength;
+    }
+    public void run() {
+        int k = 0;
+        double xsum = 0;
+        double ysum = 0;
+        int[] q = new int[qLength];
+        for (int i = 0; i &lt; numOfPairsToGenerated; i++) {
+(略)
+}
+::::::::::::::
+EPMaster.java
+::::::::::::::
+package JP.ac.nitech.center.takagi.ninflet.examples.ep;
+import JP.go.etl.ninflet.lib.masterslave.Master;
+import JP.go.etl.ninflet.lib.masterslave.Worker;
+import JP.go.etl.ninflet.Ninflet;
+import JP.go.etl.ninflet.Results;
+import JP.go.etl.ninflet.dispatcher.Session;
+public class EPMaster extends Master {
+    int numOfProcesses;
+(略)
+    public EPMaster(
+        Session session, int numOfProcesses,
+        int x, double a, int seed, int qLength
+    ) {
+        super(session);
+        this.numOfProcesses = numOfProcesses;
+(略)
+    }
+    protected Class getWorkerClass() {
+        return EPWorker.class;
+    }
+    protected void initWorker(Ninflet worker, int serialNum) {
+        int numOfPairsPerWorker = (int)(n / numOfProcesses + 1);
+        EPWorkerInitValues v = new EPWorkerInitValues(
+            numOfPairsPerWorker, serialNum, seed, a, qLength
+        );
+        worker.init(v);
+    }
+(略)
+    protected void combineResultOf(Results result) {
+        EPWorkerResults r = (EPWorkerResults)result;
+        totalK += r.k;
+        totalXsum += r.xsum;
+        totalYsum += r.ysum;
+        for (int i = 0; i &lt; totalQ.length; i++) {
+            totalQ[i] += r.q[i];
+        }
+    }
+    protected Results createMasterResults() {
+        return new EPMasterResults(totalK, totalXsum, totalYsum, totalQ);
+    }
+}
+
+</PRE>
+
+<P ALIGN=CENTER>
+図3. Master-Slave パターンによるプログラム例
+</P>
+</A>
+
+<HR>
+
+<H3><A NAME="results">3.2 実行例</A></H3>
+
+<P>
+この NPB Kernel EP を 1 台の Server 上で実行させた場合の実行時間を
+<A HREF="#table-1">表1</A>に示す。
+これは Sun Ultra2 (1 CPU) 上で native threads 版 Java VM 
+(virtual machine) で
+実行させた場合と、green threads 版 Java VM で実行させた場合との比較
+である。
+</P>
+
+<P>
+native threads 版の場合には問題ないが、
+green threads 版の VM を Server daemon に使用する場合、
+run メソッド実行中に、スレッドの制御が他のスレッドに移らないため、
+Server の機能が、run メソッド終了までの間、一部使えなくなるという
+問題がある。この問題を回避するためには、メインループ中に 
+Thread.yield() などを挿入することで制御が移るようにしなくてはならない。
+表1 は、yield をメインループの先頭に入れた場合の
+オーバーヘッドの大きさを示している。
+</P>
+
+<P>
+このように、green threads のようなスケジューリングポリシーの VM を
+Ninflet Server に使用することは向いていないが、どうしても使用する
+場合には、Ninflet クラス中に適切に yield が挿入されていない場合は、
+実行を拒否するようなメカニズムを付加するか、または、
+ロード時に自動的に適切な位置に yield を挿入するようなメカニズムを
+付加する必要があると考えているが、これは今後の課題である。
+</P>
+
+<P ALIGN=CENTER><CENTER>
+<A NAME="table-1">
+<TABLE BORDER=1>
+<TR><TD>スレッドタイプ <TD>yield 挿入 <TD>実行時間</TR>
+<TR><TD>native <TD>なし <TD>114.087 secs, 116.360 secs</TR>
+<TR><TD>green  <TD>なし <TD>116.361 secs, 118.826 secs</TR>
+<TR><TD>green  <TD>挿入 <TD>306.227 secs, 300.450 secs</TR>
+</TABLE>
+表1. NPB Kernel EP の実行時間
+</A>
+</CENTER></P>
+
+<H2><A NAME="service">4. サービスの運用形態</A></H2>
+
+<P>
+Ninflet システムは、
+世界規模に分散した仮想計算機を構成することもできるが、
+LAN (Local Area Network) 上のワークステーションクラスタに
+仮想並列計算機を構築するために利用することもできる。
+この場合、Ninflet Dispatcher を一台の代表ホスト上で稼動させ、
+これを Dispatcher として指定した Server を他の
+各ワークステーション上で稼動させる。
+このとき Dispatcher にはアクセス制限をかけ、この LAN 以外からの
+アクセスを禁止させておく。
+このような場合、Server の管理を一台ずつ個別に行うのは繁雑になるが、
+これを簡単にするために、Server の設定を Dispatcher に一任する機能も用意した。
+管理者は Dispatcher に Web ブラウザで接続し、Server の設定を変更、状況を
+モニタリングすることができる。
+</P>
+
+<P>
+Dispatcher は、他の Dispatcher と接続しあうこともできる。
+これにより Dispatcher のツリーを構成するなど、
+任意のトポロジーのネットワークを構築することができる。
+世界規模に分散した構成をとる場合、
+ひとつの Dispatcher に接続してくる Ninflet Server 
+やクライアントの数が膨大になると、
+Server 状態の更新、クライアントからの要求が集中してこれがボトルネック
+となる。これを回避するために、複数の Dispatcher を連携させるのがよい。
+Dispatcher 間の接続により、互いの Dispatcher に登録されている Ninflet 
+Serverの情報を、ある程度の遅延をおいて交換しあうことにより、
+負荷の集中を避けつつ全体としてひとつの仮想計算機を構成することができる。
+</P>
+
+<P>
+具体的には例えば、LAN 上のワークステーションクラスタ にひとつの
+Dispatcher を置いて、このクラスタ上の Ninflet Serverを 一括して登録し、
+この Dispatcher を大学/研究所等の代表 Dispatcher に接続する
+(このとき、Dispatcherを firewall 上に設置することで firewall 越えを
+実現することもできる)。
+そしてこの代表Dispatcher同士が互いに接続しあうといった構成が考えられる。
+このとき LAN 上のワークステーションクラスタを、
+昼間は LAN 内からのみの利用を許可して、
+夜間は世界に開放するといた設定をすることもできる。
+</P>
+
+<H2><A NAME="related-works">5. 関連研究</A></H2>
+
+<P>
+世界中に分散した計算機を実際に利用した大規模分散計算のプロジェクトは
+既にいくつかが知られている。
+最近では RSA Data Security の
+The RSA Data Security Secret-Key Challenge
+[<A HREF="#bib-rsa-challenge">11</A>] が話題となった。
+distributed.net のプロジェクト
+[<A HREF="#bib-distributed-net">12</A>] は、
+Windows PC や Macintosh などを含む 15,000 〜 30,000台の計算機を
+使用して 200日ほどで 56bit RC5 を解いた。
+このプロジェクトでは、この問題専用のプログラムを
+各プラットフォーム用のバイナリの形式で用意し配布した。
+計算機提供者はこのバイナリを手動でインストールして計算に参加している。
+</P>
+
+<P>
+これに対し、より汎用性のあるシステムとしてこれまでに、
+CONDOR[<A HREF="#bib-CONDOR">13</A>]、
+Linda[<A HREF="#bib-Linda">14</A>]、
+PVM[<A HREF="#bib-PVM">15</A>]、
+MPI[<A HREF="#bib-MPI">16</A>]、
+Network of Workstations (NOW)[<A HREF="#bib-NOW">17</A>]、
+GLOBUS[<A HREF="#bib-GLOBUS">18</A>] などが提案、研究されてきた。
+これらの多くには、各プラットフォーム用のバイナリコードをメンテナンスする
+必要があるなどの煩わしさがあった。
+しかし最近では、Java のプラットフォーム独立性を活かしたシステムが
+続々と提案されてきている。
+</P>
+
+<P>
+Java による world-wide computing 環境のうち、Java Applet を利用した
+ものとして、
+JET[<A HREF="#bib-JET1">19</A>][<A HREF="#bib-JET2">20</A>]、
+Javelin[<A HREF="#bib-Javelin">21</A>]
+などがある。
+これらは、目的の計算ルーチンを Java Applet として実装し、
+計算機提供者にその Applet の張り付けられた Web ページを開いてもらう
+ことによって計算を実行してもらうというアイデアに基づくものである。
+</P>
+
+<P>
+JET では、単に作成した Applet を Web ページに置くだけのものであり、
+実際にそのページを計算機提供者に開いてもらうためには
+何らかの別の手段が必要となっているが、
+Javelin の場合には、別途 Broker Applet がこの役割を果たしている。
+</P>
+
+<P>
+Javelin では、計算機提供者は、まず Web ブラウザを起動し
+Javelin の Broker Applet のページを開いておく (これを Host と呼んでいる) 。
+一方、ユーザプログラマは、Applet として作成したプログラム
+とそれを張り付けた HTML (これを Task と呼んでいる) を自分の
+Web サーバ上に置いたうえで、Broker に対してその URL を通知しておく。
+Broker は Task キューからひとつの Task を、また Host プールから
+ひとつの Host を選びだし、Host に対してその Task のページを開く
+ように指示する (これは Broker Applet が AppletContext クラスの
+showDocument メソッドを呼ぶことにより実現されている)。
+</P>
+
+<P>
+Javelin の Broker, Task, Host はそれぞれ、Ninflet の
+Dispatcher, Ninflet, Server に対応するといえる。
+Javelin は Ninflet システムに比較して、
+Web ブラウザという既存のインフラを使用してるため、
+Server のインストールが不要であるという特長がある。
+Javelin のグループは、これによって誰でも気軽に計算に参加できるのだ
+と主張している。
+しかし、継続的に自分の計算機を提供するには、
+常に Web ブラウザを動かしてそのページを開いておく必要があり、
+長期にわたって協力してくれる計算資源提供者がどれだけ得られるか
+にはやや疑問がある。
+また、LAN 上のワークステーションクラスタに仮想計算機を構成するために
+利用するということを考えると、ワークステーション毎に Web ブラウザを
+起動して特定のページを開かせておくのは繁雑である。
+Javelin のような Applet によるシステムは、
+RSA Factoring[<A HREF="#bib-rsa-factoring">22</A>]
+や一部の scientific grand challenge 問題など、
+一時期に集中して大衆が興味を持って協力してくれるような問題には
+適しているかもしれないが、
+不特定多数による永続的利用を目的とするには Ninflet システムの方が
+向いていると考える。
+</P>
+
+<P>
+また、Applet を利用した方法では、
+Applet のセキュリティモデルの制約により、
+その Applet の置かれていたホストとしか通信できないため、
+複数の Applet 間の通信を利用した並列処理を実現しようとすると、
+その Applet の置かれていたホストで通信を仲介する必要があり、
+台数が多くなるとこれがボトルネックとなるという問題もある。
+Javelin では、将来 signed Applet を利用することにより
+セキュリティの制約をなくすと主張しているが、
+不特定多数が自由に利用するシステムを実現するためには
+signed Applet は向いていない。
+Ninflet は独自のセキュリティモデルを持つためこのような問題がない。
+</P>
+
+<P>
+次に、
+Applet ではなく standalone application として Java で専用のシステム
+を構築しているものとしては、
+IceT[<A HREF="#bib-IceT1">23</A>][<A HREF="#bib-IceT2">24</A>] 
+や
+POPCORN[<A HREF="#bib-POPCORN">25</A>] などがある。
+IceT はクラスの `uploading' 機能を持っており、
+これにより他の IceT ホストに対して目的のクラスをインスタンス化させる
+ことを可能としている。
+しかし IceT は PVM のインターフェイスをそのまま取り入れた設計と
+なっており、オブジェクト指向設計には程遠いものとなっている。
+</P>
+
+<P>
+一方、科学技術計算目的以外のシステムに目を向けると、
+ObjectSpace の Voyager[<A HREF="#bib-Voyager">26</A>] や
+IBM 東京基礎研の Aglets[<A HREF="#bib-Aglets">27</A>]、
+富士通研の Kafka[<A HREF="#bib-kafka">28</A>]
+などの mobile agent システムが、
+ユーザが記述したプログラムを他のホストに送り付けて実行させる機能を持つ
+という点で Ninflet と共通している。
+Ninflet は、これらを主に科学技術計算をターゲットとして特化したもの
+とみることもできる。
+</P>
+
+<H2><A NAME="conclusion">6. おわりに</A></H2>
+
+<P>
+不特定のユーザが自ら記述したプログラムをインターネット上の遊休計算機
+に実行させることを実現する、
+Ninflet システムについて述べた。
+これにより世界規模の共同利用計算機環境を実現することができる。
+Ninflet は Java のインフラを利用することで安全性を保証している。
+この種のシステムが普及する鍵は、Server を立ち上げて Dispatcher に登録
+してくれる計算機提供者がどれだけ現れてくれるかにある。
+Java の安全性が一般にも知れ渡っていることが、
+ある程度協力を得やすくしていると期待する。
+</P>
+
+<P>
+今後の計画として次の実装を検討している。
+Java だけでは実現できないが、補助的な機能として、
+いわゆるスクリーンセーバのように
+一定時間以上キーボードやマウスを操作していない状態が続くと、
+Server の Ninflet 受け入れ許可モードに移行し、
+再びキーボードやマウスを操作すると受け入れ拒否モードに移行する
+といった仕組みを実現する。
+これにより Server を利用できる時間をより多く確保できるであろう。
+次に、
+ユーザプログラマの利用機会に関する公平さを保つための仕組みが必要
+となるであろう。ユーザの管理を行い、
+使用頻度の低いユーザを優先するといったスケジューリングを実現する
+必要があるだろう。
+</P>
+
+<P>
+その他の今後の課題としては、
+Dispatcher における
+利用可能な Server 群の中から最適なものを選択するアルゴリズム、
+並列処理を行う際のスケジューリング方式の検討、
+より発展的な並列処理形態を支援するクラスライブラリの開発
+などが挙げられる。
+</P>
+
+<H2><A NAME="references">参考文献</A></H2>
+
+<OL>
+
+<LI> <A NAME="bib-ninf-sekiguchi94">
+関口智嗣, 佐藤三久, 長島雲兵, 
+ネットワーク数値情報ライブラリ: - Ninf の設計, 
+情報処理学会研究報告 94-HPC-52, pp.81-88, 1994.
+</A>
+
+<LI> <A NAME="bib-ninf-pooma">
+Satoshi Sekiguchi, Mitsuhisa Sato, Hidemoto Nakada, and Umpei Nagashima, 
+- Ninf -: Network base information library for
+globally high performance computing., 
+</A>
+Proceedings of
+<A HREF="http://www.acl.lanl.gov/Pooma96/">
+Parallel Object-Oriented Methods and
+Applications (POOMA)</A>, 1996.
+
+<LI> <A NAME="bib-ninf-InetConf96">
+佐藤三久, 中田秀基, 関口智嗣, 松岡聡, 長嶋雲兵, 
+Ninf: World-Wide Computing指向のネットワーク数値情報ライブラリ, 
+</A>
+<A HREF="http://www2.jus.or.jp/jus/conf96/">
+インターネットコンファレンス'96</A>, 1996.
+
+
+<LI> <A NAME="bib-ninf-hpcn">
+Mitsuhisa Sato, Hidemoto Nakada, Satoshi Sekiguchi, Satoshi
+Matsuoka, Umpei Nagashima, and Hiromitsu Takagi, ``Ninf: A Network based
+Information Library for a Global World-Wide Computing Infrastracture'',
+</A>
+Proc. of the HPCN'97, pp.491-502 (1997).
+
+<LI> <A NAME="bib-ninf-JSPP97-nakada">
+中田秀基, 高木浩光, 松岡聡, 長嶋雲兵, 佐藤三久, 関口智嗣,
+Ninf による広域分散並列計算, 
+</A>
+<A HREF="http://www.rwcp.or.jp/lab/mpperf/JSPP97/">
+並列処理シンポジウム JSPP'97</A> 論文集, 
+pp.281-288, 1997.
+
+<LI> <A NAME="bib-ninf-SC97-takefusa">
+Atsuko Takefusa, Satoshi Matsuoka, Hirotaka Ogawa, Hidemoto Nakada, 
+Hiromitsu Takagi, Mitsuhisa Sato, Satoshi Sekiguchi, and Unpei Nagashima., 
+Multi-client LAN/WAN Performance Analysis of Ninf: a High-Performance
+Global Computing System, 
+<A HREF="http://www.supercomp.org/sc97/">
+SC'97 The International Conference of
+High Performing Computing and Communications</A> , 1997.
+</A>
+
+<LI> <A NAME="bib-ISCOPE97">
+1997 International Scientific Computing in Object-Oriented Parallel
+Environments Conference, </A>
+<A HREF="http://www.acl.lanl.gov/iscope/">http://www.acl.lanl.gov/iscope/</A>.
+
+
+<LI> <A NAME="bib-java-for-cse">
+ACM 1997 Workshop on Java for Science and Engineering Computation,
+</A>
+<A HREF="http://www.cs.rochester.edu/u/wei/javaworkshop.html">http://www.cs.rochester.edu/u/wei/javaworkshop.html</A>.
+
+
+<LI> <A NAME="bib-compiler-checkpointing">
+Micah Beck, James S. Plank and Gerry Kingsley,
+Compiler-Assisted Checkpointing,
+</A>
+25th Annual International Symposium on Fault-Tolerant Computing, 1995.
+
+<LI> <A NAME="bib-NPB">
+NAS Parallel Benchmarks,
+</A>
+<A HREF="http://science.nas.nasa.gov/Software/NPB/">http://science.nas.nasa.gov/Software/NPB/</A>
+
+<LI> <A NAME="bib-rsa-challenge">
+The RSA Data Security Secret-Key Challenge, 
+</A>
+<A HREF="http://www.rsa.com/rsalabs/97challenge/">http://www.rsa.com/rsalabs/97challenge/</A>
+
+<LI> <A NAME="bib-distributed-net">
+DISTRIBUTED.NET - Fastest Computer on Earth,
+</A>
+<A HREF="http://www.distributed.net/">http://www.distributed.net/</A>
+
+<LI> <A NAME="bib-CONDOR">
+M. Lizkow, M. Livny, and M. W. Mutka, Condor - A Hunter of Idle
+Workstations, Proceedings of the 8th International Conference
+of Distributed Computing Systems, 1988.
+</A>
+
+<LI> <A NAME="bib-Linda">
+R. A. Whiteside and J. S. Leichter, Using Linda for Supercomputing
+on a Local Area Network, Technical Report YALEU/DCS/TR-638, 
+Department of Computer Science, Yale University, 1988.
+</A>
+
+<LI> <A NAME="bib-PVM">
+V. S. Sunderam. PVM: A Framework for Parallel Distributed Computing,
+Technical Report ORNL/TM-11375, Department of Math and Computer Science,
+Emory University, 1990.
+</A>
+
+<LI> <A NAME="bib-MPI">
+MPI: A Message-Passing Interface Standard. The International Journal
+of Supercomputer Applications and High Performance Computing Systems,
+1988.
+</A>
+
+<LI> <A NAME="bib-NOW">
+T. E. Anderson, D. E. Culler, and D. Patterson, 
+A case for NOW (Network of Workstations),
+IEEE Micro, 15(1), 1995.
+</A>
+
+<LI> <A NAME="bib-GLOBUS">
+I. Foster and C. Kesselman</A>, 
+<A HREF="http://www.globus.org/globus/papers.htm">
+Globus: A Metacomputing Infrastructure
+Toolkit</A>, International Journal of Supercomputer Applications, 1997.
+
+<LI> <A NAME="bib-JET1">
+L. M. Silva, H. Pedroso, J. G. Silva, 
+The Design of JET: A Java Library for Embarrassingly Parallel Applications,
+</A>
+Proceedings of
+<A HREF="http://www.rt.el.utwente.nl/wotug20/">
+WOTUG-20 - Parallel Programming and Java Conference</A>, 
+IOS Press, pp.210-228, 1997.
+
+<LI> <A NAME="bib-JET2">
+Hernani Pedroso, Luis Silva, Jose M. Tavares and Joao Gabriel Silva, 
+Web-based Metacomputing with JET, 
+</A>
+<A HREF="http://www.cs.rochester.edu/u/wei/javaworkshop.html">
+ACM 1997 Workshop on Java for Science and Engineering Computation
+</A>, 1997
+
+<LI> <A NAME="bib-Javelin">
+Bernd O. Christiansen, Peter Cappello, Mihai F. Ionescu,
+Michael O. Neary, Klaus E. Schauser, and Daniel Wu,
+</A>
+<A HREF="http://www.cs.ucsb.edu/research/superweb/">
+Javelin</A>: Internet-Based Parallel Computing Using Java, 
+<A HREF="http://www.cs.rochester.edu/u/wei/javaworkshop.html">
+ACM Workshop on Java for Science and Engineering Computation</A>,
+1997.
+
+<LI> <A NAME="bib-rsa-factoring">
+RSA Factoring-By-Web project!,
+</A>
+<A HREF="http://www.npac.syr.edu/factoring.html">http://www.npac.syr.edu/factoring.html</A>
+
+<LI> <A NAME="bib-IceT1">
+P. Gray and V. Sunderam, The IceT Environment for Parallel and Distributed
+Computing, Proceedings of 
+</A>
+<A HREF="http://www.acl.lanl.gov/iscope/">
+1997 International Scientific Computing in Object-Oriented Parallel
+Environments Conference</A>, 1997.
+
+<LI> <A NAME="bib-IceT2">
+Paul A. Gray and Vaidy S. Sunderam,
+IceT: Distributed Computing and Java,
+</A>
+<A HREF="http://www.cs.rochester.edu/u/wei/javaworkshop.html">
+ACM Workshop on Java for Science and Engineering Computation</A>,
+1997.
+
+<LI> <A NAME="bib-POPCORN">
+The POPCORN Project,
+</A>
+<A HREF="http://www.cs.huji.ac.il/~popcorn/">http://www.cs.huji.ac.il/~popcorn/</A>
+
+
+<LI> <A NAME="bib-Voyager">
+ObjectSpace Voyager - The Agent ORB for Java,
+</A>
+<A HREF="http://www.objectspace.com/voyager/">http://www.objectspace.com/voyager/</A>
+
+<LI> <A NAME="bib-Aglets">
+Programming Mobile Agents in Java,
+</A>
+<A HREF="http://www.trl.ibm.co.jp/aglets/">http://www.trl.ibm.co.jp/aglets/</A>.
+
+<LI> <A NAME="bib-kafka">
+Kafka: Yet Another Multi-Agent Library for Java,
+</A>
+<A HREF="http://www.fujitsu.co.jp/hypertext/free/kafka/">http://www.fujitsu.co.jp/hypertext/free/kafka/</A>.
+
+</OL>
+
+</BODY>
+
+</HTML>

@@ -1,0 +1,80 @@
+>>>>>>>>>> 1159513426
+*iSCSIのデフォルトのパラメータで計測（9/29） [#n8b40250]
+hdparm
+thput-fsys
+bonnie++
+>>>>>>>>>> 1159515182
+*iSCSI（linux-iscsi 4.x）のデフォルトのパラメータで計測（9/29） [#n8b40250]
+- 計測環境
+-- XGtestPC2：HostOS，iSCSI Initiator を導入
+-- XGtestPC2-VM：GuestOS，XGtestPC2 上で VMware を使って動く，OS は CentOS 4
+-- XGtestPC3：iSCSI Target を導入
+-- XGtestPC2-VM <--> XGtestPC3 のTCPの転送性能は iperf で 341 [Mbits/sec]
+-- XGtestPC2 <--> XGtestPC3 のTCPの転送性能は iperf で 762 [Mbits/sec]
+
+- 計測結果
+-- hdparm &ref("hdparm-0929.xls");
+-- thput-fsys（1GBの転送性能） &ref("thput-fsys-0929.xls");
+-- bonnie++（v1.03，デフォルトパラメータを利用） &ref("bonnie-0929.xls");
+
+- 考察
+-- hdparmの結果では，Bufferred Disk ReadはVMを介することで3分の2になっているが，Cached Readはほぼ同じ性能であった．
+-- thput-fsysの結果では，Writeの性能はiSCSIを使った方がローカルアクセスよりも高速であった．ローカルアクセスに比べて，iSCSI/VMの性能はWrite，Readともに2割程度の低下が起きている．
+-- bonnie++の結果では，iSCSI/VMのRandom Seekの性能が他よりもずっとよい．また，ファイルのCreateやDeleteはiSCSI/VMでも性能の低下は小さい．Write/Read性能は先の2つのベンチマークの傾向と比べて，程度の差はあるけれども，おおよそ同じである．
+-- GuestOSのTCPの転送性能を考えると，iSCSIの性能はほどほどに出ているといえる．
+>>>>>>>>>> 1159730047
+*iSCSI（linux-iscsi 4.x）のデフォルトのパラメータで計測（9/29） [#n8b40250]
+- 計測環境
+-- XGtestPC2：HostOS，iSCSI Initiator を導入
+-- XGtestPC2-VM：GuestOS，XGtestPC2 上で VMware を使って動く，OS は CentOS 4
+-- XGtestPC3：iSCSI Target を導入
+-- XGtestPC2-VM <--> XGtestPC3 のTCPの転送性能は iperf で 341 [Mbits/sec]
+-- XGtestPC2 <--> XGtestPC3 のTCPの転送性能は iperf で 762 [Mbits/sec]
+
+- 計測結果
+-- hdparm &ref("hdparm-0929.xls");
+-- thput-fsys（1GBの転送性能） &ref("thput-fsys-0929.xls");
+-- bonnie++（v1.03，デフォルトパラメータを利用） &ref("bonnie-0929.xls");
+
+- 結果サマリ
+-- hdparmのBufferred Disk Readは，ローカルアクセスに比べてiSCSIは3%の性能向上，iSCSI/VMは32%の性能低下であった．（数%の差は誤差といえる）
+-- hdparmのCached Readは，ローカルアクセスに比べてiSCSIは1%の性能向上，iSCSI/VMは2%の性能低下であった．
+-- thput-fsysのWrite性能は，ローカルアクセスに比べてiSCSIは27%性能が向上した．iSCSI/VMは33%の性能低下であった．
+-- thput-fsysのRead性能は，ローカルアクセスに比べてiSCSIは25%の性能低下，iSCSI/VMは42%の性能低下が見られた．
+-- bonnie++のSequential Output（Block）は，ローカルアクセスに比べてiSCSIは5%の性能向上，iSCSI/VMは34%の性能低下であった．Per Charの場合はiSCSIで24%，iSCSI/VMでは59%の性能低下であった．
+-- bonnie++のSequential Input（Block）は，ローカルアクセスに比べてiSCSIは13%，iSCSI/VMは29%の性能低下であった．Per Charの場合はiSCSIで31%，iSCSI/VMで36%の性能低下であった．
+-- bonnie++のRandom Seekは，ローカルアクセスやiSCSIに比べて，iSCSI/VMの性能が3倍近く出ている．
+-- bonnie++のファイルのCreateやDelete性能は，ローカルアクセスに比べてiSCSI/VMの性能低下は10%以内である．
+-- BlockのWrite，Read性能は3つのベンチマークを通して似通っているといえる．
+>>>>>>>>>> 1159993745
+*iSCSI（linux-iscsi 4.x）のデフォルトのパラメータで計測（9/29） [#n8b40250]
+- 計測環境
+-- XGtestPC2：HostOS，iSCSI Initiator を導入
+-- XGtestPC2-VM：GuestOS，XGtestPC2 上で VMware（vmplayer-1.0.2-29634）を使って動く，OS は CentOS 4
+-- XGtestPC3：iSCSI Target を導入
+-- XGtestPC2-VM <--> XGtestPC3 のTCPの転送性能は iperf で 341 [Mbits/sec]
+-- XGtestPC2 <--> XGtestPC3 のTCPの転送性能は iperf で 762 [Mbits/sec]
+
+- 計測結果
+-- hdparm &ref("hdparm-0929.xls");
+-- thput-fsys（1GBの転送性能） &ref("thput-fsys-0929.xls");
+-- bonnie++（v1.03，デフォルトパラメータを利用） &ref("bonnie-0929.xls");
+
+- 結果サマリ
+-- hdparmのBufferred Disk Readは，ローカルアクセスに比べてiSCSIは3%の性能向上，iSCSI/VMは32%の性能低下であった．（数%の差は誤差といえる）
+-- hdparmのCached Readは，ローカルアクセスに比べてiSCSIは1%の性能向上，iSCSI/VMは2%の性能低下であった．
+-- thput-fsysのWrite性能は，ローカルアクセスに比べてiSCSIは27%性能が向上した．iSCSI/VMは33%の性能低下であった．
+-- thput-fsysのRead性能は，ローカルアクセスに比べてiSCSIは25%の性能低下，iSCSI/VMは42%の性能低下が見られた．
+-- bonnie++のSequential Output（Block）は，ローカルアクセスに比べてiSCSIは5%の性能向上，iSCSI/VMは34%の性能低下であった．Per Charの場合はiSCSIで24%，iSCSI/VMでは59%の性能低下であった．
+-- bonnie++のSequential Input（Block）は，ローカルアクセスに比べてiSCSIは13%，iSCSI/VMは29%の性能低下であった．Per Charの場合はiSCSIで31%，iSCSI/VMで36%の性能低下であった．
+-- bonnie++のRandom Seekは，ローカルアクセスやiSCSIに比べて，iSCSI/VMの性能が3倍近く出ている．
+-- bonnie++のファイルのCreateやDelete性能は，ローカルアクセスに比べてiSCSI/VMの性能低下は10%以内である．
+-- BlockのWrite，Read性能は3つのベンチマークを通して似通っているといえる．
+
+* 上記，9/29の計測の追加試験 [#w883180e]
+vmplayer-1.0.2-29634を利用していたところを，vmware-server-1.0.1-29996を利用するようにした．vmplayerをアンインストールした後，vmware-serverをインストールし，GuestOSは同じイメージを用いた．その結果，vmplayerとvmware-serverの性能には大きな違いがないことが分かった．
+
+,手法,Local,iSCSI,iSCSI/VM(vmplayer),iSCSI/VM(vmware-server)
+,Buffered disk read [MB/sec], 61.95, 63.75, 41.99, 44.54
+,Cached read [MB/sec], 1681.73, 1696.26, 1641.07, 1601.04
+

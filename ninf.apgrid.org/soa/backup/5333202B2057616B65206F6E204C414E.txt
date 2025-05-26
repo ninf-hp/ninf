@@ -1,0 +1,96 @@
+>>>>>>>>>> 1260981291
+[[FrontPage]]
+
+*既存のvm-container Rollに基づき、Xen及びDom0カーネルを [#f5abb8d0]
+アップグレードして、S3 + Wake on LANへの対応
+>>>>>>>>>> 1260985058
+[[FrontPage]]
+
+*既存のvm-container Rollに基づき、Xen及びDom0カーネルをアップグレードして、S3 + Wake on LANへの対応方法。 [#cab7f624]
+
+-vm-container-x-xへloginして、
+ #chkconfig --del xend
+ #chkconfig --del xendomains
+ #chkconfig --del xengrivon_vcnet
+ #chkconfig --del rocks-grub
+ #/etc/init.d/rocks-grub stop
+ #/etc/init.d/xendomains stop
+ #/etc/init.d/xend stop
+ #/etc/init.d/xengrivon_vcnet stop
+ #yum -y install kernel
+
+ /etc/grub.confを変更して、このカーネルで再起動
+
+-再起動後、再びvm-container-x-xへloginして、
+ #yum remove xen kernel-xen kernel-xen-devel xen-libs
+ #mv /etc/xen /etc/xen.back
+ #mkdir /var/lib/org
+ #mv /var/lib/xen* /var/lib/org
+
+-Xen3.4.0を入れる。
+ # vi /etc/yum.repos.d/gitco.repo
+  [gitco-testing]
+  name=CentOS-$releasever - GITCO TESTING
+  baseurl=http://www.gitco.de/linux/i386/centos/5/rpms_testing/
+  gpgcheck=0
+  enabled=1
+ #yum -y install xen* virt-manager
+
+-（オプション）Xen3.3.1を入れるのであれば、
+ #vi /etc/yum.repos.d/gitco.repo
+  [gitco]
+  name=CentOS-$releasever - GITCO
+  baseurl=http://www.gitco.de/linux/i386/centos/5/rpms/
+  gpgcheck=0
+  enabled=1
+ #yum -y install xen* virt-manager
+
+-Dom0のカーネルをインストールする。
+ #rpm -ihv rpm -ivh /share/apps/tyokoi/kernel/kernel-xen-2.6.18.8-1.i686.rpm
+
+-/etc/grub.confを以下のように変更して、アップグレードしたXenおよびDom0で再起動する。
+ #vi /etc/grub.conf
+  title CentOS (2.6.18.8-1xen)
+        root (hd0,0)
+        kernel /boot/xen.gz-3.4.0
+        module /boot/vmlinuz-2.6.18.8-1xen ro root=LABEL=/ dom0_mem=1024M
+        module /boot/initrd-2.6.18.8-1xen.img
+
+-再起動後、vm-container-x-xへloginして、
+ #cp /share/apps/tyokoi/vlan/network-bridge* /etc/xen/scripts
+ #cp /share/apps/tyokoi/vlan/xend-config.sxp /etc/xen/
+ #/etc/init.d/xend restart
+
+ Xen3.2+以降では、仮想ハブであるxenbr、およびvifの指定がなくなったので、代わりにVLANデバイスへ直接ブリッジをはり、vifが自動的に足される。
+ (http://wiki.xensource.com/xenwiki/XenNetworking#head-cc1acf427fd2514aa441f1dbce2ba0a512eb8697)
+
+-VLANデバイスを作り、通信を確認する
+ #vconfig add eth0 100
+ #ifconfig eth0.100 192.168.0.13 up  #VCompute
+ #vconfig add eth0 100
+ #ifconfig eth0.100 192.168.0.10 up  #VFrontend
+  (ping testを行う)
+
+-VLANデバイスへのブリッジ
+ #/etc/xen/scripts/network-bridge-wrapper start
+ #brctl show
+   bridge name     bridge id               STP enabled     interfaces
+   eth0.100                8000.001a92e5646e       no              peth0.100
+   eth0            8000.001a92e5646e       no              peth0
+   virbr0          8000.000000000000       yes
+
+-仮想ノードを立てるときの変更点。(以下はで自動化する予定)
+ #cat /etc/xen/compute-2-0-2 
+   vif = ['mac=00:50:56:00:01:46, bridge=eth0.100']   (bridgeの設定は、xenbrではなく、直接VLANデバイスへ)
+   vfb = [ "type=vnc,vncunused=1,keymap=en-us" ]　 (これを入れないと、Can not open displayというエラーになる)
+
+- S3 及び Wake on LANの実行方法
+ #ethtool -s peth0 wol g (ai03クラスタでは、このステップは不要だが、念のため)
+ #echo mem > /sys/power/state
+
+ #ether-wake -i eth0 起す相手のMAC (ai03のような2枚NIC刺しのマシンから起す時、 -i eth0を指定する必要がある)
+
+
+
+　
+

@@ -1,0 +1,25 @@
+ <center> <H1>  疑似インターフェイス情報 </H1> </center> <hr noshade width = 80% algn = "center"> <H2>
+<ul>
+<li> 基本的には トランザクション内のそれぞれのNinf 呼び出しの
+インターフェイス情報を連結したもの
+<li> 書き戻しが必要ないものに関しては、入出力モードを<code> work </code>
+とする。
+</ul>
+<p>
+
+例:
+<pre>
+[mode-in int,        mode-in  double[][], 
+ mode-in double[][], work     double[][],
+ mode-in int,        mode-in  double[][], 
+ mode-in double[][], work     double[][],
+ mode-in int,        work     double[][], 
+ work    double[][], mode-out double[][]]
+</pre>
+
+＊モード work は、クライアントから書きだし読みだしをする必要が
+ないことを示す
+
+ <hr> <center><table><td><h2>　　　　　　　　　　　　　　　</td><td></td><td></td><td><h2><em>　　　　　　　HOKKE' 96 </td></table></center>
+
+

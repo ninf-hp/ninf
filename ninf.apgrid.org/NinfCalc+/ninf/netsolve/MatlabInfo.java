@@ -1,0 +1,1 @@
+package ninf.netsolve;public class MatlabInfo{  public int output1;  public int output2;  public MatlabInfo(int output1, int output2){    this.output1 = output1;    this.output2 = output2;  }}

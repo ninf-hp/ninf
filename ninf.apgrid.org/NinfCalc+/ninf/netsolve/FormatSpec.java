@@ -1,0 +1,1 @@
+package ninf.netsolve;public class FormatSpec {  public int nb_args;  public String[] args_desc;  public int nb_constants;  public Constant consts;  public int nb_formulae;  public Formula forms;} 

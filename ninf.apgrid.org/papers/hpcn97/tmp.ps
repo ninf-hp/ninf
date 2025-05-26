@@ -1,0 +1,1380 @@
+%!PS-Adobe-2.0
+%%Creator: dvi2ps
+%%Title: draft.dvi
+%%Pages: 1 0
+%%BoundingBox: 0 0 595 842
+%%DocumentPaperSizes: A4
+%%Orientation: Portrait
+%%EndComments
+%%BeginProcSet: pstops 1 0
+[/showpage/erasepage/copypage]{dup where{pop dup load
+ type/operatortype eq{1 array cvx dup 0 3 index cvx put
+ bind def}{pop}ifelse}{pop}ifelse}forall
+[/letter/legal/executivepage/a4/a4small/b5/com10envelope
+ /monarchenvelope/c5envelope/dlenvelope/lettersmall/note
+ /folio/quarto/a5]{dup where{exch{}put}{pop}ifelse}forall
+/lcvx{dup load dup type dup/operatortype eq{pop exch pop}
+ {/arraytype eq{dup xcheck{exch pop aload pop}
+ {pop cvx}ifelse}{pop cvx}ifelse}ifelse}bind def
+/pstopsmatrix matrix currentmatrix def
+/defaultmatrix{pstopsmatrix exch copy}bind def
+/initmatrix{matrix defaultmatrix setmatrix}bind def
+/pathtoproc{[{currentpoint}stopped{$error/newerror false
+ put{newpath}}{/newpath cvx 3 1 roll/moveto cvx 4 array
+ astore cvx}ifelse]{[/newpath cvx{/moveto cvx}{/lineto cvx}
+ {/curveto cvx}{/closepath cvx}pathforall]cvx exch pop}
+ stopped{$error/errorname get/invalidaccess eq{cleartomark
+ $error/newerror false put cvx exec}{stop}ifelse}if}def
+/initgraphics{initmatrix newpath initclip 1 setlinewidth
+ 0 setlinecap 0 setlinejoin []0 setdash 0 setgray
+ 10 setmiterlimit}bind def
+%%EndProcSet
+%%BeginFile: /usr/local/lib/dvi2ps-1.9j/dvi2.ps
+%
+/TeXDict 300 dict def
+TeXDict begin
+/inch {
+72 mul
+} bind def
+/largepaperarray [
+/letter /legal /11x17
+/b4 /b5 /a5 /a4 /a3
+] def
+/smallpaperarray [
+/note dup where {
+pop
+}{
+pop /lettersmall dup where {
+pop
+}{
+pop /letter
+} ifelse
+} ifelse
+/legal /11x17
+/b4 /b5 /a5
+/a4small dup where {
+pop
+}{
+pop /note dup where {
+pop
+}{
+pop /a4
+} ifelse
+} ifelse
+/a3
+] def
+/setpaper {
+papertray {
+dup where {
+exch get exec
+}{
+pop
+} ifelse
+}{
+pop
+} ifelse
+} bind def
+/trayarray [
+/lettertray /legaltray /11x17tray
+/b4tray /b5tray /a5tray /a4tray /a3tray
+] def
+/settray {
+dup statusdict exch known manualfeed not and {
+mark exch statusdict begin load 
+{
+exec
+} stopped {
+$error /newerror get {
+$error /errorname get /rangecheck eq {
+(Tray not found, using default tray.\n) print flush
+TeXDict /papertray false put
+}{
+handleerror
+} ifelse
+$error /newerror false put
+} if
+} if
+end cleartomark
+}{
+pop
+} ifelse
+} bind def
+/papertray true def
+/widtharray  [
+8.5 inch 8.5 inch 11 inch
+9.84 inch 6.93 inch
+5.83 inch 8.27 inch 11.69 inch
+] def
+/heightarray [
+11 inch 14 inch 17 inch
+13.9 inch 9.84 inch
+8.27 inch 11.69 inch 16.54 inch
+] def
+/xoffset 0 def
+/yoffset 0 def
+/leftm 72 def
+/topm 72 def
+/landscape false def
+/manualfeed false def
+/pagesetup {
+dup widtharray exch get /paperwidth exch def
+dup heightarray exch get /paperheight exch def
+dup trayarray exch get settray
+large {largepaperarray}{smallpaperarray} ifelse
+exch get setpaper
+} bind def
+/@letter {0 pagesetup} def
+/@legal {1 pagesetup} def
+/@tabloid {2 pagesetup} def
+/@b4 {3 pagesetup} def
+/@b5 {4 pagesetup} def
+/@a5 {5 pagesetup} def
+/@a4 {6 pagesetup} def
+/@a3 {7 pagesetup} def
+/@landscape {/landscape true def} bind def
+/@manualfeed {
+/manualfeed true def
+statusdict /manualfeed known {
+statusdict /manualfeed true put
+statusdict /manualfeedtimeout 120 put
+} if
+} bind def
+/@large {
+/large true def
+} bind def
+/@small {
+/large false def
+} bind def
+/@envelope {
+/xoffset 4.28 inch def
+/yoffset 1.5 inch def
+@letter
+} bind def
+/COPIES	{
+/#copies exch def
+} bind def
+/NF {
+/newname exch def
+/fsize exch def
+/corr exch def
+newname 7 dict def
+newname load begin
+/FontType 3 def
+/FontMatrix [corr 0 0 corr neg 0 0] def
+/FontBBox [0 0 1 1] def
+/BitMaps fsize array def
+/BuildChar /CharBuilder load def
+/Encoding 256 array def
+0 1 255 {Encoding exch /.notdef put} for
+end
+newname newname load definefont pop
+} bind def
+/ch-image {ch-data 0 get} bind def
+/ch-width {ch-data 1 get} bind def
+/ch-height {ch-data 2 get} bind def
+/ch-xoff {ch-data 3 get} bind def
+/ch-yoff {ch-data 4 get} bind def
+/ch-tfmw {ch-data 5 get} bind def
+/CharBuilder {
+/ch-code exch def
+/font-dict exch def
+/ch-data font-dict /BitMaps get ch-code get def
+ch-data null eq not {
+ch-tfmw 0
+ch-xoff neg  ch-yoff neg ch-width ch-xoff sub ch-height ch-yoff sub
+setcachedevice
+ch-width ch-height true [1 0  0 1  ch-xoff ch-yoff]
+{ch-image} imagemask
+} if
+} bind def
+/BFT {
+/bf-v exch def
+/bf-h exch def
+findfont [bf-h 0 0 bf-v 0 0] makefont def
+} bind def
+/BFE /BFT load def
+/BFF {
+/bf-v exch def
+/bf-h exch def
+/savecurfont currentfont def
+findfont dup setfont
+3 -1 roll
+/bf-stand exch def
+[
+bf-stand stringwidth pop
+dup bf-h exch div
+exch bf-v exch div 0 0 3 -1 roll
+0 0
+] makefont def
+savecurfont setfont
+} bind def
+/SF /setfont load def
+/s3 3 string def
+/D {
+/ch-code exch def
+/ch-data exch def
+currentfont /BitMaps get ch-code ch-data put
+currentfont /Encoding get ch-code
+dup s3 cvs cvn
+put
+} bind def
+/BP {
+userdict /bop-hook known { bop-hook } if
+/SaveImage save def
+xoffset yoffset translate
+leftm topm
+landscape {
+exch translate
+90 rotate
+}{
+paperheight exch sub translate
+} ifelse
+72 Resolution div dup neg scale
+0 0 moveto
+} bind def
+/EP {
+showpage 
+SaveImage restore
+userdict /eop-hook known { eop-hook } if
+} bind def
+/START {
+userdict /start-hook known { start-hook } if
+/DVImag exch def
+/magscale true def
+/Resolution exch def
+} bind def
+/END {
+end
+userdict /end-hook known { end-hook } if
+} bind def
+/l /lineto load def
+/p /moveto load def
+/r {
+0 rmoveto
+} def
+/s /show load def
+/ru {
+/dy exch neg def
+/dx exch def
+/x currentpoint /y exch def def
+newpath x y moveto
+dx 0 rlineto
+0 dy rlineto
+dx neg 0 rlineto
+closepath fill
+x y moveto
+} bind def
+/TeXscale { 65781.76 div } def
+/DocumentInitState [ matrix currentmatrix currentlinewidth currentlinecap
+currentlinejoin currentdash currentgray currentmiterlimit ] cvx def
+/startTexFig {
+/SavedState save def
+userdict maxlength dict begin
+currentpoint transform
+DocumentInitState setmiterlimit setgray setdash setlinejoin setlinecap
+setlinewidth setmatrix
+itransform moveto
+magscale { DVImag dup scale } if
+/ury exch TeXscale def
+/urx exch TeXscale def
+/lly exch TeXscale def
+/llx exch TeXscale def
+/y exch TeXscale def
+/x exch TeXscale def
+currentpoint /cy exch def /cx exch def
+/sx x urx llx sub div def
+/sy y ury lly sub div def
+sx sy scale
+cx sx div llx sub
+cy sy div ury sub translate
+/DefFigCTM matrix currentmatrix def
+/initmatrix {
+DefFigCTM setmatrix
+} def
+/defaultmatrix {
+DefFigCTM exch copy
+} def
+/initgraphics {
+DocumentInitState setmiterlimit setgray setdash 
+setlinejoin setlinecap setlinewidth setmatrix
+DefFigCTM setmatrix
+} def
+/showpage {} def
+/erasepage {} def
+/copypage {} def
+} def
+/clipFig {
+currentpoint 6 2 roll
+newpath 4 copy
+4 2 roll moveto
+6 -1 roll exch lineto
+exch lineto
+exch lineto
+closepath clip
+newpath
+moveto
+} def
+/doclip { llx lly urx ury clipFig } def
+/endTexFig {
+end SavedState restore
+} def
+/@SpecialDefaults {
+/hsi paperwidth inch def
+/vsi paperheight inch def
+/hof 0 def
+/vof 0 def
+/hsc 1 def
+/vsc 1 def
+/rotat 0 def
+/CLIP false def
+/BBOX false def
+/EPSF false def
+/ECL false def
+} bind def
+/@ecl {/ECL true def} bind def
+/@clip {/CLIP true def} bind def
+/@hsize {/hsi exch def @clip} bind def
+/@vsize {/vsi exch def @clip} bind def
+/@hoffset {/hof exch def} bind def
+/@voffset {/vof exch def} bind def
+/@scaleunit 1 def
+/@hscale {@scaleunit div /hsc exch def} bind def
+/@vscale {@scaleunit div /vsc exch def} bind def
+/@rotation {/rotat exch def} bind def
+/@angle /@rotation load def
+/@rwi {10 div /hsi exch def} bind def
+/@rhi {10 div /vsi exch def} bind def
+/@llx {/llx exch def /BBOX true def /hsi 0 def /vsi 0 def} bind def
+/@lly {/lly exch def} bind def
+/@urx {/urx exch def} bind def
+/@ury {/ury exch def} bind def
+/@bbox {{@clip}if @ury @urx @lly @llx} bind def
+/@setclipper {
+CLIP {
+newpath 0 0 moveto hsi 0 rlineto 0 vsi rlineto hsi neg 0 rlineto
+closepath clip
+} if
+} bind def
+/@beginspecial {
+/SpecialSave save def
+/dict_count countdictstack def
+/op_count count 1 sub def
+currentpoint transform initgraphics itransform translate
+magscale { DVImag dup scale } if
+landscape {90 rotate} if
+@SpecialDefaults
+@MacSetUp
+} bind def
+/@setspecial {
+hof vof translate
+BBOX {
+rotat rotate
+hsi 0 eq {
+vsi 0 eq {
+hsc vsc
+}{
+vsi ury lly sub div dup
+}ifelse
+}{
+vsi 0 eq {
+hsi urx llx sub div dup
+}{
+hsi urx llx sub div vsi ury lly sub div
+} ifelse
+} ifelse
+scale
+llx neg ECL{ury}{lly}ifelse neg translate
+CLIP {
+newpath
+llx lly moveto
+urx lly lineto
+urx ury lineto
+llx ury lineto
+closepath clip
+} if
+newpath
+}{
+@setclipper hsc vsc scale rotat rotate
+} ifelse
+/CTM matrix currentmatrix def
+end
+/letter {} def /note {} def /legal {} def /11x17 {} def
+/b4 {} def /b5 {} def /a5 {} def /a4 {} def /a4small {} def /a3 {} def
+/showpage {} def /copypage {} def /erasepage {} def
+/initmatrix {TeXDict /CTM get setmatrix} bind def
+/defaultmatrix {TeXDict /CTM get exch copy} bind def
+/*initclip /initclip load def
+/initclip {
+TeXDict begin
+*initclip
+matrix currentmatrix CTM setmatrix newpath
+BBOX {
+llx lly moveto urx lly lineto urx ury lineto llx ury lineto
+}{
+0 0 moveto hsi 0 rlineto 0 vsi rlineto hsi neg 0 rlineto
+} ifelse
+closepath clip setmatrix
+end
+} bind def
+/initgraphics {
+initmatrix newpath initclip
+1 setlinewidth 0 setlinecap 0 setlinejoin
+[] 0 setdash 0 setgray 10 setmiterlimit
+} bind def
+/languagelevel where {
+pop languagelevel 1 ne { false setstrokeadjust false setoverprint } if
+} if
+} bind def
+/@MacSetUp {
+userdict /md known {
+userdict /md get type /dicttype eq {
+md /txpose known {
+md /txpose {pxs pys neg scale} put
+} if
+md /cp known {
+md /cp {pop pop pm restore} put
+} if
+} if
+} if
+} bind def
+/@push {
+gsave
+currentpoint translate
+dup scale
+newpath
+} bind def
+/@pop {
+grestore
+} bind def
+/@ar {
+matrix currentmatrix
+7 -2 roll moveto
+currentpoint translate
+newpath
+5 -2 roll scale
+0 0 1 6 -2 roll arc
+setmatrix
+} bind def
+/@RGB /setrgbcolor load def
+/@HSB /sethsbcolor load def
+/@CMYK /setcmykcolor dup where {
+pop load
+}{
+pop {
+1 sub 4 1 roll
+3 { 3 index add neg dup 0 lt {pop 0} if 3 1 roll } repeat
+setrgbcolor pop
+} bind
+} ifelse def
+/normalscale {
+Resolution 72 div Resolution 72 div neg scale
+magscale { DVImag dup scale } if
+0 setgray
+} def
+end
+/@endspecial {
+TeXDict begin
+count op_count sub {pop} repeat
+countdictstack dict_count sub {end} repeat
+SpecialSave restore
+} bind def
+/SDict TeXDict def
+%%EndFile
+%%BeginFile: /usr/local/lib/dvi2ps-1.9j/defaulttray.ps
+%%BeginProcSet: defaulttray 1 0
+% Disable auto tray selection of dvi2ps-j.
+% written by Kazuhiro Kazama (kazama@square.ntt.jp)
+TeXDict begin
+    /settray {
+	pop
+    } bind def
+end
+%%EndProcSet
+%%EndFile
+%%BeginFile: /usr/local/lib/dvi2ps-1.9j/fonts/psfonts.ps
+%%BeginProcSet: psfonts 1 1
+% PostScript Font Utilities
+% version 1.1 12/12/1991
+% Copyright (C) 1991
+% Kazuhiro Kazama (kazama@expert-sun.ntt.jp)
+% NTT Software Laboratories 
+% All rights reserved.
+TeXDict begin
+/s1 ( ) def
+
+/TeXEncoding [
+%\00x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\01x
+    /.notdef /.notdef /.notdef /.notdef /fi /fl /.notdef /.notdef
+%\02x
+    /dotlessi /.notdef /grave /acute /caron /breve /macron /ring
+%\03x
+    /cedilla /germandbls /ae /oe /oslash /AE /OE /Oslash
+%\04x
+    /space /exclam /quotedblright /numbersign
+    /dollar /percent /ampersand /quoteright
+%\05x
+    /parenleft /parenright /asterisk /plus /comma /hyphen /period /slash
+%\06x
+    /zero /one /two /three /four /five /six /seven
+%\07x
+    /eight /nine /colon /semicolon /exclamdown /equal /questiondown /question
+%\10x
+    /at /A /B /C /D /E /F /G
+%\11x
+    /H /I /J /K /L /M /N /O
+%\12x
+    /P /Q /R /S /T /U /V /W
+%\13x
+    /X /Y /Z /bracketleft /quotedblleft /bracketright /circumflex /dotaccent
+%\14x
+    /quoteleft /a /b /c /d /e /f /g
+%\15x
+    /h /i /j /k /l /m /n /o
+%\16x
+    /p /q /r /s /t /u /v /w
+%\17x
+    /x /y /z /endash /emdash /quotedbl /tilde /dieresis
+%\20x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\21x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\22x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\23x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\24x
+    /.notdef /exclamdown /cent /sterling /fraction /yen /florin /section
+%\25x
+    /currency /quotesingle /quotedblleft /guillemotleft
+    /guilsinglleft /guilsinglright /fi /fl
+%\26x
+    /.notdef /endash /dagger /daggerdbl
+    /periodcentered /.notdef /paragraph /bullet
+%\27x
+    /quotesinglbase /quotedblbase /quotedblright /guillemotright
+    /ellipsis /perthousand /.notdef /questiondown
+%\30x
+    /.notdef /grave /acute /circumflex /tilde /macron /breve /dotaccent
+%\31x
+    /dieresis /.notdef /ring /cedilla /.notdef /hungarumlaut /ogonek /caron
+%\32x
+    /emdash /.notdef /.notdef /.notdef  /.notdef /.notdef /.notdef /.notdef
+%\33x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\34x
+    /.notdef /AE /.notdef /ordfeminine /.notdef /.notdef /.notdef /.notdef
+%\35x
+    /Lslash /Oslash /OE /ordmasculine /.notdef /.notdef /.notdef /.notdef
+%\36x
+    /.notdef /ae /.notdef /.notdef /.notdef /dotlessi /.notdef /.notdef
+%\37x
+    /lslash /oslash /oe /germandbls /.notdef /.notdef /.notdef /.notdef
+] def
+
+/TeXttEncoding [
+%\00x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\01x
+    /.notdef /.notdef /.notdef /.notdef
+    /.notdef /quotesingle /exclamdown /questiondown
+%\02x
+    /dotlessi /.notdef /grave /acute /caron /breve /macron /ring
+%\03x
+    /cedilla /germandbls /ae /oe /oslash /AE /OE /Oslash
+%\04x
+    /space /exclam /quotedbl /numbersign
+    /dollar /percent /ampersand /quoteright
+%\05x
+    /parenleft /parenright /asterisk /plus /comma /hyphen /period /slash
+%\06x
+    /zero /one /two /three /four /five /six /seven
+%\07x
+%    /eight /nine /colon /semicolon /exclamdown /less /questiondown /greater
+    /eight /nine /colon /semicolon /less /equal /greater /question
+%\10x
+    /at /A /B /C /D /E /F /G
+%\11x
+    /H /I /J /K /L /M /N /O
+%\12x
+    /P /Q /R /S /T /U /V /W
+%\13x
+    /X /Y /Z /bracketleft /backslash /bracketright /circumflex /underscore
+%\14x
+    /quoteleft /a /b /c /d /e /f /g
+%\15x
+    /h /i /j /k /l /m /n /o
+%\16x
+    /p /q /r /s /t /u /v /w
+%\17x
+    /x /y /z /braceleft /bar /braceright /tilde /dieresis
+%\20x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\21x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\22x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\23x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\24x
+    /.notdef /exclamdown /cent /sterling /fraction /yen /florin /section
+%\25x
+    /currency /quotesingle /quotedblleft /guillemotleft
+    /guilsinglleft /guilsinglright /fi /fl
+%\26x
+    /.notdef /endash /dagger /daggerdbl
+    /periodcentered /.notdef /paragraph /bullet
+%\27x
+    /quotesinglbase /quotedblbase /quotedblright /guillemotright
+    /ellipsis /perthousand /.notdef /questiondown
+%\30x
+    /.notdef /grave /acute /circumflex /tilde /macron /breve /dotaccent
+%\31x
+    /dieresis /.notdef /ring /cedilla /.notdef /hungarumlaut /ogonek /caron
+%\32x
+    /emdash /.notdef /.notdef /.notdef  /.notdef /.notdef /.notdef /.notdef
+%\33x
+    /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef /.notdef
+%\34x
+    /.notdef /AE /.notdef /ordfeminine /.notdef /.notdef /.notdef /.notdef
+%\35x
+    /Lslash /Oslash /OE /ordmasculine /.notdef /.notdef /.notdef /.notdef
+%\36x
+    /.notdef /ae /.notdef /.notdef /.notdef /dotlessi /.notdef /.notdef
+%\37x
+    /lslash /oslash /oe /germandbls /.notdef /.notdef /.notdef /.notdef
+] def
+
+/CopyFont {
+    1 index maxlength add dict begin
+	{
+	    1 index /FID ne
+	    2 index /UniqueID ne and {
+		def
+	    }{
+		pop pop
+	    } ifelse
+	} forall
+	currentdict
+    end
+} bind def
+
+/ModifyFont {
+    4 1 roll
+    /es exch def
+    /proc exch def
+    /newfn exch def
+    MFSupp
+} bind def
+    
+/MFSupp {
+    dup length es add dict begin
+	{
+	    1 index /FID ne
+	    2 index /UniqueID ne and
+	    {
+		def
+	    }{
+		pop pop
+	    } ifelse
+	} forall
+	FontType 0 ne {
+	    proc
+	}{
+	    FDepVector dup length array copy /FDepVector exch def
+	    0 1 FDepVector length 1 sub {
+		FDepVector exch 2 copy get
+		MFSupp put
+	    } for
+	} ifelse
+	newfn currentdict definefont
+    end
+} bind def
+
+% fontname encoding TeXEncode dict
+/TeXEncode {
+    findfont 1 CopyFont
+    begin
+	/Encoding TeXEncoding def
+	currentdict
+    end
+    definefont pop
+} bind def
+
+% fontname TeXttEncode dict
+/TeXttEncode {
+    findfont 1 CopyFont
+    begin
+	/Encoding TeXttEncoding def
+	currentdict
+    end
+    definefont pop
+} bind def
+
+% fontname basefontname angle ObliqueFont -   Create a general oblique font
+/ObliqueFont {
+    [1 0 4 -1 roll dup sin exch cos div 1 0 0 ] exch
+    findfont 1 CopyFont
+    begin 
+	/FontMatrix exch FontMatrix exch matrix concatmatrix def
+	currentdict
+    end
+    definefont pop
+} bind def
+
+/TeXObliqueFont {
+    [1 0 4 -1 roll dup sin exch cos div 1 0 0 ] exch
+    findfont 2 CopyFont
+    begin 
+	/FontMatrix exch FontMatrix exch matrix concatmatrix def
+	/Encoding TeXEncoding def
+	currentdict
+    end
+    definefont pop
+} bind def
+    
+% fontname basefontname OutlineFont -   Create a outline font
+/OutlineFont {
+    {
+	/PaintType 2 def
+	/StrokeWidth 1 def
+    } 2
+    3 -1 roll
+    findfont ModifyFont pop
+} bind def
+
+% fontname basename SmallCapsFont -	Create a general smallcaps font
+/SmallCapsFont {
+    findfont
+    10 dict begin
+	dup /FontName exch def
+	/FontMatrix [1 0 0 1 0 0] def
+	/Encoding dup 2 index exch get def
+	/FontBBox dup 2 index exch get def
+	/FontArray [2 index dup 0.8 scalefont] def
+	/FontType 3 def
+	/BuildChar {
+	    exch begin
+		dup
+		dup 97 ge exch 122 le and {
+		    32 sub s1 0 3 -1 roll put
+		    1
+		}{
+		    s1 0 3 -1 roll put
+		    0
+		} ifelse
+		FontArray exch get setfont
+		s1 stringwidth FontBBox setcachedevice
+		newpath 0 0 moveto
+		s1 show
+	    end
+	} bind def
+	pop
+	currentdict
+    end
+    definefont pop
+} bind def
+
+/TeXSmallCapsFont {
+    dup 32 string cvs dup length 1 add string
+    dup 0 (@) putinterval dup 1 4 -1 roll putinterval cvn exch
+    findfont 1 CopyFont
+    begin
+	/Encoding TeXEncoding def
+	currentdict
+    end
+    definefont
+    10 dict begin
+	dup /FontName exch def
+	/FontMatrix [1 0 0 1 0 0] def
+	/Encoding dup 2 index exch get def
+	/FontBBox dup 2 index exch get def
+	/FontArray [2 index dup 0.8 scalefont] def
+	/FontType 3 def
+	/BuildChar {
+	    exch begin
+		dup
+		dup 97 ge exch 122 le and {
+		    32 sub s1 0 3 -1 roll put
+		    1
+		}{
+		    s1 0 3 -1 roll put
+		    0
+		} ifelse
+		FontArray exch get setfont
+		s1 stringwidth FontBBox setcachedevice
+		newpath 0 0 moveto
+		s1 show
+	    end
+	} bind def
+	pop
+	currentdict
+    end
+    definefont pop
+} bind def
+
+% fontname basename param BoldFont -
+/BoldFont {
+    exch findfont MakeBold pop
+} bind def
+
+% fontname param basefont MakeBold dict
+/MakeBold {
+    dup /FontType get 0 eq {
+	0 CopyFont
+	dup /FDepVector 2 copy get
+	[
+	    exch % fname param bfont bfont /FDepVector [ FDepVector % ]
+	    6 index 6 index 2 copy 5 -1 roll
+	    {
+		MakeBold 3 1 roll 2 copy
+	    } forall
+	    pop pop pop pop
+	] put
+	exch pop
+    }{
+	10 dict begin
+	    /FontMatrix [ 1 0 0 1 0 0 ] def
+	    /FontType 3 def
+	    /Encoding dup 2 index exch get def
+	    /df 1 index def
+	    /FontBBox [ 0 0 1 1 ] def
+	    /da 2 index def
+	    /BuildChar {
+		exch begin
+		    df setfont
+		    s1 dup 0 4 -1 roll put
+		    dup gsave stringwidth grestore
+		    1 index 0 ne {
+			exch da add exch
+		    } if
+		    setcharwidth
+		    0 0 moveto dup show
+		    da 0 moveto dup show
+		    da da moveto dup show
+		    0 da moveto show
+		end
+	    } def
+	    pop pop
+	    currentdict
+	end
+    } ifelse
+    definefont
+} bind def
+end % TeXDict
+%%EndProcSet
+%%EndFile
+%%EndProlog
+%%BeginSetup
+%%PaperSize: A4
+%%Feature: *ManualFeed False
+%%Feature: *Resolution 400
+TeXDict begin
+@large
+@a4
+1.000 111 /f0 NF
+f0 SF
+[<003FC0000001E078000003800E00000F000780001E0001C0001E0000F0003C000078003C00003C007800003E007800001E00
+  F800000F00F800000F80F8000007C0F8000007C0F8000003E0F8000003E0F8000001F0F8000001F0F8000001F07C000000F8
+  7C000000F87C000000F83C000000F83E000000783E000000781E000000781F000000780F0000007807800000780780000078
+  03C000007801E00000F000F00000F000780000E0003C0001E0001E0001C000070003800003C007000000701C0000000FF000> 40 40 -3 1 42.217] 79 D
+[<18001E003C0031001E0070801E00F0401E00F0201E0078200F0078100F0078100F003C100F003C0007803C0007801E000780
+  1E0007801E0003C00F0003C00F0083C00F0083C00F0041E00F0041F0070041D00F0021CC0E0013820E000F01F800> 32 24 -2 0 33.221] 110 D
+1.000 42 /f1 NF
+f1 SF
+[<001C003C007C00F001E003C007800F000E001E001C003C003800780078007800F000F000F000F000F000F000F000F000F000
+  F00078007800780038003C001C001E000E000F00078003C001E000F00078003C001C> 16 42 -9 4 29.057] 40 D
+[<6000F00078003C001E000F00078003C001C001E000E000F00070007800780078003C003C003C003C003C003C003C003C003C
+  003C007800780078007000F000E001E001C003C007800F001E003C007800F0006000> 16 42 -5 4 29.057] 41 D
+/bf0 /Times-Roman TeXEncode
+/f2 /bf0 55.347 -55.347 BFT
+/f3 /bf0 38.743 -38.743 BFT
+/bf1 /Times-Bold TeXEncode
+/f4 /bf1 77.485 -77.485 BFT
+/f5 /bf1 55.347 -55.347 BFT
+/f6 /bf0 49.812 -49.812 BFT
+/f7 /bf0 33.208 -33.208 BFT
+/f8 /bf1 49.812 -49.812 BFT
+/f9 /bf1 66.416 -66.416 BFT
+/bf2 /Times-Italic TeXEncode
+/f10 /bf2 55.347 -55.347 BFT
+/bf3 /Courier TeXttEncode
+/f11 /bf3 49.812 -49.812 BFT
+/f12 /bf3 55.347 -55.347 BFT
+/f13 /bf2 49.812 -49.812 BFT
+/bf4 /Times-Roman TeXSmallCapsFont
+/f14 /bf4 49.812 -49.812 BFT
+400 1.000 START
+%%EndSetup
+
+%%Page: pstops 1
+gsave
+/pstopssaved save def
+BP
+f4 SF
+288 258 p (Ninf:)s
+20 r (A)s
+19 r (Network)s
+19 r (based)s
+20 r (Information)s
+19 r (Library)s
+20 r (for)s
+19 r (Global)s
+553 351 p (W)s
+-3 r (orld-W)s
+-1 r (ide)s
+18 r (Computing)s
+19 r (Infrastructure)s
+f2 SF
+347 545 p (Mitsuhisa)s
+14 r (Sato)s
+f3 SF
+678 525 p (1)s
+f2 SF
+700 545 p (,)s
+14 r (Hidemoto)s
+14 r (Nakada)s
+f3 SF
+1132 525 p (2)s
+f2 SF
+1154 545 p (,)s
+14 r (Satoshi)s
+14 r (Sekiguchi)s
+f3 SF
+1580 525 p (2)s
+f2 SF
+1602 545 p (,)s
+14 r (Satoshi)s
+14 r (Matsuoka)s
+f3 SF
+2025 525 p (3)s
+f2 SF
+2047 545 p (,)s
+727 611 p (Umpei)s
+14 r (Nagashima)s
+f3 SF
+1141 591 p (4)s
+f2 SF
+1177 611 p (and)s
+14 r (Hiromitsu)s
+14 r (T)s
+-3 r (akagi)s
+f3 SF
+1659 591 p (5)s
+f7 SF
+386 706 p (1)s
+f6 SF
+430 727 p (Real)s
+13 r (W)s
+-3 r (orld)s
+11 r (Computing)s
+13 r (Partnership,Mitsui-Blg.16F)s
+-3 r (,T)s
+-4 r (sukuba,)s
+12 r (Ibaraki)s
+12 r (305,)s
+12 r (Japan)s
+f7 SF
+449 767 p (2)s
+f6 SF
+494 788 p (Electrotechnical)s
+12 r (Laboratory)s
+-2 r (,1-1-4)s
+11 r (Umezono,)s
+13 r (T)s
+-3 r (sukuba,)s
+12 r (Ibaraki)s
+12 r (305,)s
+13 r (Japan)s
+f7 SF
+376 828 p (3)s
+f6 SF
+420 849 p (T)s
+-2 r (okyo)s
+11 r (Institute)s
+13 r (of)s
+12 r (T)s
+-2 r (echnology)s
+-4 r (,)s
+12 r (Ookayama)s
+12 r (2-12-2,)s
+13 r (Meguro-ku,)s
+12 r (T)s
+-2 r (okyo)s
+11 r (152,)s
+13 r (Japan)s
+f7 SF
+501 889 p (4)s
+f6 SF
+545 910 p (Ochanomizu)s
+13 r (University)s
+-2 r (,)s
+11 r (Otsuka)s
+13 r (2-1-1,)s
+12 r (Bukyo-ku,)s
+13 r (T)s
+-3 r (okyo)s
+11 r (112,)s
+13 r (Japan)s
+f7 SF
+539 950 p (5)s
+f6 SF
+584 971 p (Nagoya)s
+12 r (Institute)s
+12 r (of)s
+13 r (T)s
+-3 r (echnology)s
+-3 r (,)s
+12 r (Syouwa-ku,)s
+12 r (Nagoya)s
+13 r (466,)s
+12 r (Japan)s
+f8 SF
+401 1148 p (Abstract.)s
+f6 SF
+28 r (Ninf)s
+23 r (is)s
+23 r (an)s
+24 r (ongoing)s
+23 r (global)s
+23 r (network-wide)s
+24 r (computing)s
+23 r (infrastructure)s
+401 1209 p (project)s
+20 r (which)s
+20 r (allows)s
+20 r (users)s
+21 r (to)s
+20 r (access)s
+20 r (computational)s
+20 r (resources)s
+20 r (including)s
+20 r (hard-)s
+401 1270 p (ware,)s
+17 r (software)s
+17 r (and)s
+16 r (scienti\014c)s
+17 r (data)s
+17 r (distributed)s
+17 r (across)s
+16 r (a)s
+17 r (wide)s
+17 r (area)s
+17 r (network.)s
+16 r (Ninf)s
+401 1331 p (is)s
+14 r (intended)s
+14 r (not)s
+14 r (only)s
+14 r (to)s
+14 r (exploit)s
+15 r (high)s
+14 r (performance)s
+14 r (in)s
+14 r (network)s
+14 r (parallel)s
+14 r (computing,)s
+401 1391 p (but)s
+14 r (also)s
+14 r (to)s
+15 r (provide)s
+14 r (high)s
+14 r (quality)s
+14 r (numerical)s
+15 r (computation)s
+14 r (services)s
+14 r (and)s
+14 r (accesses)s
+14 r (to)s
+401 1452 p (scienti\014c)s
+16 r (database)s
+16 r (published)s
+16 r (by)s
+16 r (other)s
+16 r (researchers.)s
+16 r (Computational)s
+16 r (resources)s
+15 r (are)s
+401 1513 p (shared)s
+19 r (as)s
+19 r (Ninf)s
+19 r (remote)s
+19 r (libraries)s
+19 r (executable)s
+19 r (at)s
+19 r (a)s
+18 r (remote)s
+19 r (Ninf)s
+19 r (server)s
+-1 r (.)s
+18 r (Users)s
+18 r (can)s
+401 1574 p (build)s
+11 r (an)s
+11 r (application)s
+11 r (by)s
+11 r (calling)s
+11 r (the)s
+11 r (libraries)s
+11 r (with)s
+12 r (the)s
+11 r (Ninf)s
+11 r (Remote)s
+11 r (Procedure)s
+11 r (Call,)s
+401 1635 p (which)s
+18 r (is)s
+18 r (designed)s
+18 r (to)s
+19 r (provide)s
+18 r (a)s
+18 r (programming)s
+18 r (interface)s
+18 r (similar)s
+18 r (to)s
+18 r (conventional)s
+401 1696 p (function)s
+18 r (calls)s
+19 r (in)s
+18 r (existing)s
+19 r (languages,)s
+18 r (and)s
+18 r (is)s
+19 r (tailored)s
+18 r (for)s
+19 r (scienti\014c)s
+18 r (computation.)s
+401 1757 p (In)s
+18 r (order)s
+17 r (to)s
+18 r (facilitate)s
+17 r (location)s
+18 r (transparency)s
+17 r (and)s
+18 r (network-wide)s
+17 r (parallelism,)s
+18 r (Ninf)s
+401 1818 p (metaserver)s
+10 r (maintains)s
+9 r (global)s
+10 r (resource)s
+10 r (information)s
+10 r (regarding)s
+9 r (computational)s
+10 r (server)s
+401 1879 p (and)s
+15 r (databases,)s
+15 r (allocating)s
+16 r (and)s
+15 r (scheduling)s
+15 r (coarse-grained)s
+15 r (computation)s
+16 r (for)s
+15 r (global)s
+401 1939 p (load)s
+16 r (balancing.)s
+16 r (Ninf)s
+16 r (also)s
+15 r (interfaces)s
+16 r (with)s
+16 r (the)s
+16 r (WWW)s
+16 r (browsers)s
+16 r (for)s
+16 r (easy)s
+16 r (accessi-)s
+401 2000 p (bility)s
+-2 r (.)s
+f9 SF
+244 2195 p (1)s
+83 r (Intr)s
+-1 r (oduction)s
+f2 SF
+244 2334 p (Remarkable)s
+19 r (growth)s
+20 r (of)s
+19 r (computer)s
+20 r (network)s
+20 r (technology)s
+19 r (has)s
+20 r (spurned)s
+20 r (a)s
+19 r (variety)s
+20 r (of)s
+20 r (infor-)s
+244 2400 p (mation)s
+14 r (services)s
+14 r (accessible)s
+15 r (through)s
+14 r (the)s
+14 r (Internet.)s
+15 r (The)s
+14 r (important)s
+15 r (feature)s
+14 r (of)s
+14 r (such)s
+15 r (services)s
+244 2467 p (is)s
+18 r (location)s
+18 r (transparency;)s
+18 r (information)s
+18 r (can)s
+18 r (be)s
+18 r (obtained)s
+19 r (irrespective)s
+18 r (of)s
+18 r (time)s
+18 r (or)s
+18 r (location)s
+244 2533 p (in)s
+22 r (a)s
+23 r (virtually)s
+22 r (shared)s
+23 r (manner)s
+-2 r (.)s
+21 r (However)s
+-1 r (,)s
+21 r (most)s
+23 r (existing)s
+23 r (global)s
+22 r (network)s
+23 r (services)s
+22 r (such)s
+244 2599 p (as)s
+18 r (e-mail,)s
+18 r (\014le)s
+19 r (archives,)s
+18 r (and)s
+18 r (the)s
+19 r (WWW)s
+-4 r (,)s
+17 r (are)s
+18 r (limited)s
+19 r (to)s
+18 r (merely)s
+18 r (sharing)s
+19 r (data)s
+18 r (resources.)s
+244 2666 p (The)s
+20 r (global)s
+21 r (network)s
+21 r (could)s
+21 r (be)s
+21 r (far)s
+21 r (better)s
+21 r (utilized,)s
+20 r (embodying)s
+21 r (the)s
+21 r (potential)s
+21 r (to)s
+21 r (provide)s
+244 2732 p (a)s
+21 r (computational)s
+22 r (environment)s
+22 r (to)s
+22 r (share)s
+22 r (computational)s
+21 r (resources)s
+22 r (including)s
+22 r (CPUs)s
+22 r (and)s
+244 2799 p (disk)s
+21 r (storage.)s
+21 r (The)s
+22 r (coming)s
+21 r (of)s
+21 r (gigabit)s
+22 r (information)s
+21 r (superhighway)s
+21 r (will)s
+22 r (further)s
+21 r (enhance)s
+244 2865 p (the)s
+15 r (vision)s
+15 r (of)s
+16 r (world-wide)s
+15 r (global)s
+16 r (computing)s
+15 r (resources,)s
+16 r (being)s
+15 r (able)s
+16 r (to)s
+15 r (tap)s
+16 r (into)s
+15 r (powers)s
+16 r (of)s
+244 2932 p (enormous)s
+13 r (numbers)s
+14 r (of)s
+14 r (computers)s
+14 r (with)s
+14 r (idle)s
+14 r (computation)s
+13 r (cycles.)s
+327 2999 p (As)s
+22 r (an)s
+22 r (infrastructure)s
+22 r (for)s
+22 r (world-wide)s
+22 r (global)s
+22 r (computing)s
+22 r (in)s
+22 r (scienti\014c)s
+22 r (computation,)s
+244 3066 p (we)s
+27 r (are)s
+27 r (currently)s
+28 r (pursuing)s
+27 r (the)s
+f10 SF
+27 r (Ninf)s
+28 r (\(Network)s
+27 r (based)s
+27 r (Information)s
+28 r (Library)s
+27 r (for)s
+27 r (high)s
+244 3132 p (performance)s
+23 r (computing\))s
+f2 SF
+24 r (project)s
+23 r ([7])s
+f3 SF
+1068 3112 p (6)s
+f2 SF
+1090 3132 p (.)s
+23 r (Our)s
+24 r (goal)s
+24 r (is)s
+23 r (to)s
+24 r (provide)s
+23 r (a)s
+24 r (platform)s
+24 r (for)s
+23 r (global)s
+244 3184 p 315 2 ru
+f7 SF
+262 3221 p (6)s
+f6 SF
+293 3242 p (The)s
+15 r (URL)s
+15 r (of)s
+14 r (Ninf)s
+15 r (project)s
+14 r (is)s
+f11 SF
+15 r (http://phase.etl.go.jp/Ninf/)s
+f6 SF
+(.)s
+14 r (The)s
+15 r (nickname)s
+15 r (\\Ninf)s
+2 r (")s
+EP
+
+pstopssaved restore grestore
+%%Trailer
+%%Pages: 12
+END
+%%EOF

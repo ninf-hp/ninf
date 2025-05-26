@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp
+  spec="1.0+"
+  codebase="https://www.apgrid.org/CA"
+  href="csrgenerator.jnlp">
+  <information>
+    <title>CSR Generator</title>
+    <vendor>National Institute of Advanced Industrial Science and Technology</vendor>
+    <description>
+        Generate a CSR for user/host/ldap certificate.
+        This application generates a new RSA key pair and
+        a CSR according to the generated key pair and
+        distinguished name specified by user inputs.
+    </description>
+    <description kind="one-line">Generate a CSR for user/host/ldap certificate.</description>
+    <description kind="short">This application generates a CSR for user/host/ldap certificate.</description>
+    <description kind="tooltip">Generate a CSR</description>
+    <offline-allowed/>
+  </information>
+  <security>
+      <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.2+"/>
+	<jar href="csrgenerator.jar"/>
+    <jar href="iaik_javax_crypto.jar"/>
+    <jar href="mailapi.jar"/>
+    <jar href="smtp.jar"/>
+    <extension name="Java Mail" href="mail.jnlp"/>
+    <extension name="Java Crypto" href="iaik_jce.jnlp"/>
+
+  </resources>
+  <application-desc main-class="csrtool.control.ApplicationManager"/>
+</jnlp>
+

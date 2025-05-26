@@ -1,0 +1,13 @@
+# don't allow people to retrieve non-cgi executable files or our private data
+<FilesMatch ^(.*\.pl|.*localconfig.*|processmail|syncshadowdb|runtests.sh)$>
+  deny from all
+</FilesMatch>
+<FilesMatch ^(localconfig.js|localconfig.rdf)$>
+  allow from all
+</FilesMatch>
+
+AuthUserFile /usr/local/htdocs/ninf_htdocs/contents/private/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Ninf-G Bugzilla"
+AuthType Basic
+require user ninf

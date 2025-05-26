@@ -1,0 +1,106 @@
+iSCSI Target をホストするマシンへのコマンドとして次の3つを用意する．
+
+#contents
+
+** ディスクスペースの作成：create-vs <id> <vg_name> <size> [-iuser <name> <pass>] [#ec1fd853]
+
+- id: Target Name のコロン以降の文字列となる
+- vg_name： LV を切り出す Volume Group 名
+- size： ストレージ容量
+- name： CHAP による Initiator 認証用のユーザ名
+- pass： CHAP による Initiator 認証用のパスワード
+
+  $ ssh root@rocknroll.hpcc.jp vs-tools/create-vs vdc1 VolGroupSoa 10G
+    Logical volume "vdc1" created
+  Created the LV
+  Added the Target
+  Added the Lun
+
+  $ ssh root@rocknroll.hpcc.jp vs-tools/create-vs vdc1 VolGroupSoa 10G -iuser abc def
+    Logical volume "vdc1" created
+  Created the LV
+  Added the Target
+  Added the Lun
+  Added the user
+
+** ディスクスペースの削除：destroy-vs <id> <vg_name> [#w8743d85]
+
+- id: Target Name のコロン以降の文字列となる
+- vg_name： LV を切り出す Volume Group 名
+
+  $ ssh root@rocknroll.hpcc.jp vs-tools/destroy-vs vdc1 VolGroupSoa
+  Deleted the Target
+    Logical volume "vdc1" successfully removed
+  Removed the LV
+  Removed the iSCSI target entry from /etc/ietd.conf
+
+** ディスクスペースの表示：show-all-vs <vg_name> [options] [#z8326e22]
+
+オプションで lvm，iscsi を指定できる．lvm を指定すると lvdisplay の実行結果を表示する．iscsi を指定すると現在の iet デーモンがサービスしている Target を表示する．
+
+  $ ssh root@rocknroll.hpcc.jp vs-tools/show-all-vs VolGroupSoa
+  gridvon-exp     40.00G
+  vdc1    10.00G
+  vdc2    10.00G
+  ----    681.11G
+
+  $ ssh root@rocknroll.hpcc.jp vs-tools/show-all-vs VolGroupSoa lvm
+    --- Logical volume ---
+    LV Name                /dev/VolGroupSoa/gridvon-exp
+    VG Name                VolGroupSoa
+    LV UUID                uLAC3k-Jrum-t7SF-FRmu-Xt0X-Dws7-A1R1JM
+    LV Write Access        read/write
+    LV Status              available
+    # open                 1
+    LV Size                40.00 GB
+    Current LE             10240
+    Segments               1
+    Allocation             inherit
+    Read ahead sectors     0
+    Block device           253:1
+  
+    --- Logical volume ---
+    LV Name                /dev/VolGroupSoa/vdc1
+    VG Name                VolGroupSoa
+    LV UUID                vEM5rf-n2Tg-mXYs-6iSF-XgiB-BvmJ-Pi9JA8
+    LV Write Access        read/write
+    LV Status              available
+    # open                 1
+    LV Size                10.00 GB
+    Current LE             2560
+    Segments               1
+    Allocation             inherit
+    Read ahead sectors     0
+    Block device           253:2
+  
+    --- Logical volume ---
+    LV Name                /dev/VolGroupSoa/vdc2
+    VG Name                VolGroupSoa
+    LV UUID                X3tB2r-vjs6-5O1h-Zhfm-jx9n-XO7O-x3SDKV
+    LV Write Access        read/write
+    LV Status              available
+    # open                 1
+    LV Size                10.00 GB
+    Current LE             2560
+    Segments               1
+    Allocation             inherit
+    Read ahead sectors     0
+    Block device           253:3
+
+  $ ssh root@rocknroll.hpcc.jp vs-tools/show-all-vs VolGroupSoa iscsi
+  tid:200 name:iqn.2006.08.jp.hpcc.rocknroll:vdc2
+          lun:0 state:0 iotype:fileio path:/dev/VolGroupSoa/vdc2
+  tid:100 name:iqn.2006.08.jp.hpcc.rocknroll:vdc1
+          lun:0 state:0 iotype:fileio path:/dev/VolGroupSoa/vdc1
+  tid:1 name:iqn.2006.08.jp.hpcc.rocknroll:gridvon-exp
+          lun:0 state:0 iotype:fileio path:/dev/VolGroupSoa/gridvon-exp
+
+
+
+** 備考 [#l89a5178]
+
+- ietデーモンの起動，終了，監視は /etc/init.d/iscsi-target スクリプトを用いて行うこと．
+- コマンドが成功した場合は exit 0，そうでない場合は exit 1 となっている．
+- ietデーモンに直接コマンドを発行（ietadm）しているだけなので，ietd.confは変更されていないことに注意．ietデーモンの再起動，マシンの再起動がかかると問題．将来的にはietadmコマンドがietd.confとの一貫性の面倒を見てくれるかも？（Wish List には入っている）あるいはこちらで作ってしまっても良い．
+- ietデーモンが再起動すると，<tid>が変更されてしまうので<tid>は vs-tools 側でケアすることにした．
+- vgcreate などは直接SSHコマンドで実行すればよい．

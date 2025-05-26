@@ -1,0 +1,35 @@
+<html>
+<head><title> netCFD </title></head>
+<body>
+<h1> netCFD: a Demonstration of Ninf and femFlow </h1>
+
+This program shows a CFD simulation.<br>
+The applet connects with a Ninf Server on pdplab.trc.rwcp.or.jp and 
+executes a CFD routine called femflow, which use Finite Element Method.
+A Routine on the server callbacks to display the figure.<br>
+<p>
+The arrow at each point illrustrates the direction of flow, and 
+it color shows the pressure at the point range.
+<hr>
+<applet codebase="." code="ShowFlow.class" width=600 height=400>
+<param name=host value= "pdplab.trc.rwcp.or.jp">
+<param name=port value= "3000"> 
+</applet>
+<hr>
+Analysis Condition:
+<ul>
+<li> viscosity       = 1.0e-3
+<li> density         = 1.0
+<li>  thermal         = 0.0
+<li>  thermal-expand  = 0.0
+<li>  thermal-gen     = 0.0
+<li>  thermal-ref     = 0.0
+<li>  thermal-out     = 0.0
+<li> specificheat    = 1.0
+<li>  force-gravity (x y z)  = (0.0, 0.0, 0.0)
+<li> leq-solver      = SCG  EPS= 1.0e-3
+</ul>
+<hr>
+</body>
+</html>
+

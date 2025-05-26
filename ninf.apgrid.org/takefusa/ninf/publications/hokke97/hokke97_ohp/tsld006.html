@@ -1,0 +1,65 @@
+
+<HTML>
+
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html;charset=x-sjis">
+<meta name="GENERATOR" content="Microsoft Internet Assistant for PowerPoint 97">
+ <TITLE>Ninf RPC による</TITLE> 
+</HEAD>
+
+<BODY     >
+
+ <H1>Ninf RPC によるLinpack Benchmarkプログラムの実行</H1> 
+ <P><UL>
+double a[lda:n][n]
+</UL><UL>
+int        lda, n
+</UL><UL>
+double b[n]</UL></P>
+<P><UL>
+int    ipiv[n]
+</UL><UL>
+double b[n]
+</UL><UL>
+int   *info</UL></P>
+<P><UL>
+ｌinpack(){
+</UL><UL>
+  dgefa();
+</UL><UL>
+  dgesl();
+</UL><UL>
+}             </UL></P>
+<P><UL>
+gettimeofday();           
+</UL><UL>
+Ninf_call(“linpack”,...);
+</UL><UL>
+
+</UL><UL>
+
+</UL><UL>
+gettimeofday()            </UL></P>
+<P><UL>
+Client program</UL></P>
+<P><UL>
+Server program</UL></P>
+<P><UL>
+Ninf RPC</UL></P>
+<P><UL>
+Sun XDR</UL></P>
+<P></P> 
+<P>
+<TABLE>
+  <TD HEIGHT=100 WIDTH=100> <A HREF="tsld005.html">前のｽﾗｲﾄﾞ</A> </TD>
+  <TD HEIGHT=100 WIDTH=100> <A HREF="tsld007.html">次のｽﾗｲﾄﾞ</A> </TD>
+  <TD HEIGHT=100 WIDTH=150> <A HREF="tsld001.html">最初のｽﾗｲﾄﾞに戻る</A> </TD>
+  <TD HEIGHT=100 WIDTH=150> <A HREF="sld006.html">ｸﾞﾗﾌｨｯｸｽの表示</A> </TD>
+</TABLE>
+<BR>
+</P>
+
+
+
+</Body>
+</HTML>

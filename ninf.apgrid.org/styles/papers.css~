@@ -1,0 +1,31 @@
+
+DIV.paper { 
+  margin:  10 10 10 30;
+  padding: 0 20 10 0 ;
+}
+
+SPAN.authors{ 
+  display: block;
+  margin:  0 0 0 20;
+}
+
+SPAN.papertitle{ 
+  font-size: 120%;
+  font-weight: bold;
+  text-decoration: underline;
+  display: block;
+  margin:  10 0 2 0;
+}
+
+SPAN.bookname{ 
+  display: block;
+  font-style: italic;
+  margin:  0 0 2 35;
+}
+
+SPAN.links{ 
+  text-align: right;
+  display: block;
+  margin:  0 30 0 20;
+}
+

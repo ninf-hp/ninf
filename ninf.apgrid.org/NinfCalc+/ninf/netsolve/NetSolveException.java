@@ -1,0 +1,1 @@
+package ninf.netsolve;public class NetSolveException extends Exception {  NetSolveException(String s) {    super(s);  }  NetSolveException() {    super();  }}

@@ -1,0 +1,3 @@
+<!--#set var="CONTENT_FILENAME" value="welcome.html"-->
+<!--#include file="masterframe.shtml" -->
+

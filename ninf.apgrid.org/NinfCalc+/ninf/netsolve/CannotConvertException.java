@@ -1,0 +1,1 @@
+package ninf.netsolve;import ninf.basic.NinfException;public class CannotConvertException extends NinfException{  public CannotConvertException(){    super();  }  public CannotConvertException(String str){    super(str);  }}

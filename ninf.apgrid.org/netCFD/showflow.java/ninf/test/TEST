@@ -1,0 +1,18 @@
+#!/bin/csh
+
+set XTERM = xterm
+set SERVERPORT = 3060
+set SERVERCONFIG = tmp_server.config
+set NINF_SERVER = $NINF_DIR/bin/ninf_serv_tcp
+
+####################################### make server config 
+cat >! $SERVERCONFIG << end
+redirect no
+end
+echo stubs $NINF_DIR/test >> $SERVERCONFIG
+echo port 	        $SERVERPORT >>  $SERVERCONFIG
+
+$XTERM -e $NINF_SERVER -port $SERVERPORT $SERVERCONFIG &
+sleep 3
+
+./CLIENTTEST -port $SERVERPORT

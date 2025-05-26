@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf IDL の構文</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf IDL の構文">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html182 HREF="node16.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html180 HREF="node12.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html176 HREF="node14.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html183 HREF="node16.html"> おわりに</A>
+<B>Up:</B> <A NAME=tex2html181 HREF="node12.html"> Ninf Interface Definition </A>
+<B> Previous:</B> <A NAME=tex2html177 HREF="node14.html"> IDL による記述の内容</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00063000000000000000> Ninf IDL の構文</A></H2>
+<P>
+Ninf IDLによる記述は以下の要素からなる。
+<P>
+<UL><LI> <tt> Module</tt> name '<tt> ;</tt>'<BR> 
+このファイルに記述される関数群にモジュール名を与える。
+ninf_genでは、&lt;module名&gt;.makというMakefileを作る。
+<LI> <tt> CompileOptions</tt> '<tt> &quot;</tt>'....'<tt> &quot;</tt>' '<tt> ;</tt>'<BR> 
+Makefileで行わなくてはならない定義、その他を与える。
+<LI> <tt> Library</tt> '<tt> &quot;</tt>'....'<tt> &quot;</tt>' '<tt> ;</tt>'<BR> 
+各関数に共通にリンクするオブジェクトファイル、ライブラリを指定する。
+<LI> <tt> Globals</tt> '<tt> { </tt>' ... C descriptions ... '<tt> }</tt>'<BR> 
+各関数に共通のglobal変数等を宣言する。
+<LI> <tt> Define</tt> ninf-name '<tt> (</tt>'paramter1, paramter2, ....'<tt> )</tt>'
+[ '<tt> &quot;</tt>' description '<tt> &quot;</tt>' ] [ <tt> Required</tt> '<tt> &quot;</tt>' files-or-libs '<tt> &quot;</tt>']
+{ '<tt> {</tt>' C descriptions '<tt> }</tt>' <b>|</b> <tt> Calls</tt> lang-spec function-name  '<tt> (</tt>' arg1,arg2,
+...'<tt> )</tt>''<tt> ;</tt>'}<BR> 
+関数のインタフェースならびに必要とするファイルやライブラリを定義する。
+インタフェースの記述に必要なparameterの記述は:
+<blockquote> [mode-spec] [type-spec] param-name [ <tt> [</tt>dimension [<tt> :</tt> range] <tt> ]</tt>[<tt> [</tt>...<tt> ]</tt>...]]
+</blockquote>
+と記述する。type-specはパラメータのタイプ、mode-specでは入力か出力かを
+指定する(mode_in, mode_out, mode_inout)。
+OUTパラメータは配列ではなくてはならない。
+<P>
+配列の要素数を指定する
+dimension には、算術式が記述できる。使用できる演算子は、
+<b>+</b>,<b>-</b>,<b>*</b>,<b>/</b>,<b>%</b>である。演算子の優先順位は C に準拠する。
+括弧を使用して優先順位を変更することもできる。
+dimension で用いられる変数は、INパラメータでかつ配列でないものでなけれ
+ばならない。
+<P>
+配列には、領域を指定することができる。領域には
+上限、下限、ステップを指定する。ステップ、下限はそれぞれ省略することも可能である。
+これらの値にはdimension と同様に算術式を書くことが可能である
+<P>
+算術式は、逆ポーランド記法にコンパイルされ、インターフェイスの一部となる。
+スタブのライブラリとクライアントのライブラリはこの記法を解釈する
+簡単なインタープリタを持っている。このインタープリタが動的に
+算術式を解釈することで、動的に転送量が変化するアプリケーションに
+対応している。
+<P>
+</UL>
+<P>
+Appendix A. に Ninf IDLの完全なシンタックスを、
+Appendix B. に Ninf IDLによるスクリプトのサンプルと、
+それに Ninf stub generator を適用することで得られるメイクファイルとスタブ
+の一部を示す。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

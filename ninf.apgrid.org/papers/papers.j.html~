@@ -1,0 +1,555 @@
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp05tanimura">
+    GridRPC を用いたタスクファーミングAPIの設計と実装   </a>
+  </SPAN>
+  <SPAN class="authors">
+  谷村勇輔, 中田秀基, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2005-HPC-103,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/swopp05tanimura_abst.html">Abstact</a> / <a href="dataDir/swopp05tanimura.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp05kawakami">
+    並列分枝限定法における耐故障アルゴリズムの評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  川上健太, 合田憲人  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2005-HPC-103, pp.49-54,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/swopp05kawakami_abst.html">Abstact</a> / <a href="dataDir/swopp05kawakami.pdf">Paper</a> / <a href="dataDir/swopp05kawakami_slide.pdf">Slide</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpc0506nakada">
+    GridRPCシステムNinf-GにおけるUNICOREおよびGT4によるジョブ起動   </a>
+  </SPAN>
+  <SPAN class="authors">
+  中田秀基, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2005-HPC-102 , pp.45-50,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hpc0506nakada_abst.html">Abstact</a> / <a href="dataDir/hpc0506nakada.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="sacsis05ono">
+    Ninf-1/Ninf-Gを用いたNMR蛋白質立体構造決定のための遺伝アルゴリズムのグリッド化   </a>
+  </SPAN>
+  <SPAN class="authors">
+  小野功, 水口尚亮, 中島直敏, 小野典彦, 中田秀基,  松岡聡, 関口 智嗣, 楯 真一  </SPAN>
+  <SPAN class="bookname">
+    先進的計算基盤システムシンポジウム SACSIS 2005, IPSJ Symposium Series Vol. 2005, No. 5, pp.143-151,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/sacsis05ono_abst.html">Abstact</a> / <a href="dataDir/sacsis05ono.pdf">Paper</a> / <a href="dataDir/sacsis05ono_slide.pdf">Slide</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="sacsis05takemiya">
+    Hybrid QM/MDシミュレーション：MPIとGridPRCを利用した大規模Gridアプリケーションの実行   </a>
+  </SPAN>
+  <SPAN class="authors">
+  武宮 博, 田中良夫, 中田秀基, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    先進的計算基盤システムシンポジウム SACSIS 2005, IPSJ Symposium Series Vol. 2005, No. 5, pp.153-160,2005
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="sacsis05kawakami">
+    並列分枝限定法における耐故障アルゴリズムの評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  川上健太, 合田憲人  </SPAN>
+  <SPAN class="bookname">
+    先進的計算基盤システムシンポジウム SACSIS 2005, IPSJ Symposium Series Vol. 2005, No. 5 (ポスター発表), pp.231,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/sacsis05kawakami.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="acs10tanimura">
+    耐障害性を考慮したNinf-Gアプリケーションの実装と評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  谷村勇輔, 池上努, 中田秀基, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会論文誌 コンピューティングシステム Vol. 46, No. SIG 7(ACS 10), pp.18-27,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/acs10tanimura_abst.html">Abstact</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="iee05osumi">
+    グリッドコンピューティングを用いた並列分枝限定法   </a>
+  </SPAN>
+  <SPAN class="authors">
+  大角知孝, 合田憲人  </SPAN>
+  <SPAN class="bookname">
+    電気学会全国大会シンポジウム講演論文集, S18-6,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/iee05osumi_slide.pdf">Slide</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="saint05aida">
+    A Case Study in Running a Parallel Branch and Bound Application on the Grid   </a>
+  </SPAN>
+  <SPAN class="authors">
+  Kento Aida, Tomotaka Osumi  </SPAN>
+  <SPAN class="bookname">
+    Proceedings of the 2005 International Symposium on Applications and the Internet (SAINT 2005 Workshops) , pp.164-173,2005
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hokke05tanimura">
+    GridRPCシステムの比較 --アプリケーション開発における違い   </a>
+  </SPAN>
+  <SPAN class="authors">
+  谷村勇輔, 中田秀基, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2004-HPC-101, pp.91-96,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hokke05tanimura_abst.html">Abstact</a> / <a href="dataDir/hokke05tanimura.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpcs05tanimura">
+    耐障害性を考慮したNinf-Gアプリケーションの実装と評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  谷村勇輔, 池上努, 中田秀基, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    ハイパフォーマンスコンピューティングと計算科学シンポジウム, HPCS2005, pp.99-106,2005
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hpcs05tanimura_abst.html">Abstact</a> / <a href="dataDir/hpcs05tanimura.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="keisoku04aida">
+    PCクラスタ／グリッドコンピューティングによる分枝限定法の高速化   </a>
+  </SPAN>
+  <SPAN class="authors">
+  合田憲人  </SPAN>
+  <SPAN class="bookname">
+    計測自動制御学会 第34回自律分散システム部会研究会,2004
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="grid2004tanaka">
+    Design, implementation and performance evaluation of GridRPC programming middleware for a large-scale computational Grid   </a>
+  </SPAN>
+  <SPAN class="authors">
+  Yoshio Tanaka, Hiroshi Takemiya, Hidemoto Nakada, Satoshi Sekiguchi  </SPAN>
+  <SPAN class="bookname">
+    Proceeding of 5th IEEE/ACM International Workshop on Grid Computing.,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/grid2004tanaka_abst.html">Abstact</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="acs7takemiya">
+    Ninf-G2: 大規模Grid環境での利用に即した高機能，高性能GridRPCシステムの実装と評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  武宮博, 田中良夫, 中田秀基, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会論文誌 コンピューティングシステム Vol. 45, No. SIG 11(ACS 7), pp.144-159,2004
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="acs7nakada">
+    耐故障性を重視したRPCシステムNinf-Cの設計と実装   </a>
+  </SPAN>
+  <SPAN class="authors">
+  中田秀基, 田中良夫, 松岡聡, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会論文誌 コンピューティングシステム Vol. 45, No. SIG 11(ACS 7), pp.160-170,2004
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="acs7watanabe">
+    Relis-G：計算グリッドのための遠隔ライブラリインストール機構   </a>
+  </SPAN>
+  <SPAN class="authors">
+  渡邊啓正, 本多弘樹, 弓場敏嗣, 田中良夫, 佐藤三久  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会論文誌 コンピューティングシステム Vol. 45, No. SIG 11(ACS 7), pp.196-206,2004
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp04tanimura">
+    Ninf-G2の性能評価：科学技術計算における事例   </a>
+  </SPAN>
+  <SPAN class="authors">
+  谷村勇輔, 池上努, 中田秀基, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2004-HPC-99, pp.37-42,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/swopp04tanimura.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp04aida">
+    グリッド上での並列分枝限定法アプリケーションの評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  合田憲人, 大角知孝, 中村心至  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2004-HPC-99, pp.139-144,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/swopp04aida.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp04oosumi">
+    階層的マスタワーカ方式を用いたグリッドアプリケーションにおける負荷分散の性能評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  大角知孝, 合田憲人  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2004-HPC-99, pp.31-36,2004
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpcasia04nakada">
+    The Design and implementation of a Fault-Tolerant RPC system: Ninf-C   </a>
+  </SPAN>
+  <SPAN class="authors">
+  Hidemoto Nakada, Yoshio Tanaka, Satoshi Matsuoka, Satoshi Sekiguchi  </SPAN>
+  <SPAN class="bookname">
+    Proceedings of HPC ASIA 2004, pp.9-18,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hpcasia04nakada_abst.html">Abstact</a> / <a href="dataDir/hpcasia04nakada.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpcaisa04watanabe">
+    Relis-G: Remote Library Install System for Computational Grids   </a>
+  </SPAN>
+  <SPAN class="authors">
+  Hiromasa watanabe, Hiroki Honda, Toshitsugu Yuba, Yoshio Tanaka, Mitsuhisa Sato  </SPAN>
+  <SPAN class="bookname">
+    Proceedings of HPC ASIA 2004, pp.44-53,2004
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="jcg04takemya">
+    Constructing Grid Applications using Standard Grid Middleware   </a>
+  </SPAN>
+  <SPAN class="authors">
+  Hiroshi Takemiya, Kazuyuki Shudo, Yoshio Tanaka, Satoshi Sekiguchi  </SPAN>
+  <SPAN class="bookname">
+    Journal of Grid Computing, Vol. 1, No. 2, Kluwer Academic Publishers, pp.117-131,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/jcg04takemya_abst.html">Abstact</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="sacsis04nakada">
+    耐故障性を重視したRPCシステムNinf-Cの設計と実装   </a>
+  </SPAN>
+  <SPAN class="authors">
+  中田秀基, 田中良夫, 松岡聡, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    先進的計算基盤システムシンポジウム SACSIS2004 論文集, pp.77-84,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/sacsis04nakada_abst.html">Abstact</a> / <a href="dataDir/sacsis04nakada.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="sacsis04takemiya">
+    Ninf-G2: 大規模Grid環境での利用に即した高機能，高性能GridRPCシステムの実装と評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  武宮博, 田中良夫, 中田秀基, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    先進的計算基盤システムシンポジウム SACSIS2004 論文集, pp.69-76,2004
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hokke04takemiya">
+    Ninf-G version2の実装および性能評価   </a>
+  </SPAN>
+  <SPAN class="authors">
+  武宮博, 田中良夫, 中田秀基, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2004-HPC-97, pp.19-24,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hokke04takemiya_abst.html">Abstact</a> / <a href="dataDir/hokke04takemiya.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hokke04yamamoto">
+    グリッド技術を用いた進化系統樹推定の並列化   </a>
+  </SPAN>
+  <SPAN class="authors">
+  山本洋, 中田秀基, 下平英寿, 松岡聡  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会研究報告 2004-HPC-97, pp.181-186,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hokke04yamamoto_abst.html">Abstact</a> / <a href="dataDir/hokke04yamamoto.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpcs04aida">
+    細粒度最適化問題アプリケーションのグリッドテストベッド上への実装   </a>
+  </SPAN>
+  <SPAN class="authors">
+  合田憲人, 中村心至  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会ハイパフォーマンスコンピューティングと計算科学シンポジウム（HPCS2004）, pp.76-76,2004
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hpcs04aida.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="ic03watanabe">
+    GridRPCシステムにおけるリモートプログラムシッピング機構   </a>
+  </SPAN>
+  <SPAN class="authors">
+  渡邊啓正, 本多弘樹, 弓場敏嗣, 田中良夫, 佐藤三久  </SPAN>
+  <SPAN class="bookname">
+    インターネットコンファレンス2003論文集,, pp.27-34,2003
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpc0310nakada">
+    GridRPCを用いたタスクファーミングAPIの試作   </a>
+  </SPAN>
+  <SPAN class="authors">
+  中田秀基, 田中良夫, 松岡聡, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会ハイパフォーマンスコンピューティング研究会，Vol. 2003, No. 102, pp.61-66,2003
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hpc0310nakada.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpc0310fujita">
+    Ninf-Gによるグリッド数値計算ライブラリーの構築   </a>
+  </SPAN>
+  <SPAN class="authors">
+  藤田有哉, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会ハイパフォーマンスコンピューティング研究会，Vol. 2003, No. 102, pp.67-72,2003
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hpc0310fujita.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="hpc0310watanabe">
+    GridRPCシステムにおけるリモートプログラムシッピング機構   </a>
+  </SPAN>
+  <SPAN class="authors">
+  渡邊啓正, 本多弘樹, 弓場敏嗣, 田中良夫, 佐藤三久  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会ハイパフォーマンスコンピューティング研究会，Vol. 2003, No. 102, pp.73-78,2003
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/hpc0310watanabe.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="acs3takemiya">
+    Grid環境上における気象予報シミュレーションシステムの構築   </a>
+  </SPAN>
+  <SPAN class="authors">
+  武宮博, 首藤一幸, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会論文誌 コンピューティングシステム Vol. 44, No. SIG 11(ACS 3), pp.23-33,2003
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="acs3ikegami">
+    Grid: 広域分散並列環境での高精度分子シミュレーション -- C_{20}分子のレプリカ交換モンテカルロ   </a>
+  </SPAN>
+  <SPAN class="authors">
+  池上努, 武宮博, 田中良夫, 長嶋雲兵, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会論文誌 コンピューティングシステム Vol. 44, No. SIG 11(ACS 3), pp.14-22,,2003
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp03hirano">
+    GridPSE Builder: グリッドにおける汎用PSE構築ツールの開発   </a>
+  </SPAN>
+  <SPAN class="authors">
+  平野基孝, 山本直孝, 田中良夫, 伊藤智, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会ハイパフォーマンスコンピューティング研究会，Vol. 2003, No. 83, pp.77-82,2003
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/swopp03hirano.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp03tanaka">
+    Ninf-G2: 大規模環境に即した高機能，高性能GridRPCシステム   </a>
+  </SPAN>
+  <SPAN class="authors">
+  田中良夫, 中田秀基, 朝生正人, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会ハイパフォーマンスコンピューティング研究会，Vol. 2003, No. 83, pp.65-70,2003
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/swopp03tanaka.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="swopp03nakamura">
+    PCクラスタ上での並列分枝限定法の高速化手法   </a>
+  </SPAN>
+  <SPAN class="authors">
+  中村心至, 山田真太郎, 二方克昌, 合田憲人  </SPAN>
+  <SPAN class="bookname">
+    情報処理学会ハイパフォーマンスコンピューティング研究会，Vol. 2003, No. 83, pp.125-130,2003
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/swopp03nakamura.pdf">Paper</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="jgc03tanaka">
+    Ninf-G: A Reference Implementation of RPC-based Programming Middleware for Grid Computing   </a>
+  </SPAN>
+  <SPAN class="authors">
+  Yoshio Tanaka, Hidemoto Nakada, Satoshi Sekiguchi, Toyotaro Suzumura, Satoshi Matsuoka  </SPAN>
+  <SPAN class="bookname">
+    Journal of Grid Computing, Vol. 1, No. 1, pp.41-51,2003
+  </SPAN>
+  <SPAN class="links">
+ [ <a href="dataDir/jgc03tanaka_abst.html">Abstact</a> ]
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="ccgrid03aida">
+    Distributed Computing with Hierarchical Master-worker Paradigm for Parallel Branch and Bound Algorithm   </a>
+  </SPAN>
+  <SPAN class="authors">
+  Kento Aida, Wataru Natsume, Yoshiaki Futakata  </SPAN>
+  <SPAN class="bookname">
+    Proceedings oft the 3rd IEEE/ACM International Symposium on Cluster Computing and the Grid (CCGrid 2003),, pp.156-163,2003
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="sacsis03takemiya">
+    Grid環境上における気象予報シミュレーションシステムの構築   </a>
+  </SPAN>
+  <SPAN class="authors">
+  武宮博, 首藤一幸, 田中良夫, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    先進的計算基盤システムシンポジウム SACSIS 2003, IPSJ Symposium Series Vol. 2003, No. 8, pp.243-250,2003
+  </SPAN>
+</DIV>
+
+<DIV class="paper">
+  <SPAN class="papertitle">
+   <a name="sacsis03ikegami">
+    Grid: 広域分散並列環境での高精度分子シミュレーション -- C_{20}分子のレプリカ交換モンテカルロ   </a>
+  </SPAN>
+  <SPAN class="authors">
+  池上努, 武宮博, 田中良夫, 長嶋雲兵, 関口智嗣  </SPAN>
+  <SPAN class="bookname">
+    先進的計算基盤システムシンポジウム SACSIS 2003, IPSJ Symposium Series Vol. 2003, No. 8, pp.251-258,2003
+  </SPAN>
+</DIV>
+

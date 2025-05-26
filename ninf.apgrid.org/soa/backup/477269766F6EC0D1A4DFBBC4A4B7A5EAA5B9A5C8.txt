@@ -1,0 +1,125 @@
+>>>>>>>>>> 1256050894
+[[FrontPage]]
+
+- 予約インターフェーススキーマ定義の修正 (pnode のメモリ量が int でなく string になっている)
+>>>>>>>>>> 1258557762
+[[FrontPage]]
+
+- 予約インターフェーススキーマ定義の修正 (pnode のメモリ量が int でなく string になっている)
+- ipmi による電源断/投入時の物理ノード状態メッセージ (PNodeStatus) をコマンド実行中を表す文字列とするべき
+- grivon viewer からの負荷コントロール
+- grivon viewer からの電源 on/off
+>>>>>>>>>> 1259362358
+[[FrontPage]]
+
+- 予約インターフェーススキーマ定義の修正 (pnode のメモリ量が int でなく string になっている)
+- ipmi による電源断/投入時の物理ノード状態メッセージ (PNodeStatus) をコマンド実行中を表す文字列とするべき
+- %%grivon viewer からの負荷コントロール%%
+- grivon viewer からの電源 on/off
+- grivon viewer 電源表示を下記に対応
+- grivon viewer SVN登録
+
+- GAScheduler   SVN登録
+- GASchedulerの電源認識を下記に対応
+
+- ビデオ撮影
+
+
+* 電源管理 [#x8e6928a]
+Grivon はユーザ要求モードと実際の状態の二つの状態変数で動作を管理しています.
+物理ノードの電源に関しては、ユーザが電源 off のリクエストを出したときには、
+PNodeMode の ModeCode を PowerOff 要求状態にします。cron スクリプトはこのモードを見て ipmi コマンド発行を行いPNodeStatus を状態遷移させます。
+
+ 100 : NONE 要求なし
+ 101 : PowerOn 要求
+ 102 : PowerOff 要求
+
+電源断時には PNodeStatus の ModeCode が
+
+ 1110  STATUS_POWERON           : 電源 ON 状態
+ 1111  STATUS_POWERON|EXECUTING : ipmi コマンド(off)実行中
+ 1120  STATUS_POWEROFF          : 電源 OFF 状態
+
+電源投入時には
+
+ 1120  STATUS_POWEROFF          : 電源 OFF 状態
+ 1121  STATUS_POWEROFF|EXECUTING: ipmi コマンド(on)実行中
+ 1110  STATUS_POWERON           : 電源 ON 状態
+>>>>>>>>>> 1259624079
+[[FrontPage]]
+
+- 予約インターフェーススキーマ定義の修正 (pnode のメモリ量が int でなく string になっている)
+- ipmi による電源断/投入時の物理ノード状態メッセージ (PNodeStatus) をコマンド実行中を表す文字列とするべき
+- %%grivon viewer からの負荷コントロール%%
+- %%grivon viewer からの電源 on/off%%  - 不要になった．
+- %%grivon viewer 電源表示を下記に対応%%
+- grivon viewer SVN登録
+
+- GAScheduler   SVN登録
+- %%GASchedulerの電源認識を下記に対応%%
+
+- %%ビデオ撮影%%
+
+
+* 電源管理 [#x8e6928a]
+Grivon はユーザ要求モードと実際の状態の二つの状態変数で動作を管理しています.
+物理ノードの電源に関しては、ユーザが電源 off のリクエストを出したときには、
+PNodeMode の ModeCode を PowerOff 要求状態にします。cron スクリプトはこのモードを見て ipmi コマンド発行を行いPNodeStatus を状態遷移させます。
+
+ 100 : NONE 要求なし
+ 101 : PowerOn 要求
+ 102 : PowerOff 要求
+
+電源断時には PNodeStatus の ModeCode が
+
+ 1110  STATUS_POWERON           : 電源 ON 状態
+ 1111  STATUS_POWERON|EXECUTING : ipmi コマンド(off)実行中
+ 1120  STATUS_POWEROFF          : 電源 OFF 状態
+
+電源投入時には
+
+ 1120  STATUS_POWEROFF          : 電源 OFF 状態
+ 1121  STATUS_POWEROFF|EXECUTING: ipmi コマンド(on)実行中
+ 1110  STATUS_POWERON           : 電源 ON 状態
+>>>>>>>>>> 1260221460
+[[FrontPage]]
+
+- 予約インターフェーススキーマ定義の修正 (pnode のメモリ量が int でなく string になっている)
+- ipmi による電源断/投入時の物理ノード状態メッセージ (PNodeStatus) をコマンド実行中を表す文字列とするべき
+- %%grivon viewer からの負荷コントロール%%
+- %%grivon viewer からの電源 on/off%%  - 不要になった．
+- %%grivon viewer 電源表示を下記に対応%%
+- grivon viewer SVN登録
+
+- GAScheduler   SVN登録
+- %%GASchedulerの電源認識を下記に対応%%
+
+- %%ビデオ撮影%%
+
+- 電源ONをSSHで監視，RESTで公開
+- GUIに過渡状態を表示
+- マイグレーション中情報を公開
+- GUIでマイグレーション中表示に対応．
+
+
+* 電源管理 [#x8e6928a]
+Grivon はユーザ要求モードと実際の状態の二つの状態変数で動作を管理しています.
+物理ノードの電源に関しては、ユーザが電源 off のリクエストを出したときには、
+PNodeMode の ModeCode を PowerOff 要求状態にします。cron スクリプトはこのモードを見て ipmi コマンド発行を行いPNodeStatus を状態遷移させます。
+
+ 100 : NONE 要求なし
+ 101 : PowerOn 要求
+ 102 : PowerOff 要求
+
+電源断時には PNodeStatus の ModeCode が
+
+ 1110  STATUS_POWERON           : 電源 ON 状態
+ 1111  STATUS_POWERON|EXECUTING : ipmi コマンド(off)実行中
+ 1120  STATUS_POWEROFF          : 電源 OFF 状態
+
+電源投入時には
+
+ 1120  STATUS_POWEROFF          : 電源 OFF 状態
+ 1121  STATUS_POWEROFF|EXECUTING: ipmi コマンド(on)実行中
+ 1110  STATUS_POWERON           : 電源 ON 状態
+

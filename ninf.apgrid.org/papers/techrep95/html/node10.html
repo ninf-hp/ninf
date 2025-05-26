@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf Serverとの通信</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf Serverとの通信">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html133 HREF="node11.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html131 HREF="node8.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html125 HREF="node9.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html134 HREF="node11.html"> Ninf Server 管理プロトコル</A>
+<B>Up:</B> <A NAME=tex2html132 HREF="node8.html"> Ninf RPC   のプロトコル</A>
+<B> Previous:</B> <A NAME=tex2html126 HREF="node9.html"> Ninf Executable  との交信のためのプロトコル</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00052000000000000000> Ninf Serverとの通信</A></H2>
+<A NAME=ninfServerProtocol>&#160;</A>
+<P>
+remote clientとNinf Server間は、パケット単位の通信を行う。
+このレベルのプロトコルは、Ninf libraryの関数名からのインターフェイス  の取得、
+Ninf Executable  の起動を行うものである。
+<P>
+このレベルのプロトコルは、<code>MAX_PKT_LEN</code>以下のパケットを単位とし
+て通信する。パケットのheaderには、以下の情報が格納されている。
+<P>
+<UL><LI> size: パケットのサイズ
+<LI> code: コマンド、パケットの種別を示す。
+<LI> arg1,arg2: codeに応じた情報を格納する。
+</UL>
+<P>
+Ninf Serverには、登録されているNinf Executable  と関数名の対応表があり、関
+数名を指定して、このテーブルのindexを取得して、このindexを用いて、
+Ninf Executable  を起動する。
+<P>
+パケットのコマンドは以下の通りである。
+<UL><LI> <code>NINF_PKT_REQ_STUB_INFO</code><BR> 
+データとして、関数名(Ninf Executable  名ではない!)を指定して、関数に対応す
+る Ninf Executable  のindexを要求する。Serverはこれに対して、
+<code>NINF_PKT_RPY_STUB_INFO</code>パケットで、このindexを返す。
+<P>
+<LI> <code>NINF_PKT_RPY_STUB_INFO</code><BR> 
+<code>NINF_PKT_REQ_STUB_INFO</code>に対する応答パケット。arg1にindexが格納さ
+れており、データ部にはxdr形式の インターフェイス  を返す。
+<P>
+<LI> <code>NINF_PKT_REQ_CALL</code><BR> 
+arg1にindexを指定し、そのindexに対応する Ninf Executable  を起動する。
+起動に成功すれば、<code>NINF_PKT_RPY_CALL</code>を返す。
+<P>
+<LI> <code>NINF_PKT_RPY_CALL</code><BR> 
+<code>NINF_PKT_REQ_CALL</code>が成功したことを通知する。
+<P>
+<LI> <code>NINF_PKT_KILL</code><BR> 
+起動されている Ninf Executable  を終了させる。返答パケットはない。
+<P>
+<LI> <code>NINF_PKT_TO_STUB</code><BR> 
+このパケットのデータを、現在に起動されているNinf Executable  に送る。
+<LI> <code>NINF_PKT_TO_CLIENT</code><BR> 
+このパケットのデータが、起動されているNinf Executable  から、clientに対する
+データであることを示す。
+<LI> <code>NINF_PKT_ERROR</code><BR> 
+requestパケットがエラーであったことを示す。
+</UL>
+<P>
+クライアントプログラムとNinf Executable  の通信は
+このレベルのプロトコルに埋め込んで行なう。
+クライアントプログラムからNinf Executable  への通信は
+<code>NINF_PKT_TO_STUB</code>パケットに埋め込まれる。
+Ninf Server はこのパケットのヘッダを取り外し、中身を
+Ninf Executable  へのストリームに流す。
+Ninf Executable  からクライアントプログラムへの通信は、
+<code>NINF_PKT_TO_CLIENT</code>に埋め込まれる。
+Ninf Server が Ninf Executable  からのストリームを切りわけ、
+ヘッダをつけて<code>NINF_PKT_TO_CLIENT</code>のパケットとして
+クライアントプログラムへ送信する。
+<P>
+図<A HREF="node10.html#ninf_call">4</A>に、remote client <code>Ninf_call</code>の概要を示す。
+<P>
+<P><A NAME=191>&#160;</A><A NAME=ninf_call>&#160;</A>
+<IMG  ALIGN=BOTTOM ALT="" SRC="ninf_call.gif">
+<BR><STRONG>図 4:</STRONG>  Ninf RPC  の用いるプロトコル<BR>
+<P>
+<P>
+
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

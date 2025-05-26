@@ -1,0 +1,163 @@
+<!-- 1.0@bugzilla.org -->
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #
+  # Contributor(s): Tetsuya Kaneuchi <tetsuyak@ka2.so-net.ne.jp>
+  #     -- J10N
+  #%]
+
+[%# INTERFACE:
+  # watchedusers: string. 
+  #               Comma-separated list of email addresses this user watches.
+  # excludeself:  boolean.
+  #               True if user is not receiving self-generated mail.
+  # <rolename>:   Multiple hashes, one for each rolename (e.g. owner; see 
+  #               below), keyed by reasonname (e.g. comments; again, see 
+  #               below). The value is a boolean - true if the user is 
+  #               receiving mail for that reason when in that role.
+  # Also references the 'supportwatchers' Param.
+  #%]
+
+[% useqacontact = Param('useqacontact') %]
+ 
+<table>
+  [% IF Param('supportwatchers') %]
+    <tr>
+      <td colspan="4">
+        <hr>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="4">
+	休暇に出ている人の作業を代行したり、誰か特定の人に関連したバグ
+        のQAをしたい場合など、Bugzilla がその人に送信するメールを
+        あなたのアドレスにも送信するよう設定できます。
+        チェックしたい人のアドレスをコンマ(,)で区切って入力してください。
+      </td>
+    </tr>
+
+    <tr>
+      <th align="right">チェックしたい人のアドレス:</th>
+      <td>
+        <input size="35" name="watchedusers" value="[% watchedusers %]">
+      </td>
+    </tr>
+  [% END %]
+
+  <tr>
+    <td colspan="2">
+      <p>
+	バグに関する些細な変更のメールを受け取りたくない場合は、
+        以下の設定項目である程度（またはすべて）のメールをフィルタできます。
+      </p>
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+<table>
+  <tr>
+    <td colspan="2">
+      <b>全体オプション:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="150"></td>
+    <td>
+      自分で送信した変更についてのメールは受け取らない
+      <input type="checkbox" name="ExcludeSelf" value="on"
+        [% " checked" IF excludeself %]>
+      <br>
+    </td>
+  </tr>
+</table>
+
+<hr>
+<b>フィールド／受信者別の設定:</b>
+<br>
+<br>
+
+
+<table width="100%" border="1">
+  <tr>
+    <td colspan="[% useqacontact ? '5' : '4' %]" align="center" width="50%">
+      <b>バグと自分との関連:</b>
+    </td>
+    <td rowspan="2" width="50%">
+      <b>メール通知を受けたい変更:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center" width="10%">
+      <b>報告者</b>
+    </td>
+    <td align="center" width="10%">
+      <b>担当者</b>
+    </td>
+    [% IF useqacontact %]
+       <td align="center" width="10%">
+         <b>QAコンタクト</b>
+       </td>
+    [% END %]
+    <td align="center" width="10%">
+      <b>CCリスト内</b>
+    </td>
+    <td align="center" width="10%">
+      <b>投票者</b>
+    </td>
+  </tr>
+
+  [% FOREACH reason = [ 
+      { name = 'Removeme',    
+        description = 'この欄へ追加または除外された' },
+      { name = 'Comments',    
+        description = 'コメント追加' },
+      { name = 'Attachments', 
+        description = '添付ファイル追加' },
+      { name = 'Status',      
+        description = '優先順位、ステータス、重要度、ターゲットマイルストーンの変更' },
+      { name = 'Resolved',    
+        description = 'バグが RESOLVED または VERIFIED になった' },
+      { name = 'Keywords',    
+        description = 'キーワード変更' },
+      { name = 'CC',          
+        description = 'CCリスト変更' },
+      { name = 'Other',       
+        description = 'その他の変更' } ] %]
+    <tr>
+      [% FOREACH role = [ "Reporter", "Owner", "QAcontact", "CClist", "Voter" ] 
+       %]
+       [% NEXT IF role == "QAcontact" AND NOT useqacontact %]
+        <td align="center">
+          <input type="checkbox" name="email[% role %][% reason.name %]" value="on"
+            [% " checked" IF $role.${reason.name} %]>
+        </td>
+      [% END %]
+      <td>
+        [% reason.description %]
+      </td>
+    </tr>
+  [% END %]
+</table>       
+
+<br>

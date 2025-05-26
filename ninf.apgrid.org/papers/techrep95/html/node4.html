@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf RPC   の概要</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf RPC   の概要">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html72 HREF="node5.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html70 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html64 HREF="node3.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html73 HREF="node5.html"> Ninf RPC  システムの構成</A>
+<B>Up:</B> <A NAME=tex2html71 HREF="node2.html"> Ninf RPC  の設計</A>
+<B> Previous:</B> <A NAME=tex2html65 HREF="node3.html"> Ninf RPC   への要請</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00022000000000000000> Ninf RPC   の概要</A></H2>
+<P>
+我々は、以上のような要請に基づきNinf RPC  システムを開発実装した。
+このシステムではインターフェイス  を実行時に動的に転送することで、
+ユーザーの負荷を減らしている。
+また、インターフェイス  に実行時に評価する式を含み、
+動的にこの式を評価することで、転送量を実行時に決定する
+<P>
+我々のシステムは、サーバとクライアント・ライブラリで構成される。
+計算ライブラリを提供する人は、対象となるライブラリの
+仕様をNinf IDL(Interface Description Language)と呼ばれる言語で記述する。
+Ninf stub generator が、このIDLから引数に関する情報を
+とりだし、計算ライブラリとの間を橋渡しするstub プログラムを生成する。
+このstubプログラムと計算ライブラリをリンクすることで、
+ターゲットプログラムが生成される。
+このターゲットプログラムを Ninf Executable  と呼ぶ。
+計算ライブラリのインターフェイス  はNinf Executable  自身に蓄えられている。
+サーバはあらかじめNinf Executable  にアクセスし、
+Ninf Executable  のインターフェイス  をテーブルに格納しておく。
+クライアント・ライブラリはNinf Executable  の実行の際に、
+引数の送信に先だってサーバと通信し、インターフェイス  を取得し、
+その情報にしたがって引数を送信する。
+もちろん、これらの過程は、ライブラリによってユーザから隠蔽される。
+<P>
+図<A HREF="node4.html#ninf_rpc">1</A>に Ninf RPC  の概要を示す。
+<P><A NAME=161>&#160;</A><A NAME=ninf_rpc>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="ninf_overview.gif">
+<BR><STRONG>図 1:</STRONG> Ninf RPC  の概要<BR>
+<P><BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

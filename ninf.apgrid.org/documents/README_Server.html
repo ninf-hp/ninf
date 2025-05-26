@@ -1,0 +1,135 @@
+
+<center>
+<h1> Ninf Server Package </h1>	
+</center>
+<hr>
+
+<h1> Description </h1>
+This package provides
+<ul>
+<li> The ninf server 'ninf_serv_tcp'.
+<li> Stub generator 'ninf_gen'.
+<li> 'ninf_register' which register executables to the server.
+<li> Libraries for ninf client programs.
+<li> Libraries for ninf executables.
+<li> Include files for Your Makefile.
+</ul>
+
+This package supports following architectures.
+<ul>
+<li> solaris : Solaris 2.2 or later.
+<li> sunos:    Solaris 1.1.3 or later
+<li> linux:    linux on x86
+<li> j90:      Cray super computer J90 or C90
+<li> alpha:    OSF for DEC Alpha
+</ul>
+However, our programs are written in a portable way,
+so it will be very easy to port them.
+
+<h1> Ninf Usage </h1>
+</center>
+
+<h2> 1. Make Ninf Package  </h2>
+First of all, uncompress and untar the package.
+The package will give a top directory called "server".
+Go to the directory and type:
+
+<pre>
+   >./MAKE ARCHITECTURE_TYPE 
+</pre>
+
+ARCHITECTURE_TYPE must be one of the following architectures:
+sunos, solaris, j90, linux, alpha.
+
+The MAKE script makes a directory with the architecture name,
+and links source files in the directory,
+and then executes 'make'.
+
+This script will make three directories, 'bin', 'lib' and 'include'.
+You can install them by typing,
+<pre>
+    >./MAKE install INSTALL_DIR
+</pre>
+
+If you want to make Ninf for different architecture,
+first, install Ninf in the other directory,
+secondly, clean up this directory by typing,
+<pre>
+    >./MAKE clean
+</pre>
+thirdly, make Ninf again for another architecture.
+
+<h2> 2. How to 'Make' Ninf Client Programs </h2>
+
+<h3> 2.1 Set environment variable 'NINF_DIR' </h3>
+Set NINF_DIR environment variable to point to the architecture directory.
+For example, if you untared the package /usr/local/ninf and your architecture
+is 'solaris', you should set NINF_DIR to point to /usr/local/ninf/server/solaris,
+like this.
+
+<pre>
+  setenv NINF_DIR /usr/local/ninf
+</pre>
+
+NOTE: If you installed them to the other directory, 
+of course you should specify the directory.
+
+<h3> 2.2 Write your Makefile  </h3>
+Write the following line on top of your Makefile.
+<pre>
+include $(NINF_DIR)/libtemplate
+</pre>
+
+The 'template' file provides macros 'NINF_CFLAGS' and 'NINF_LDFLAGS'.
+These are needed to link Ninf Libraries.
+
+Typical rule for ninf client program  is like this.
+<pre>
+test: test.c
+	$(CC) $(CFLAGS) $(NINF_CFLAGS) -o test test.c $(LDFLAGS) $(NINF_LDFLAGS)
+</pre>
+
+
+<h2> 3. How to make Ninf Executable </h2>
+<h3> 3.1 Set environment variable </h3>
+As same as 2.1, set the variable.
+
+<h3> 3.2 Write your Makefile  </h3>
+As same as 2.2, include the template file.
+<pre>
+include $(NINF_DIR)/lib/template
+</pre>
+
+Then, you can use NINF_GEN macro.
+This macro gives you a program which produce makefile and stub programs.
+
+For example, your IDL file is 'ep.idl' and
+your routine is provided by 'ep_slave.o', 
+then Makefile should contain following lines.
+
+<pre>
+ep.mak: ep.idl
+	$(NINF_GEN) $<
+
+_stub_ep: ep_slave.o ep.mak
+	make -f ep.mak
+</pre>
+
+<h2> Included Documents </h2>
+<ul>
+<li> <a href="doc/ClientAPI.html">about Client API </a><p>
+<li> <a href="doc/ninf_server.html"> about Ninf Server</a><p>
+<li> <a href="doc/ninf_register.html"> about Ninf Register</a><p>
+<li> <a href="doc/idl.html"> about Ninf Interface Description Language</a><p>
+<li> <a href="doc/clientTest.html"> about client sample routines</a><p>
+<li> <a href="doc/serverTest.html"> about server sample routines</a><p>
+</ul>
+
+<hr>
+<p align = right>
+Send your comments or questions to 
+<A href="mailto:ninf@apgrid.org"><em>ninf@apgrid.org</em></A><br>
+<a href="http://phase.hpcc.gr.jp/ninf">Ninf Home Page</a> 
+</p>
+
+

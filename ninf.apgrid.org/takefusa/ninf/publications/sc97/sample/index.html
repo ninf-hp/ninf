@@ -1,0 +1,953 @@
+<HTML>
+<HEAD>
+<TITLE> Multi-client LAN/WAN Performance Analysis of Ninf:
+a High-Performance Global Computing System </TITLE>
+</HEAD>
+
+<BODY BGCOLOR="FFFFA0" LANG="EN"><BASEFONT SIZE=4>
+
+<! Please do not modify the following relative pathnames>
+<CENTER>
+<IMG SRC=../GIF97/BANNER.GIF>
+</CENTER>
+<P>
+
+<CENTER>
+<A HREF=../TOC97.HTM><IMG BORDER=0 SRC=../GIF97/BTOC97.GIF></A>
+<A HREF=../TAUTH.HTM><IMG BORDER=0 SRC=../GIF97/BTAUTH.GIF></A>
+<A HREF=../TSESS.HTM><IMG BORDER=0 SRC=../GIF97/BTSESS.GIF></A>
+<A HREF=../TABST.HTM><IMG BORDER=0 SRC=../GIF97/BTABST.GIF></A>
+<A HREF=(insert your PS filename)><IMG BORDER=0 SRC=../GIF97/BPS.GIF></A>
+</CENTER>
+<P>
+
+<P>
+<H1 ALIGN=CENTER> Multi-client LAN/WAN Performance Analysis of Ninf:
+a High-Performance Global Computing System </H1>
+<P ALIGN=CENTER>
+<ADDRESS>
+  <STRONG><A HREF="#auth1">Name of first author</A></STRONG><BR>
+  Line 1 of address<BR>
+  Line 2 etc. <BR>
+  last line of address <BR> </ADDRESS>
+  <CODE><A HREF="mailto:(insert email address if any)">(insert email address if any)</A><BR></CODE>
+  <CODE><A HREF="(URL of author's homepage - if any)">(URL of author's homepage - if any)</A><BR></CODE>
+<P>
+<ADDRESS>
+  <STRONG><A HREF="#auth2">Name of second author</A></STRONG> <BR>
+  Line 1 of address<BR>
+  Line 2 etc. <BR>
+  last line of address <BR> </ADDRESS>
+  <CODE><A HREF="mailto:(insert email of second author)">(insert email of second author)</A><BR></CODE>
+  <CODE><A HREF="(URL of author's homepage - if any)">(URL of author's homepage - if any)</A><BR></CODE>
+<P>
+<! insert the information for each author>
+
+<P>
+<DL>
+<DT><B>Abstract:</B>
+<DD>
+Rapid increase in speed and availability of network of supercomputers
+is making high-performance global computing possible, including our
+<EM>Ninf</EM> system. However, critical issues regarding system
+performance characteristics in global computing have been little
+investigated, especially under multi-client, multi-site WAN
+settings. In order to investigate the feasibility of Ninf and similar
+systems, we conducted benchmarks under various LAN and WAN
+environments, and observed the following results: 1) Given sufficient
+communication bandwidth, Ninf performance quickly overtakes client
+local performance, 2) current supercomputers are sufficient platforms
+for supporting Ninf and similar systems in terms of performance and OS
+fault resiliency, 3) for a vector-parallel machine (Cray J90),
+employing optimized data-parallel library is a better choice compared
+to conventional task-parallel execution employed for non-numerical
+data servers, 4) computationally intensive tasks such as EP can
+readily be supported under the current Ninf infrastructure, and 5) for
+communication-intensive applications such as Linpack, server CPU
+utilization dominates LAN performance, while communication bandwidth
+dominates WAN performance, and furthermore, aggregate bandwidth could
+be sustained for multiple clients located at different Internet sites;
+as a result, distribution of multiple tasks to computing servers on
+different networks would be essential for achieving higher
+client-observed performance. Our results are not necessarily
+restricted to the Ninf system, but rather, would be applicable to
+other similar global computing systems.
+<P>
+<DT><B>Keywords:</B>
+<DD>   <! list keywords here>
+</DL>
+<P>
+
+<CENTER>
+<IMG SRC=../GIF97/LINE.GIF>
+</CENTER>
+
+<P>
+<H2>Introduction</H2>
+<P>
+Rapid increase in speed and availability of network of supercomputers
+is now making so-called high-performance `global computing' possible, in
+which computational and data resources in the network are
+collectively employed to solve large-scale problems. There have been
+several recent proposals of global computing infrastructures, 
+including our <A HREF="http://www.phase.etl.go.jp/ninf">Ninf</A>
+(Network Infrastructure for global computing)<A HREF="#Ninf97HPCN"><SUP>1
+</SUP></A> system,
+which makes available multiple remote computing and database servers on
+the network, allowing clients to semi-transparently call remote
+numerical applications and libraries from languages such as Fortran,
+C, and Java. Multiple calls in a network are coordinated by <EM>
+metaservers</EM>, which keep track of server load/availability, network
+bandwidth, etc. WWW-based interfaces are also available for easy 
+user access of remote computing and data.
+<P>
+On the other hand, we have so far found that much of system
+performance characteristics and criteria for enabling the feasibility
+global computing have not been well-investigated. In order for global
+computing to succeed, we need to investigate and clarify various
+characteristics of the technology that are main constituents of a global
+computing system:
+<P>
+<DL ><DT><STRONG>Communication Performance: </STRONG>
+<DD> Global computing requires large
+amounts of data to be shipped over the network.  Although available
+bandwidth is rapidly increasing, no quantitative measures are provided
+to judge its sufficiency.  Also, since latency will not improve drastically
+in the future, it is not clear whether high latency would not
+be a deterrent to attaining performance.
+<P>
+<DT><STRONG>Computing Server Selection and Performance: </STRONG>
+<DD> 
+Computation will be typically
+performed on high-performance supercomputing servers such
+as vector supercomputers and MPPs.
+On the other hand, they will be shared amongst multiple
+remote clients from different places in the global network.
+It is not clear what criteria should be employed in selecting
+such supercomputing servers, and whether the current supercomputers/MPPs
+would be appropriate for such usage.
+<P>
+<DT><STRONG>Sharing by Multiple Clients: </STRONG>
+<DD>
+Computing servers will be shared by arbitrary multiple
+clients on the network. Thus, it must also be shown that the
+combination of the Ninf computing server (and those in similar
+systems), supercomputers, and their operating systems, could handle
+the concentration of requests from multiple clients in a graceful
+manner, under both LAN and WAN environments. Since we rely on existing
+supercomputers, it is not apparent whether their operating systems
+could handle multiple computational requests from clients, whose
+transactions will tend to be longer duration compared to typical short
+database query transactions. Also, it must be shown that the system is
+resilient to various faults that could occur in network computing.
+<P>
+<DT><STRONG>Remote Library Design and Reuse: </STRONG>
+<DD>
+When executing remote libraries registered on Ninf
+computing servers, there is an option as to whether to distribute the
+computing resources amongst different client requests in a <EM>task
+parallel manner</EM>, or to allocate all the processors to each client
+task in a <EM>data parallel manner</EM> in
+sequence. This directly influences the design of the libraries,
+whether the client library has to be prepared specifically for Ninf,
+or the best (parallel) library for the machine could be directly
+reused and utilized.
+<P>
+ </DL>
+<P>
+We report on the benchmark results of Ninf computing server
+performance under various LAN and WAN environments to investigate the
+feasibility of global computing. As a representative of typical
+application core, we have selected the Linpack benchmark which
+involves significant amount of data transfer compared to its problem
+size, and NASPar EP benchmark application, in which communication is
+minimal. We have conducted the benchmarks in LAN and WAN environments
+with various combinations of client and server machines. We have also
+tested and compared multi-client cases in which the clients are
+located in the same LAN, on multiple nodes in the same remote network,
+and multiple clients located on a different network. As a result, we
+have observed the following results:
+<P>
+<UL>
+<LI> We have observed that, with higher network bandwidth, Ninf
+execution becomes faster than local execution with a relatively small
+problem size for Linpack and obviously for EP. Here, latency was not
+a significant issue due to larger grain size of the problem; thus,
+given sufficient WAN bandwidth, global computing in the
+wide-area will be quite feasible in the future for a wide class of
+computational-intensive problems.
+<LI> By employing parallel vector machines (Cray J-90, 4PE) and 
+large SMPs (Sun Sparc SMP), we have confirmed that operating systems
+for such machines are sufficient both functionally and
+performance-wise for supporting multiple clients over both WAN
+and LAN. Thus, we claim that, Ninf
+(and other global computing platforms) could readily be built on
+existing platforms.
+<LI> For J90 and SMPs, data-parallel execution using optimized
+libraries would be faster for lightly-loaded cases, and would exhibit
+almost identical performance to task-parallel execution under
+heavily-loaded cases. Thus, using optimizing libraries maximizing the
+performance of parallel machines would be appropriate under both LAN
+and WAN situations.
+<LI> For compute intensive applications such as EP with little
+communication, LAN vs. WAN performance would be essentially
+equivalent, achieving high computing server utilization. Such 
+applications are numerous, such as parallel rendering/imaging,
+and parameter sensitivity analysis, and they could readily benefit
+from Ninf and other global computing systems.
+<LI> For Linpack, which requires extensive communication, LAN performance
+was acceptable for practically-sized data sets. For WAN execution,
+performance will heavily depend on aggregate network throughput
+of the client, and not on server load, which remained light. 
+Thus, under communication-dominant cases, task assignment and 
+distribution should not be merely based on server load and utilization
+information, but rather on achievable network bandwidth.
+
+<H2>Overview of the Ninf System</H2>
+
+The Ninf system is currently based on the client-server model. The
+client can make use of various computing library and database
+resources via server processes on supercomputers and database servers. 
+Figure&nbsp;<A HREF="node2.html#figninf_construction">1</A> illustrates the computational aspect of the
+Ninf system. Ninf users can easily utilize the
+supercomputing power from his desktop client over WAN without steep
+learning curves or major modifications to his applications.
+<P>
+<P><A NAME="413">&#160;</A><A NAME="figninf_construction">&#160;</A><BR>
+<STRONG>Figure 1:</STRONG> Computational aspect of Ninf<BR>
+<P>
+<P>
+The Ninf system consists of <EM>Ninf computational and database
+servers</EM>, <EM>Ninf client API</EM> which defines the client bindings, and
+<EM>Ninf metaservers</EM> which perform wide-area detection, allocation,
+and scheduling of resources over the network. The clients and various
+servers communicate via Ninf RPC (Remote Procedure Call)
+<A HREF="#NinfRPC95">2</A>, which is tailored for the needs of
+high-performance numerical computing. There are also various
+supportive tools such as server registry tools, stub generators, query
+proxies, GUI builders, etc.
+<P>
+For the purposes of this paper, henceforth we will concentrate on
+describing the computational aspects of Ninf.
+
+<H3>Ninf Computational Server</H3>
+
+The Ninf computational server is a process which services remote
+computing requests of remote clients by managing the
+communication and activation of the services requested via Ninf
+RPC. Binaries of computing libraries and applications are registered
+on the server process as <EM>Ninf executables</EM>, which can be 
+semi-automatically generated with IDL descriptions using the
+Ninf stub generator. 
+The underlying transfer protocol is Sun XDR on
+TCP/IP, allowing easy porting on most major supercomputer platforms.
+<P>
+
+<H3>Ninf Client API</H3>
+<P>
+Ninf Client API is defined for major programming languages such as
+Fortran, C, C++, and Java. <I>Ninf_call</I> is a representative API
+used for invoking a named remote library on the server as if it were
+on a local machine via Ninf RPC. For example, one might call a local matrix
+multiply library as:
+<P>
+<P><P>
+<P>
+while with Ninf, one invokes the remote library with:
+<P><P>
+<P>
+There are also APIs for asynchronous RPCs (<I>
+Ninf_call_async</I>), specification of transactions for
+parallel execution <BR> 
+(<I>Ninf_transaction_begin</I>, 
+<I>Ninf_transaction_end</I>), and queries of numerical
+database (<I>Ninf_query</I>, etc.).
+<P>
+
+<H3>Ninf IDL</H3>
+<P>
+Argument numbers, types, access modes (input/output), array size, are
+necessary IDL information. As matrices are usually passed in memory
+with call-by-reference for local libraries whereas they must be
+shipped back and forth across the network for <I>Ninf_call</I>, matrix size,
+region of usage, stride, etc. that are dependent on scalar input
+arguments are either automatically inferred from IDL information or
+could be directly specified by the IDL writer. There
+are other optional info such as necessary
+modules for compilation and linking, aliases, client callback
+functions, comments on functionality, etc.
+<P>
+We also note that, with Ninf RPC, no prior downloading of IDL or
+stub generation is necessary on the client side. Stub generation are
+done solely on the server side; the client programmer never sees or
+manipulates the IDL information. As a result, <I>Ninf_call</I>s can be freely
+made without any library linking or header file inclusion.
+This is achieved by two-stage RPC in <I>Ninf_call</I>; when the
+client calls the server, it returns the compiled IDL information as
+interpretable code to the client. <I>Ninf_call</I> then interprets
+the IDL code and marshalls the arguments.
+<A NAME="tex2html11" HREF="footnode.html#89"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://cbl.leeds.ac.uk/nikos/figs/foot_motif.gif"></A>
+
+<P>
+<H3>Ninf Metaserver</H3>
+<P>
+The Ninf metaserver monitors multiple Ninf computing servers on the
+network, and performs scheduling and load balancing of client
+requests. The client need not be aware (but could specify) the
+physical location of computing servers. Additionally, metaserver
+controls the parallel, fault-tolerant execution of multiple sequence
+of <I>Ninf_call</I>s. The block of code surrounded by <I>
+Ninf_transaction_begin</I> and <I>Ninf_transaction_end</I> are not
+executed immediately; rather, data-dependency graph of the <I>Ninf_call</I>
+arguments are dynamically created, and at the end of the code block,
+the metaserver schedules the computation to multiple computational
+servers accordingly.
+
+<P>
+<H2>Single Client Benchmarks</H2>
+<P>
+We first extensively benchmark Ninf single client performance on
+multiple client and server platforms. As a benchmark program, we
+employ Linpack and NASPar EP. The former requires extensive
+communication to ship dense matrices over the network, but becomes
+computation dominant for large matrices. The latter is computation
+dominant irrespective of its arguments, and is used for measuring the
+effectiveness of load balancing performed by the metaserver onto
+multiple Ninf servers.
+
+<P>
+<H3>Single Client Benchmarking Environment</H3>
+<P>
+For double precision Linpack, we execute the LU-decomposition (dgefa)
+and backward substitution (dgesl) remotely. The overall execution
+time of <I>Ninf_call</I>    consists of communication time
+ + computing time .  Given a Linpack
+matrix size <I>n</I>, they are:
+<P><P>
+where  and  are the setup times for
+communication and computation, respectively, 
+<I>B</I> is the client-server communication throughput, and 
+ is the local Linpack performance on the server machine. 
+Then, <I>Ninf_call</I> performance  is as follows:
+<P><P>
+Because  is  while  is ,
+it becomes computation dominant as <I>n</I> becomes larger. As a result,
+we can expect that  will exceed the performance
+on the client machine given sufficient .
+<P>
+The client and server machines in the benchmark are shown in 
+Figure&nbsp;<A HREF="node8.html#figninf_environment">2</A>. We also show the client-server
+combination in Table&nbsp;<A HREF="node8.html#tabcombination">1</A>. <I>Local</I> indicates the
+local Linpack performance without Ninf.
+<P>
+<P><A NAME="432">&#160;</A><A NAME="figninf_environment">&#160;</A><BR>
+<STRONG>Figure 2:</STRONG> Client and server machines in the LAN benchmark<BR>
+<P>
+<P>
+As Linpack routines, we registered the sgetrf and sgetrs of the libSci
+library, which make use of all 4 processors on the J90. On other
+machines, we employed glub4 and gslv4[<A HREF="node24.html#murata">2</A>] routines which
+employ blocking optimizations and could thus be executed efficiently
+on RISC-based workstations (and thus would be disadvantageous for Ninf).
+Matrix size (<I>n</I>) was altered from 100 to 1600.
+<P>
+<P><A NAME="144">&#160;</A><A NAME="tabcombination">&#160;</A><BR>
+<STRONG>Table 1:</STRONG> Combination of clients and servers in the LAN benchmark<BR>
+
+<P>
+<H3>Single Client Linpack Results</H3>
+<P>
+Figure&nbsp;<A HREF="node9.html#figsparc">3</A> shows the results of SuperSPARC and UltraSPARC
+clients. The horizontal axis indicates the size of the matrix, and the
+vertical axis indicates the performance of <I>Ninf_call</I> and
+<I>Local</I> in Mflops. The performance of <I>Local</I> remains
+relatively constant across <I>n</I> for both SPARCs. On the other hand,
+<I>Ninf_call</I> performance improves steadily as <I>n</I> increases, and for both
+SPARCs, exhibited superior performance to <I>Local</I> at
+approximately .
+<P>
+<P><A NAME="447">&#160;</A><A NAME="figsparc">&#160;</A><BR>
+<STRONG>Figure 3:</STRONG> Ninf LAN Linpack Results with Single SPARC clients<BR>
+<P>
+<P>
+Comparing UltraSPARC <I>Local</I> and SuperSPARC to UltraSPARC
+<I>Ninf_call</I>, the latter converges to UltraSPARC <I>Local</I>
+performance as <I>n</I> becomes larger. This is because  for large <I>n</I>, hiding the communication overhead.  The
+same is true for Alpha <I>Local</I> and Super/UltraSPARC to Alpha
+<I>Ninf_call</I>. For <I>Ninf_call</I>s to J90, J90's <I>Local</I> achieves
+600Mflops when <I>n</I> = 1600, while <I>Ninf_call</I> exhibited similar 
+performance even for both SPARC clients whose <I>Local</I> performance 
+differs considerably.
+<P>
+<P><A NAME="463">&#160;</A><A NAME="figalpha">&#160;</A><BR>
+<STRONG>Figure 4:</STRONG> Ninf LAN Linpack performance for Single Alpha client<BR>
+<P>
+<P>
+Figure&nbsp;<A HREF="node9.html#figalpha">4</A> shows the results for Alpha clients. Here, we
+have additionally measured the performance of standard Linpack
+routines without blocking optimizations, in order to simulate the
+situations in which the users not taking the extra
+effort of optimizing his local library routine.
+Although recent performance improvements of PC and WS are significant,
+it is difficult for a user to write an optimized program for
+large-scale problems.
+<P>
+Comparing Alpha <I>Local</I> and <I>Ninf_call</I> to J90, <I>Ninf_call</I> become
+faster at approximately .  On the other hand, when
+employing a standard, non-optimized routine on Alpha, <I>Ninf_call</I> became
+advantageous at approximately .
+<P>
+<P><A NAME="475">&#160;</A><A NAME="figthroughput">&#160;</A><BR>
+<STRONG>Figure 5:</STRONG> Communication Throughput of <I>Ninf_call</I><BR>
+<P>
+<P>
+<P><A NAME="177">&#160;</A><A NAME="tabFTPthroughput">&#160;</A><BR>
+<STRONG>Table 2:</STRONG> Client-Server FTP Communication Throughput<BR>
+<P>
+<P>
+Figure&nbsp;<A HREF="node9.html#figthroughput">5</A> shows the communication throughput of
+<I>Ninf_call</I>. As Ninf sends data in XDR packets,
+marshalling/unmarshalling at both the client and the server, and
+communication inbetween, occur in parallel. Thus, we decided to
+include the time for marshalling the arguments in our throughput
+figures. We also measured the FTP (raw) communication performance
+between the client and server for baseline comparison.
+<P>
+In the figure, the three lines saturating at approximately 2MB/s are
+SPARC and Alpha clients versus J90 Ninf server throughput, indicating
+that <I>Ninf_call</I> to J90 cannot achieve high throughput due to slow
+baseline communication performance.  The two lines saturating at
+approximately 3.5 MB/s are SPARC clients versus Alpha Ninf server, and
+those saturating at around 6 MB/s are when the client and the server
+are the same architecture, UltraSPARCs and Alphas. In all cases, we
+see that we are attaining nearly the same throughput as those
+for FTP (Table&nbsp;<A HREF="node9.html#tabFTPthroughput">2</A>); thus various communication
+overhead such as XDR marshalling is not affecting performance
+significantly.
+
+<P>
+<H2>Multi-client LAN/WAN Benchmarks</H2>
+<P>
+In global computing, Ninf servers will be processing requests from
+multiple clients making <I>Ninf_call</I>s simultaneously. In order for the
+Ninf system (and other global computing systems) to operate
+effectively, the average processing time should not abnormally
+increase, and server throughput must be maintained. It is also
+necessary to measure and identify the feasibility and the possible
+bottlenecks in WAN.
+<P>
+Under these observations, we performed extensive benchmarks using
+multiple clients in both LAN and WAN settings. We again employed the
+Linpack Benchmark and NASPar EP.
+
+<P>
+<H3>Multi-Client LAN/WAN Benchmarking Environment</H3>
+<P>
+As a model client program, we employ a routine which calls either the
+Linpack (sgetrf and sgetrs) or the EP routine repeatedly. We assume
+that each client performs a <I>Ninf_call</I> on the interval of <I>s</I> seconds
+with probability <I>p</I>. We also assume that the number of clients and
+matrix size are fixed at <I>c</I> and <I>n</I> during the benchmark,
+respectively. We set the other parameters to be <I>s</I>=3, <I>p</I>=1/2 and
+<I>c</I>=1,2,4,8,16.
+<P>
+<UL><LI> For LAN benchmarks, we used J90 and SuperSPARC SMP as the computing server, 
+and nodes on an Alpha WS cluster as clients (Figure&nbsp;<A HREF="node8.html#figninf_environment">2</A>).<LI> For single-site WAN benchmarks, we also used J90 as the server, and
+employed 8 to 16 nodes from the SuperSPARCs at the Ochanomizu
+University located approximately 60km away. The FTP throughput between
+the client and the server was measured to be approximately 0.17MB/s.<LI> Multi-site WAN benchmark environment will be covered in
+Section&nbsp;<A HREF="node15.html#secmultisiteresultswan">4.2.3</A>.
+<P>
+</UL>
+<P>
+<P><A NAME="490">&#160;</A><A NAME="figtimechart">&#160;</A><BR>
+<STRONG>Figure 6:</STRONG> Multiple-client <I>Ninf_call</I> Measurements<BR>
+<P>
+<P>
+We measured the server's processor utilization, load average, and for
+each client <I>Ninf_call</I> task, we measured the throughput and various
+timings: time of task submission , time when the
+<I>Ninf_call</I> task was accepted at the server , time when
+the corresponding Ninf executable was invoked , and
+the time at which <I>Ninf_call</I> was completed .  Here,
+we define the response time  and the waiting time
+ of a <I>Ninf_call</I> to be as follows:
+<P><P>
+<P>
+As stated in Section&nbsp;<A HREF="node1.html#secintroduction">1</A>, there is an option as to
+how to execute the multiple client requests: 1) distribute the
+computing resources amongst different client requests in a <EM>task
+parallel manner</EM>, or 2) allocate all the processors to each client
+task in a <EM>data parallel manner</EM> to be processed in sequence. If
+the overhead of switching multiple parallel, computationally intensive
+tasks is high, performance degradation of the latter would be
+significant. We also note that most typical non-numerical server tasks
+(such as WWW HTTPD service) take the former approach. To investigate
+the tradeoffs for J90, the task parallel version has one PE serve each
+<I>Ninf_call</I> up to 4 parallel tasks, and the data-parallel version
+employs a optimally vectorized and parallelized version with
+simultaneous execution on 4 PEs for each <I>Ninf_call</I>, invoked in
+sequence.
+
+<P>
+<H2>Multi-client Linpack Benchmark Results</H2>
+<P>
+
+<P>
+<H3>LAN Linpack Benchmark Results</H3>
+<P>
+<P><A NAME="223">&#160;</A><P><A NAME="tab1peversion">&#160;</A><P><BR>
+<STRONG>Table 3:</STRONG> Performance Results of 1-PE Multi-client LAN Linpack<BR>
+<P>
+<P><A NAME="236">&#160;</A><P><A NAME="tab4peversion">&#160;</A><P><BR>
+<STRONG>Table 4:</STRONG> Performance Results of 4-PE Multi-client LAN Linpack<BR>
+<P>
+<P><A NAME="249">&#160;</A><P><A NAME="tabsmpversion">&#160;</A><P><BR>
+<STRONG>Table 5:</STRONG> SMP Multi-client LAN Linpack Results<BR>
+<P>
+<P>
+Tables <A HREF="node13.html#tab1peversion">3</A> and <A HREF="node13.html#tab4peversion">4</A> show the
+performance of 1-PE and 4-PE executions.  The
+increase in <I>c</I> both increases the server load and lowers
+communication throughput, and as a result we see decreasing <I>Ninf_call</I>
+performance in both 1-PE and 4-PE versions. Larger variance in the 4-PE 
+version is due to all the PEs being utilized for Linpack execution.
+When <I>n</I> increases, both CPU utilization and load average increase,
+the former to saturation. Even in such as case, the J90 Ninf server
+continued to work flawlessly with no dramatic drop in performance
+(avoiding anomalies such as thrashing, even for <I>n</I>=1400, with
+max. load average 30 for the 4-PE version.)
+<P>
+<P><A NAME="506">&#160;</A><A NAME="figmclient_performance">&#160;</A><BR>
+<STRONG>Figure 7:</STRONG> Average performance of multi-client LAN <I>Ninf_call</I><BR>
+<P>
+<P>
+Figure&nbsp;<A HREF="node13.html#figmclient_performance">7</A> shows the average client-observed
+performance of <I>Ninf_call</I>. The XY-axis denote problem size <I>n</I> and the
+number of clients <I>c</I>, while the Z-axis indicate the performance
+Mflops.  Compared to the 1-PE version, the 4-PE version exhibits
+higher load and utilization. On the other hand, the 4-PE version
+exhibits substantial performance edge for a small <I>c</I>, while there is
+very little performance edge for the 1-PE version for a larger <I>c</I>. We
+analyze that this is due to the following reasons: 1) because the
+numerical core of the 4-PE version is significantly faster due to high
+vectorization, there is very little loss in average execution time
+even if all 4 PEs are occupied for a short period, 2) switching
+parallel tasks on J90 poses small relative overhead compared to
+large-grain computing tasks, and 3) even though Linpack computation is
+serialized, communication with clients could be overlapped. In
+addition, although response and waiting time fluctuated greater for
+the 4-PE version, their average values did not differ considerably
+depending on <I>n</I>,<I>c</I>, or number of processors.  We thus conclude that,
+using the optimized parallel library on the J90 would be appropriate
+for LAN execution, relieving the library providers from preparing
+multiple versions.
+<P>
+We also ran the Linpack benchmark on a SuperSPARC SMP server with 16
+nodes (Figure&nbsp;<A HREF="node8.html#figninf_environment">2</A> and Table&nbsp;<A HREF="node13.html#tabsmpversion">5</A>.)
+Compared to the J90, its performance is more resilient to increase in
+<I>c</I>, and so are response time and waiting time. Also, CPU utilization
+still has not saturated even for <I>c</I>=16. We speculate the reasons to
+be as follows: 1) SuperSPARC SMP is less I/O bound compared to J90
+because of lower numerical performance, and 2) Solaris 2.5 on SPARC
+SMP could be better optimized for handling multiple client requests in
+server-client situations.
+
+<P>
+<H3>Single-Site WAN Linpack Benchmark Results</H3>
+<P>
+<P><A NAME="272">&#160;</A><P><A NAME="tabwan1peversion">&#160;</A><P><BR>
+<STRONG>Table 6:</STRONG> Single-site, Multi-client 1-PE Linpack benchmark results for WAN<BR>
+<P>
+<P><A NAME="285">&#160;</A><P><A NAME="tabwan4peversion">&#160;</A><P><BR>
+<STRONG>Table 7:</STRONG> Single Site, Multi-client 4-PE Linpack benchmark results for WAN<BR>
+<P>
+<P>
+Tables&nbsp;<A HREF="node14.html#tabwan1peversion">6</A> and <A HREF="node14.html#tabwan4peversion">7</A> show
+the WAN Linpack performance for 1-PE and 4-PE executions.
+As <I>n</I> increases, the ratio between computation vs. communication 
+increases as well, improving the <I>Ninf_call</I> performance as in LAN.  
+On the other hand, when <I>c</I> increases, the amount of data sent between the
+network connecting the two sites increases, causing severe drop in
+communication throughput.  Because of this, the number of <I>Ninf_call</I>s
+effectively decrease, and as a result, server CPU utilization and load
+average remains low even for <I>c</I> = 16.  Thus, under current Internet
+network throughput, it is difficult for the Ninf computing server to
+process numerous client requests emanating from the same site (or, 
+at least sharing the same link to the backbone) for communication
+intensive tasks, requiring a good load balancing
+algorithm that not only takes into account server load such as is done
+for NetSolve[<A HREF="node24.html#netsolve">3</A>], but also network traffic and global
+allocation of tasks.
+<P>
+<P><A NAME="520">&#160;</A><A NAME="figwan_mclient_performance">&#160;</A><BR>
+<STRONG>Figure 8:</STRONG> Average Performance of WAN Linpack <I>Ninf_call</I><BR>
+<P>
+<P>
+Figure&nbsp;<A HREF="node14.html#figwan_mclient_performance">8</A> shows the average client-observed
+performance of <I>Ninf_call</I> under WAN for task- (1-PE) and data-parallel
+(4-PE) executions. It exhibited almost the same characteristics as
+LAN; in fact, even when <I>c</I> is large, because the server performance
+has not saturated, the 4-PE versions exhibited better performance. The
+same is true for response times and waiting times. Thus, we observe
+that, it is preferable to use the optimized library versions for WAN
+clients as well.
+
+<P>
+<H3>Multi-site WAN Linpack Benchmark Results</H3>
+<P>
+In global computing, in practice clients will be located at different
+sites in WAN. If simultaneous communication from multiple WAN sites
+could achieve their aggregate bandwidth so that server load could be
+maintained high, then global computing would be feasible for
+communication intensive applications; otherwise,
+if performance degrades just as the single-site WAN case, then
+global computing would have smaller market under the current
+Internet.
+<P>
+<P><A NAME="530">&#160;</A><A NAME="figwan_environment">&#160;</A><BR>
+<STRONG>Figure 9:</STRONG> WAN Multi-Client Benchmarking Environment<BR>
+<P>
+<P>
+For multi-site WAN benchmark, we prepared clients at 4 different
+University sites in Japan, namely, Ochanomizu University (Ocha-U), 
+University of Tokyo (U-Tokyo), Nagoya Institute of Technology (NIT),
+and Tokyo Institute of Technology (TIT), while the server is the
+J90 at ETL. The sites are connected to different backbones as we
+illustrate in Figure&nbsp;<A HREF="node15.html#figwan_environment">9</A>. The Linpack routines
+registered at the J90 Ninf server is the 4-PE version. 
+Figure&nbsp;<A HREF="node15.html#fig4pe_600_16c_4site">10</A> shows the results.
+<P>
+We can observe that, aggregate communication throughput from multiple
+sites are substantially higher than that from a single site. In fact,
+between Ocha-U and ETL, multi-site communication performance
+deteriorated only by  when <I>c</I>=1 (total 4 clients in
+WAN), and  when <I>c</I>=4 (total 16 clients in WAN),
+maintaining substantially higher bandwidth than when the same number
+of clients are located at Ocha-U. As a result, CPU utilization and
+load average is substantially greater for multi-site compared to
+single-site. Performance-wise, we observe
+that the rate of performance increase for <I>c</I>=1 is greater than
+when <I>c</I>=4. Although one plausible explanation would
+be that the greater number of clients and larger problem size had
+saturated the computational power of J90, this is not
+the case as CPU utilization levels off even for <I>c</I>=4 (approx. 27%
+34%, not shown in the figure). Because throughput steadily
+declines for <I>c</I>=4, we believe that network bandwidth saturation
+is again the cause.
+<P>
+Still, our initial conclusion that, 1) in WAN settings, for
+communication intensive tasks, point-to-point bandwidth between the
+client and the server is the dominant factor in determining
+client-observed performance (and not the current load average of the
+server), and 2) in general, client <I>Ninf_call</I>s should be distributed to
+multiple Ninf servers located at different network sites, avoiding
+concentration of tasks from a single site or those that share the same
+backbone, in order to maintain performance; otherwise, performance
+quickly deteriorates significantly as number of clients increase.
+<P>
+<P><A NAME="307">&#160;</A><A NAME="fig4pe_600_16c_4site">&#160;</A><BR>
+<STRONG>Figure 10:</STRONG> Multi-client, Multi-site WAN Linpack Benchmark Results<BR>
+
+<P>
+<H3>LAN/WAN EP Benchmark Results</H3>
+<P>
+EP(An embarrassingly parallel benchmark) is one of the kernel programs
+in the NAS Parallel Benchmark, performing (random-number) Monte-Carlo
+simulations <A NAME="tex2html28" HREF="footnode.html#311"><IMG  ALIGN=BOTTOM ALT="gif" SRC="http://cbl.leeds.ac.uk/nikos/figs/foot_motif.gif"></A>.
+<P>
+For Ninf benchmarking, we execute the random number generation
+on the Ninf server. Communication complexity is O(1), namely, problem-size
+independent. Computational complexity is proportional to the number of
+random numbers generated, and becomes  for  trials. Therefore,
+The execution performance  becomes:
+<P>
+<P><P>
+<P>
+where  is the time taken for the entire <I>Ninf_call</I>.
+In each benchmark run, we execute  trial samples for each PE,
+and execute them in a task-parallel manner on the 4-processor J90.
+
+<P>
+<H3>EP Benchmark Results</H3>
+<P>
+<P><A NAME="332">&#160;</A><P><A NAME="tabepversion">&#160;</A><P><BR>
+<STRONG>Table 8:</STRONG> Multi-client EP benchmark results for LAN and single-site WAN<BR>
+<P>
+<P>
+Table&nbsp;<A HREF="node17.html#tabepversion">8</A> shows the EP benchmark performance under LAN and
+single-site, multi-client WAN  execution. Because of task-parallel
+execution, in both LAN and WAN cases <I>Ninf_call</I> performances are almost
+equivalent and are sustained up to <I>c</I>=4 clients. The performances
+decline as expected when <I>c</I> further increases, but the server
+utilization remains approximately 100%. This is due to very low
+communication requirements of EP, and the <I>Ninf_call</I> performance mainly
+reflects server computing performance. We strongly expect that the
+result will hold for the multi-site, multi-client WAN case.  Thus, for
+this class of applications such as parallel rendering/imaging, and
+parameter sensitivity analysis, global computing can now be considered
+quite feasible.
+<P>
+We also benchmarked automated load balancing using the Ninf
+metaserver, in order to evaluate its overhead. Because Ninf
+distributes per each <I>Ninf_call</I>, task-parallel execution of EP would be
+as follows:
+<P>
+<P><P>
+<P>
+Because there are no data-dependencies between multiple <I>Ninf_call</I>s,
+they will all be scheduled and executed in a task-parallel manner.
+Given <I>p</I> processors, the effective <I>Ninf_call</I> performance would be:
+<P>
+<P><P>
+<P>
+<P><A NAME="547">&#160;</A><A NAME="figparallelep">&#160;</A><BR>
+<STRONG>Figure 11:</STRONG> EP Metaserver Parallel
+Execution Benchmark<BR>
+<P>
+<P>
+In the benchmark, we employed a 32-processor Alpha cluster in LAN,
+with each node becoming a Ninf computing server. Figure&nbsp;<A HREF="node17.html#figparallelep">11</A>
+shows the results. For larger number of trials  (class A) and
+ (class B), we achieve almost linear speedup; however, for
+ (sample), we observe significant slowdown; this is because
+the prototype metaserver is written in Java, and the overhead of
+scheduling and distributing <I>Ninf_call</I> has become apparent compared to
+smaller problem size due to parallel distribution of the EP task. We
+expect that result will hold for WAN cases from the results of the
+previous benchmarks.  We also conducted benchmarks with DOS
+(Density-Of-States) calculation, which is a EP-style practical
+application in computational chemistry, and came up with similar
+results.
+
+<P>
+<H2>Discussions</H2>
+<P>
+
+<P>
+<H3>Guaranteeing Performance in Multi-Client Global Computing</H3>
+<P>
+Performance per each client under multi-client situation cannot be
+guaranteed irrespective of computing server performance. The same
+holds true when a single client makes multiple <I>Ninf_call</I>s to the same
+server. Although it is possible to restrict the number of remote
+clients, standard TCP-based RPC-protocols require clients and servers
+to stay connected, as is with current Ninf-RPC.  In order to guarantee
+per-user performance, an alternative is to modify <I>Ninf_call</I> to become
+a two-phase transaction, where remote argument transfer takes place in
+the first phase, whereupon the communication is terminated, and after
+the server computation is over, the client is notified so that it may
+receive the results in the second phase. We have already implemented
+such a two-phase protocol for database queries in Ninf [<A HREF="node24.html#Iioka97">4</A>].
+A similar approach is to submit jobs to an intermediate broker server
+as is with Javelin[<A HREF="node24.html#Javelin97">5</A>].
+<P>
+As another issue, with the current Internet lacking sufficient
+bandwidth or bandwidth reservation protocols, communication would
+become the bottleneck rather than the server's underutilized computing
+power as we have observed. To resolve this, we are planning to
+extensively employ the metaserver, which will effectively schedule
+computation utilizing various performance and communication
+parameters. In particular, IDL and server execution trace
+will give us effective information for predicting the
+communication transfer time versus computing time, making it
+possible to assign communication- and computation-intensive tasks to
+appropriate servers.
+
+<P>
+<H3>Server Job-handling Methodology</H3>
+<P>
+Under multi-client setting, we need to improve average response time
+for <I>Ninf_call</I>, and increase CPU utilization.  However, the current
+Ninf server merely fork&amp;execs a Ninf executable in a
+First-Come-First-Served (FCFS) manner, causing longer response time
+and possibly lower CPU utilization. By predicting the computation and
+communication time of a <I>Ninf_call</I> task using IDL and server trace
+information, we could perform Shortest-Job-First(SJF) scheduling,
+improving the response time and utilization considerably.
+
+<P>
+<H3>Multi-Job Scheduling for MPP Servers</H3>
+<P>
+Our benchmark utilized 4 processors for J90 and 16 processors for
+SPARC SMP. As processor numbers increase, we expect the tradeoffs of
+various processor assignment to <I>Ninf_call</I> could become different. In
+particular, task switching of large SPMD tasks could be expensive; in
+such a case, task-parallel execution could be more efficient. To
+resolve this, we could extend Ninf IDL to call routines that utilize
+different number of PEs depending on the problem size.
+<P>
+Additionally, in such a case simple FCFS scheduling may not be the most
+effective scheduling policy, causing many processors to become idle.
+To overcome this drawback, we could employ more suitable algorithms
+such as Fit Processors First Served (FPFS) or Fit Processors Most
+Processors First Served (FPMPFS)[<A HREF="node24.html#Aida97scheduling">6</A>]. Still, we need to
+investigate further which algorithm would be more appropriate for
+global computing systems such as Ninf.
+
+<P>
+<H2>Related Work</H2>
+<P>
+<A NAME="secrelatedworks">&#160;</A>
+<P>
+The Remote Computation System (RCS)[<A HREF="node24.html#RCS">7</A>] at ETH provides a
+RPC facility which unifies the interfaces to multiple supercomputers.
+Because the communication layer is based on PVM it is not well-suited
+for global computing, and the API lacks the flexibility provided by
+Ninf.
+<P>
+NetSolve[<A HREF="node24.html#netsolve">3</A>] provides almost the same basic API as
+<I>Ninf_call</I>, and achieves load-balancing with a daemon process called
+Agents. There are various technical differences between Ninf and
+NetSolve; examples for Ninf are availability of parallel transactions for load
+distribution and fault tolerance, while NetSolve facilitates
+description of computational complexity in library IDL. 
+Also, database server APIs are unique
+to Ninf. We do expect, however, the results of our
+benchmark work will also hold for NetSolve, and will have important
+implications for similar systems. For example, current NetSolve
+attempts to perform load balancing solely on server load average
+information; as we have seen, this might partially work for LAN
+situations, but would not scale to WAN settings.
+<P>
+Legion is a powerful global computing system based on the model of
+distributed object. A client user distributes his programs across
+the network by programming with a parallel object-oriented language
+Mentat. The difference between Mentat and other systems is that it
+assumes a relatively closed system while Ninf/NetSolve/RCS
+re-use existing programming languages (although it is possible
+in Legion to call external programs with wrappers.) Also, Legion
+assumes more finer-grained computing objects. Because of this,
+we have to be careful in observing whether our benchmark results
+will hold for Legion, but we expect that many of them will, as
+it is not possible to achieve good performance in global computing
+in general without being relatively coarse-grained.
+<P>
+There are other global computing projects that focus on different
+level of system architecture, such as Globus/Nexus[<A HREF="node24.html#Globus97">8</A>], or
+whose focus is more on portability and other issues, such as
+Javelin[<A HREF="node24.html#Javelin97">5</A>].
+
+<P>
+<H2></H2>
+<P>
+<A NAME="secconclusion">&#160;</A>
+<P>
+We performed an extensive performance analysis of Ninf, a global
+computing system for high-performance computing. We ran several
+benchmarks with different communication/computation characteristics on
+a variety of combinations of clients and servers, in their
+performance, architecture, etc., under LAN, single-site WAN, and
+multi-site WAN situations. We conclude with the followings:
+<P>
+<UL><LI> The current Ninf system (and, other systems such as NetSolve) would 
+function in both LAN and WAN situations. The use of optimized parallel 
+library would be sufficient for setting up numerous global computing
+servers all around the world.<LI> However, there must be a variety of improvements that must be made,
+as we have indicated, both in communication architecture of the client-server,
+and task scheduling/load distribution, especially in WAN setting.<LI> In LAN setting, computing server performance dictates overall
+performance, while in WAN limitation of communication throughput is
+currently more significant. In particular, multiple client requests
+from a single site could quickly saturate the network for
+communication-intensive applications. However, we expect that 
+in practice multiple client requests will be issued from different
+sites, in which case performance will depend of Internet network
+topologies. In fact, for EP-style applications, current Ninf
+or other systems such as NetSolve would be quite feasible.
+<P>
+</UL>
+<P>
+Finally, although we have performed extensive benchmarks on two
+application core examples, we still do need to perform even more
+benchmarks using other types of practical applications, and different
+WAN configurations. However, on the Internet it is quite difficult to
+perform large-scale benchmarks with reproducible results. One current
+plan we have is to build a global computing simulator for Ninf, on
+which we could readily test different client network topologies under
+various communication and other parameters. Still, we do need to
+conduct further application benchmarks to determine parameters in the
+underlying global computation model for the Ninf simulator.
+<P>
+We also need to make our Ninf system more robust so that
+it could be readily distributed for global public usage, upon which
+many applications should be written, based on which we could gain more
+knowledge on the behavior of global computing systems in general. We
+also hope to collaborate with other efforts in global computing so
+that we could share as much of the technical results and
+infrastructures as possible.
+
+<H2>References</H2>
+
+<A NAME="r1"</A> 1. John Smith, Jane Marshall. <b>This is the title of John and Jane's paper</b>. Journal of XYZ etc. 1997.<P>
+<A NAME="r2"</A> 2. Anne Bording, Martin Gibbs. <b>Title 2</b>. Journal RST etc.1995.<P><BR>
+
+<DT><A NAME="Ninf97HPCN"><STRONG>1</STRONG></A><DD>
+M.&nbsp;Sato, H.&nbsp;Nakada, S.&nbsp;Sekiguchi, S.&nbsp;Matsuoka, U.&nbsp;Nagashima, and H.&nbsp;Takagi.
+Ninf: A Network based Information Library for a Global
+  World-Wide Computing Infrastracture.
+In <EM>Proceedings of HPCN'97 (LNCS-1225)</EM>, pages 491-502, 1997.
+<P>
+<DT><A NAME="murata"><STRONG>2</STRONG></A><DD>
+Oguni, editor.
+<EM>Matrix Computing Software</EM>.
+Maruzen, 1991.
+<P>
+<DT><A NAME="netsolve"><STRONG>3</STRONG></A><DD>
+H.&nbsp;Casanova and J.&nbsp;Dongarra.
+NetSolve: A Network Server for Solving Computational
+  Science Problems.
+In <EM>Proceedings of Supercomputing '96</EM>, 1996.
+<P>
+<DT><A NAME="Iioka97"><STRONG>4</STRONG></A><DD>
+M.&nbsp;Iioka et&nbsp;al.
+Global numerical information database server system for ninf.
+In <EM>Proceedings of 13th Workshop on Object-Oriented Computing,
+  Hakone, Japan</EM>, March 1997.
+<P>
+<DT><A NAME="Javelin97"><STRONG>5</STRONG></A><DD>
+P.&nbsp;Cappello, B.&nbsp;Christiansen, M.&nbsp;F. Ionescu, M.&nbsp;O. Neary, K.&nbsp;E. Schauser, and
+  D.&nbsp;Wu.
+Javelin: Internet-Based Computing Using Java.
+In <EM>1997 ACM Workshop on Java for Science and Engineering
+  Computation (submitted)</EM>, June 1997.
+<P>
+<DT><A NAME="Aida97scheduling"><STRONG>6</STRONG></A><DD>
+K.&nbsp;Aida, H.&nbsp;Kasahara, and S.&nbsp;Narita.
+Scheduling Scheme of Parallel Jobs on a Multiprocessor
+  System.
+In <EM>SC' 97 (submitted to Technical Paper)</EM>, 1997.
+<P>
+<DT><A NAME="RCS"><STRONG>7</STRONG></A><DD>
+P.&nbsp;Arbenz, W.&nbsp;Gander, and M.&nbsp;Oettli.
+<EM>The Remote Computational System, <I>
+  High-Performance Computation and Network</I></EM>, volume 1067 of <EM>
+  Lecture Note in Computer Science</EM>, pages 662-667.
+Springer, 1996.
+<P>
+<DT><A NAME="Globus97"><STRONG>8</STRONG></A><DD>
+I.&nbsp;Foster and C.&nbsp;Kesselman.
+Globus: A Metacomputing Infrastructure Toolkit.
+<EM>International Journal of Supercomputer Applications (to
+  appear)</EM>, 1997.
+</DL>
+<P>
+
+
+<H2>Author Biography (optional section)</H2>
+<P>
+<A NAME="auth1">auth1</A>
+<b>(insert the name of the first author)</b> (text) <BR>
+<P>
+<A NAME="auth2">auth2</A>
+<b>(insert the name of the second author)</b> (text) <BR>
+<! continue in this fashion>
+<P>
+
+<CENTER>
+<IMG SRC=../GIF97/LINE.GIF>
+</CENTER>
+
+</BODY>
+</HTML>
+
+

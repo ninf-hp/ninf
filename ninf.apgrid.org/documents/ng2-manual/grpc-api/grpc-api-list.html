@@ -1,0 +1,460 @@
+<html>
+<head>
+<title>Grid RPC API List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<h2><a name="Grid RPC API List">Grid RPC API List</a></h2>
+
+<h3><a name="Note">[Note]</a></h3>
+<p>
+ A 'G' at the beginning of a line indicates an API that is defined in the Grid RPC specifications. 
+<p>
+'New' at the beginning of a line indicates an API that has been added in Ver. 2. 
+<p>
+  'Changed' at the beginning of a line indicates an API for which the interface has been changed in Ver. 2. 
+<p>
+  'Deleted' at the beginning of a line indicates an API that is not provided in Ver. 2. 
+
+<h3><a name="Error codes">[Error codes]</a></h3>
+<p>
+    When the API specifications were being studied, error codes for which new definitions were 
+required arose. Those codes have the suffix '_NP' attached (e.g.,  GRPCERR_*_NP). They are 
+described below. 
+<dl>
+<dt>GRPC_DESTRUCTED_NP</dt>
+<dd>The specified function handle has already been discarded. </dd>
+<dt>GRPCERR_NO_SESSION_NP</dt>
+<dd>The specified session does not exist. </dd>
+</dl>
+
+<h3><a name="[API list (without arguments)]">[API list (without arguments)]</a></h3>
+
+<h4><a name="[API for initializing and terminating Ninf-G]">[API for initializing and terminating Ninf-G]</a></h4> 
+<pre>
+   G       grpc_initialize()
+   G       grpc_finalize()
+   New     grpc_config_file_read_np()
+</pre>
+
+<h4><a name="[API for manipulating function handles]">[API for manipulating function handles]</a></h4>
+<pre>
+   G       grpc_function_handle_init()
+   New     grpc_function_handle_init_with_attr_np()
+   G       grpc_function_handle_default()
+   G       grpc_function_handle_destruct()
+   New     grpc_function_handle_array_init_np()
+   New     grpc_function_handle_array_init_with_attr_np()
+   New     grpc_function_handle_array_default_np()
+   New     grpc_function_handle_array_destruct_np()
+   New     grpc_function_handle_get_attr_np()
+   New     grpc_function_handle_get_from_session_np()
+   G       grpc_get_handle()
+   New     grpc_function_handle_perror_np()
+   New     grpc_function_handle_get_error_np()
+   New     grpc_function_handle_is_ready_np()
+</pre>
+
+<h4><a name="[API for manipulating object handles]">[API for manipulating object handles]</a></h4>
+<pre>
+   New     grpc_object_handle_init_np()
+   New     grpc_object_handle_init_with_attr_np()
+   New     grpc_object_handle_default_np()
+   New     grpc_object_handle_destruct_np()
+   New     grpc_object_handle_array_init_np()
+   New     grpc_object_handle_array_init_with_attr_np()
+   New     grpc_object_handle_array_default_np()
+   New     grpc_object_handle_array_destruct_np()
+   New     grpc_object_handle_get_attr_np()
+   New     grpc_object_handle_get_from_session_np()
+   New     grpc_object_handle_perror_np()
+   New     grpc_object_handle_get_error_np()
+   New     grpc_object_handle_is_ready_np()
+</pre>
+
+<h4><a name="[API for setting handle attributes]">[API for setting handle attributes]</a></h4>
+<pre>
+   New     grpc_handle_attr_initialize_np()
+   New     grpc_handle_attr_destruct_np()
+   New     grpc_handle_attr_get_np()
+   New     grpc_handle_attr_set_np()
+   New     grpc_handle_attr_release_np()
+</pre>
+
+<h4><a name="[Function calling API]">[Function calling API]</a></h4>
+<pre>
+   G       grpc_call()
+   G       grpc_call_async()
+   G       grpc_call_arg_stack()
+   G       grpc_call_arg_stack_async()
+   New     grpc_call_with_attr_np()
+   New     grpc_call_async_with_attr_np()
+   New     grpc_call_arg_stack_with_attr_np()
+   New     grpc_call_arg_stack_async_with_attr_np()
+</pre>
+
+<h4><a name="[Method calling API]">[Method calling API]</a></h4>
+<pre>
+   New     grpc_invoke_np()
+   New     grpc_invoke_async_np()
+   New     grpc_invoke_arg_stack_np()
+   New     grpc_invoke_arg_stack_async_np()
+   New     grpc_invoke_with_attr_np()
+   New     grpc_invoke_async_with_attr_np()
+   New     grpc_invoke_arg_stack_with_attr_np()
+   New     grpc_invoke_arg_stack_async_with_attr_np()
+</pre>
+
+<h4><a name="[API for setting session attributes]">[API for setting session attributes]</a></h4>
+<pre>
+   New     grpc_session_attr_initialize_np()
+   New     grpc_session_attr_initialize_with_object_handle_np()
+   New     grpc_session_attr_destruct_np()
+   New     grpc_session_attr_get_np()
+   New     grpc_session_attr_set_np()
+   New     grpc_session_attr_release_np()
+</pre>
+
+<h4><a name="[Stack manipulation API]">[Stack manipulation API]</a></h4>
+<pre>
+   G       grpc_arg_stack_new()
+   G       grpc_arg_stack_destruct()
+   G       grpc_arg_stack_push_arg()
+   G       grpc_arg_stack_pop_arg()
+</pre>
+
+<h4><a name="[Session WAIT API]">[Session WAIT API]</a></h4>
+<pre>
+   G       grpc_wait()
+   G       grpc_wait_all()
+   G       grpc_wait_and()
+   G       grpc_wait_any()
+   G       grpc_wait_or()
+   Deleted grpc_wait_and_set()
+   Deleted grpc_wait_or_set()
+</pre>
+
+<h4><a name="[API for manipulating sessions]">[API for manipulating sessions]</a></h4>
+<pre>
+   G       grpc_cancel()
+   New     grpc_cancel_all()
+</pre>
+
+<h4><a name="[API for manipulating session information]">[API for manipulating session information]</a></h4>
+<pre>
+   G       grpc_probe()
+   New     grpc_probe_or()
+   New     grpc_session_info_get_np()
+   New     grpc_session_info_release_np()
+   New     grpc_session_info_set_threshold_np()
+   New     grpc_session_info_remove_np()
+   New     grpc_session_info_get_np()
+   New     grpc_session_info_release_np()
+   G       grpc_get_error()
+   Changed grpc_get_info_np()
+   Changed grpc_get_last_info_np()
+</pre>
+
+<p>
+grpc_get_info_np() and grpc_get_last_info_np() do not recommend.
+Use rpc_session_info_get_np() instead.
+</p>
+
+<h4><a name="[Error processing API]">[Error processing API]</a></h4>
+<pre>
+   G       grpc_error_string()
+   G       grpc_perror_np()
+   New     grpc_get_failed_sessionid()
+   New     grpc_last_error_get_np()
+</pre>
+
+<h3><a name="[API list (with arguments)]">[API list (with arguments)]</a></h3>
+
+<h4><a name="[API for initializing and terminating Ninf-G]">[API for initializing and terminating Ninf-G]</a></h4>
+<pre>
+   G       grpc_error_t grpc_initialize(char *config_file_name)
+   G       grpc_error_t grpc_finalize(void)
+   New     grpc_error_t grpc_config_file_read_np(char *config_file_name)
+</pre>
+
+<h4><a name="[API for manipulating function handles]">[API for manipulating function handles]</a></h4> 
+<pre>
+   G       grpc_error_t grpc_function_handle_init(
+               grpc_function_handle_t *handle,
+               char *host_name,
+               int port,
+               char *func_name)
+   New     grpc_error_t grpc_function_handle_init_with_attr_np(
+               grpc_function_handle_t *handle,
+               grpc_handle_attr_t_np *attr)
+   G       grpc_error_t grpc_function_handle_default(
+               grpc_function_handle_t *handle,
+               char *func_name)
+   G       grpc_error_t grpc_function_handle_destruct(
+               grpc_function_handle_t *handle)
+   New     grpc_error_t grpc_function_handle_array_init_np(
+               grpc_function_handle_t *handles,
+               size_t nhandles,
+               char *host_name,
+               int port,
+               char *func_name)
+   New     grpc_error_t grpc_function_handle_array_init_with_attr_np(
+               grpc_function_handle_t *handles,
+               size_t nhandles,
+               grpc_handle_attr_t_np *attr)
+   New     grpc_error_t grpc_function_handle_array_default_np(
+               grpc_function_handle_t *handles,
+               size_t nhandles,
+               char *func_name)
+   New     grpc_error_t grpc_function_handle_array_destruct_np(
+               grpc_function_handle_t *handles,
+               size_t nhandles)
+   New     grpc_error_t grpc_function_handle_get_attr_np(
+               grpc_function_handle_t *handle,
+               grpc_handle_attr_t_np *attr)
+   New     grpc_error_t grpc_function_handle_get_from_session_np(
+               grpc_function_handle_t *handle,
+               grpc_sessionid_t session_id)
+   G       grpc_error_t grpc_get_handle(
+               grpc_function_handle_t *handle,
+               grpc_sessionid_t session_id)
+   New     void grpc_function_handle_perror_np(
+               grpc_function_handle_t *handle,
+               char *str)
+   New     grpc_error_t grpc_function_handle_get_error_np(
+               grpc_function_handle_t *handle)
+   New     grpc_error_t grpc_function_handle_is_ready_np(
+               grpc_function_handle_t *handle)
+</pre>
+
+<h4><a name="[API for manipulating object handles]">[API for manipulating object handles]</a></h4>
+<pre>
+   New     grpc_error_t grpc_object_handle_init_np(
+               grpc_object_handle_t_np *handle,
+               char *host_name,
+               int port,
+               char *func_name)
+   New     grpc_error_t grpc_object_handle_init_with_attr_np(
+               grpc_object_handle_t_np *handle,
+               grpc_handle_attr_t_np *attr)
+   New     grpc_error_t grpc_object_handle_default_np(
+               grpc_object_handle_t_np *handle,
+               char *func_name)
+   New     grpc_error_t grpc_object_handle_destruct_np(
+               grpc_object_handle_t_np *handle)
+   New     grpc_error_t grpc_object_handle_array_init_np(
+               grpc_object_handle_t_np *handles,
+               size_t nhandles,
+               char *host_name,
+               int port,
+               char *func_name)
+   New     grpc_error_t grpc_object_handle_array_init_with_attr_np(
+               grpc_object_handle_t_np *handles,
+               size_t nhandles,
+               grpc_handle_attr_t_np *attr)
+   New     grpc_error_t grpc_object_handle_array_default_np(
+               grpc_object_handle_t_np *handles,
+               size_t nhandles,
+               char *func_name)
+   New     grpc_error_t grpc_object_handle_array_destruct_np(
+               grpc_object_handle_t_np *handles,
+               size_t nhandles)
+   New     grpc_error_t grpc_object_handle_get_attr_np(
+               grpc_object_handle_t_np *handle,
+               grpc_handle_attr_t_np *attr)
+   New     grpc_error_t grpc_object_handle_get_from_session_np(
+               grpc_object_handle_t_np *handle,
+               grpc_sessionid_t session_id)
+   New     void grpc_object_handle_perror_np(
+               grpc_object_handle_t_np *handle,
+               char *str)
+   New     grpc_error_t grpc_object_handle_get_error_np(
+               grpc_object_handle_t_np *handle)
+   New     grpc_error_t grpc_object_handle_is_ready_np(
+               grpc_object_handle_t_np *handle)
+</pre>
+
+<h4><a name="[API for setting handle attributes]">[API for setting handle attributes]</a></h4>
+<pre>
+   New     grpc_error_t grpc_handle_attr_initialize_np(
+               grpc_handle_attr_t_np *attr)
+   New     grpc_error_t grpc_handle_attr_destruct_np(
+               grpc_handle_attr_t_np *attr)
+   New     grpc_error_t grpc_handle_attr_get_np(
+               grpc_handle_attr_t_np *attr,
+               grpc_handle_attr_name_t_np name,
+               void *value)
+   New     grpc_error_t grpc_handle_attr_set_np(
+               grpc_handle_attr_t_np *attr,
+               grpc_handle_attr_name_t_np name,
+               void *value)
+   New     grpc_error_t grpc_handle_attr_release_np(
+               void *value)
+</pre>
+
+<h4><a name="[Function calling API]">[Function calling API]</a></h4> 
+<pre>
+   G       grpc_error_t grpc_call(
+               grpc_function_handle_t *handle,
+               ...)
+   G       grpc_error_t grpc_call_async(
+               grpc_function_handle_t *handle,
+               grpc_sessionid_t *session_id,
+               ...)
+
+   G       int grpc_call_arg_stack(
+               grpc_function_handle_t *handle,
+               grpc_arg_stack *stack)
+   G       int grpc_call_arg_stack_async(
+               grpc_function_handle_t *handle,
+               grpc_arg_stack *stack)
+
+   New     grpc_error_t grpc_call_with_attr_np(
+               grpc_function_handle_t *handle,
+               grpc_session_attr_t_np *session_attr,
+               ...)
+   New     grpc_error_t grpc_call_async_with_attr_np(
+               grpc_function_handle_t *handle,
+               grpc_sessionid_t *session_id,
+               grpc_session_attr_t_np *session_attr,
+               ...)
+
+   New     int grpc_call_arg_stack_with_attr_np(
+               grpc_function_handle_t *handle,
+               grpc_session_attr_t_np *session_attr,
+               grpc_arg_stack *stack)
+   New     int grpc_call_arg_stack_async_with_attr_np(
+               grpc_function_handle_t *handle,
+               grpc_session_attr_t_np *session_attr,
+               grpc_arg_stack *stack)
+</pre>
+
+<h4><a name="[Method calling API]">[Method calling API]</a></h4> 
+<pre>
+   New     grpc_error_t grpc_invoke_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               ...)
+   New     grpc_error_t grpc_invoke_async_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               grpc_sessionid_t *session_id,
+               ...)
+
+   New     int grpc_invoke_arg_stack_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               grpc_arg_stack *stack)
+   New     int grpc_invoke_arg_stack_async_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               grpc_arg_stack *stack)
+
+   New     grpc_error_t grpc_invoke_with_attr_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               grpc_session_attr_t_np *session_attr,
+               ...)
+   New     grpc_error_t grpc_invoke_async_with_attr_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               grpc_sessionid_t *session_id,
+               grpc_session_attr_t_np *session_attr,
+               ...)
+
+   New     int grpc_invoke_arg_stack_with_attr_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               grpc_session_attr_t_np *session_attr,
+               grpc_arg_stack *stack)
+   New     int grpc_invoke_arg_stack_async_with_attr_np(
+               grpc_object_handle_t_np *handle,
+               char *method_name,
+               grpc_session_attr_t_np *session_attr,
+               grpc_arg_stack *stack)
+</pre>
+
+<h4><a name="[API for setting session attributes]">[API for setting session attributes]</a></h4>
+<pre>
+   New     grpc_error_t grpc_session_attr_initialize_np(
+               grpc_function_handle_t *handle,
+               grpc_session_attr_t_np *attr)
+   New     grpc_error_t grpc_session_attr_initialize_with_object_handle_np(
+               grpc_object_handle_t_np *handle,
+               grpc_session_attr_t_np *attr)
+   New     grpc_error_t grpc_session_attr_destruct_np(
+               grpc_session_attr_t_np *attr)
+   New     grpc_error_t grpc_session_attr_get_np(
+               grpc_session_attr_t_np *attr,
+               grpc_session_attr_name_t_np name,
+               void **value)
+   New     grpc_error_t grpc_session_attr_set_np(
+               grpc_session_attr_t_np *attr,
+               grpc_session_attr_name_t_np name,
+               void *value)
+   New     grpc_error_t grpc_session_attr_release_np(
+               void *value)
+</pre>
+
+<h4><a name="[Stack manipulation API]">[Stack manipulation API]</a></h4> 
+<pre>
+   G       grpc_arg_stack_t *grpc_arg_stack_new(int args)
+   G       int grpc_arg_stack_destruct(grpc_arg_stack_t *stack)
+   G       int grpc_arg_stack_push_arg(grpc_arg_stack_t *stack, void *arg)
+   G       void *grpc_arg_stack_pop_arg(grpc_arg_stack_t *stack)
+</pre>
+
+<h4><a name="[Session WAIT API]">[Session WAIT API]</a></h4> 
+<pre>
+   G       grpc_error_t grpc_wait(grpc_sessionid_t session_id)
+   G       grpc_error_t grpc_wait_all()
+   G       grpc_error_t grpc_wait_and(grpc_sessionid_t *idArray, size_t length)
+   G       grpc_error_t grpc_wait_any(grpc_sessionid_t *idPtr)
+   G       grpc_error_t grpc_wait_or(
+               grpc_sessionid_t *idArray,
+               size_t length,
+               grpc_sessionid_t *idPtr)
+   Deleted int grpc_wait_and_set(nsapi_id_set_t *set)
+   Deleted int grpc_wait_or_set(nsapi_id_set_t *set, int *id)
+</pre>
+
+<h4><a name="[API for manipulating sessions]">[API for manipulating sessions]</a></h4> 
+<pre>
+   G       grpc_error_t grpc_cancel(grpc_sessionid_t session_id)
+   New     grpc_error_t grpc_cancel_all(void)
+</pre>
+
+<h4><a name="[API for manipulating session information]">[API for manipulating session information]</a></h4> 
+<pre>
+   G       grpc_error_t grpc_probe(grpc_sessionid_t session_id)
+   New     grpc_error_t grpc_probe_or(
+               grpc_sessionid_t *idArray,
+               size_t length,
+               grpc_sessionid_t *idPtr)
+   New     grpc_error_t grpc_session_info_get_np(
+               grpc_sessionid_t session_id,
+               grpc_session_info_t_np **info,
+               int *status)
+   New     grpc_error_t grpc_session_info_release_np(
+               grpc_session_info_t_np *info)
+   New     grpc_error_t grpc_session_info_set_threshold_np(int threshold)
+   New     grpc_error_t grpc_session_info_remove_np(
+               grpc_sessionid_t session_id)
+   G       grpc_error_t grpc_get_error(grpc_sessionid_t session_id)
+   Changed int grpc_get_info_np(int session_id, grpc_exec_info_t *info)
+      ->Former nsapi_exec_info_t *grpc_get_info(int session_id)
+   Changed int grpc_get_last_info_np(grpc_exec_info_t *info)
+      ->Former nsapi_exec_info_t *grpc_get_last_info()
+</pre>
+
+<h4><a name="[Error processing API]">[Error processing API]</a></h4> 
+<pre>
+   G       char *grpc_error_string(grpc_error_t error_code)
+   G       void grpc_perror_np(char *str)
+   New     grpc_error_t grpc_get_failed_sessionid(grpc_sessionid_t *idPtr)
+   G       grpc_error_t grpc_last_error_get_np()
+</pre>
+<hr>
+last update : $Date: 2005/08/04 02:32:49 $
+</body>
+</html>

@@ -1,0 +1,90 @@
+<html> <head>
+<title>Wiz cluster</title>
+</head>
+
+<body>
+<h1>A Dedicated Workstation Cluster: ETL-Wiz</h1>
+
+ETL-Wiz cluster was constructed by ETL in September 1996.  
+
+<h2>Specifications</h2>
+
+<img src="pic/wiz1.jpg" alt="Wiz cluster" width=320 height=240>
+<img alt="wiz" src="pic/wiz.gif">
+
+<table border cellspacing=0 cellpadding=3>
+<tr><th>Processor</th><td>333MHz Alpha 21164</td></tr>
+<tr><th>#PE</th><td>32 (+1)</td></tr>
+<tr><th>Memory</th><td>512MB(8PE), 256MB(8PE), 128MB(16PE)</td></tr>
+<tr><th>Cache</th><td>L1: 8KB, L2: 96KB, L3: 2MB</td></tr>
+<tr><th>Network</th><td>Fast Ethernet 100Base TX</td></tr>
+<tr><th>Switch</th><td>1.2Gbps backplane</td></tr>
+<tr><th>OS</th><td>Digital UNIX 4.0D</td></tr>
+<tr><th>Software</th><td>NFS/MPI/PVM<br><a href="load-monitor/">Load Monitor</a></td></tr>
+</table>
+
+
+<h2>Features</h2>
+
+<ul>
+  <li> Auto processor selection using lock files.
+  <li> Easy maintainance -- auto-boot and auto-shutdown by UPS
+  <li> Shared console
+  <li> Fully connectd network by switching module
+  <li> Non-uniform memory size --- NPB class B can run with 8, 16 and 32 procs.
+</ul>
+
+<table>
+<tr valign=top>
+<td>
+UPS<br>
+<img src="pic/wiz2.jpg" alt="UPS" width=320 height=240>
+</td>
+<td>
+Host machine &amp; Switch<br>
+<img src="pic/wiz3.jpg" alt="HOST" width=240 height=320>
+</td>
+</tr>
+</table>
+
+<h2>Basic Performance</h2>
+
+<img alt="Linpack" src="pic/linpack.gif">
+<img alt="Throughput" src="pic/throughput.gif">
+
+<table border cellspacing=0 cellpadding=3>
+<tr><th>4-byte latency</th><td>142 usec.</td></tr>
+<tr><th>Maximum throughput</th><td>10.7 MB/s</td></tr>
+</table>  
+
+<h2><a href="http://www.nas.nasa.gov/NAS/NPB/">NAS Parallel Benchmrk 2</a></h2>
+
+<img alt="NPB" src="pic/NPB.gif">
+
+<h2>Global Computing</h2>
+
+<a href="http://ninf.apgrid.org/">Ninf</a>
+
+<h2>Parallel Numerical Algorithms</h2>
+
+<a href="http://phase.hpcc.gr.jp/~tatebe/research/la/index.html#mgcg">MGCG Method</a> -- Parallel Multigrid preconditioned Conjugate Gradient Method<br>
+<a href="http://phase.hpcc.gr.jp/~tatebe/research/la/index.html#lu">Parallel Gaussian Elimination</a><br>
+<a href="http://phase.hpcc.gr.jp/~tatebe/research/fft/index.html">Parallel FFT</a><br>
+
+<h2>Performance Evaluation</h2>
+
+<a href="http://phase.hpcc.gr.jp/~tatebe/research/tea/index.html">TEA</a>
+
+<h2>Parallel Applications</h2>
+
+Virtual Microscope<br>
+Plasma Simulation<br>
+Computational Fluid Dynamics
+
+<p>
+<hr>
+<address><a href="http://www.etl.go.jp/~tatebe/">Osamu Tatebe</a> &lt;<a href="mailto:tatebe@etl.go.jp"><tt>tatebe@etl.go.jp</tt></a>&gt;</address>
+<!-- hhmts start -->
+Last modified: Mon Oct  4 00:13:09 1999
+<!-- hhmts end -->
+</body> </html>

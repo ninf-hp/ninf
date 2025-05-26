@@ -1,0 +1,78 @@
+<html>
+<head>
+<title>grpc_initialize</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<h3>NAME</h3>
+<code>grpc_initialize</code> - Initializes Ninf-G.
+<h3>SYNOPSIS</h3>
+<code>
+  grpc_error_t grpc_initialize(char *config_file_name)
+
+</code>
+<h3>ARGUMENTS</h3>
+<dl>
+<dt><code>  char *config_file_name</code></dt>
+<dd>	The configuration file for the client</dd>
+</dl>
+<h3>DESCRIPTION</h3>
+  The grpc_initialize() function initializes Ninf-G and the Globus Toolkit used by Ninf-G.<br>
+<br>
+  The configuration file specified by config_file_name is read and the values are saved in global <br>
+variables within Ninf-G.<br>
+<br>
+  If NULL or an empty string is specified in config_file_name , the configuration file specified by the  <br>
+NG_CONFIG_FILE  environment variable is used as the configuration file.<br>
+<br>
+  If the NG_CONFIG_FILE environment variable is also undefined or
+ an empty string, then $HOME/.ngconf is used as the configuration file.<br>
+<h4>Signal</h4>
+  Ninf-G Client uses SIGINT and SIGTERM.  When a Ninf-G Client catches
+either SIGINT or SIGTERM, it cancels all outstanding sessions,
+destructs all function/object handles, then exits.<br>
+<br>
+Attention<br>
+  Ninf-G Client may not run normally, on following cases.
+<ul>
+  <li>
+    Setting the signal handler between grpc_initialize() and
+    grpc_finalize().
+  </li>
+</ul>
+  For pthread flavor only:
+<ul>
+  <li>Creating thread before calling grpc_initialize().</li>
+  <li>Removing SIGINT or SIGTERM form signal mask in each threads.</li>
+</ul>
+<h4>Users' signal handling</h4>
+  If a user intends to use signal handler for SIGINT or SIGTERM,
+the user must set the signal handler before calling grpc_initialize(). 
+Ninf-G is able to call the registered signal handler after calling
+grpc_initialize().<br>
+<br>
+Attention<br>
+  For pthread flavor, a signal handler registered by a user is called
+from another a thread for signal handling.  It is unsafe to call
+Pthread APIs from the signal handler.<br>
+<br>
+  This function is MT-unsafe.<br>
+<br>
+<h3>RETURN VALUE</h3>
+If successful, GRPC_NO_ERROR is returned. In the case of an error, 
+Error code is returned.<br>
+<br>
+<h3>ERRORS</h3>
+<dl>
+<dt><code>  GRPC_CONFIGFILE_NOT_FOUND</code></dt>
+<dd>	The configuration file does not exist.</dd>
+<dd>	The configuration file could not be read.</dd>
+<dt><code>  GRPC_CONFIGFILE_ERROR</code></dt>
+<dd>	The content of the configuration file is invalid.</dd>
+<dt><code>  GRPC_OTHER_ERROR_CODE</code></dt>
+<dd>	Internal error detected.</dd>
+</dl>
+<hr>
+last update : $Date: 2005/07/11 07:11:24 $
+</body>
+</html>

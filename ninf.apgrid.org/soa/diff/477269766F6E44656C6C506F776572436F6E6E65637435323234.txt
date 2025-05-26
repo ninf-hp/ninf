@@ -1,0 +1,41 @@
++[[FrontPage]]
+ 
++* GriVonデモ環境向けDell PowerConnect 5224の設定 [#hf4ae88a]
++
++いろいろ試行錯誤した結果、以下のようにすることでうまく動作した。
++
++** vlan databaseの設定 [#l28466e9]
++
++ vlan database
++  vlan 1 name DefaultVlan media ethernet state active
++  vlan 100 name grivon100 media ethernet state active
++  vlan 101 name grivon101 media ethernet state active
++  vlan 102 name grivon102 media ethernet state active
++  vlan 103 name grivon103 media ethernet state active
++  vlan 104 name grivon104 media ethernet state active
++  ...
++
++** interface ethernet 1/1-20の設定 [#n94a4676]
++
++ interface ethernet 1/1
++  switchport allowed vlan add 1 untagged
++  switchport native vlan 1
++  switchport allowed vlan add 100-149 tagged
++  spanning-tree edge-port
++
++「spanning-tree edge-port」が肝。
++
++これを設定しておかないとホストノードがDHCPでIPアドレスを取得できない。「no spanning-tree」としてスイッチのRSTP自体を止めてしまうとDHCPはうまく行くのだが、今度はVLAN内の通信ができなくなってしまう。なのでRSTP自体は有効にしたまま、各ポートをedge-portに指定する。
++
++ethernet 1/21-24は実験用にリザーブ。
++
++** その他の設定 [#a03e2962]
++
++ interface vlan 1
++  ip address 0.0.0.0 255.0.0.0
++
++要はdhcpでIPアドレスをゲットしに行かないように。
++
++ jumbo frame
++
++jumbo frameも一応オンにしておく。

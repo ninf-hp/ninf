@@ -1,0 +1,29 @@
+<div class="subtitle">NBCR Summer Institute 2006: Ninf-G practicals</div>
+<ul>
+<li> Tutorial slides <br>
+  <a href="GridRPCTutorial.pdf">Programming on the Grid using GridRPC (pdf)</a>
+<br><br>
+<li> Resource Information<br>
+  <ul>
+  <li> Client machine: mirume.nbcr.net
+  <li> Server machine: yuki.nbcr.net
+  </ul>
+<br>
+
+<li> Ninf-G Exercise
+  <ul>
+  <li> Step 1: <a href="Step1.htm" target="new">Login and test Globus</a>
+  <li> Step 2: <a href="Step2.htm" target="new">Serial PI</a>
+  <li> Step 3: <a href="Step3.htm" target="new">1 client - 1 server (run on the same machine)</a>
+  <li> Step 4: <a href="Step4.htm" target="new">1 client - 1 server (run on different machines)</a>
+  <li> Step 5: <a href="Step5.htm" target="new">1 client - 2 servers</a>
+  <li> Step 6: <a href="Step6.htm" target="new">Use array function for handle init</a>
+  <li> Step 7: <a href="Step7.htm" target="new">Use Ninf-G remote object</a>
+  <li> Step 8: <a href="Step8.htm" target="new">Use MPI as backend</a>
+  <li> Step 9: <a href="Step9.htm" target="new">Advanced Exercises</a>
+  </ul>
+<br>
+  Detailed instruction is described in <a href="Ninf-G-Eng.htm" target="new">Ninf-G Tutorial document</a>
+</ul>
+</body>
+</html>

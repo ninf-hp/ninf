@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> はじめに</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" はじめに">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html39 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html37 HREF="main.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html31 HREF="main.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html40 HREF="node2.html"> Ninf RPC  の設計</A>
+<B>Up:</B> <A NAME=tex2html38 HREF="main.html">無題</A>
+<B> Previous:</B> <A NAME=tex2html32 HREF="main.html">無題</A>
+<BR> <HR> <P>
+<H1><A NAME=SECTION00010000000000000000> はじめに</A></H1>
+ 
+コンピュータネットワークの発展にともない、ネットワークを利用した
+情報提供サービスが盛んに行なわれている。
+これらのサービスの特徴は、情報の実際に存在する位置の透明性であり、
+情報資源の仮想的共有化であると考えることができる。
+<P>
+計算科学技術、数値解析技術領域における情報資源の共有化を考えてみよう。
+この場合の情報資源は、数値定数や特殊関数、数値計算ライブラリになるだろう。
+現在のネットワーク環境においても例えばftpやWWWなどで、
+これらの資源の共有はある程度は実現されていると考えることもできる。
+しかし現在の状態では、例えばあるライブラリを使おうと思った場合にftpでとってきて
+それをコンパイルするという手間がかかる。
+また、コンパイラ、アーキテクチャが違う場合にはそのライブラリが
+期待されるような精度を出しているのかを確認することはできない。
+つまり、数値計算ライブラリを共有するためには、ソースコードのみの共有では
+不十分で、実行に必要なアーキテクチャを含んだ実行可能状態での、いわば
+動態保存/共有が必要なのである。
+<P>
+このような情報資源の共有のための枠組として、
+われわれはNinf
+(<b> N</b>etwork based <b> Inf</b>omation library for High Performance Computing)
+を提唱している[<A HREF="node20.html#ninfsekiguchi94">1</A>,<A HREF="node20.html#ninfiioka95">2</A>]。
+Ninf はサーバ・クライアントモデルのシステムである。
+ネットワーク上に数値情報や計算自身を提供するサーバを設け、
+ユーザにはサーバに接続するクライアント機能を持つライブラリを提供する。
+このライブラリによってNinf システムは隠蔽されるので、ユーザは
+計算が実際にどこで行なわれるかを意識する必要はない。
+Ninf の愛称は 妖精を意味する「Nymph」から来ており、
+あたかもネットワークの森に棲む妖精のように人知れず願いをかなえてくれる
+ようなシステムを目指している。
+<P>
+このシステムの実現の一つのキーとしてRPC(Remote Procedure Call)がある。
+RPCの存在を意識させずにユーザーに使ってもらうためには、
+柔軟な枠組を持つRPCが必要である。
+現在実用的に用いられている代表的なRPCとして UNIX RPC がある。
+このRPCは一般的に用いられており、その上にさまざまなアプリケーションが
+実装されているが、次節で述べるように、われわれの目的には柔軟さおいて不足がある。
+このためわれわれ独自のRPCの枠組、 Ninf RPC  を設計開発した。
+本稿ではこのNinf RPC  の設計方針と実装の詳細について述べる。
+<P>
+本稿では、まず Ninf RPC  の設計方針について述べ、つぎに
+Ninf RPC  を構成する個々のプログラムの詳細について述べる。
+さらに、Ninf RPC  でもちいられているプロトコルを詳述しする。
+最後に Ninf RPC  で用いるIDL(Interface Description Language) に
+ついて述べる。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

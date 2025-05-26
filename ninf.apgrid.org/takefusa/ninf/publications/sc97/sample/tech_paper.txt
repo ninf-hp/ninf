@@ -1,0 +1,544 @@
+                                  [Image]
+                       
+
+                      Table of Contents
+
+                      > General Requirements
+                      > File Naming Conventions
+                      > HTML Coding Rules
+                      General Coding
+                      INDEX.HTM template
+                      Equations
+                      Figures and Tables (see samples)
+                      Links
+                      Multimedia Components
+                      Footnotes and References
+                      > Author Biographies
+                      > Instructions for Latex Users
+                      > PostScript File
+                      > Submission of Paper
+                      > Electronic Cover Sheet
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+NOTE (6/15/97): These guidelines have been updated for the final, accepted
+paper submission process. All final papers must be received by August 15,
+1997.
+
+The following guidelines describe the requirements for submitting a
+technical paper for Supercomputing '97 including specific details on the
+appropriate use of HTML tags. The organizers and the publisher will be
+working under tight time constraints during both the review and publication
+process. Please follow the instructions carefully to ensure inclusion of
+your paper in the proceedings. If you have problems complying with the
+instructions, send e-mail to proceedings97@mail.supercomp.org.
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+General Requirements
+
+     The proceedings will be published on the conference web server
+     (http://www.supercomp.org) and on CD-ROM. The web proceedings will
+     be made public two weeks in advance of the beginning of the
+     conference. The CD-ROM will be available at the beginning of the
+     conference.
+
+     Paper size is limited to 5000 words or less. This is equivalent to
+     25 double-spaced pages.
+
+     Final papers should be submitted in the following two formats:
+
+        * HTML
+        * postscript
+
+     It is important that submitted papers follow the guidelines as
+     closely as possible. Neither the editors nor the publishers can
+     retype or significantly modify contributions before publication.
+
+     Authors will be required to submit a hardcopy signed ACM Copyright
+     Form for all papers accepted for publication. This form will be
+     sent to the contact for each paper and will be available
+     electronically.
+
+     table of contents | general requirements | file naming conventions
+    html coding rules | author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+File Naming Convention
+
+     In order to build a cross-platform CD-ROM it is necessary that all
+     files conform to the ISO 9660 file system and naming conventions.
+     This is IMPORTANT: The following rules must be followed:
+
+        * Filenames must conform to the DOS file naming convention of 8
+          characters followed by a three character extension
+          (nmnmnmnm.eee).
+        * Filenames can include ONLY the following characters:
+             o Uppercase letters and numbers
+             o Underscores (_)
+             o No more that one period (.)
+        * Directory structure must be less than 7 levels deep
+
+     The following specific naming conventions should be used for
+     components of your paper:
+
+                     Type of File     3 Character Extension
+                 HTML source          .HTM
+                 GIF images           .GIF
+                 JPEG images          .JPG
+                 MPEG animations      .MPG
+                 Quicktime animations .MOV
+                 Audio                .AU, .AIF, or .WAV
+                 RealAudio            .RAM
+                 PostScript           .PS
+
+     Your main text file should be called INDEX.HTM and follow the
+     template provided (see html coding rules).
+
+  table of contents | general requirements | file naming conventions | html
+                                coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+HTML Coding Rules
+
+General Coding
+
+     Submitted papers should be written in syntactically correct HTML
+     2.0. HTML 3.2 tags, including table support and alignment
+     instructions, may also be used. HTML tags which are Netscape
+     extensions should not be used. An excellent reference source for
+     HTML tags is the The Bare Bones Guide To HTML by Kevin Werbach.
+
+     The entire text of the paper should be included in a single,
+     linear HTML file named INDEX.HTM that is structured after the
+     template for INDEX.HTM provided. The only exception to this might
+     be large illustrations or "active parts" as described below. While
+     HTML hyperlinks allow creation of multiple navigation paths
+     through the information in the document, these can be confusing
+     and make printing difficult. The model which is being used for
+     constructing the proceedings is still the hardcopy paper. HTML
+     links should be largely limited to incorporation of multimedia
+     components.
+
+  table of contents | general requirements | file naming conventions | html
+                                coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+----------------------------------------------------------------------------
+
+Template for INDEX.HTM
+
+     The template for INDEX.HTM specifies the position and relative
+     pathnames for navigational buttons that will be used in the
+     proceedings, as well as the background color, an example of how to
+     insert a figure and a table, and the default font size for titles,
+     text and captions. The navigational panel in the template is for
+     use in INDEX.HTM only.
+
+     To obtain the template:
+
+        * view it
+        * download the file TEMPLATE.HTM in source format to your
+          system.
+        * set up a directory/folder named GIF97 at the same level as
+          your working directory/folder (to preserve the relative
+          pathnames used in TEMPLATE.HTM). Please DO NOT use GIF97 for
+          the figures in your paper, it is used ONLY for these SC97
+          buttons, banners and other provided GIF files.
+        * download the following five buttons into GIF97 and preserve
+          their names: BTOC97.GIF, BTAUTH.GIF, BTSESS.GIF, BTABST.GIF,
+          BPS.GIF.
+
+  table of contents | general requirements | file naming conventions | html
+                                coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+----------------------------------------------------------------------------
+
+Equations
+
+     Equations keyed in LaTeX are preferred. The equations have to be
+     clearly legible on a UNIX workstation. All subscripts,
+     superscripts and other small sized annotations have to be
+     readable. If latex2html is used, the $MATH_SCALE_FACTOR should be
+     set to 1.6 in the initialization file, this file is usually called
+     '.latex2html-init'.
+
+     Manuscripts developed using software like WordPerfect or Word
+     programs are acceptable, but the mathematics may be rekeyed into a
+     LaTeX format for the production of the proceedings. Equations that
+     are typeset by a page layout software (Ventura, Quark, Pagemaker,
+     FrameMaker) may be rekeyed as well.
+
+     As a rule of thumb, the font size in the equation should match the
+     default html font for the text, <BASEFONT SIZE=4>, as specified in
+     the template for INDEX.HTM.
+
+     The following is an example of the font size required for
+     equations, so that subscripts are of acceptable size. Please note
+     that in-line mathematical expressions may also be coded in HTML,
+     in which case they will scale with the text, the example given
+     here is for equations provided in form of an image file.
+
+     To approximate   , we divide....
+
+     AND:
+
+
+
+  table of contents | general requirements | file naming conventions | html
+                                coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+----------------------------------------------------------------------------
+
+Figures and tables
+
+     Figures or illustrations should be included as in-lined images.
+     GIF or JPEG (8-bit color only) are acceptable formats. The maximum
+     horizontal size should be limited to 500 pixels. Figures of large
+     size may be linked as external images with a small or lower
+     resolution anchor within the text.
+
+     Captions for figures and tables should be coded as in this example
+     or any other way that displays in a comparable font size.
+
+            Table 1: This is a sample caption with the following
+             HTML coding: <FONT SIZE=+0.5><B>(text)</B></FONT>
+
+     NOTE: It is preferable to keep captions that accompany images
+     separate from the image to allow for font changes during
+     processing.
+
+     All annotations in figures have to be readable on a screen. For
+     examples of figures from the SC96 proceedings that display well
+     click here.
+
+     For tables the proposed HTML 3.0 table tags (see example below)
+     are recommended. Alternatively, use the preformat tags (<PRE> ...
+     </PRE>) or in-lined images. All text in tables needs to be
+     readable, in particular those tables included as in-lined images.
+     Choose the largest possible font size without exceeding the
+     default font size of the paper.
+
+     The example below shows HTML 3.0 coding for a table. Authors
+     should use the following border size and cellpadding for
+     consistency:
+
+     <CENTER>
+     <TABLE BORDER=5 CELLPADDING=5>
+
+     <TR>
+     <TD>N</TD>
+     <TD>spdup</TD>
+     <TD>Z</TD>
+     </TR>
+
+     <TR>
+     <TD>1<BR>
+     22<BR>
+     333
+     </TD>
+
+     <TD>
+     1.9<BR>
+     5.4<BR>
+     6.2
+     </TD>
+
+     <TD>
+     0.1<BR>
+     0.24<BR>
+     0.8
+     </TD>
+
+     </TR>
+     </TR>
+
+     </TABLE>
+     <P>
+     <FONT SIZE=+0.5><B>Table X: This is your caption</B></FONT>
+     </CENTER>
+
+                             N     spdup Z
+
+                             1     1.9   0.1
+                             22    5.4   0.24 B
+                             333   6.2   0.8
+
+                       Table X: This is your caption
+
+     table of contents | general requirements | file naming conventions
+                            | html coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+     ------------------------------------------------------------------
+
+     Links
+
+          We distinguish three types of links:
+
+             * internal links (pointing to a place in the same
+               text file): to use as pointers to footnotes and
+               your reference list at the end of the article.
+               Limit other uses.
+             * local links (on the same server): for figures,
+               tables, images, 'active' parts and SC97 Proceedings
+               navaigation buttons. All local links should be
+               defined relative to the referring document.
+             * external links (to outside servers): restrict the
+               use of external links to matters that are not vital
+               to the contents of the paper. Any external
+               materials linked to your paper should have a long
+               expected lifetime at the current address.
+
+     table of contents | general requirements | file naming conventions
+                            | html coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+     ------------------------------------------------------------------
+
+     Multimedia components
+
+          Publication in HTML allows for nontraditional components
+          such as animations or interactive demonstrations to be
+          included. These "active parts" in your paper should be
+          treated as an illustration to the main text and be
+          delivered in a separate file under a local link. Links
+          to your own Web server should be avoided if possible. If
+          you have special circumstances where extensive external
+          links will be required this should be discussed with the
+          proceedings publication team.
+
+          When including simple in-lined images or multimedia
+          components into your document be sure that all links are
+          relative and that the components are inluded with the
+          submitted paper.
+
+     table of contents | general requirements | file naming conventions
+                            | html coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+     ------------------------------------------------------------------
+
+     Footnotes and References
+
+     Footnotes:
+
+          Use the HTML 3.0 standard tags for superscripts
+          (<SUP></SUP>) for footnotes with an internal link to the
+          list of footnotes. The list of footnotes should appear
+          at the end of the paper, but before the reference list,
+          in INDEX.HTM. For example:
+
+          The first footnote in the text of the paper<A
+          HREF="#f1"><SUP>1</SUP></A>.
+
+          The second footnote in the text of the paper<A
+          HREF="#f2"><SUP>2</SUP></A>.
+
+          <HR>
+          <H2>Footnotes</H2>
+          &#160;<A NAME="f1"><SUP>1</SUP></A>Footnote 1 here.<P>
+          &#160;<A NAME="f2"><SUP>2</SUP></A>Footnote 2 here.<P>
+          If your paper is generated via a translator such as
+          latex2html, then the footnotes may be left in the format
+          produced by the translator.
+
+     table of contents | general requirements | file naming conventions
+                            | html coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+     ------------------------------------------------------------------
+
+     References:
+
+          References within the paper should include an internal
+          link to the reference list at the end of the paper. For
+          example:
+
+          In the text, the first reference is coded as follows
+          <A HREF="#r1">[1]</A>.
+
+          And the second reference, similarly, is coded
+          <A HREF="#r2">[2]</A>.
+
+          In the reference section at the end of the paper the
+          definition list construct (<DL><DT></DL>) should be
+          used, unless the references were generated with
+          latex2html, in which case the references may be left in
+          the format generated by the translator.
+
+     table of contents | general requirements | file naming conventions
+                            | html coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+     ------------------------------------------------------------------
+     ------------------------------------------------------------------
+
+     Author Biographies
+
+          A section titled "Author Biographies" may provide a
+          quarter- to half-page biographical sketch as appropriate
+          for each author. The biographical sketches should be at
+          the end of the paper with an internal link from the
+          author's name, where it is listed at the beginning of
+          the paper (see the template for INDEX.HTM). In addition
+          to the usual biographical information, a biographical
+          sketch may include a small picture (an inline GIF or
+          JPEG image), a URL if the author has a home page, and a
+          mailto link for the e-mail address (see the template for
+          INDEX.HTM).
+
+     table of contents | general requirements | file naming conventions
+                            | html coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+     ------------------------------------------------------------------
+     ------------------------------------------------------------------
+
+     Instructions for LaTeX users
+
+          Authors using LaTeX for the preparation of their paper
+          should submit the LaTeX file and any style files used in
+          addition to the html and ps files. The top of the LaTeX
+          file should contain information on which version of
+          LaTeX, latex2html and dvips (dvi2ps) have been used to
+          obtain the submitted html and ps files.
+
+          References and footnotes may be left in the format
+          generated by latex2html. Figure and table captions need
+          to be adjusted to the proper font size as described in
+          the section on "Figures and Tables" in these guidelines.
+
+          Authors should concatenate the set of .HTM files
+          typically generated by latex2html into one file named
+          INDEX.HTM as discussed in the section on "HTML Coding
+          Rules". If the paper is submitted with a set of .HTM
+          files, then the top-level file should be named
+          INDEX.HTM. This file should be edited to follow the
+          template provided in these guidelines. (See "HTML Coding
+          Rules" for how to obtain the template and associated
+          navigational images.)
+
+     table of contents | general requirements | file naming conventions
+                            | html coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+     ------------------------------------------------------------------
+     ------------------------------------------------------------------
+
+     PostScript File
+
+          The PostScript version should be a single file and
+          functionally identical to the HTML version. All
+          graphical parts should be included in the PostScript
+          file. 'Active Parts' in your HTML version should be
+          described in an appendix to your paper. For papers
+          contained in a single file with only in-lined images,
+          the PostScript version can be created choosing the
+          "print to disk" or "save as" option in your web browser.
+          In development of the proceedings, the PostScript
+          version will be used for verification of the HTML
+          version. The PostScript version will also appear in the
+          final proceedings as an alternative method of viewing
+          and printing.
+
+          Detailed instructions for PostScript papers follow. If
+          you generate the postscript version of your paper
+          through a Web browser you may ignore the font size and
+          type requirements.
+
+             * Font: Times-Roman -- Since it is often difficult to
+               read italicized fonts on a low-resolution monitor,
+               we ask that you not use italicized text anywhere in
+               your paper (except as required in mathematical
+               expressions). Please substitute bold text for
+               italic.
+             * Math fonts: If you use a special math font, please
+               include the font in the PostScript file. Please
+               also include the font name, type, and vendor
+               information in your cover sheet.
+             * Text point size: 12 pt
+             * Columns: One (1) column only
+             * Spacing: Single Spacing
+             * Page Size: 8.5 x 11 inches (42.5x55 cm)
+             * Header font: Times-Roman Bold
+             * Header point sizes: Level 1 - 18 pt Level 2 - 15 pt
+               Level 3 - 12 pt (will generally be rare)
+             * Use "Title Case", initial upper and lower case, for
+               all headers
+             * Images: All images and equations should be included
+               in the PostScript version of the paper.
+             * Page numbers: centered
+
+  table of contents | general requirements | file naming conventions | html
+                                coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+Submission of Paper (for the accepted papers stage)
+
+     Submission of your final paper is a two step process. For each
+     step you will need your original userid and password. If you have
+     forgotten these send email to submissions97@mail.supercomp.org.
+
+     You should first return to the web submission form
+     (http://www.supercomp.org/cgi-bin/sc97/submissions) and update the
+     information listed there including the abstract. It is from this
+     source that the materials in the final program and proceedings
+     index will be generated. This step can be done at any time up to
+     the submissions deadline.
+
+     The second step is to use the upload utility
+     (http://www.supercomp.org/cgi-bin/sc97/upload) to submit the HTML
+     and PostScript versions of your paper.Your submission must be a
+     single file. If you upload a second file it will overwrite the
+     first submission. Multiple files may be packed into a single file
+     using the tar utility and compression can be done using one of the
+     standard formats listed below.
+
+     Please use only the following forms of data compression/archival:
+
+        * UNIX "tar" (.tar filename extension)
+        * UNIX "compress" (.Z filename extension)
+        * GNU "gzip" (.gz filename extension)
+
+     Versions of these programs are available for the Microsoft
+     Windows, Apple MacOS, and UNIX platforms. Please click here for
+     help on locating versions of these tools for your platform. If you
+     absolutely cannot use these tools on your workstation, please send
+     e-mail to proceedings97@mail.supercomp.org and we will make
+     alternate arrangements for receiving your submission.
+
+  table of contents | general requirements | file naming conventions | html
+                                coding rules
+              author biographies | instructions for latex users
+       postscript file | submission of paper | electronic cover sheet
+
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+    SC'97 Home Page | Info for Presenters | Electronic Submissions Form
+----------------------------------------------------------------------------

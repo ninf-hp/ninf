@@ -1,0 +1,29 @@
+Bugzilla 2.16.4 日本語版
+
+                                   Ryuzi Kambe <kambe@mc.kcom.ne.jp>
+                                   Kaneuchi Tetsuya <tetsuyak@ka2.so-net.ne.jp>
+                                   Itou Hiroki <itouh@itpmail.itp.ne.jp>
+                                   <MAP2303@mapletown.net>
+                                   <kazhik@mozilla.gr.jp>
+                                   <okome@mozilla.gr.jp>
+
+
+  Bugzilla 2.16.4 英語版を日本語化したものです。
+  ライセンスは Bugzilla に従い MPL とします。
+
+
+  jcode.pl 2.13
+    Copyright (c) 1995-2000 Kazumasa Utashiro <utashiro@iij.ad.jp>
+    Internet Initiative Japan Inc.
+    3-13 Kanda Nishiki-cho, Chiyoda-ku, Tokyo 101-0054, Japan
+
+    Copyright (c) 1992,1993,1994 Kazumasa Utashiro
+    Software Research Associates, Inc.
+
+  mimew.pl 2.02
+    Copyright (C) 1993-94,1997 Noboru Ikuta <noboru@ikuta.ichihara.chiba.jp>
+    Bugzilla-jp スタッフにより、エラー出力を抑止するよう改変しました。
+    バージョンは "2.02-bugzilla-ja-02" としました。
+
+--
+Itou Hiroki <itouh@itpmail.itp.ne.jp>

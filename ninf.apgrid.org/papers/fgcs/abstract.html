@@ -1,0 +1,24 @@
+<h1> Abstract </h1>
+<hr>
+
+This paper presents two advanced communication libraries, Ninf and PM.
+Ninf is an ongoing global network-wide computing infrastructure project which 
+allows users to access computational resources including hardware, software
+and scientific data distributed across a wide area network. 
+Computational resources are shared as Ninf remote libraries executable at a
+remote Ninf server. Users can build an application by calling the libraries
+with the Ninf Remote Procedure Call.
+In order to facilitate location transparency and network-wide parallelism,
+Ninf metaserver maintains global resource information regarding computational
+server and databases, allocating and scheduling coarse-grained computation for
+global load balancing.
+PM is a high performance communication library for workstation clusters
+connected with myrinet gigabit LAN card, which has a dedicated processor and
+on-board memory to handle a communication protocol. 
+In order to obtain high performance communication and support a 
+multi-user environment, we co-designed PM, an operating system realized by 
+a daemon process, and the run-time routine for a programming language.
+Several unique features, e.g., network context switching and modified 
+ACK/NACK flow control algorithm have been developed for PM.
+PM for the Suns has a speed of 20 micro seconds round trip for a user-level
+8 bytes message and 38.6 Mbytes/second bandwidth for an 8 Kbytes message.

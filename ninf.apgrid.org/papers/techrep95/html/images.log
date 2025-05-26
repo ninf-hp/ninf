@@ -1,0 +1,71 @@
+This is JTeX, Version 1.43, based on TeX C Version 3.14t3 (format=jlplain 94.1.31)  20 DEC 1995 05:43
+**images.tex
+(images.tex
+** JLaTeX ver.1.3......Isozaki
+
+(/net/etlfs/usr/share/lib/tex/inputs/jarticle.sty
+Document Style 'jarticle'. Released 4 Nov 1988
+(/net/etlfs/usr/share/lib/tex/inputs/jart10.sty)
+\c@part=\count82
+\c@section=\count83
+\c@subsection=\count84
+\c@subsubsection=\count85
+\c@paragraph=\count86
+\c@subparagraph=\count87
+\c@figure=\count88
+\c@table=\count89
+Conversion jlarge --> large etc.
+) (/net/etlfs/usr/share/lib/tex/inputs/EPSF/epsf.sty
+EPSF macro package for LaTeX. version 1.3 - Released October 31, 1990
+\@arga=\count90
+\@argb=\count91
+\@argc=\count92
+\@ctmpa=\count93
+\@ctmpb=\count94
+\@ctmpc=\count95
+\@ctmpd=\count96
+\@ctmpe=\count97
+\@darg=\dimen100
+\@bblen=\dimen101
+\ps@stream=\read0
+)
+\lthtmlwrite=\write3
+\sizebox=\box26
+(images.aux) [1
+
+
+]
+epsf:[ninf_overview.eps]
+BoundingBox: (133bp,381bp)--(520bp,618bp) =>(341bp,208bp) [2]
+epsf:[ninf_construction.eps]
+BoundingBox: (52bp,434bp)--(515bp,731bp) =>(398bp,254bp) [3]
+epsf:[ninf_local_exec.eps]
+BoundingBox: (11bp,90bp)--(712bp,818bp) =>(341bp,351bp) [4]
+epsf:[ninf_call.eps]
+BoundingBox: (58bp,468bp)--(582bp,808bp) =>(426bp,273bp) [5]
+epsf:[Ninf_IDL_overview.eps]
+BoundingBox: (2bp,328bp)--(560bp,667bp) =>(426bp,256bp) [6]
+latex2htmlSize :tex2html_wrap_inline395: 4.65279pt::0.0pt.
+[7
+
+]
+latex2htmlSize :tex2html_wrap_inline397: 7.5pt::2.5pt.
+[8
+
+]
+latex2htmlSize :tex2html_wrap_inline399: 7.5pt::0.55554pt.
+[9
+
+] (images.aux)
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+ ) 
+Here is how much of TeX's memory you used:
+ 278 strings out of 3015
+ 2709 string characters out of 49115
+ 36189 words of memory out of 262141
+ 3021 multiletter control sequences out of 9500
+ 16246 words of font info for 60 fonts, out of 72000 for 511
+ 14 hyphenation exceptions out of 607
+ 13i,4n,15p,168b,216s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on images.dvi (9 pages, 1232 bytes).

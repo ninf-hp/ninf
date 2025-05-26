@@ -1,0 +1,103 @@
+img.logo {
+  float:      left;
+  background: white;
+}
+
+DIV.title {
+  text-align: center;
+  font-family: Helvetica;
+  font-size:  200%;
+  font-weight: bold;	
+  /* background: darkgreen; 
+  color:      white;
+  border: solid;	
+  */
+  margin:  10 10 10 10;
+  padding: 0 0 0 0;
+}
+
+ul, ol {
+  margin-top:    0;
+  margin-bottom: 0;
+}
+
+li {
+  font-weight: bold
+}
+
+DIV.subtitle{
+  text-align: center;
+  text-decoration: underline;
+  font-size: 180%;
+  background: darkgreen; 
+  color:      white;
+  font-weight: bold;	
+  font-family: helvetica;
+  margin:  20 10 20 10;
+}
+
+DIV.section{
+  text-align: left;
+  text-decoration: underline;
+  font-size: 120%;
+  font-weight: bold;	
+  font-family: helvetica;
+  margin:  10 10 1 10;
+}
+
+DIV.section_contents {
+  margin: 10 10 10 15;
+}
+
+DIV.abstract { 
+  text-align: justify; 
+  font-family: times;
+  font-weight: bold;	
+/*
+  background: lightblue;
+  border: ridge; 
+  border-width: 3 3 3 3;
+*/
+  margin:  0 10 0 10;
+  padding: 10 20 10 20 ;
+}
+
+DIV.menus {
+  margin: 0 3% 20 3%;
+}
+
+DIV.contents {
+  border: solid;
+  border-width: 1 1 1 1;
+  background-image: url(/image/Ninf-bg.jpg); 
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-color: white;
+  margin: 10 10 10 10;
+}
+
+SPAN.menu{
+  text-align: left;	
+/*
+  background:  lightgreen;
+  border: solid;
+  border-color: lightgreen;
+*/
+  display: block;
+  margin: 4 1 10 0
+}
+
+SPAN.submenu{
+  text-align: right;
+  display: block;
+}
+
+DIV.contact {
+  font-size: smaller;
+  margin: 30 10 0 10;
+}
+
+SPAN.address{
+  text-align: right;	
+  display: block;
+}

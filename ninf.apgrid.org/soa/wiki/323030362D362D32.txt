@@ -1,0 +1,5 @@
+[[FrontPage]]
+
+* ミーティング資料 6/2 [#sfb31fa3]
+
+- ストレージ検討資料(中田) &ref("aist-soa-storage.ppt");

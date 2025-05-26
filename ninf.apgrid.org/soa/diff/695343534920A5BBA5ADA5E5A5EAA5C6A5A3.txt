@@ -1,0 +1,15 @@
++*IET version 0.4.14 で利用可能なもの [#xe5297b4]
+++ なし
+++ initiator.[allow|deny] を使って IP アドレスで制限する
+++ CHAP
++++ Target 側で Initiator を認証する
++++ 相互認証（Initiator 側でも Target を認証する）
+++ IPsec
+ 
++*ベンダ製品，あるいは IET の将来バージョンで利用できるかもしれないもの [#fdc42049]
++- LUN Masking： 11月現在，予定なし
++- SRM（Secure Remote Password） 
++- SPKM： 公開鍵
++- CHAP - RADIUS（Remote Authentication Dial-in User Service）： おそらく，IET の中をいじらないと使えない？
++- Kerberos：
++- IPsec： iSCSI ログインセッションでのサポートはなし

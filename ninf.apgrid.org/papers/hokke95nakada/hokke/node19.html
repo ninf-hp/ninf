@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> 疑似インターフェイス情報の実装</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" 疑似インターフェイス情報の実装">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html243 HREF="node20.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html241 HREF="node16.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html235 HREF="node18.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html244 HREF="node20.html">  並列実行制御 </A>
+<B>Up:</B> <A NAME=tex2html242 HREF="node16.html"> 分散並列実行の実装</A>
+<B> Previous:</B> <A NAME=tex2html236 HREF="node18.html"> トランザクションの実行</A>
+<BR> <HR> <P>
+<H3><A NAME=SECTION00043300000000000000> 疑似インターフェイス情報の実装</A></H3>
+<P>
+複合関数のインターフェイス情報 は基本的に、
+そのトランザクション内の個々のNinf 呼びだし のインターフェイス情報を
+すべて連結したものである。ただし、中間状態としてしか出現せず、
+書き戻す必要も送り出す必要もない引数(前出の例では <code>E</code>,<code>F</code> )
+に関しては、WORK<A NAME=tex2html6 HREF="footnode.html#169"><IMG ALIGN=BOTTOM ALT="gif" SRC="http://www.etl.go.jp:8080/etl/captain/icons/foot_motif.gif"></A>
+というマークをつけて、余計な通信が生じないようにする。
+<P>
+前出の例で実例をみてみよう。もとの<code>mmul</code>の インターフェイス情報は、
+<P>
+<PRE>[scalor:IN,array:IN,  array:IN,  array:OUT]
+</PRE>
+<P>
+である。トランザクション全体としてのインターフェイス情報は、
+<PRE>[scalor:IN,array:IN,  array:IN,  array:WORK,
+ scalor:IN,array:IN,  array:IN,  array:WORK,
+ scalor:IN,array:WORK,array:WORK,array:OUT ]
+</PRE>
+となる。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

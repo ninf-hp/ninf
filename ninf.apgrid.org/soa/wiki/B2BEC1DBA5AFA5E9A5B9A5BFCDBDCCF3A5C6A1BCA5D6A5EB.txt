@@ -1,0 +1,240 @@
+[[仮想クラスタ予約]]
+
+- 構成
+ ┌────────────┐
+ │ 予約パラメータテーブル │ (各種パラメータ)
+ └────────────┘
+ ┌───────┐
+ │予約テーブル  │
+ └───────┘
+         │
+         ◆
+ ┌───────────┐
+ │予約リソーステーブル  │
+ └───────────┘
+         │
+         ◆
+ ┌──────────┐    ┌─────────┐
+ │各種予約資源テーブル│◆─│資源プールテーブル│
+ └──────────┘    └─────────┘
+
+- vcregistration テーブル
+-- 予約パラメータ(vcparameter)
+ ※ id	INT		ID
+ ・ name	VARCHAR(32)	パラメータ名
+ ・ value	VARCHAR(64)	パラメータ値
+パラメータとして以下がある。
+ memsize		予約 CGI インターフェースで表示するデフォルトメモリサイズ
+ disksize	予約 CGI インターフェースで表示するデフォルトディスクサイズ
+ maxmemsize	予約可能な最大メモリサイズ
+ maxdisksize	予約可能な最大ディスクサイズ
+ iscsiport	iSCSI ポート番号デフォルト値
+ iscsivolgrp	iSCSI デフォルトボリュームグループ
+ organization	organization
+ locality	locality
+ state		state
+ country		country
+ latlong		latlong
+ timezone	timezone
+ publicNTPHos	publicNTPHost
+ multicast	multicast
+ publicDNS	publicDNS
+ central	central
+
+-- 予約エントリ(vcregister)
+ ※ id		INT		ID
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ・ mode		INT		ユーザ要求
+ ・ status	INT		動作状態
+
+-- 予約リソースエントリ(vcregresource)
+ ※ id		INT		ID
+ ＠ register	INT		予約エントリ
+ ・ type		INT		リソース種別
+ ＠ rid		INT		リソース ID
+各予約エントリの設定情報は全てこのエントリを経由してのみアクセスする。
+リソース種別は以下がある。
+ 0x1001 vcnode
+ 0x1002 vcmemoryc
+ 0x1003 vcappliance
+ 0x1004 vcroll
+ 0x1005 vcauth
+ 0x2001 vcstoragelocals
+ 0x2002 vcstoragelocalc
+ 0x2003 vcstorageiscsis
+ 0x2004 vcstorageiscsic
+ 0x2005 vcstoragenfss
+ 0x2006 vcstoragenfsc
+ 0x3001 vcnetparameter
+ 0x3002 vcvlan
+ 0x3003 vcsubnet
+ 0x3004 vcnetextinterfacepool
+ 0x3005 vcnetextinterface
+ 0x3006 vcnetinterface
+
+-- 認証情報エントリ(vcauth)
+ ※ id		INT		ID
+ ・ user		VARCHAR(32)	ユーザ名
+ ・ passwd	VARCHAR(32)	パスワード
+各予約エントリの認証情報を格納する。
+
+-- ノード情報エントリ(vcnode)
+ ※ id		INT		ID
+ ※ vnodeid	INT		仮想ノード ID
+ ＠ pnodeid	INT		物理ノード ID
+ ・ vnodename	CHAR(32)	仮想ノード名
+どの仮想ノードをどの物理ノード上に配置するかを示す。
+
+-- メモリ情報エントリ(vcmemoryc)
+ ※ id		INT		ID
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ＠ server	INT		払い出し元メモリ情報プール
+ ＠ vnodeid	INT		仮想ノード ID
+ ・ size	INT		メモリサイズ
+各仮想ノードの使用メモリを示す。
+メモリ情報エントリはメモリプールから払い出される。
+
+-- メモリプール(vcmemorys)
+ ※ id		INT		ID
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ＠ pnodeid	INT		物理ノード ID
+ ・ size	INT		払い出し可能メモリサイズ
+物理ノード毎に、仮想ノードが利用可能な最大メモリサイズを示す。
+同一物理ノード上に同時に存在する全仮想ノードの使用可能なメモリサイズは、
+ここで示されたメモリサイズで制限される。
+
+-- アプライアンス情報(vcappliance)
+ ※ id		INT		ID
+ ＠ vnodeid	INT		仮想ノード ID
+ ・ name	VARCHAR(32)	アプライアンス名
+どの仮想ノードにどのアプライアンスを配置するかを示す。
+
+-- ホストアプライアンス(vchostappliance)
+ ※ id		INT		ID
+ ・ hostappliance	VARCHAR(32)	ホストアプライアンス名
+ ・ clientappliance	VARCHAR(32)	アプライアンス名
+ホストノードがホスティング可能な仮想ノード(のアプライアンス)を示す。
+
+- vcnetwork テーブル
+
+-- ネットワークパラメータ(vcnetparameter)
+ ※ id		INT		ID
+ ・ macaddr	VARCHAR(12)	MAC アドレス
+ ・ ipaddr	VARCHAR(8)	IP アドレス
+ ・ ipmask	VARCHAR(8)	サブネットマスク
+ ・ netipmask	VARCHAR(8)	全仮想クラスタのネットマスク
+ ・ subnetipmask	VARCHAR(8)	仮想クラスタのネットマスク
+ ・ vlanmin	INT		vlan の最小値
+ ・ vlanmax	INT		vlan の最大値
+VLAN テーブル / Subnet テーブル初期化時に用いる。
+
+-- VLAN エントリ(vcvlan)
+ ※ id		INT		ID
+ ＠ register	INT		予約エントリ
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ＠ server	INT		払い出し元 VLAN プール
+ ・ vlan	INT		VLAN ID
+各仮想クラスタの VLAN を示す。
+VLAN 情報エントリは VLAN プールから払い出される。
+同一時間帯を複数の VLAN エントリが占めることはない。
+
+-- VLANプール(vcvlanpool)
+ ※ id		INT		ID
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ・ vlan	INT		VLAN ID
+利用可能な VLAN を示す。
+
+-- Subnet エントリ(vcsubnet)
+ ※ id		INT		ID
+ ＠ register	INT		予約エントリ
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ＠ server	INT		払い出し元 Subnet プール
+ ・ ipaddr	VARCHAR(8)	仮想クラスタの開始 IP アドレス
+ ・ ipmask	VARCHAR(8)	仮想クラスタのサブネットマスク
+ ・ maxnodes	INT		当該サブネットの最大ノード数 (未使用)
+仮想クラスタのサブネット情報エントリ。
+Subnet プールから払い出される。
+同一時間帯を複数の Subnet エントリが占めることはない。
+
+-- Subnet プール(vcsubnetpool)
+ ※ id		INT		ID
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ・ ipaddr	VARCHAR(8)	仮想クラスタの開始 IP アドレス
+ ・ ipmask	VARCHAR(8)	仮想クラスタのサブネットマスク
+ ・ maxnodes	INT		当該サブネットの最大ノード数 (未使用)
+利用可能な仮想クラスタのサブネットを示す。
+
+-- 外部ネットワークアドレスエントリ(vcextinterface)
+ ※ id		INT		ID
+ ＠ register	INT		予約エントリ
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ＠ pnodeid	INT		物理ノード ID
+ ＠ vnodeid	INT		仮想ノード ID
+ ＠ server	INT		払い出し元外部ネットワークアドレスプール
+ ・ hostname	VARCHAR(32)	外部ネットワークホスト名
+ ・ domain	VARCHAR(32)	外部ネットワークドメイン名
+ ・ ipaddr	VARCHAR(8)	外部ネットワーク IP アドレス
+ ・ ipmask	VARCHAR(8)	外部ネットワークサブネットマスク
+ ・ macaddr	VARCHAR(12)	外部ネットワーク MAC アドレス
+ ・ vmnet	INT		vmnet 番号 (1 固定)
+ ・ gateway	VARCHAR(32)	外部ネットワークゲートウェイアドレス
+仮想クラスタのフロントエンドノードに割り当てられた
+外部ネットワークアドレスの情報エントリ。
+
+-- 外部ネットワークアドレスプール(vcinterfacepool)
+ ※ id		INT		ID
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ・ hostname	VARCHAR(32)	外部ネットワークホスト名
+ ・ domain	VARCHAR(32)	外部ネットワークドメイン名
+ ・ ipaddr	VARCHAR(8)	外部ネットワーク IP アドレス
+ ・ ipmask	VARCHAR(8)	外部ネットワークサブネットマスク
+ ・ gateway	VARCHAR(32)	外部ネットワークゲートウェイアドレス
+
+-- 内部ネットワークアドレスエントリ(vcextinterface)
+ ※ id		INT		ID
+ ＠ register	INT		予約エントリ
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ＠ pnodeid	INT		物理ノード ID
+ ＠ vnodeid	INT		仮想ノード ID
+ ＠ subnet	INT		サブネットエントリ ID
+ ・ ipaddr	VARCHAR(8)	内部ネットワーク IP アドレス
+ ・ macaddr	VARCHAR(12)	内部ネットワーク MAC アドレス
+ ・ vmnet	INT		vmnet 番号
+ ・ gateway	VARCHAR(32)	外部ネットワークゲートウェイアドレス
+
+- vcstorage テーブル
+-- iSCSI ディスクエントリ(vcstorageiscsic)
+ ※ id		INT		ID
+ ＠ register	INT		予約エントリ
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ※ vnodeid	INT		仮想ノード ID
+ ＠ server	INT		払い出し元 iSCSI ディスクプール
+ ・ size	INT		使用 iSCSI ボリュームサイズ
+ ・ status	INT		iSCSI ボリューム状態 : 未使用
+
+-- iSCSI ディスクプール(vcstorageiscsis)
+ ※ id		INT		ID
+ ・ start		DATETIME	開始時刻
+ ・ end		DATETIME	終了時刻
+ ・ address	VARCHAR(256)	iSCSI ターゲットアドレス
+ ・ port	INT		iSCSI ターゲットポート番号
+ ・ volgroup	VARCHAR(256)	ボリュームグループ
+ ・ size	INT		iSCSI ボリュームサイズ
+ ・ serverkey	VARCHAR(512)	認証キー : 未使用
+使用可能な iSCSI ディスクを示す。
+現状では仮想クラスタの認証情報を使用しているために serverkey は使用していない。
+-- ローカルディスクエントリ(vcstoragelocalc) : 未使用
+-- ローカルディスクプール(vcstoragelocals) : 未使用
+-- NFS ディスクエントリ(vcstoragenfsc) : 未使用
+-- NFS ディスクプール(vcstoragenfss) : 未使用

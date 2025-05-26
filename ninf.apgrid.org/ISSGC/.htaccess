@@ -1,0 +1,8 @@
+AuthUserFile /usr/local/htdocs/ninf_htdocs/contents/ISSGC/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Naples Grid School"
+AuthType Basic
+
+<Limit GET>
+require user ninf
+</Limit>

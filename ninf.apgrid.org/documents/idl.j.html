@@ -1,0 +1,448 @@
+<h1> Ninf Interface Description Language </h1>
+
+<h2> IDL ファイル と Stub Generator </h2>
+
+Ninf に 数値演算ライブラリを登録するには、
+そのライブラリのインターフェイス情報を記述する必要がある。
+この記述にはNinf IDL と呼ぶIDL を用いる。
+Stub Generator は、この言語で記述されたファイルを解釈し、
+インターフェイス情報を埋め込んだスタブメインルーチンと、
+メイクファイルを生成する。
+下の図にNinf stub generator の動作の概要を示す。
+
+<p>
+<IMG SRC="Ninf_IDL_overview.gif">
+<p>
+
+Ninf IDL はANSI C を基本にしたインターフェイス記述を採用している。
+
+<h2>IDL による記述の内容</h2>
+IDL ファイルには, 以下の情報が記述される。
+<ul>
+<li>
+        モジュール名 
+<li>
+        各関数の呼び出し方 (marshaling 情報)
+<li>
+        モジュール全体のMakeのための情報。
+<li>
+        (別名の定義)
+</ul>
+
+この記述から、Ninf化対象プログラム との橋渡しをする 
+スタブメインルーチン とそれらをコンパイルするための
+Makefileを生成する
+
+このファイルを、NINF stub generator "ninf_gen"で処理することによって、
+それぞれ関数定義に応じたスタブメインルーチンとそれらをコンパイルする
+Makefileを生成することができる。
+
+<pre>
+Usage:          ninf_gen [-d] infile.idl
+</pre>
+
+(-dはデバックオプション)<br>
+各\ninfied は、Ninf_callに対して、Ninf severにより起動され、各ライ
+ブラリ関数を実行する。
+
+<h2> Ninf IDL の構文 </h2>
+
+Ninf IDLによる記述は以下の要素からなる。
+
+<ul>
+<li> <code>Module</code> name <code>;</code><br>
+
+このファイルに記述される関数群にモジュール名を与える。
+ninf_genでは、<module名>.makというMakefileを作る。
+<p>
+<li> <code>CompileOptions "</code> .... <code> ";</code><br>
+Makefileで行わなくてはならない定義、その他を与える。
+<p>
+<li> <code> FortranFormat "</code>....<code>";</code><br>
+
+引数には、printf の様な形で変換の書式を指定する。
+使用できる変換文字は 以下の二つである。
+<ul>
+<li> <code>%s</code> : もとの関数名に変換する
+<li> <code>%l</code> : もとの関数名を大文字にしたものに変換する。
+</ul> 
+これらの文字を用いて、ほとんどの処理系のコンベンションを吸収できる。
+例えば関数名の前後に under score をつけるというコンベンションを考えてみよう。
+この場合には、
+
+<pre>
+FortranFormat "_%s_";
+</pre> 
+
+と書けばよい。これにより、
+<pre>
+Calls "Fortran" FFT(n,x,y);
+</pre>
+は、 <code>_FFT_</code> という Cからの呼び出しを生成し、
+結果として <code> FFT </code> というFortran 手続きを呼び出す。
+<p>
+
+<li> <code> Library "</code>....<code>";</code><br>
+各関数に共通にリンクするオブジェクトファイル、ライブラリを指定する。
+<p>
+<li> <code> Globals { </code> ... C descriptions ... <code> }</code><br>
+各関数に共通のglobal変数等を宣言する。
+<p>
+<li> <code> Define </code> ninf-name <code> (</code> paramter1, paramter2, ....<code> )</code><br>
+[<code>"</code>description<code>"</code> ] <br>
+[<code>Required</code> <code>"</code>files-or-libs<code>"</code>]<br>
+{ <code>{</code> C descriptions <code> }</code> | <code> Calls</code> lang-spec function-name <code>(</code> arg1,arg2, ...<code> );</code>}<br>
+
+関数のインタフェースならびに必要とするファイルやライブラリを定義する。
+<p>
+lang-specでは対象となる演算ライブラリを記述した言語を指定する。
+現在は 'fortran’ と 'C' がサポートされている。
+この値によって
+スタブルーチンは いずれにしろ C言語で生成されるが、
+スタブルーチンから 演算ライブラリを呼び出す際のコンベンションが
+制御される。
+
+例えば、fortran の場合には FortranFormat 文で指定された名前の
+コンベンションが採用される。また、scalar 値の引数を渡す際に, 
+通常のポインタ渡しになるように配慮がなされる。
+
+
+<p>
+インタフェースの記述に必要なparameterは:
+<center>
+ [mode-spec] [type-spec] param-name 
+[ <code>[</code> dimension [<code> :</code> range] <code>]</code>]+
+</center>
+
+と記述する。
+<p>
+type-specはパラメータの型である。
+signed/ unsigned の char, short, int, long, longlong、
+浮動小数点 の float, double が使用できる。
+注意すべき点はこれらの型のサイズは処理系依存ではなく、
+XDRで定められたサイズであることである。
+すなわち、char は 1 byte, short 2 byte, int 4 byte, long 4byte, longlong 8byte,
+float 4byte, double 8byte である。
+<p>
+mode-specでは入力か出力かを
+指定する(mode_in, mode_out, mode_inout)。
+出力型の引数はスカラー型であってはならない。
+<p>
+配列の要素数を指定する
+dimension には、算術式が記述できる。使用できる演算子は、
++,-,*,/,% である。演算子の優先順位は C に準拠する。
+括弧を使用して優先順位を変更することもできる。
+dimension で用いられる変数は、INパラメータでかつ配列でないものでなけれ
+ばならない。
+<p>
+配列には、領域を指定することができる。領域には
+上限、下限、ステップを指定する。ステップ、下限はそれぞれ省略することも可能である。
+これらの値にはdimension と同様に算術式を書くことが可能である
+
+</ul>
+
+<h2> Ninf IDLのシンタックス </h2>
+
+
+<PRE>/* program toplevel */
+program:  /* empty */
+      | declaration_list
+    ;
+
+declaration_list: 
+      declaration
+    | declaration_list declaration
+    ;
+
+declaration:
+      ``Module'' IDENTIFIER ';'
+    | ``FortranFormat'' STRING ';'
+    | ``CompileOptions'' STRING ';'
+    | ``Globals'' globals_body
+    | ``Define'' interface_definition opt_string required interface_body
+    ;
+
+interface_definition: 
+        IDENTIFIER '(' parameter_list ')'
+    ;
+
+parameter_list:
+       parameter
+    | parameter_list ',' parameter
+    ;
+
+parameter: 
+       decl_specifier declarator
+    ;
+
+decl_specifier: 
+    type_specifier
+    | MODE
+    | MODE type_specifier
+    | type_specifier MODE
+    | type_specifier MODE type_specifier
+    ;
+
+type_specifier:
+      TYPE
+    | TYPE TYPE
+    | TYPE TYPE TYPE    /* ex. unsigned long int */
+      | TYPENAME
+    ;
+
+declarator:
+      IDENTIFIER
+    | '(' declarator ')'
+    | declarator '['expr_or_null ']'
+    | declarator '['expr ':' range_exprs ']'
+    | '*' declarator
+    ;
+
+range_exprs:
+       expr     /* upper limit */
+     | expr ',' expr    /* lower limit and upper limit */
+     | expr ',' expr ',' expr /* lower, upper and step */
+
+opt_string: 
+    /* empty */ 
+    | STRING 
+    ;
+
+language_spec: 
+    /* empty */ 
+    | ``fortran''
+    | ``C''
+    ;
+
+required:
+    /* empty */ 
+    | ``Required'' STRING
+    ;
+
+interface_body:
+    '{' /* C statements */ '}'
+    | ``Calls'' language_spec IDENTIFIER '(' id_list ')' ';'
+    ;
+
+globals_body:
+    '{'/* C statements */ '}'
+    ;
+
+id_list: IDENTIFIER
+    | id_list ',' IDENTIFIER
+    ;
+
+/* index descrition */
+expr_or_null: 
+       expr 
+    | /* null */
+    ;
+
+expr:     
+      unary_expr
+    | expr '/' expr
+    | expr '%' expr
+    | expr '+' expr
+    | expr '-' expr
+    | expr '*' expr
+    ;
+
+unary_expr:  
+      primary_expr
+    | '*' expr
+    | '-' expr
+    ;
+
+primary_expr:
+     primary_expr '[' expr ']'
+    | IDENTIFIER
+    | CONSTANT
+    | '('  expr  ')'
+    ;
+
+/* TYPE = int, unsigned, char, short, long, float, double */
+/* MODE = mode_in, mode_out, mode_inout, mode_work, IN, OUT, INOUT, WORK*/
+/* TYPENAME はまだサポートされていない */
+/* IDENTIFER = 名前 */
+/* CONSTANT = 整数、浮動小数点数 */
+/* STRING = &quot;...&quot; */
+</PRE>
+
+
+<h2> IDL サンプル </h2>
+<P>
+sample.idl:
+
+<PRE>Module sample;
+Library &quot;-lm&quot;;
+
+Globals { int x,y,z; }
+
+Define sin(IN double d, OUT double result[])
+&quot; This is test ...&quot;
+{    
+    double sin();
+    *result = sin(d);
+}
+
+Define mmul(long mode_in int n, mode_in double A[n][n], 
+    mode_in double B[n][n],
+    mode_out double C[n][n])
+Required &quot;sample.o&quot;
+Calls &quot;C&quot; mmul(n,A,B,C);
+
+Define mmul2(long mode_in int n, mode_in double A[n*n+1-1], 
+        mode_in double B[n*n+2-3+1],
+        mode_out double C[n*n])
+Required &quot;sample.o&quot;
+Calls &quot;C&quot; mmul(n,A,B,C);
+
+
+Define FFT(IN int n,IN int m, OUT float x[n][m], float INOUT y[m][n])
+Required &quot;sample.o&quot;
+Calls &quot;Fortran&quot; FFT(n,x,y);
+</PRE>
+
+<h2> stub generator output</h2>
+sample.mak:
+
+<PRE>
+# This file 'sample.mak' was created by ninf_gen. Don't edit
+
+# CompileOptions:
+
+# stub sources
+NINF_STUB_SRC = _stub_sin.c  _stub_mmul.c  _stub_FFT.c 
+
+# stub programs
+NINF_STUB_PROGRAM = _stub_sin _stub_mmul _stub_FFT
+
+all: $(NINF_STUB_PROGRAM)
+
+_stub_sin:
+    $(CC) $(LDFLAGS) -o _stub_sin _stub_sin.c ninf_stub_lib.a  -lm
+
+_stub_mmul:
+    $(CC) $(LDFLAGS) -o _stub_mmul _stub_mmul.c ninf_stub_lib.a sample.o -lm
+
+_stub_mmul2:
+    $(CC) $(LDFLAGS) -o _stub_mmul2 _stub_mmul2.c ninf_stub_lib.a sample.o -lm
+
+_stub_FFT:
+    $(CC) $(LDFLAGS) -o _stub_FFT _stub_FFT.c ninf_stub_lib.a sample.o -lm
+
+
+clean:
+    rm $(NINF_STUB_PROGRAM)
+
+# END OF Makefile
+</PRE>
+
+
+<P>
+_stub_mmul2.c:
+<P>
+
+<PRE>/* _stub_mmul2.c : generated by ./ninf_gen, don't edit. */
+#include &quot;ninf_stub.h&quot;
+
+NINF_STUB_INFO ninf_stub_info = {
+0,0,0,  &quot;sample&quot;,&quot;mmul2&quot;,4,
+{
+        { 5, 1, 0,},
+        { 13, 1, 1,{
+                { 3, 2, 
+                        {
+                          {2,2,4,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,3,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                },
+                }},
+        { 13, 1, 1,{
+                { 3, 1, 
+                        {
+                          {2,2,4,1,4,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,3,2,1,3,2,1,1,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                },
+                }},
+        { 13, 2, 1,{
+                { 3, 3, 
+                        {
+                          {2,2,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                  0, 0, 
+                        {
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+                          {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+                        },
+                },
+                }},
+}
+};
+
+/* Globals */
+ int x,y,z; 
+
+/* Stub Main program */
+main(argc,argv){
+        long n;
+        double *A;
+        double *B;
+        double *C;
+
+        Ninf_stub_INIT(argc,argv);
+        while(Ninf_stub_REQ()){
+                Ninf_stub_SET_ARG(&amp;n,0);
+                Ninf_stub_SET_ARG(&amp;A,1);
+                Ninf_stub_SET_ARG(&amp;B,2);
+                Ninf_stub_SET_ARG(&amp;C,3);
+                mmul(n,A,B,C);
+                Ninf_stub_END();
+        }
+        Ninf_stub_EXIT();
+}
+ /* END OF Stub Main */
+</PRE>
+

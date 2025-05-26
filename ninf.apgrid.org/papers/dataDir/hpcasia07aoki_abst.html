@@ -1,0 +1,32 @@
+<h1> Abstract </h1>
+<hr>
+Past work on “programming for the grid” for compute-
+intensive applications have largely focused on two ex-
+tremes, either loosely-coupled, cycle-scavenging, desktop
+grid environments such as BOINC or Condor vs. tightly-
+coupled metacomputing systems such as MPICH-G2 or
+GridMPI. Neither is really appropriate for class of ap-
+plications that are middle-tier, e.g., fine-grained branch-
+and-bound master-worker applications where the run-
+ning time of individual jobs may range from less than
+tenth of a second to few minutes, and communication in-
+tervals being further fine-grained.Our new grid program-
+mingmiddleware and framework, Jojo2, allows efficient
+programming of fine-grained, hierarchicalmaster-worker
+applications on a grid-of-clusters environment. During
+programming, much of the complexities associated with
+hierarchy and changes in the underlying resources are
+hidden away or isolated, and the user need not be aware of
+physical configuration of the resources. Even during exe-
+cution, new compute resources can be explicitly be added
+via batch submissions, and are subsequently automati-
+cally detected and incorporated in the system. Evaluation
+of Jojo2 on real master-worker applications proved very
+positive, both on TSUBAME, a supercomputing cluster
+with 10,000 nodes, as well as a nationwide testbed in-
+volving more than 800 CPUs and a number of 100-node
+class clusters. In both cases, applications on Jojo2 not
+only scaled very well, but autonomously adapted to bulk
+changes in the order of hundreds of underlying resources,
+both resources being added as well as those going away.
+<hr>

@@ -1,0 +1,25 @@
+/* <STYLE TYPE="text/css"> */
+
+  BODY { background : white ;
+	 padding : 3% ;
+	 font-family : Vernada, Arial, Helvetica ;
+/*	 text-align : justify ; */
+	}
+  H1 { color : navy }
+  H2, H3 { color : navy ;
+	   border-bottom : ridge blue ;
+	   border-right : thin ;
+/*	   background-color : silver ;*/
+/*	   border-width : thin solid #CCC;*/
+/*	   border-style : outset */
+  }
+/*  P.abstruct { font-size: small; }*/
+/*  P, SPAN, DIV { font-family : Helvetica, Arial, Vernada, "Gill Sans" }*/
+/*  P, SPAN, DIV { font-family : "Times Roman" }*/
+
+  LI.red {list-style-image : url(fig/red_box2.jpg)}
+  LI.blue {list-style-image : url(fig/blue_box2.jpg)}
+  LI.green {list-style-image : url(fig/green_box2.jpg)}
+  LI.yellow {list-style-image : url(fig/yellow_box2.jpg)}
+
+/* </STYLE> */

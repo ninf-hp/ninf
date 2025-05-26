@@ -1,0 +1,282 @@
+
+<center>
+<h1> Bridging Ninf and NetSolve </h1>
+ Hidemoto Nakada, Satoshi Matsuoka, Satoshi Sekiguchi
+</center>
+<hr>
+
+<h1>Abstract</h1>
+Ninf and NetSolve are remote computing systems 
+which are oriented to provide numerical computations.
+These two systems are very similar to each other 
+in there design and motivation.
+In this memo, we compare these two systems and
+discuss on advantages and disadvantages.
+We made adapters to enable each system to 
+use numerical routines installed on the other system.
+We will show the design and implementation of the adapters.
+
+<h1>1. Ninf and NetSolve</h1>
+<a href="http://ninf.apgrid.org/">Ninf</a> is a remote computing system we are developing.
+It provides remote numerical computation service for client programs,
+in almost transparent manner.
+<p>
+<a href="http://www.cs.utk.edu/~casanova/NetSolve/">NetSolve</a> is a remote computing system
+developed by Jack Dongarra and his colleagues 
+in University of Tennessee and Oak Ridge National Laboratory.
+<p>
+These two systems are developed under the same motivation,
+and there system configuration are very similar.
+Sharing there numerical routines benefits there users.
+To enable the sharing, some adapters required to
+translate protocols and data.
+
+<h2>1.1 Ninf Overview </h2>
+Figure 1 shows a configuration of typical Ninf system.
+There are NinfServers which provide numerical computation routines, 
+and clients which request computation, and MetaServer.
+The subsystem called ``MetaServer'' take  responsibility on
+load distribution.
+MetaServer is a kind of proxy server, 
+so clients do not have to know which is MetaServer
+and which is NinfServer.
+A client issues request to a MetaServer, and
+MetaServer choose a proper NinfServer and forwards the request.
+
+<center>
+<pre>
+                            +-- NinfServer
+                            |             
+  NinfClient -- MetaServer -+-- NinfServer
+                            |             
+                            +-- NinfServer
+</pre>
+Figure 1: Configuration of Ninf System</center>
+
+<h2>1.2 NetSolve Overview </h2>
+Figure \ref{fig:netsolve-overview} shows configuration of typical NetSolve System.
+The subsystem called ``Agent'' take responsibility on load distribution.
+The Agent is just a ``broker'' and it gives possible server list 
+to the clients.
+Clients choose a proper server and connect it directly.
+
+<center>
+<pre>
+  NetSolveClient  <-----------> Agent  
+            |                          
+            +--------- NetSolveServer  
+             +--------- NetSolveServer 
+              +--------- NetSolveServer
+</pre>
+Figure 2: Configuration of NetSolve System</center>
+
+<h2>1.3 Comparison between Ninf and NetSolve </h2>
+The following list is summary of the comparison between 
+Ninf and NetSolve.
+
+<ul>
+<li><p> MetaServer and Agent <br>
+	Both MetaServer and Agent play the same roll in each system,
+	load distribution, but they are implemented differently.
+	MetaServer is a proxy server, but Agent is a broker.
+</p>
+
+<li> <p>Interface Information Structure <br>
+	Both systems send interface information dynamically.
+	Structures of the informations are very different each other.
+</p>
+<p>
+	Ninf interface structure is designed based on C language calling 
+	sequence. 
+</p>
+<p>
+	NetSolve structure is more abstract.
+	It defines language independent I/O information.
+	Language dependent calling sequence is provided as a addendum.
+</p>
+<p>
+	Their representation abilities are also different.
+	NetSolve just allows, scalar, vector, 2-dimensional-array.
+	Ninf allows up-to 10-dimensional-array.
+	Also, stride for the array can be specified in Ninf.
+	On the other hand, Ninf does not support 'complex' data-type,
+	which is supported by NetSolve.
+</p>
+<li> <p> Data Transfer <br>
+	In Ninf, the size of data must be determined in advance 
+	of the transmission.
+	Therefore, data itself does not have the information
+	about its size.
+</p>
+<p>
+	In NetSolve, each data is attached with the size information.
+	It enables to adopt more dynamic protocol.
+</p>
+
+<li> <p> Callback and UPF <br>
+	Ninf provides 'callback' facility.
+	You can specify a client-side function to be called from the 
+	server-side routine.
+	This can be used to display intermediate results,
+	and/or load-distribution.
+</p>
+<p>
+	On the other hand, NetSolve provides UPF(user provided function).
+	The specified function is transferred to the server as a source code,
+	and compiled and linked with the server-side routine.
+</p>
+</ul>
+
+
+<h1> 2. Adapters </h1>
+To use routines on each other system, some protocol translation
+adapter is required.
+<p>
+We designed and implemented two adapters:
+one enables Ninf clients to call NetSolve routines,
+the other enables NetSolve clients to call Ninf routines.
+
+<h2> 2.1 Ninf - NetSolve adapter </h2>
+This adapter acts as a NinfServer in the Ninf system, 
+and behaves as a client in the NetSolve system.
+Figure \ref{fig:netsolve-adapter} shows the configuration of 
+the entire system.
+<p>
+
+<center><pre>
+                            +-- [BRIGDE] <----> NetSolveAgent
+                            |       +-- NetSolveServer       
+                            |        +-- NetSolveServer      
+  NinfClient -- MetaServer -+                                
+                            +-- NinfServer                   
+                            |                                
+                            +-- NinfServer                   
+</pre>
+Figure 3: Ninf-NetSolve Adapter</center>
+
+
+The adapter is written in Java.
+The roll of the adapter is as follows.
+
+<ul>
+<li> Protocol translation
+<li> Interface information translation<br>
+	Translate NetSolve interface information structure,
+	Ninf interface information.
+<li> Data transfer<br>
+	It caches entire date once, and forwards it.
+</ul>
+
+
+<h2> 2.1 NetSolve - Ninf Adapter </h2>
+This adapter enables NetSolve clients to call numerical 
+routines installed on Ninf system.
+This adapter behaves as an NetSolve server:
+connects to a NetSolve Agent and introduces itself, 
+and receives request from client.
+In the Ninf world, it is a kind of MetaServer:
+it manages plural NinfServers, and dispatch 
+received request to the proper server.
+<p>
+Figure \ref{fig:ninf-adapter} shows the configuration 
+of a system with this adapter.
+<p>
+
+<center>
+<pre>
+  NetSolveClient  <-----------> Agent           
+            |                                   
+            +--------- NetSolveServer           
+             \                                  
+              +--------- [Bridge] -+- NinfServer
+                                   +- NinfServer
+                                   +- NinfServer
+</pre>
+Figure 4: NetSolve-Ninf Adapter</center>
+
+<p>
+This adapter is written in java.
+It reads a configuration file which specifies NinfServers and
+NetSolve Adapter.
+
+<pre>
+    server ninf.apgrid.org:3030
+    server etlsolon.etl.go.jp:3030
+
+    agent  comet.cs.utk.edu
+</pre>
+<p>
+First, the adapter connects to the specified NinfServers
+and retrieves routine interface informations.
+and translates the informations into NetSolve form 
+and store them.
+<p>
+Then, the adapter connects to the specified Agent and introduce 
+itself and routines.
+<p>
+Finally, it wait for client requests at port No.2222 
+(the NetSolve server port).
+<p>
+When request arrives, the adapter receives 
+parameters and forward them to a proper NinfServer.
+The adapter has same load-distribution ability as the MetaServer.
+
+
+<h2> 2.2 Preliminary Evaluation </h2>
+We tested Ninf-NetSolve adapter to evaluate the overhead.
+<p>
+We compared NetSolve native client and 
+Ninf client with the Adapter.
+We used NetSolve Agent on 'comet.cs.utk.edu',
+and NetSolve server on 'dancer.cs.utk.edu'
+(It's impossible to specify computation server.
+But fortunately, our experimental computations were
+always done on the server).
+<p>
+For the evaluation, we used 'degsv'(a part of LAPACK) routine.
+The size of matrix were 50, 100, 150, 200.
+We measured 10 times each, and took the shortest one.
+<p>
+
+<table border=4 align="center">
+<tr><td> Execution Time [sec]	</td><td> 50 </td><td> 100 </td><td> 150 </td><td> 200 </td></tr>
+<tr></tr>
+<tr><td>NetSolve native client   </td><td>  8.2 </td><td> 18.4 </td><td> 33.3 </td><td> 72.1 </td></tr>
+<tr><td>Ninf client with adapter </td><td>  8.5 </td><td> 21.7 </td><td> 38.8 </td><td> 82.4 </td></tr>
+<tr></tr>
+<tr><td>Overhead</td>	 <td> 0.3 </td><td> 3.3 </td><td> 5.5 </td><td> 10.3 </td></tr>
+</table>
+
+We can see that overhead time depends on the size of 
+the transferred data.
+The adapter stores all data once, then send to the server.
+This cacheing is considered to be the cause of the overhead.
+
+<h1> 3.Discussion </h1>
+As mentioned before, there is some non-trivial difference between
+Ninf and NetSolve.
+Therefore, some numerical routines cannot be shared by the two systems.
+<p>
+
+Some of the differences come from their design concept,
+and are essential, 
+but some of them are just the implement issues.
+The two system can share some layers in their implements.
+<p>
+
+We should specify data transfer layer
+which is specialized for numerical computation,
+on top of simple data transfer layers, such as XDR.
+It will enable efficient adapter implementation.
+<p>
+
+We should also provide non-binary data transfer facility for the layer.
+For example, sparse matrices are ordinary represented 
+in some text format.
+<p>
+
+Data format (XDR or native representation) should be negotiated 
+in advance of the data transfer itself.
+The negotiation process should be implemented into the layer.
+
+

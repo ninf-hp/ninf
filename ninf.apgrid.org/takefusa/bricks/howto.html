@@ -1,0 +1,166 @@
+<html>
+<title>
+How to use Bricks
+</title>
+<body	bgcolor="FFFFFF"
+	text="#191970"
+	link="#3332cc"
+	vlink="#ff6347">
+
+<h1>Bricks: A Performance Evaluation System for Grid Computing Scheduling Algorithms</h1>
+
+The Official Bricks page is 
+<a href="http://matsu-www.is.titech.ac.jp/~takefusa/bricks/">here!</a>
+
+<hr size=3>
+
+<h1>How to use the Bricks system</h1>
+
+<h2>Downloading and setting up</h2>
+
+<ol>
+<li>To use Bricks, you need:<br>
+    <ul>
+    <li> The JDK/JRE 1.1.x, 1.2.x,  or 1.3.x.
+    </ul>
+<li>Download the latest version of Bricks<br>
+    <ul>
+    <li><a href="bricks1.0/bricks">Source files</a> 
+        (<a href="bricks1.0.tar.gz">gzipped source files</a>)
+    </ul>
+<li>Compile the Bricks package
+    <ul>
+    <li> "% make"
+    </ul>
+<li>Setting up the system class path<br>
+</ol>
+
+
+<h2>The Bricks execution steps</h2>
+<ol>
+<li>Make a configuration file
+<li>Prepare trace files or/and set up other Grid computing modules such as the 
+<a href="http://nws.npaci.edu/NWS/">NWS</a> forecaster, if required.
+<li>Run the Bricks simulation
+<li>Collect Simulation results
+</ol>
+
+<h2>Trying out the samples</h2>
+
+<ol>
+<li>Make configuration files<br>
+<p>
+    <ul>
+    <li><a href="bricks1.0/test/sample1.conf">Sample1</a>: extraneous data model
+    <li><a href="bricks1.0/test/sample2.conf">Sample2</a>: trace data model
+    <li><a href="bricks1.0/test/sample3.conf">Sample3</a>: incorporation of 
+<a href="http://nws.npaci.edu/NWS/">NWS</a> (trace data model)<br>
+(Attention: <a href="http://www.etl.go.jp/~nakada/nwsjava/">NWS Java API</a> is required for the NWS simulations on Bricks.)
+    </ul>
+You can imagine what each line of the configuration files 
+means.<br>
+The network model represented by Sample1 and Sample2 are 
+the extraneous data model, which is a kind of probability model, and 
+the trace model shown in 
+<a href="takefusa00.ps.gz">the doctoral dissertation</a>, respectively.
+Sample3 is an example of simulation, which incorporates NWS modules.<br>
+If you want to evaluate your original modules on Bricks, you can specify them
+on configuration files.
+The details are shown on <a href="#impl_org_modules">here</a>.
+</p>
+
+<li>Prepare trace files or/and set up other Grid computing modules 
+such as the NWS forecaster, if required<br>
+<p>
+For Sample2 and Sample3, you have to prepare 
+<a href="bricks1.0/test/ns0_nws.dat">ns0_nws.dat</a> and 
+<a href="bricks1.0/test/nr0_nws.dat">nr0_nws.dat</a> as trace files of Network.<br>
+For Sample3, you have to set up NWS Persistent State and NWS Forecaster
+ on <tt>MyNWSDBHost</tt> and <tt>MyNWSPredictorHost</tt>, respectively.
+</p>
+
+<li>Run the Bricks Simulation
+<p>
+Usage:<br>
+<tt><pre>$ java Simulate [-times &lt;times&gt; | -fin &lt;the time finished simulation&gt;] \
+[-prefix &lt;prefix of log files&gt;] [-network_log] [-serverlog] [-info] &lt;configuration file&gt;</pre></tt><br>
+    <dl>
+    <dt><tt>-times</tt></dt>
+    <dd>specify the total number of client requests</dd>
+    <dt><tt>-fin</tt></dt>
+    <dd>specify the time finished simulation<br>
+    you should specify <tt>-times</tt> or <tt>-fin</tt> option.</dd>
+    <dt><tt>-prefix</tt></dt>
+    <dd>specify prefix of output files (default prefix is "tmp").</dd>
+    <dt><tt>-network_log</tt></dt>
+    <dd>specify this option if you want network log files.</dd>
+    <dt><tt>-server_log</tt></dt>
+    <dd>specify this option if you want server log files.</dd>
+    <dt><tt>-info</tt></dt>
+    <dd>specify this option if you want to know the execution time of the simulation and the number of objects generated in the simulation.</dd>
+    </dl>
+</p>
+<p>
+The command lines for samples are as follows:<br>
+Sample1:<br>
+<tt>$ java bricks.Simulate -times 10 -prefix sample1 -info sample1.conf</tt><br>
+Sample2:<br>
+<tt>$ java bricks.Simulate -times 10 -prefix sample2 -info sample2.conf</tt><br>
+Sample3:<br>
+<tt>$ java bricks.Simulate -times 10 -prefix sample3 -info sample3.conf</tt><br>
+</p>
+
+<li>Collect Simulation results
+<p>
+Each Bricks simulation outputs some files:
+    <dl>
+    <dt>[prefix]_c.log</dt>
+    <dd>client log file</dd>
+    <dt>[prefix]_nm.log</dt>
+    <dd>network monitor log file</dd>
+    <dt>[prefix]_sm.log</dt>
+    <dd>server monitor log file</dd>
+    <dt>[prefix]_n.log (if specified)</dt>
+    <dd>network log file</dd>
+    <dt>[prefix]_s.log (if specified)</dt>
+    <dd>server log file</dd>
+    </dl>
+</p>
+<p>
+Modules to calculate the simulation results will be provided.
+</p>
+</ol>
+
+<h2>Implementation and Execution of orginal modules</h2><a name="impl_org_modules">
+
+If you want to execute original Scheduling Unit modules, <br>
+<ol>
+<li>implement <tt>[SchedulingUnitModule].java</tt> and 
+<tt>[SchedulingUnitModule]Creator.java</tt> in the same manner.<br>
+An example of Schedulign Unit modules programs are 
+<a href="bricks1.0/bricks/scheduling/">
+here</a>
+
+<li>prepare class files<br>
+compile <tt>[SchedulingUnitModule].java</tt> and 
+<tt>[SchedulingUnitModule]Creator.java</tt>, 
+and then put their class files on the current directory or 
+the directory on the <tt>CLASSPATH</tt>.
+
+<li>make a configuration file<br>
+If you want to incorporte your scheduler named [SchedulingUnitModule] 
+into Bricks, an example of specification is as follows:<br>
+<p>
+<pre>
+# Scheduler [name] [Scheduler([Predictor name] [arguments] ..)]
+Scheduler MyScheduler [SchedulingUnitModule](pr, MyArgs, ...)
+</pre>
+</p>
+<tt>[name]</tt> is given arbitrarily and 
+the <tt>[arguments]</tt> sequence have to correspond to the sequence implemented in [SchedulingUnitModule]Creator.java
+
+<li>Run the Bricks Simulation in the same manner
+<li>Collect Simulation results in the same manner
+</ol>
+</body>
+</html>

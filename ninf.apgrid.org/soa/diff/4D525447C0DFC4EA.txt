@@ -1,0 +1,45 @@
++[[FrontPage]]
+ 
+++ 前準備: yum が入っていなければインストールする
++  wget http://beta.centos.org/centos/4.2beta/os/SRPMS/yum-2.4.0-1.centos4.src.rpm
++  rpm -i yum-2.4.0-1.centos4.src.rpm
++  rpmbuild -ba /usr/src/redhat/SPECS/yum.spec
++  rpm -ihv /usr/src/redhat/RPMS/noarch/yum-2.4.0-1.centos4.noarch.rpm
++足りないパッケージは /home/install/rolls/os/4.2.1/i386/RedHat/RPMS から入れる。
+++ MRTG インストール
++ yum install mrtg
+++ MRTG 設定
++cfgmaker で設定ファイルを生成する。
++ cfgmaker --output=/usr/local/etc/mrtg.cfg public@192.50.74.153 \
++ public@vmware-server-gw-0-0 \
++ public@vmware-server-0-0 \
++ public@vmware-server-0-1 \
++ public@vmware-server-0-2 \
++ public@vmware-server-0-3
++mrtg.cfg を編集する。ログファイルの格納場所や生成されるグラフの格納場所を
++修正する。 
++ .1.3.6.1.4.1.2021.10.1.5.1  CPU 使用率 1 分間平均
++ .1.3.6.1.4.1.2021.10.1.5.2  CPU 使用率 5 分間平均
++ .1.3.6.1.4.1.2021.13.15.1.1.3.21 /dev/sdb(ホストによる)の読み出しバイト数/s
++ .1.3.6.1.4.1.2021.13.15.1.1.4.21 /dev/sdb(ホストによる)の書き込みバイト数/s
++SNMP で取れる情報は、snmpwalk コマンドで確認できる。 
++ snmpwalk -v1 -c コミュニティ名  ホスト名 1.3.6.1.4.1.2021.13.15.1.1.2
+++ MRTG の利用
++- cron で mrtg を起動する。あるいは、--daemon で常時動作させておく。
++- mrtg が生成するグラフをウェブブラウザで確認。
++-----
++
++rrdtool の利用
++
++MRTG は基本的に 5 分より短い時間間隔での情報取得はできない。
++そのような用途では rrdtool を利用する。
++ただし、MRTG の記録ファイル形式を rrdtool を用いたものにすることで 5 分より短かい時間間隔にも対応できる。
++例えば以下のような記述を mrtg.cfg に追加する。
++ LogFormat: rrdtool
++ Interval: 1
++ただし、この場合にはグラフイメージ生成は MRTG では行わないため、以下の方法で
++グラフを生成しなければならない。
++- rrdtool graph コマンドを使用してグラフを生成する。
++- mrtg-rrd.cgi を使用する(mrtg-rrd として配布されている)。
++- rrd.cgi を使用する(rrdtool の一部として配布されている)。
++

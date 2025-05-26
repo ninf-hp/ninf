@@ -1,0 +1,154 @@
+<!--#include file="frame_head.shtml"-->
+
+<H2>Related Work</H2>
+
+<UL>
+<LI CLASS=red>
+<A HREF="#system">Performance Evaluation Tools</A>
+<LI CLASS=blue>
+<A HREF="#netsim">Network Simulators</A>
+<LI CLASS=green>
+<A HREF="#scheduling">
+Network Queuing Systems & Scheduling Systems for Global/Distributed 
+Computing Systems</A>
+<LI CLASS=yellow>
+<A HREF="#gcsystem">Global Computing Systems</A>
+</UL>
+
+<A NAME="system">
+<H3>Performance evaluation tools</H3>
+<UL>
+<LI CLASS=red>
+<!--A HREF="http://"-->WARMstones<!--/A--> [Syracuse Univ.]
+
+<LI CLASS=blue>
+<A HREF="http://beta.ee.ufl.edu/Projects/Osculant/">
+Osculant</A> [Univ. Florida]
+
+<LI CLASS=green>
+<A HREF="http://www-csag.ucsd.edu/projects/grid/microgrid.html">MicroGrid</A> [UCSD]
+</UL>
+
+<A NAME="netsim">
+<H3>Network Simulators</H3>
+<UL>
+<LI CLASS=red><A HREF="http://www-mash.cs.berkeley.edu/ns/">UCB-LBNL-VINT Network Simulator NS v2</A> [UCB, LBNL, VINT]
+<LI CLASS=blue>
+<A HREF="http://minnie.cs.adfa.edu.au/REAL/index.html">The REAL Network Simulator</A>
+<LI CLASS=green>
+<A HREF="http://www.psc.edu/~mathis/matt/papers.html">TReno -Matt Mathis' Papers and Citations-</A>
+<LI CLASS=yellow>
+<A HREF="http://www.antd.nist.gov/itg/nistnet/">NIST Net Home Page (network emulation)</A>
+<LI CLASS=red>
+<A HREF="http://www.mil3.com/">MIL 3 Network Modeling and Simulation</A>
+<LI CLASS=blue>
+<A HREF="http://www.dimacs.rutgers.edu/Projects/Simulations/darpa/">Scalable Self-Organizing Simulations (S3)</A>
+</UL>
+<UL>
+<LI><A HREF="http://ita.ee.lbl.gov/index.html">The Internet Traffic Archive</A>
+<LI><A HREF="http://www.cis.ohio-state.edu/htbin/rfc/rfc2001.html">rfc2001</A>
+</UL>
+
+<A NAME="scheduling">
+<H3>Network Queuing Systems & Scheduling Systems for Global/Distributed Computing Systems</H3>
+Scheduling Systems for Global/Distributed Computing Systems
+<UL>
+<LI CLASS=red>
+<A HREF="http://apples.ucsd.edu/">AppLeS Home Page</A>
+<LI CLASS=blue>
+<A HREF="http://www.uni-paderborn.de/pc2/projects/ccs/">PC2 - CCS</A>
+<LI CLASS=green>
+<A HREF="http://ringer.cs.utsa.edu/faculty/jon/het.html">Prophet - Heterogeneous Computing Research</A>
+</UL>
+Network Queuing Systems
+<UL>
+<LI CLASS=red>
+<A HREF="http://www.platform.com/">LSF -Platform Computing Inc.-</A>
+<LI CLASS=blue>
+<A HREF="http://www.cray.com/products/software/nqe/">NQE</A>
+<LI CLASS=green>
+<A HREF="http://pbs.mrj.com/main.html">PBS: Portable Batch System</A>
+<LI CLASS=yellow>
+<A HREF="http://parallel.nas.nasa.gov/PSCHED/">PSCHED</A>
+<LI CLASS=red>
+<A HREF="http://www.genias.de/products/codine/">CODINE - GENIAS Software</A>
+</UL>
+
+<A NAME="gcsystem">
+<H3>Global Computing Systems</H3>
+Client-Server Global Computing Systems
+<UL>
+<LI CLASS=red>
+<A HREF="http://ninf.apgrid.org/">Ninf</A>
+<LI CLASS=blue>
+<A HREF="http://www.cs.utk.edu/netsolve/">NetSolve</A>
+<LI CLASS=green>
+<A HREF="http://www.inf.ethz.ch/personal/arbenz/rcs.html">RCS - The Remote Computation System</A>
+<LI CLASS=yellow>
+<A HREF="http://www.dgs.monash.edu.au/~davida/nimrod.html">Nimrod - Project Information</A>
+<!--
+<LI CLASS=red>
+<LI CLASS=blue>
+<LI CLASS=green>
+<LI CLASS=yellow>
+-->
+</UL>
+Middleware Model Global Computing Systems
+<UL>
+<LI CLASS=red>
+<A HREF="http://www.globus.org/">The Globus Project</A>
+<LI CLASS=blue>
+<A HREF="http://www.cs.virginia.edu/~legion/">Legion A Worldwide Virtual Computer</A>, 
+<A HREF="http://www.cs.virginia.edu/~mentat/">The Mentat Project</A>
+<LI CLASS=green>
+<A HREF="http://nws.npaci.edu/EveryWare/">EveryWare Home Page</A>
+<LI CLASS=yellow>
+<A HREF="http://www.cs.wisc.edu/condor/">Condor</A>
+<LI CLASS=red>
+<A HREF="http://www.acl.lanl.gov/PAWS/">PAWS</A>
+<LI CLASS=blue>
+<A HREF="http://www.cs.indiana.edu/hyplan/kksiazek/pardis.html">PARDIS</A>
+<LI CLASS=green>
+<A HREF="http://www.netlib.org/utk/people/JackDongarra/PAPERS/snipe.html">
+Scalable Networked Information Processing Environment (SNIPE)</A>, 
+<A HREF="http://www.netlib.org/utk/projects/rcds/">
+Resource Cataloging and Distribution System (RCDS)</A>
+<LI CLASS=yellow>
+<!--
+<LI CLASS=red>
+<LI CLASS=blue>
+<LI CLASS=green>
+<LI CLASS=yellow>
+-->
+</UL>
+Java-based Systems
+<UL>
+<LI CLASS=red>
+<A HREF="http://www.kfa-juelich.de/unicore/">Verbundproject UNICORE (UNiform Interface to COmputing REsources)</A>
+
+<LI CLASS=blue>Ninflet [ETL]
+<LI CLASS=green>Javelin & Javelin++ [UCSB]
+<LI CLASS=yellow>Gateway [Syracuse Univ.]
+<!--
+<LI CLASS=red>
+<A HREF="http://matsu-www.is.titech.ac.jp/~suzumura/cpsb/specification.html">
+Jini -- CPS Browser specification</A>
+<LI CLASS=red>
+<LI CLASS=blue>
+<LI CLASS=green>
+<LI CLASS=yellow>
+-->
+</UL>
+Others
+<UL>
+<LI CLASS=red>
+<A HREF="http://www-neos.mcs.anl.gov/">NEOS Server</A> [ANL]
+<LI CLASS=blue>
+<A HREF="http://www.shudo.net/MC/">MC System - Parallelizing and Distributing Compiler -</A> [Waseda Univ.]
+<!--
+<LI CLASS=green>
+<LI CLASS=yellow>
+-->
+</UL>
+
+<!--#include file="frame_tail.shtml"-->

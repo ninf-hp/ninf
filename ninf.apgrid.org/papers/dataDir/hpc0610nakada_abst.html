@@ -1,0 +1,5 @@
+<h1> Abstract </h1>
+<hr>
+グリッド上でRPC(Remote Procedure Call) を実現するGridRPCは，グリッド上のプログラミングモデルとして有望なマスタ・ワーカ計算をサポートするのに適した計算機構である．われわれはGridRPC APIを実装したプログラミング機構としてNinf-Gを設計，実装している．Ninf-Gは基本的にGlobus Toolkitを用いて実装されているが，ジョブの起動機構をInvoke Serverと呼ぶ外部モジュールとしてプラグインすることで，多様な実行環境に柔軟に適応することができる．Invoke Server機構の設計に関しては，すでに別稿で報告している．われわれは，Globus Toolkit 4 WS GRAM, Unicore, Condor，ssh，NAREGI ミドルウェアβに対してそれぞれInvoke Serverを実装した．また，Invoke Server機構のオーバヘッドを評価するためにジョブ起動時間を測定した．その結果，Invoke Serverによって導入されるオーバヘッドはジョブ起動機構自身のオーバヘッドと比較すると十分小さいことがわかった．本稿では，より適応範囲を広げるために計画されている，より高度なモジュール化に関しても議論する．
+
+<hr>

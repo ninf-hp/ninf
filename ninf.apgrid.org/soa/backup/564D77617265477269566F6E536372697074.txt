@@ -1,0 +1,184 @@
+>>>>>>>>>> 1156983886
+[[FrontPage]]
+
+* VLAN NICを作ってvmnet-bridgeを起動するinitスクリプト [#qba86718]
+
+** 使い方 [#p8449efb]
+
+まず、/etc/vmware-grivon/networkファイルを作る。
+
+ VNET1_DEV=eth0
+ VNET1_VID=100
+ VNET2_DEV=eth0
+ VNET2_VID=101
+ VNET3_DEV=eth0
+ VNET3_VID=102
+ ... (いくらでも書ける)
+
+次に添付したvmware-grivonスクリプトを/etc/init.dにコピーし、起動時に実行できるように以下のコマンドを実行する。
+
+ # /sbin/chkconfig -add vmware-grivon
+
+以降は起動時に勝手にVirtual NICを作って、対応するvmnetを作ってくれる。
+
+その他の使い方は以下のように実行して確認のこと。
+
+ # /etc/init.d/vmware-grivon
+>>>>>>>>>> 1156984153
+[[FrontPage]]
+
+* VLAN NICを作ってvmnet-bridgeを起動するinitスクリプト [#qba86718]
+
+Runlevel 2,3,5では/etc/init.d/vmwareの後に実行され、Runlevel 0,1,4では/etc/init.d/vmwareの前に実行されるようにしてある。
+
+** 使い方 [#p8449efb]
+
+まず、/etc/vmware-grivon/networkファイルを作る。
+
+ VNET1_DEV=eth0
+ VNET1_VID=100
+ VNET2_DEV=eth0
+ VNET2_VID=101
+ VNET3_DEV=eth0
+ VNET3_VID=102
+ ... (いくらでも書ける)
+
+次に添付したvmware-grivonスクリプトを/etc/init.dにコピーし、起動時に実行できるように以下のコマンドを実行する。
+
+ # /sbin/chkconfig -add vmware-grivon
+
+以降は起動時に勝手にVirtual NICを作って、対応するvmnetを作ってくれる。
+
+その他の使い方は以下のように実行して確認のこと。
+
+ # /etc/init.d/vmware-grivon
+
+Fedora Core 5でしか動作確認していない。CentOSなどでの確認はよろしく。
+>>>>>>>>>> 1157068245
+[[FrontPage]]
+
+* VLAN NICを作ってvmnet-bridgeを起動するinitスクリプト [#qba86718]
+
+添付ファイル、アップデートするのめんどい。もっといい方法はない？
+
+Runlevel 2,3,5では/etc/init.d/vmwareの後に実行され、Runlevel 0,1,4では/etc/init.d/vmwareの前に実行されるようにしてある。
+
+** 使い方 [#p8449efb]
+
+まず、/etc/vmware-grivon/networkファイルを作る。
+
+ VNET1_DEV=eth0
+ VNET1_VID=100
+ VNET2_DEV=eth0
+ VNET2_VID=101
+ VNET3_DEV=eth0
+ VNET3_VID=102
+ ... (いくらでも書ける)
+
+次に添付したvmware-grivonスクリプトを/etc/init.dにコピーし、起動時に実行できるように以下のコマンドを実行する。
+
+ # /sbin/chkconfig -add vmware-grivon
+
+以降は起動時に勝手にVirtual NICを作って、対応するvmnetを作ってくれる。
+
+その他の使い方は以下のように実行して確認のこと。
+
+ # /etc/init.d/vmware-grivon
+
+Fedora Core 5でしか動作確認していない。CentOSなどでの確認はよろしく。
+>>>>>>>>>> 1157126154
+[[FrontPage]]
+
+* VLAN NICを作ってvmnet-bridgeを起動するinitスクリプト [#qba86718]
+
+添付ファイル、アップデートするのめんどい。もっといい方法はない？
+
+** 使い方 [#p8449efb]
+
+まず、/etc/vmware-grivon/networkファイルを作る。
+
+ VNET1_DEV=eth0
+ VNET1_VID=100
+ VNET2_DEV=eth0
+ VNET2_VID=101
+ VNET3_DEV=eth0
+ VNET3_VID=102
+ ... (いくらでも書ける)
+
+次に添付したvmware-grivonスクリプトを/etc/init.dにコピーする。
+
+その上で、以下のように実行して、正しくVirtual NICが作られ、対応するvmnetが作られること確認。
+
+ # /etc/init.d/vmware-grivon start
+
+ご破算にするには、
+
+ # /etc/init.d/vmware-grivon stop
+
+残りのオプションは、コマンドラインから実行してみれば分かるだろう。
+
+ # /etc/init.d/vmware-grivon
+ Usage: /etc/init.d/vmware-grivon {start|stop|status|restart|condrestart}
+
+init scriptとして起動時に実行してもらうためには、以下のコマンドを実行する。
+
+ # /sbin/chkconfig -add vmware-grivon
+
+Run level 2,3,5では/etc/init.d/vmwareの後に実行され、Run level 0,1,4では/etc/init.d/vmwareの前に実行されるようにしてある。
+
+以降は起動時に勝手にVirtual NICを作って、対応するvmnetを作ってくれる。
+
+**注意点 [#a1324473]
+
+Fedora Core 5でしか動作確認していない。CentOSなどでの確認はよろしく。
+>>>>>>>>>> 1157385981
+[[FrontPage]]
+
+* VLAN NICを作ってvmnet-bridgeを起動するinitスクリプト [#qba86718]
+
+添付ファイル、アップデートするのめんどい。もっといい方法はない？
+
+** 前提 [#ca56a2d9]
+
+- /etc/sysconfig/networkにVLAN="yes"が追加してあるものとする。
+- 起動時、Virtual NICはconfigureしていないものとする。
+
+** 使い方 [#p8449efb]
+
+まず、/etc/vmware-grivon/networkファイルを作る。
+
+ VNET1_DEV=eth0
+ VNET1_VID=100
+ VNET2_DEV=eth0
+ VNET2_VID=101
+ VNET3_DEV=eth0
+ VNET3_VID=102
+ ... (いくらでも書ける)
+
+次に添付したvmware-grivonスクリプトを/etc/init.dにコピーする。
+
+その上で、以下のように実行して、正しくVirtual NICが作られ、対応するvmnetが作られること確認。
+
+ # /etc/init.d/vmware-grivon start
+
+ご破算にするには、
+
+ # /etc/init.d/vmware-grivon stop
+
+残りのオプションは、コマンドラインから実行してみれば分かるだろう。
+
+ # /etc/init.d/vmware-grivon
+ Usage: /etc/init.d/vmware-grivon {start|stop|status|restart|condrestart}
+
+init scriptとして起動時に実行してもらうためには、以下のコマンドを実行する。
+
+ # /sbin/chkconfig -add vmware-grivon
+
+Run level 2,3,5では/etc/init.d/vmwareの後に実行され、Run level 0,1,4では/etc/init.d/vmwareの前に実行されるようにしてある。
+
+以降は起動時に勝手にVirtual NICを作って、対応するvmnetを作ってくれる。
+
+**注意点 [#a1324473]
+
+Fedora Core 5でしか動作確認していない。CentOSなどでの確認はよろしく。
+

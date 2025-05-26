@@ -1,0 +1,6 @@
+DataGrid is a Grid environment for petascale data-intensive
+computing. Being in the development stage, performance of DataGrid
+systems on large-scale and realistic applications have not been
+well-investigated. Using the Bricks Grid simulator, we investigate the
+performance of various DataGrid system models in simulation by
+assuming actual application scenarios.

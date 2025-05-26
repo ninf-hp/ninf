@@ -1,0 +1,1838 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>sc97 technical paper</TITLE>
+<META NAME="subject" CONTENT="Multi-client LAN/WAN Performance Analysis of Ninf">
+<META NAME="Template" CONTENT="C:\PROGRAM FILES\MICROSOFT OFFICE\OFFICE\html.dot">
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<H1 ALIGN="CENTER">Multi-client LAN/WAN Performance Analysis of Ninf: <BR>
+a High-Performance Global Computing System</H1>
+<ADDRESS>&nbsp;</ADDRESS>
+<ADDRESS>Atsuko Takefusa<B><BR>
+</B>Ochanomizu University<BR>
+2-1-1 Otsuka, Bunkyo-ku, Tokyo 112, Japan<BR>
+takefusa@is.ocha.ac.jp<BR>
+<A HREF="http://www.is.ocha.ac.jp/~takefusa/">http://www.is.ocha.ac.jp/~takefusa/</A></ADDRESS>
+<ADDRESS>Satoshi Matsuoka<BR>
+Tokyo Institute of Technology<BR>
+2-12-1 Ookayama, Meguro-ku, Tokyo 152, Japan<BR>
+matsu@is.titech.ac.jp<CODE><BR>
+</CODE><A HREF="http://matsulab.is.titech.ac.jp/~matsu/">http://matsulab.is.titech.ac.jp/~matsu/</A></ADDRESS>
+<ADDRESS>Hirotaka Ogawa<BR>
+University of Tokyo<BR>
+7-3-1 Hongo, Bunkyo-ku, Tokyo 113, Japan<BR>
+ogawa@ipl.t.u-tokyo.ac.jp<CODE><BR>
+</CODE><A HREF="http://www.ipl.t.u-tokyo.ac.jp/~ogawa/">http://www.ipl.t.u-tokyo.ac.jp/~ogawa/</A></ADDRESS>
+<ADDRESS>Hidemoto Nakada<BR>
+Electrotechnical Laboratory<BR>
+1-1-4 Umezono, Tsukuba, Ibaraki 305, Japan<BR>
+nakada@etl.go.jp<CODE><BR>
+</CODE><A HREF="http://www.etl.go.jp/etl/infobase/nakada/">http://www.etl.go.jp/~nakada/</A></ADDRESS>
+<ADDRESS>Hiromitsu Takagi<BR>
+Nagoya Institute of Technology<BR>
+Gokiso-cho, Showa-ku, Nagoya 466, Japan<BR>
+takagi@center.nitech.ac.jp<CODE><BR>
+</CODE><A HREF="http://www.center.nitech.ac.jp/~takagi/">http://www.center.nitech.ac.jp/~takagi/</A></ADDRESS>
+<ADDRESS>Mitsuhisa Sato<BR>
+Real World Computing Partnarship<BR>
+Tsukuba Mitsui Blg. 16F, 1-6-1 Takezono, Tsukuba, Ibaraki 305, Japan<BR>
+msato@trc.rwcp.or.jp<CODE><BR>
+</CODE><A HREF="http://www.rwcp.or.jp/perple/msato/">http://www.rwcp.or.jp/perple/msato/</A></ADDRESS>
+<I><P>Satoshi Sekiguchi<FONT FACE="ＭＳ 明朝" LANG="JA"><BR>
+</FONT>Electrotechnical Laboratory<FONT FACE="ＭＳ 明朝" LANG="JA"><BR>
+</FONT>1-1-4 Umezono, Tsukuba, Ibaraki 305, Japan <BR>
+sekiguchi@etl.go.jp<FONT FACE="ＭＳ 明朝" LANG="JA"><CODE><BR>
+</I></FONT></CODE><A HREF="http://phase.etl.go.jp/people/sekiguchi/"><I>http://phase.etl.go.jp/people/sekiguchi/</I></A></P>
+<ADDRESS>Umpei Nagashima<BR>
+Ochanomizu University<BR>
+2-1-1 Otsuka, Bunkyo-ku, Tokyo 112, Japan<BR>
+umpei@hn.is.ocha.ac.jp<BR>
+<A HREF="http://sap18.is.ocha.ac.jp/">http://sap18.is.ocha.ac.jp/</A></ADDRESS>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P>&nbsp;</P>
+</FONT><B><DL>
+<DT>Abstract:</B> </DT>
+<DD>Rapid increase in speed and availability of network of supercomputers is making high-performance global computing possible, including our <EM>Ninf</EM> system. However, critical issues regarding system performance characteristics in global computing have been little investigated, especially under multi-client, multi-site WAN settings. In order to investigate the feasibility of Ninf and similar systems, we conducted benchmarks under various LAN and WAN environments, and observed the following results: 1) Given sufficient communication bandwidth, Ninf performance quickly overtakes client local performance, 2) current supercomputers are sufficient platforms for supporting Ninf and similar systems in terms of performance and OS fault resiliency, 3) for a vector-parallel machine (Cray J90), employing optimized data-parallel library is a better choice compared to conventional task-parallel execution employed for non-numerical data servers, 4) computationally intensive tasks such as EP can readily be supported under the current Ninf infrastructure, and 5) for communication-intensive applications such as Linpack, server CPU utilization dominates LAN performance, while communication bandwidth dominates WAN performance, and furthermore, aggregate bandwidth could be sustained for multiple clients located at different Internet sites; as a result, distribution of multiple tasks to computing servers on different networks would be essential for achieving higher client-observed performance. Our results are not necessarily restricted to the Ninf system, but rather, would be applicable to other similar global computing systems.</DD>
+<B><DT>Keywords:</B> </DT>
+<DD>&nbsp;Global network computing, Performance evaluation</DD>
+</DL>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</P>
+</FONT><H2>1&#9;Introduction</H2>
+<P>Rapid increase in speed and availability of network of supercomputers is now making so-called high-performance `global computing' possible, in which computational and data resources in the network are collectively employed to solve large-scale problems. There have been several recent proposals of global computing infrastructures, including our Ninf (Network Infrastructure for global computing) <A HREF="#Ninf">[1</A>, <A HREF="#Ninf97HPCN">2]</A> system, which makes available multiple remote computing and database servers on the network, allowing clients to semi-transparently call remote numerical applications and libraries from languages such as Fortran, C, and Java. Multiple calls in a network are coordinated by <EM>metaservers</EM>, which keep track of server load/availability, network bandwidth, etc. WWW-based interfaces are also available for easy user access of remote computing and data.</P>
+<P>On the other hand, we have so far found that much of system performance characteristics and criteria for enabling the feasibility global computing have not been well-investigated. In order for global computing to succeed, we need to investigate and clarify various characteristics of the technology that are main constituents of a global computing system:</P>
+<B><DL>
+<DT>Communication Performance:</DT>
+</B><DD>Global computing requires large amounts of data to be shipped over the network. Although available bandwidth is rapidly increasing, no quantitative measures are provided to judge its sufficiency. Also, since latency will not improve drastically in the future, it is not clear whether high latency would not be a deterrent to attaining performance.</DD>
+<B><DT>Computing Server Selection and Performance:</DT>
+</B><DD>Computation will be typically performed on high-performance supercomputing servers such as vector supercomputers and MPPs. On the other hand, they will be shared amongst multiple remote clients from different places in the global network. It is not clear what criteria should be employed in selecting such supercomputing servers, and whether the current supercomputers/MPPs would be appropriate for such usage.</DD>
+<B><DT>Sharing by Multiple Clients:</DT>
+</B><DD>Computing servers will be shared by arbitrary multiple clients on the network. Thus, it must also be shown that the combination of the Ninf computing server (and those in similar systems), supercomputers, and their operating systems, could handle the concentration of requests from multiple clients in a graceful manner, under both LAN and WAN environments. Since we rely on existing supercomputers, it is not apparent whether their operating systems could handle multiple computational requests from clients, whose transactions will tend to be longer duration compared to typical short database query transactions. Also, it must be shown that the system is resilient to various faults that could occur in network computing.</DD>
+<B><DT>Remote Library Design and Reuse:</DT>
+</B><DD>When executing remote libraries registered on Ninf computing servers, there is an option as to whether to distribute the computing resources amongst different client requests in a <EM>task parallel manner</EM>, or to allocate all the processors to each client task in a <EM>data parallel manner</EM> in sequence. This directly influences the design of the libraries, whether the client library has to be prepared specifically for Ninf, or the best (parallel) library for the machine could be directly reused and utilized.</DD>
+</DL>
+<P>We report on the benchmark results of Ninf computing server performance under various LAN and WAN environments to investigate the feasibility of global computing. As a representative of typical application core, we have selected the Linpack benchmark which involves significant amount of data transfer compared to its problem size, and NASPar EP benchmark application, in which communication is minimal. We have conducted the benchmarks in LAN and WAN environments with various combinations of client and server machines. We have also tested and compared multi-client cases in which the clients are located in the same LAN, on multiple nodes in the same remote network, and multiple clients located on a different network. As a result, we have observed the following results:</P>
+
+<UL>
+<LI>We have observed that, with higher network bandwidth, Ninf execution becomes faster than local execution with a relatively small problem size for Linpack and obviously for EP. Here, latency was not a significant issue due to larger grain size of the problem; thus, given sufficient WAN bandwidth, global computing in the wide-area will be quite feasible in the future for a wide class of computational-intensive problems. </LI>
+<LI>By employing parallel vector machines (Cray J-90, 4PE) and large SMPs (Sun SPARC SMP), we have confirmed that operating systems for such machines are sufficient both functionally and performance-wise for supporting multiple clients over both WAN and LAN. Thus, we claim that, Ninf (and other global computing platforms) could readily be built on existing platforms. </LI>
+<LI>For J90, data-parallel execution using optimized libraries would be faster for lightly-loaded cases, and would exhibit almost identical performance to task-parallel execution under heavily-loaded cases. Thus, using optimizing libraries maximizing the performance of parallel machines would be appropriate under both LAN and WAN situations. On the other hand, for SMPs, preliminary results show that highly-multithreaded libraries exhibit slowdown in performance in multi-client situations due to thread-switching overhead, and there is a need for determining the optimal number of threads versus the number of clients. </LI>
+<LI>For compute intensive applications such as EP with little communication, LAN vs. WAN performance would be essentially equivalent, achieving high computing server utilization. Such applications are numerous, such as parallel rendering/imaging, and parameter sensitivity analysis, and they could readily benefit from Ninf and other global computing systems. </LI>
+<LI>For Linpack, which requires extensive communication, LAN performance was acceptable for practically-sized data sets. For WAN execution, performance will heavily depend on aggregate network throughput of the client, and not on server load, which remained light. Thus, under communication-dominant cases, task assignment and distribution should not be merely based on server load and utilization information, but rather on achievable network bandwidth.</LI></UL>
+
+<H2>2&#9;Overview of Ninf System</H2>
+<P>The Ninf system is currently based on the client-server model. The client can make use of various computing library and database resources via server processes on supercomputers and database servers. Figure 1 illustrates the computational aspect of the Ninf system. Ninf users can easily utilize the supercomputing power from his desktop client over WAN without steep learning curves or major modifications to his applications.</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image80.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 1: Computational Aspect of Ninf</P>
+</B><P>The Ninf system consists of <EM>Ninf computational and database servers</EM>, <EM>Ninf client API</EM> which defines the client bindings, and <EM>Ninf metaservers</EM> which perform wide-area detection, allocation, and scheduling of resources over the network. The clients and various servers communicate via Ninf RPC (Remote Procedure Call) <A HREF="#Ninf95TR">[3]</A>, which is tailored for the needs of high-performance numerical computing. There are also various supportive tools such as server registry tools, stub generators, query proxies, GUI builders, etc.</P>
+<P>For the purposes of this paper, henceforth we will concentrate on describing the computational aspects of Ninf. </P>
+<H3>2.1&#9;Ninf Computational Server</H3>
+<P>The Ninf computational server is a process which services remote computing requests of remote clients by managing the communication and activation of the services requested via Ninf RPC. Binaries of computing libraries and applications are registered on the server process as <EM>Ninf executables</EM>, which can be semi-automatically generated with IDL descriptions using the Ninf stub generator. The underlying transfer protocol is Sun XDR on TCP/IP, allowing easy porting on most major supercomputer platforms.</P>
+<H3>2.2&#9;Ninf Client API</H3>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P>&nbsp;</FONT>Ninf Client API is defined for major programming languages such as Fortran, C, C++, and Java. <DFN>Ninf_call</DFN> is a representative API used for invoking a named remote library on the server as if it were on a local machine via Ninf RPC. For example, one might call a local matrix multiply library as:</P>
+<FONT FACE="Bookman Old Style"><BLOCKQUOTE>double A[n][n], B[n][n], C[n][n];<BR>
+dmmul(n, A, B, C);</BLOCKQUOTE>
+</FONT><P>while with Ninf, one invokes the remote library with:</P>
+<FONT FACE="Bookman Old Style"><BLOCKQUOTE>Ninf_call("dmmul", n, A, B, C);<BR>
+// or, Ninf_call("http://.../dmmul",...</BLOCKQUOTE>
+</FONT><P>There are also APIs for asynchronous RPCs (<DFN>Ninf_call_async</DFN>), specification of transactions for parallel execution (<DFN>Ninf_transaction_begin</DFN>, <DFN>Ninf_transaction_end</DFN>), and queries of numerical database (<DFN>Ninf_query</DFN>, etc.).</P>
+<H3>2.3&#9;Ninf IDL</H3>
+<P>Ninf executables can be derived directly from existing numerical libraries such as LAPACK. Each subroutine in the library become callable via Ninf RPC by specifying their interface information with Ninf IDL (Interface Description Language). In the matrix multiply example, the IDL for the actual multiply routine on the server would be as follows:</P>
+<FONT FACE="Bookman Old Style"><BLOCKQUOTE>Define dmmul(long mode_in int n,<BR>
+mode_in double A[n][n],<BR>
+mode_in double B[n][n],<BR>
+mode_out double C[n][n])<BR>
+"dmmul is double precision matrix multiply",<BR>
+Required "libxxx.o"<BR>
+Calls "C" mmul(n,A,B,C);</BLOCKQUOTE>
+</FONT><P>Argument numbers, types, access modes (input/output), array size, are necessary IDL information. As matrices are usually passed in memory with call-by-reference for local libraries whereas they must be shipped back and forth across the network for <DFN>Ninf_call</DFN>, matrix size, region of usage, stride, etc. that are dependent on scalar input arguments are either automatically inferred from IDL information or could be directly specified by the IDL writer. There are other optional info such as necessary modules for compilation and linking, aliases, client callback functions, comments on functionality, etc.</P>
+<P>We also note that, with Ninf RPC, no prior downloading of IDL or stub generation is necessary on the client side. Stub generation are done solely on the server side; the client programmer never sees or manipulates the IDL information. As a result, <DFN>Ninf_call</DFN>s can be freely made without any library linking or header file inclusion. This is achieved by two-stage RPC in <DFN>Ninf_call</DFN>; when the client calls the server, it returns the compiled IDL information as interpretable code to the client. <DFN>Ninf_call</DFN> then interprets the IDL code and marshalls the arguments.<A HREF="#comment">[4]</A> </P>
+<H3>2.4&#9;Ninf Metaserver</H3>
+<P>The Ninf metaserver monitors multiple Ninf computing servers on the network, and performs scheduling and load balancing of client requests. The client need not be aware (but could specify) the physical location of computing servers. Additionally, metaserver controls the parallel, fault-tolerant execution of multiple sequence of <DFN>Ninf_call</DFN>s. The block of code surrounded by <DFN>Ninf_transaction_begin</DFN> and <DFN>Ninf_transaction_end</DFN> are not executed immediately; rather, data-dependency graph of the <DFN>Ninf_call</DFN> arguments are dynamically created, and at the end of the code block, the metaserver schedules the computation to multiple computational servers accordingly.</P>
+<H2>3&#9;Single Client Benchmarks</H2>
+<P>We first extensively benchmark Ninf single client performance on multiple client and server platforms. As a benchmark program, we employ Linpack and NASPar EP. The former requires extensive communication to ship dense matrices over the network, but becomes computation dominant for large matrices. The latter is computation dominant irrespective of its arguments, and is used for measuring the effectiveness of load balancing performed by the metaserver onto multiple Ninf servers.</P>
+<H3>3.1&#9;Single Client Benchmarking Environment</H3>
+<P>For double precision Linpack, we execute the LU-decomposition (dgefa) and backward substitution (dgesl) remotely. The overall execution time of <DFN>Ninf_call</DFN> <IMG SRC="Image2.gif" WIDTH=53 HEIGHT=25>consists of communication time <IMG SRC="Image3.gif" WIDTH=34 HEIGHT=24>+ computing time <IMG SRC="Image4.gif" WIDTH=33 HEIGHT=25>. Given a Linpack matrix size <IMG SRC="Image5.gif" WIDTH=12 HEIGHT=14>, they are:</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image6.gif" WIDTH=173 HEIGHT=44></P>
+<P ALIGN="CENTER"><IMG SRC="Image7.gif" WIDTH=169 HEIGHT=49></P>
+</FONT><P>where <IMG SRC="Image8.gif" WIDTH=40 HEIGHT=24>and <IMG SRC="Image9.gif" WIDTH=40 HEIGHT=24>are the setup times for communication and computation, respectively, <IMG SRC="Image10.gif" WIDTH=16 HEIGHT=17>is the client-server communication throughput, and <IMG SRC="Image11.gif" WIDTH=49 HEIGHT=24>is the local Linpack performance on the server machine. Then, <DFN>Ninf_call </DFN>performance <IMG SRC="Image12.gif" WIDTH=54 HEIGHT=25>is as follows:</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image13.gif" WIDTH=141 HEIGHT=49></P>
+</FONT><P>Because <IMG SRC="Image14.gif" WIDTH=34 HEIGHT=24>is <IMG SRC="Image15.gif" WIDTH=44 HEIGHT=24>while <IMG SRC="Image16.gif" WIDTH=33 HEIGHT=25>is <IMG SRC="Image17.gif" WIDTH=44 HEIGHT=24>, it becomes computation dominant as <IMG SRC="Image18.gif" WIDTH=12 HEIGHT=14>becomes larger. As a result, we can expect that <IMG SRC="Image19.gif" WIDTH=54 HEIGHT=25>will exceed the performance on the client machine given sufficient<FONT FACE="ＭＳ 明朝" LANG="JA"> <IMG SRC="Image20.gif" WIDTH=49 HEIGHT=24></FONT>.</P>
+<P>The client and server machines in the benchmark are shown in Figure 2. We also show the client-server combination in Table. <FONT FACE="Arial">Local</FONT> indicates the local Linpack performance without Ninf.</P>
+<P>As Linpack routines, we registered the sgetrf and sgetrs of the libSci library, which make use of all 4 processors on the J90. On other machines, we employed glub4 and gslv4<A HREF="#Murata91">[5]</A> routines which employ blocking optimizations and could thus be executed efficiently on RISC-based workstations (and thus would be disadvantageous for Ninf). Matrix size (<IMG SRC="Image22.gif" WIDTH=12 HEIGHT=14>) was altered from 100 to 1600</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image81.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 2: Client and server machines in the LAN benchmark</P></B>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=370>
+<TR><TD WIDTH="29%" VALIGN="TOP" ROWSPAN=2 HEIGHT=26>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P>&nbsp;</FONT> </P>
+<FONT FACE="Arial"><P ALIGN="CENTER">Client</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" ROWSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Local</FONT></TD>
+<TD WIDTH="54%" VALIGN="TOP" COLSPAN=3 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Remote</FONT></TD>
+</TR>
+<TR><TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Ultra</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Alpha</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">J90</FONT></TD>
+</TR>
+<TR><TD WIDTH="29%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">SuperSPARC</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+</TR>
+<TR><TD WIDTH="29%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">UltraSPARC</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">-</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+</TR>
+<TR><TD WIDTH="29%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Alpha</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">-</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">-</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">o</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<B><FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT>Table 1: Combination of clients and servers in the LAN benchmark</P>
+<OL START=2>
+<OL START=2>
+
+</B><H3><LI>Single Client Linpack Results</LI></H3></OL>
+</OL>
+
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image82.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 3: Ninf LAN Linpack Results with Single SPARC clients</P>
+</B><P>Figure 3 shows the results of SuperSPARC and UltraSPARC clients. The horizontal axis indicates the size of the matrix, and the vertical axis indicates the performance of <DFN>Ninf_call</DFN> and <FONT FACE="Arial">Local</FONT> in Mflops. The performance of <FONT FACE="Arial">Local</FONT> remains relatively constant across <IMG SRC="Image24.gif" WIDTH=12 HEIGHT=14>for both SPARCs. On the other hand, <DFN>Ninf_call</DFN> performance improves steadily as <IMG SRC="Image26.gif" WIDTH=12 HEIGHT=14>increases, and for both SPARCs, exhibited superior performance to <FONT FACE="Arial">Local</FONT> at approximately <IMG SRC="Image27.gif" WIDTH=96 HEIGHT=18>.</P>
+<P>Comparing UltraSPARC <FONT FACE="Arial">Local</FONT> and SuperSPARC to UltraSPARC <I>Ninf_call</I>, the latter converges to UltraSPARC <FONT FACE="Arial">Local</FONT> performance as <IMG SRC="Image28.gif" WIDTH=12 HEIGHT=14>becomes larger. This is because <IMG SRC="Image29.gif" WIDTH=92 HEIGHT=28>for large <IMG SRC="Image30.gif" WIDTH=12 HEIGHT=14>, hiding the communication overhead. The same is true for Alpha <FONT FACE="Arial">Local</FONT> and Super/UltraSPARC to Alpha <DFN>Ninf_call</DFN>. For <DFN>Ninf_call</DFN>s to J90, J90's <FONT FACE="Arial">Local</FONT> achieves 600Mflops when <IMG SRC="Image31.gif" WIDTH=60 HEIGHT=18>, while <DFN>Ninf_call</DFN> exhibited similar performance even for both SPARC clients whose <FONT FACE="Arial">Local</FONT> performance differs considerably.</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image83.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 4: Ninf LAN Linpack performance for Single Alpha client</P>
+</B><P>Figure 4 shows the results for Alpha clients. Here, we have additionally measured the performance of standard Linpack routines without blocking optimizations, in order to simulate the situations in which the users not taking the extra effort of optimizing his local library routine. Although recent performance improvements of PC and WS are significant, it is difficult for a user to write an optimized program for large-scale problems. </P>
+<P ALIGN="JUSTIFY">Comparing Alpha <FONT FACE="Arial">Local</FONT> and <DFN>Ninf_call</DFN> to J90, <DFN>Ninf_call</DFN> become faster at approximately <IMG SRC="Image33.gif" WIDTH=101 HEIGHT=18>. On the other hand, when employing a standard, non-optimized routine on Alpha, <DFN>Ninf_call</DFN> became advantageous at approximately <IMG SRC="Image34.gif" WIDTH=94 HEIGHT=18>.</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image84.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 5: Communication Throughput of <DFN>Ninf_call</P>
+</B></DFN><P>Figure 5 shows the communication throughput of <DFN>Ninf_call</DFN>. As Ninf sends data in XDR packets, marshalling/unmarshalling at both the client and the server, and communication inbetween, occur in parallel. Thus, we decided to include the time for marshalling the arguments in our throughput figures. We also measured the FTP (raw) communication performance between the client and server for baseline comparison.</P>
+<P>In the figure, the three lines saturating at approximately 2MB/s are SPARC and Alpha clients versus J90 Ninf server throughput, indicating that <DFN>Ninf_call</DFN> to J90 cannot achieve high throughput due to slow baseline communication performance. The two lines saturating at approximately 3.5 MB/s are SPARC clients versus Alpha Ninf server, and those saturating at around 6 MB/s are when the client and the server are the same architecture, UltraSPARCs and Alphas. In all cases, we see that we are attaining nearly the same throughput as those for FTP (Table 2); thus various communication overhead such as XDR marshalling is not affecting performance significantly.</P>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=362>
+<TR><TD WIDTH="34%" VALIGN="TOP" COLSPAN=2 ROWSPAN=2 HEIGHT=26>
+<B><FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</B></FONT> <FONT FACE="Arial">Client</FONT></TD>
+<TD WIDTH="66%" VALIGN="TOP" COLSPAN=5 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Server(Throughput[MB/s])</FONT></TD>
+</TR>
+<TR><TD WIDTH="25%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">UltraSPARC</FONT></TD>
+<TD WIDTH="21%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Alpha</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">J90</FONT></TD>
+</TR>
+<TR><TD WIDTH="34%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">SuperSPARC</FONT></TD>
+<TD WIDTH="25%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="21%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">2.8</FONT></TD>
+</TR>
+<TR><TD WIDTH="34%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">UltraSPARC</FONT></TD>
+<TD WIDTH="25%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">-</FONT></TD>
+<TD WIDTH="21%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">7.4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">2.7</FONT></TD>
+</TR>
+<TR><TD WIDTH="34%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">Alpha</FONT></TD>
+<TD WIDTH="25%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">-</FONT></TD>
+<TD WIDTH="21%" VALIGN="TOP" HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">-</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" COLSPAN=2 HEIGHT=26>
+<FONT FACE="Arial"><P ALIGN="CENTER">2.9</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<B><FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT>Table 2: Client-Server FTP Communication Throughput</P>
+</B><H2>4&#9;Multi-client LAN/WAN Benchmarks</H2>
+<P>In global computing, Ninf servers will be processing requests from multiple clients making <DFN>Ninf_call</DFN>s simultaneously. In order for the Ninf system (and other global computing systems) to operate effectively, the average processing time should not abnormally increase, and server throughput must be maintained. It is also necessary to measure and identify the feasibility and the possible bottlenecks in WAN.</P>
+<P>Under these observations, we performed extensive benchmarks using multiple clients in both LAN and WAN settings. We again employed the Linpack Benchmark and NASPar EP. </P>
+<H3>4.1&#9;Multi-client LAN/WAN Benchmarking Environment</H3>
+<P>As a model client program, we employ a routine which calls either the Linpack (sgetrf and sgetrs) or the EP routine repeatedly. We assume that each client performs a <DFN>Ninf_call</DFN> on the interval of <IMG SRC="Image37.gif" WIDTH=12 HEIGHT=14>seconds with probability <IMG SRC="Image38.gif" WIDTH=16 HEIGHT=17>. We also assume that the number of clients and the matrix size are fixed at <IMG SRC="Image39.gif" WIDTH=12 HEIGHT=14>and <IMG SRC="Image40.gif" WIDTH=12 HEIGHT=14>during the benchmark, respectively. We set the other parameters to be <IMG SRC="Image41.gif" WIDTH=36 HEIGHT=18>, <IMG SRC="Image42.gif" WIDTH=52 HEIGHT=22>and <IMG SRC="Image43.gif" WIDTH=88 HEIGHT=21>.</P>
+
+<UL>
+<LI>For LAN benchmarks, we used J90 and SuperSPARC SMP as the computing server, and nodes on an Alpha WS cluster as clients (Figure 2). </LI>
+<LI>For single-site WAN benchmarks, we also used J90 as the server, and employed 8 to 16 nodes from the SuperSPARCs at the Ochanomizu University located approximately 60km away. The FTP throughput between the client and the server was measured to be approximately 0.17MB/s. </LI>
+<LI>Multi-site WAN benchmark environment will be covered in Section 4.2.3.</LI></UL>
+<DIR>
+
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image92.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 6: Multi-client <DFN>Ninf_call</DFN> Measurements</P></DIR>
+
+</B><P>We measured the server's processor utilization, load average, and for each client <DFN>Ninf_call</DFN> task, we measured the throughput and various timings: time of task submission <IMG SRC="Image45.gif" WIDTH=38 HEIGHT=24>, time when the <DFN>Ninf_call</DFN> task was accepted at the server <IMG SRC="Image46.gif" WIDTH=44 HEIGHT=25>, time when the corresponding Ninf executable was invoked <IMG SRC="Image47.gif" WIDTH=44 HEIGHT=25>, and the time at which <DFN>Ninf_call</DFN> was completed <IMG SRC="Image48.gif" WIDTH=46 HEIGHT=25>. Here, we define the response time <IMG SRC="Image49.gif" WIDTH=46 HEIGHT=25>and the waiting time <IMG SRC="Image50.gif" WIDTH=29 HEIGHT=24>of a <DFN>Ninf_call</DFN> to be as follows:</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image51.gif" WIDTH=156 HEIGHT=25></P>
+<P ALIGN="CENTER"><IMG SRC="Image52.gif" WIDTH=144 HEIGHT=25></P>
+</FONT><P>As stated in Section 1, there is an option as to how to execute the multiple client requests: 1) distribute the computing resources amongst different client requests in a <EM>task parallel manner</EM>, or 2) allocate all the processors to each client task in a <EM>data parallel manner</EM> to be processed in sequence. If the overhead of switching multiple parallel, computationally intensive tasks is high, performance degradation of the latter would be significant. We also note that most typical non-numerical server tasks (such as WWW HTTPD service) take the former approach. To investigate the tradeoffs for J90, the task parallel version has one PE serve each <DFN>Ninf_call</DFN> up to 4 parallel tasks, and the data-parallel version employs a optimally vectorized and parallelized version with simultaneous execution on 4 PEs for each <DFN>Ninf_call</DFN>, invoked in sequence.</P>
+<H3 ALIGN="JUSTIFY">4.2&#9;Multi-client Linpack Benchmark Result</H3>
+<H4 ALIGN="JUSTIFY">4.2.1  LAN Linpack Benchmark Results</H4>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=673>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P></P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">n</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">c</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Performance[Mflops]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Response[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Wait[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Throughput[MB/s]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">CPU</P>
+<P ALIGN="CENTER">Utilization</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Load</P>
+<P ALIGN="CENTER">Average</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">Times</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">600</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">72.71/69.90/71.16</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.02/0.02</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.57/2.42/2.48</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">12.63</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.68</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">30</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">72.01/64.33/69.63</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.01/0.00/0.00</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.52/2.10/2.41</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">20.86</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.2</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">72.40/43.85/67.05</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.01/0.01/0.05</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.55/1.89/2.34</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">42.03</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.99</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">96</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">72.04/17.44/49.02</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.04/0.01/0.11</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.07/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.55/0.60/1.87</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">82.2</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.9</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">184</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">64.13/8.12/21.27</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.03/0.01/0.22</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.77/0.02/0.04</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.25/0.24/0.86</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">98.66</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">13.21</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">360</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P>1000</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">95.06/93.13/93.40</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.02/0.01/0.02</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.58/2.49/2.53</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">21.4</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.06</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">30</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">96.09/54.10/89.90</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.00/0.00/0.24</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.51/2.25/2.42</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">37.84</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.62</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">93.64/59.92/81.39</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.20/0.01/0.02</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.08/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.58/1.47/2.11</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">76.02</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.58</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">93</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">83.91/30.79/46.48</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.59/0.01/0.03</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.06/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.39/0.65/1.35</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">99.38</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.72</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">166</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">33.24/15.26/21.14</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.06/0.00/0.42</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.83/0.02/0.04</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.12/0.31/0.57</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">100</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16.01</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">212</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P>1400</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115.01/112.26/113.65</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.02/0.01/0.01</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.02/0.02</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.58/2.51/2.54</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24.27</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.19</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">30</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">113.58/85.15/110.48</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.01/0.00/0.21</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.54/2.36/2.44</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">46.95</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.19</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">109.54/70.89/93.35</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.03/0.01/0.40</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.44/1.60/2.19</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">88.4</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.14</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">96</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">64.74/42.17/50.11</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.02/0.00/0.12</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.72/0.81/1.21</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">99.97</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.53</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">104</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">27.87/19.41/23.93</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.03/0.00/0.14</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.02/0.03</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.74/0.38/0.51</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">100</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16.64</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">174</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT><B>Table 3: Performance Results of 1-PE Multi-client LAN Linpack</P></B>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=668>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</FONT><FONT SIZE=3> </P>
+<P ALIGN="CENTER">n</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">c</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Performance[Mflops]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Response[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Wait[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Throughput[MB/s]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">CPU</P>
+<P ALIGN="CENTER">Utilization</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Load</P>
+<P ALIGN="CENTER">Average</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">Times</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">600</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">94.05/81.76/91.46</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.21/0.01/0.02</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.03/0.03</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.55/2.40/2.47</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">14.89</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.87</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">50</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">91.05/21.62/83.17</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.50/0.00/0.19</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.06/0.03/0.04</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.46/2.04/2.36</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">27.56</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.42</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">92.58/21.70/75.83</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.01/0.01/0.18</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.03/0.04</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.52/1.17/2.12</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">53.56</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.06</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">96</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">89.35/24.31/51.51</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.66/0.01/0.05</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.39/0.03/0.05</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.50/0.55/1.36</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">90</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9.98</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">184</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">56.73/8.87/18.69</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.02/0.01/0.06</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.09/0.04/0.10</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.83/0.19/0.46</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">99.85</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">19.96</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">360</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">1000</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">150.96/70.39/141.43</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.02/0.01/0.31</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.03/0.03</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.56/2.46/2.51</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">28.64</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.45</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">30</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">148.92/62.15/127.63</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.01/0.00/0.21</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.10/0.03/0.04</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.52/1.87/2.28</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">55.56</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.89</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">134.26/61.01/92.98</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.01/0.02</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.15/0.03/0.04</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.53/0.98/1.56</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">87.9</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.02</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">96</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">67.14/27.76/45.85</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.01/0.00/0.27</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.20/0.03/0.05</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.21/0.42/0.69</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">99.61</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">11.01</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">184</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">32.22/13.93/20.33</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.71/0.00/0.10</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.42/0.03/0.08</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.59/0.20/0.30</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">99.99</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24.81</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">234</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">1400</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">196.08/174.28/193.03</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.08/0.01/0.08</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.03/0.03</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.54/2.47/2.51</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">40.87</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.86</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">29</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">184.17/139.53/157.98</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.01/0.00/0.00</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.03/0.04</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.48/1.80/2.13</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">66.79</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.17</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">119.26/74.88/96.26</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.03/0.01/0.39</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.12/0.03/0.05</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.16/0.92/1.26</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">96.8</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.53</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">85</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">69.26/34.23/48.27</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.02/0.00/0.23</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.42/0.03/0.05</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.91/0.43/0.59</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">99.86</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">15.11</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">104</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">35.27/17.80/23.25</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.01/0.00/0.07</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.89/0.03/0.06</FONT></TD>
+<TD WIDTH="19%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.48/0.21/0.28</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">100</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">30.29</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">200</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<B><FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT>Table 4: Performance Results of 4-PE Multi-client LAN Linpack</P>
+</B><P>Tables 3 and 4 show the performance of 1-PE and 4-PE executions. The increase in <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>both increases the server load and lowers communication throughput, and as a result we see decreasing <DFN>Ninf_call</DFN> performance in both 1-PE and 4-PE versions. Larger variance in the 4-PE version is due to all the PEs being utilized for Linpack execution. When <IMG SRC="Image57.gif" WIDTH=12 HEIGHT=14>increases, both CPU utilization and load average increase, the former to saturation. Even in such as case, the J90 Ninf server continued to work flawlessly with no dramatic drop in performance (avoiding anomalies such as thrashing, even for <IMG SRC="Image58.gif" WIDTH=60 HEIGHT=18>, with max. load average 30 for the 4-PE version).</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image86.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 7: Average performance of multi-client LAN <DFN>Ninf_call</P>
+</B></DFN><P>Figure 7 shows the average client-observed performance of <DFN>Ninf_call</DFN>. The XY-axis denote problem size <IMG SRC="Image57.gif" WIDTH=12 HEIGHT=14>and the number of clients <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>, while the Z-axis indicate the performance Mflops. Compared to the 1-PE version, the 4-PE version exhibits higher load and utilization. On the other hand, the 4-PE version exhibits substantial performance edge for a small <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>, while there is very little performance edge for the 1-PE version for a larger <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>. We analyze that this is due to the following reasons: 1) because the numerical core of the 4-PE version is significantly faster due to high vectorization, there is very little loss in average execution time even if all 4 PEs are occupied for a short period, 2) switching parallel tasks on J90 poses small relative overhead compared to large-grain computing tasks, and 3) even though Linpack computation is serialized, communication with clients could be overlapped. In addition, although response and waiting time fluctuated greater for the 4-PE version, their average values did not differ considerably depending on <IMG SRC="Image57.gif" WIDTH=12 HEIGHT=14>, <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>, or number of processors. We thus conclude that, using the optimized parallel library on the J90 would be appropriate for LAN execution, relieving the library providers from preparing multiple versions.</P>
+<P>We also ran the Linpack benchmark on a SuperSPARC SMP server with 16 nodes (Figure 2 and Table 5.) For 1-PE versions, compared to the J90, its performance is more resilient to increase in <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>, and so are response time and waiting time. Also, CPU utilization still has not saturated even for <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>=16. On the other hand, recent preliminary measurements show that highly-multithreaded versions exhibit notable slowdown as <I>c</I> increases (e.g., when number of threads = 12). We speculate the reasons to be as follows: 1) SuperSPARC SMP is less I/O bound compared to J90 because of lower numerical performance, and 2) Solaris 2.5 on SPARC SMP is optimized for handling multiple client requests in server-client situations, and do not co-schedule multiple threads well, resulting in various thread-switching overhead, including cache and TLB misses.</P>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=667>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</FONT><FONT SIZE=3> </P>
+<P ALIGN="CENTER">n</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">c</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Performance[Mflops]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Response[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Wait[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Throughput[MB/s]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">CPU</P>
+<P ALIGN="CENTER">Utilization</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Load</P>
+<P ALIGN="CENTER">Average</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">Times</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" ROWSPAN=3 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">600</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.37/2.98/3.80</FONT></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.36/1.07/1.18</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.68/0.13/0.16</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.09/0.20/0.43</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">49.92</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.08</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">90</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.25/2.73/3.51</FONT></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.10/1.15/1.29</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.60/0.13/0.17</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.05/0.14/0.37</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">62.91</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.84</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">170</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.77/2.03/2.81</FONT></TD>
+<TD WIDTH="16%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.54/0.00/0.33</FONT></TD>
+<TD WIDTH="14%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.48/0.14/0.20</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.40/0.10/0.34</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">89.89</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">15.37</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">330</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<B><FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT>Table 5: SMP Multi-client LAN Linpack Results</P>
+<P>4.2.2&#9;Single-Site WAN Linpack Benchmark Results<FONT FACE="ＭＳ 明朝" LANG="JA">&nbsp;</B></FONT> </P>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=669>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P></P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">n</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">c</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Performance[Mflops]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Response[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Wait[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Throughput[MB/s]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">CPU</P>
+<P ALIGN="CENTER">Utilization</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Load</P>
+<P ALIGN="CENTER">Average</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">Times</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">600</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.81/3.25/5.90</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.03/0.04</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.10/0.07/0.07</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.166/0.067/0.128</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.22</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.37</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.93/3.63/4.69</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.27/0.00/0.14</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.21/0.07/0.14</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.122/0.074/0.096</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.03</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.49</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.63/1.22/2.41</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.30/0.00/0.64</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.07/0.07/0.25</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.075/0.025/0.050</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.34</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.47</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.47/0.59/1.14</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.25/0.27/2.26</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.46/0.08/0.19</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.030/0.012/0.023</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.8</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.46</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.69/0.37/0.54</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.84/0.00/0.55</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.38/0.12/0.31</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.014/0.007/0.011</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.1</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.46</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">1000</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">12.05/4.41/9.28</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.78/0.01/0.20</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.10/0.07/0.08</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.164/0.054/0.123</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.26</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.39</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.47/5.81/7.18</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.27/0.01/0.16</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.36/0.08/0.21</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.104/0.071/0.088</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.52</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.38/1.84/3.66</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.17/0.03/0.23</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.38/0.07/0.24</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.055/0.022/0.045</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.83</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.52</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.27/0.99/1.83</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.00/0.12/2.48</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.48/0.08/0.30</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.028/0.012/0.022</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.39</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.47</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.18/0.54/0.90</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.21/0.71/1.97</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.59/0.07/0.32</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.014/0.006/0.011</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.22</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.47</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">1400</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">17.32/9.93/13.89</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.00/0.00</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.42/0.07/0.21</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.164/0.090/0.130</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.57</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.41</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">11.22/7.91/9.29</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.28/0.00/0.18</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.35/0.08/0.15</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.099/0.069/0.082</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">12.75</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.66</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.47/2.15/5.38</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.20/0.13/0.37</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.40/0.08/0.16</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.058/0.019/0.048</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9.46</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.52</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.03/1.31/2.50</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.29/0.00/2.87</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">26.71/0.07/0.89</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.027/0.011/0.022</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.89</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.5</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.58/0.76/1.25</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10.51/0.93/2.55</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.69/0.08/0.47</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.014/0.007/0.011</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10.6</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.57</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT><B>Table 6: Single-site, Multi-client 1-PE Linpack benchmark results for WAN</P></B>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=673>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</FONT><FONT SIZE=3> </P>
+<P ALIGN="CENTER">n</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">c</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Performance[Mflops]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Response[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Wait[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Throughput[MB/s]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">CPU</P>
+<P ALIGN="CENTER">Utilization</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Load</P>
+<P ALIGN="CENTER">Average</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">Times</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">600</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.00/7.24/7.68</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.15/0.14/0.14</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.08/0.07/0.08</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.166/0.153/0.161</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.85</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.4</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.05/1.51/3.77</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.24/0.00/0.06</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.20/0.07/0.11</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.124/0.030/0.077</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.9</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.42</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.57/0.92/2.46</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.61/0.00/0.23</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.57/0.10/0.19</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.073/0.019/0.051</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.94</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.5</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.52/0.49/1.08</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">5.93/0.65/2.67</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.60/0.08/0.40</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.031/0.011/0.022</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.99</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.49</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.90/0.29/0.54</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10.24/0.00/1.30</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">17.54/0.10/0.78</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.018/0.006/0.011</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.17</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.49</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P>1000</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">12.75/7.26/10.50</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.14/0.11/0.13</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.09/0.08/0.08</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.160/0.091/0.131</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.43</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.39</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.22/5.89/7.15</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.36/0.07/0.18</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.20/0.08/0.16</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.101/0.072/0.088</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9.23</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.52</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.80/1.46/3.97</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.52/0.09/0.34</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.47/0.10/0.19</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.061/0.018/0.049</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9.39</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.53</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.42/0.97/1.82</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">6.74/0.47/3.18</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.51/0.08/0.47</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.029/0.012/0.022</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.71</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.53</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.36/0.47/0.88</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">3.63/0.02/0.91</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">94.45/0.09/1.15</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.016/0.006/0.011</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.75</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.49</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P>1400</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">18.46/11.87/16.42</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.94/0.06/0.27</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.09/0.08/0.08</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.166/0.104/0.147</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.15</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.47</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10.44/8.03/9.34</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.29/0.00/0.07</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.33/0.07/0.13</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.092/0.070/0.082</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">13.58</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.73</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">24</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.00/2.00/5.50</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.62/0.00/0.34</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.34/0.12/0.19</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.061/0.017/0.048</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">15.61</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.81</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.91/1.42/2.46</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">7.16/0.37/3.41</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.67/0.08/0.32</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.025/0.012/0.021</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9.2</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.56</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="20%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.59/0.79/1.25</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9.64/0.39/1.50</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.77/0.08/0.27</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.014/0.007/0.011</FONT></TD>
+<TD WIDTH="10%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">9.35</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.54</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<B><FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT>Table 7: Single-site, Multi-client 4-PE Linpack benchmark results for WAN</P>
+</B><P>Tables 6 and 7 show the WAN Linpack performance for 1-PE and 4-PE executions. As <IMG SRC="Image57.gif" WIDTH=12 HEIGHT=14>increases, the ratio between computation vs. communication increases as well, improving the <DFN>Ninf_call</DFN> performance as in LAN. On the other hand, when <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>increases, the amount of data sent between the network connecting the two sites increases, causing severe drop in communication throughput. Because of this, the number of <DFN>Ninf_call</DFN>s effectively decrease, and as a result, server CPU utilization and load average remains low even for <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 16. Thus, under current Internet network throughput, it is difficult for the Ninf computing server to process numerous client requests emanating from the same site (or, at least sharing the same link to the backbone) for communication intensive tasks, requiring a good load balancing algorithm that not only takes into account server load such as is done for NetSolve <A HREF="#NetSolve96">[6]</A>, but also network traffic and global allocation of tasks.</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image87.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 8: Average Performance of WAN Linpack </B><DFN>Ninf_call</P>
+</DFN><P>Figure 8 shows the average client-observed performance of <DFN>Ninf_call</DFN> under WAN for task- (1-PE) and data-parallel (4-PE) executions. It exhibited almost the same characteristics as LAN; in fact, even when <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>is large, because the server performance has not saturated, the 4-PE versions exhibited better performance. The same is true for response times and waiting times. Thus, we observe that, it is preferable to use the optimized library versions for WAN clients as well.</P>
+<H4>4.2.3&#9;Multi-site WAN Linpack Benchmark Results</H4>
+<P>In global computing, in practice clients will be located at different sites in WAN. If simultaneous communication from multiple WAN sites could achieve their aggregate bandwidth so that server load could be maintained high, then global computing would be feasible for communication intensive applications; otherwise, if performance degrades just as the single-site WAN case, then global computing would have smaller market under the current Internet.</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image93.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 9: WAN Multi-client Benchmarking Environment</P>
+</B><P>For multi-site WAN benchmark, we prepared clients at 4 different University sites in Japan, namely, Ochanomizu University (Ocha-U), University of Tokyo (U-Tokyo), Nagoya Institute of Technology (NITech), and Tokyo Institute of Technology (TITech), while the server is the J90 at ETL. The sites are connected to different backbones as we illustrate in Figure 9. The Linpack routines registered at the J90 Ninf server is the 4-PE version. Figure 10 shows the results.</P>
+<P>We can observe that, aggregate communication throughput from multiple sites are substantially higher than that from a single site. In fact, between Ocha-U and ETL, multi-site communication performance deteriorated only by 9%~18% when <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 1 (total 4 clients in WAN), and 18%~44% when <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 4 (total 16 clients in WAN), maintaining substantially higher bandwidth than when the same number of clients are located at Ocha-U. As a result, CPU utilization and load average is substantially greater for multi-site compared to single-site. Performance-wise, we observe that the rate of performance increase for <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 1 is greater than when <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 4. Although one plausible explanation would be that the greater number of clients and larger problem size had saturated the computational power of J90, this is not the case as CPU utilization levels off even for <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 4 (approx. 27%~34%, not shown in the figure). Because throughput steadily declines for <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 4, we believe that network bandwidth saturation is again the cause.</P>
+<P>Still, our initial conclusion that, 1) in WAN settings, for communication intensive tasks, point-to-point bandwidth between the client and the server is the dominant factor in determining client-observed performance (and not the current load average of the server), and 2) in general, client <DFN>Ninf_call</DFN>s should be distributed to multiple Ninf servers located at different network sites, avoiding concentration of tasks from a single site or those that share the same backbone, in order to maintain performance; otherwise, performance quickly deteriorates significantly as number of clients increase.</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image89.gif" WIDTH=479 HEIGHT=359></P>
+<P ALIGN="CENTER"><IMG SRC="Image90.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 10: Multi-client, Multi-site WAN Linpack Benchmark Results</P>
+</B><H3>4.3&#9;LAN/WAN EP Benchmark Results</H3>
+<P>EP(An embarrassingly parallel benchmark) is one of the kernel programs in the NAS Parallel Benchmark<A HREF="#NASPB">[7]</A>, performing (random-number) Monte-Carlo simulations.</P>
+<P>For Ninf benchmarking, we execute the random number generation on the Ninf server. Communication complexity is O(1), namely, problem-size independent. Computational complexity is proportional to the number of random numbers generated, and becomes <IMG SRC="Image66.gif" WIDTH=28 HEIGHT=20>for <IMG SRC="Image67.gif" WIDTH=18 HEIGHT=20>trials. Therefore, The execution performance <IMG SRC="Image68.gif" WIDTH=54 HEIGHT=25>becomes:</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image69.gif" WIDTH=125 HEIGHT=49></P>
+</FONT><P>where <IMG SRC="Image70.gif" WIDTH=53 HEIGHT=25>is the time taken for the entire <DFN>Ninf_call</DFN>. In each benchmark run, we execute <IMG SRC="Image71.gif" WIDTH=24 HEIGHT=20>trial samples for each PE, and execute them in a task-parallel manner on the 4-processor J90. </P>
+<B><P>4.3.1&#9;EP Benchmark Results<FONT FACE="ＭＳ 明朝" LANG="JA">&nbsp;</B></FONT> </P>
+<P ALIGN="CENTER"><CENTER><TABLE BORDER CELLSPACING=1 CELLPADDING=2 WIDTH=698>
+<TR><TD WIDTH="7%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P></FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">c</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Performance[Mops]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Response[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Wait[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Transmission[sec]</P>
+<P ALIGN="CENTER">max/min/mean</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">CPU</P>
+<P ALIGN="CENTER">Utilization</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=65>
+<FONT SIZE=3><P ALIGN="CENTER">Load</P>
+<P ALIGN="CENTER">Average</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=65>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P ALIGN="CENTER">&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">Times</FONT></TD>
+</TR>
+<TR><TD WIDTH="7%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">LAN</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.168/0.166/0.167</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.07/0.00/0.01</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.02/0.02/0.02</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.01/0.01/0.01</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">30.51</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.44</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.169/0.166/0.168</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.00/0.01</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.02/0.02</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.01/0.01/0.01</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">53.86</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.39</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">17</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.167/0.163/0.166</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.08/0.00/0.01</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.03/0.02/0.02</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.01/0.01/0.01</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">98.18</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.18</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.086/0.080/0.084</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.91/0.00/0.09</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.04/0.02/0.02</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.01/0.01/0.01</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">100</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.9</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.044/0.040/0.042</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.00/0.00</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.02/0.02</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.02/0.01/0.01</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">100</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16.88</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+<TR><TD WIDTH="7%" VALIGN="TOP" ROWSPAN=5 HEIGHT=24>
+<FONT FACE="ＭＳ 明朝" LANG="JA" SIZE=3><P>&nbsp;</P>
+<P>&nbsp;</P>
+</FONT><FONT SIZE=3><P ALIGN="CENTER">WAN</FONT></TD>
+<TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.169/0.166/0.168</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.27/0.00/0.06</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.08/0.06/0.06</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.06/0.04/0.04</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">25.02</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.21</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">10</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.168/0.164/0.168</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.13/0.00/0.03</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.26/0.06/0.13</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.06/0.04/0.04</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">49.16</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">2.19</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">17</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.168/0.163/0.166</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.71/0.00/0.09</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.08/0.06/0.06</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.24/0.04/0.05</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">98.14</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">4.16</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">31</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.087/0.081/0.084</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.31/0.00/0.06</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.21/0.06/0.08</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.05/0.04/0.04</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">100</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">8.91</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">59</FONT></TD>
+</TR>
+<TR><TD WIDTH="3%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16</FONT></TD>
+<TD WIDTH="18%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.044/0.040/0.042</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.31/0.00/0.06</FONT></TD>
+<TD WIDTH="15%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">1.46/0.06/0.08</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">0.09/0.04/0.04</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">99.94</FONT></TD>
+<TD WIDTH="8%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">16.88</FONT></TD>
+<TD WIDTH="7%" VALIGN="TOP" HEIGHT=24>
+<FONT SIZE=3><P ALIGN="CENTER">115</FONT></TD>
+</TR>
+</TABLE>
+</CENTER></P>
+
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER">&nbsp;</FONT><B>Table 8: Multi-client EP benchmark results for LAN and single-site WAN</P>
+</B><P>Table 8 shows the EP benchmark performance under LAN and single-site, multi-client WAN execution. Because of task-parallel execution, in both LAN and WAN cases <DFN>Ninf_call</DFN> performances are almost equivalent and are sustained up to <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>= 4 clients. The performances decline as expected when <IMG SRC="Image56.gif" WIDTH=12 HEIGHT=14>further increases, but the server utilization remains approximately 100%. This is due to very low communication requirements of EP, and the <DFN>Ninf_call</DFN> performance mainly reflects server computing performance. We strongly expect that the result will hold for the multi-site, multi-client WAN case. Thus, for this class of applications such as parallel rendering/imaging, and parameter sensitivity analysis, global computing can now be considered quite feasible.</P>
+<P>We also benchmarked automated load balancing using the Ninf metaserver, in order to evaluate its overhead. Because Ninf distributes per each <DFN>Ninf_call</DFN>, task-parallel execution of EP would be as follows:</P>
+<BLOCKQUOTE>Ninf_transaction_begin();<BR>
+for (i = 1; i &lt;= numprocs(); i++) {<BR>
+Ninf_call("ep", ...);<BR>
+}<BR>
+Ninf_transaction_end();</BLOCKQUOTE>
+<P>Because there are no data-dependencies between multiple <DFN>Ninf_call</DFN>s, they will all be scheduled and executed in a task-parallel manner. Given <IMG SRC="Image38.gif" WIDTH=16 HEIGHT=17>processors, the effective <DFN>Ninf_call</DFN> performance would be:</P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P ALIGN="CENTER"><IMG SRC="Image73.gif" WIDTH=132 HEIGHT=49></P>
+</FONT><P>In the benchmark, we employed a 32-processor Alpha cluster in LAN, with each node becoming a Ninf computing server. Figure 11 shows the results. For larger number of trials <IMG SRC="Image75.gif" WIDTH=24 HEIGHT=20>(class A) and <IMG SRC="Image76.gif" WIDTH=24 HEIGHT=20>(class B), we achieve almost linear speedup; however, for <IMG SRC="Image77.gif" WIDTH=24 HEIGHT=20>(sample), we observe significant slowdown; this is because the prototype Metaserver is written in Java, and the overhead of scheduling and distributing <DFN>Ninf_call</DFN> has become apparent compared to smaller problem size due to parallel distribution of the EP task. We expect that result will hold for WAN cases from the results of the previous benchmarks. We also conducted benchmarks with DOS (Density-Of-States) calculation, which is an EP-style practical application in computational chemistry, and came up with similar results.<FONT FACE="ＭＳ 明朝" LANG="JA"> </P>
+<P ALIGN="CENTER"><IMG SRC="Image91.gif" WIDTH=479 HEIGHT=359></P>
+</FONT><B><P ALIGN="CENTER">Figure 11: EP Metaserver Parallel Execution Benchmark</P>
+</B><H2>5&#9;Discussions</H2>
+<H3>5.1&#9;Guaranteeing Performance in Multi-Client Global Computing</H3>
+<P>Performance per each client under multi-client situation cannot be guaranteed irrespective of computing server performance. The same holds true when a single client makes multiple <DFN>Ninf_call</DFN>s to the same server. Although it is possible to restrict the number of remote clients, standard TCP-based RPC-protocols require clients and servers to stay connected, as is with current Ninf-RPC. In order to guarantee per-user performance, an alternative is to modify <DFN>Ninf_call</DFN> to become a two-phase transaction, where remote argument transfer takes place in the first phase, whereupon the communication is terminated, and after the server computation is over, the client is notified so that it may receive the results in the second phase. We have already implemented such a two-phase protocol for database queries in Ninf <A HREF="#Ninf97WOOC">[8]</A>. A similar approach is to submit jobs to an intermediate broker server as is with Javelin<A HREF="#Javelin97WJSEC">[9]</A>.</P>
+<P>As another issue, with the current Internet lacking sufficient bandwidth or bandwidth reservation protocols, communication would become the bottleneck rather than the server's underutilized computing power as we have observed. To resolve this, we are planning to extensively employ the metaserver, which will effectively schedule computation utilizing various performance and communication parameters. In particular, IDL and server execution trace will give us effective information for predicting the communication transfer time versus computing time, making it possible to assign communication- and computation-intensive tasks to appropriate servers.</P>
+<H3>5.2&#9;Server Job-handling Methodology</H3>
+<P>Under multi-client setting, we need to improve average response time for <DFN>Ninf_call</DFN>, and increase CPU utilization. However, the current Ninf server merely <DFN>fork</DFN> &amp; <DFN>exec</DFN>s a Ninf executable in a First-Come-First-Served (FCFS) manner, causing longer response time and possibly lower CPU utilization. By predicting the computation and communication time of a <DFN>Ninf_call</DFN> task using IDL and server trace information, we could perform Shortest-Job-First (SJF) scheduling, improving the response time and utilization considerably. Also, as we have noted, for SMPs, co-scheduling of jobs would be effective in increasing overall system performance, while there would be some sacrifice in system response time.</P>
+<H3>5.3&#9;Multi-Job Scheduling for MPP Servers</H3>
+<P>Our benchmark utilized 4 processors for J90 and 16 processors for SPARC SMP. As processor numbers increase, we expect the tradeoffs of various processor assignments to <DFN>Ninf_call</DFN> could become different. In particular, task switching of large SPMD tasks could be expensive; in such a case, task-parallel execution could be more efficient. To resolve this, we could extend Ninf IDL to call routines that utilize different number of PEs depending on the problem size.</P>
+<P>Additionally, in such a case simple FCFS scheduling may not be the most effective scheduling policy, causing many processors to become idle. To overcome this drawback, we could employ more suitable algorithms such as Fit Processors First Served (FPFS) or Fit Processors Most Processors First Served (FPMPFS)<A HREF="#Scheduling97SC">[10]</A>. Still, we need to investigate further which algorithm would be more appropriate for global computing systems such as Ninf.</P>
+<H2>6&#9;Related Works</H2>
+<P>The Remote Computation System (RCS)<A HREF="#RCS96LN">[11]</A> at ETH provides a RPC facility which unifies the interfaces to multiple supercomputers. Because the communication layer is based on PVM it is not well-suited for global computing, and the API lacks the flexibility provided by Ninf.</P>
+<P>NetSolve <A HREF="#NetSolve96">[6]</A> provides almost the same basic API as <DFN>Ninf_call</DFN>, and achieves load-balancing with a daemon process called Agents. There are various technical differences between Ninf and NetSolve; examples for Ninf are availability of parallel transactions for load distribution and fault tolerance, while NetSolve facilitates description of computational complexity in library IDL. Also, database server APIs are unique to Ninf. We do expect, however, the results of our benchmark work will also hold for NetSolve, and will have important implications for similar systems. For example, current NetSolve attempts to perform load balancing solely on server load average information; as we have seen, this might partially work for LAN situations, but would not scale to WAN settings.</P>
+<P>Legion <A HREF="#Legion94TR">[12]</A> is a powerful global computing system based on the model of distributed object. A client user distributes his programs across the network by programming with a parallel object-oriented language Mentat <A HREF="#Mentat93IEEE">[13]</A>. The difference between Mentat and other systems is that it assumes a relatively closed system while Ninf/NetSolve/RCS re-use existing programming languages (although it is possible in Legion to call external programs with wrappers.) Also, Legion assumes more finer-grained computing objects. Because of this, we have to be careful in observing whether our benchmark results will hold for Legion, but we expect that many of them will, as it is not possible to achieve good performance in global computing in general without being relatively coarse-grained.</P>
+<P>There are other global computing projects that focus on different level of system architecture, such as Globus/Nexus<A HREF="#Globus97IJSA">[14]</A>, or whose focus is more on portability and other issues, such as Javelin<A HREF="#Javelin97WJSEC">[9]</A>.</P>
+<H2>7&#9;Conclusion and Future Work</H2>
+<P>We performed an extensive performance analysis of Ninf, a global computing system for high-performance computing. We ran several benchmarks with different communication/computation characteristics on a variety of combinations of clients and servers, in their performance, architecture, etc., under LAN, single-site WAN, and multi-site WAN situations. We conclude with the followings:</P>
+
+<UL>
+<LI>The current Ninf system (and, other systems such as NetSolve) would function in both LAN and WAN situations. The use of optimized parallel library would be sufficient for setting up numerous global computing servers all around the world, although for SMPs we do need to determine the optimal number of threads given the number of clients. </LI>
+<LI>On the other hand, there must be a variety of improvements that must be made, as we have indicated, both in communication architecture of the client-server, and task scheduling/load distribution, especially in WAN setting. </LI>
+<LI>In LAN setting, computing server performance dictates overall performance, while in WAN limitation of communication throughput is currently more significant. In particular, multiple client requests from a single site could quickly saturate the network for communication-intensive applications. However, we expect that in practice multiple client requests will be issued from different sites, in which case performance will depend of Internet network topologies. In fact, for EP-style applications, current Ninf or other systems such as NetSolve would be quite feasible.</LI></UL>
+
+<P>Finally, although we have performed extensive benchmarks on two application core examples, we still do need to perform even more benchmarks using other types of practical applications, and different WAN configurations. However, on the Internet it is quite difficult to perform large-scale benchmarks with reproducible results. One current plan we have is to build a global computing simulator for Ninf, on which we could readily test different client network topologies under various communication and other parameters. Still, we do need to conduct further application benchmarks to determine parameters in the underlying global computation model for the Ninf simulator.</P>
+<P>We also need to make our Ninf system more robust so that it could be readily distributed for global public usage, upon which many applications should be written, based on which we could gain more knowledge on the behavior of global computing systems in general. We also hope to collaborate with other efforts in global computing so that we could share as much of the technical results and infrastructures as possible.</P>
+<H2>References<A NAME="r1"></A></H2>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P><A NAME="Ninf"></A></FONT>[1] <A HREF="http://phase.etl.go.jp/ninf/">http://phase.etl.go.jp/ninf/</A></P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P><A NAME="Ninf97HPCN"></A></FONT>[2] M. Sato, H. Nakada, S. Sekiguchi, S. Matsuoka, U. Nagashima, and H. Takagi. Ninf: A Network based Information Library for a Global World-Wide Computing Infrastructure. In <I>Proceedings of HPCN'97 (LNCS-1225)</I>, pages 491-502, 1997.</P>
+<P><A NAME="Ninf95TR"></A>[3] H. Nakada, M. Sato, and S. Sekiguchi. An overview of the RPC System Implementation for Ninf, Technical Report TR95-28, Electrotechnical Laboratory, 1995.</P>
+<P><A NAME="comment"></A>[4] Although the current Ninf client API only supports matrices, we plan to extend the IDL and the interpreter to handle arbitrary user-defined objects.</P>
+<P><A NAME="Murata91"></A>[5] Oguni, editor. <I>Matrix Computing Software</I>. Maruzen, 1991.</P>
+<P><A NAME="NetSolve96"></A>[6] H. Casanova, and J. Dongarra. NetSolve: A Network Server for Solving Computational Science Problems. In <I>Proceedings of Supercomputing '96</I>, 1996.</P>
+<P><A NAME="NASPB"></A>[7] <A HREF="http://science.nas.nasa.gov/Software/NPB/">http://science.nas.nasa.gov/Software/NPB/</A></P>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P><A NAME="Ninf97WOOC"></A></FONT>[8] M. Iioka et al. Global Numerical Information Database Server System for Ninf. In <I>Proceedings of 13th Workshop on Object-Oriented Computing, Hakone, Japan</I>, 1997.</P>
+<P><A NAME="Javelin97WJSEC"></A>[9] P. Cappello, B. Christiansen, M. F. Ionescu, M. O. Neary, K. E. Schauser, and D. Wu. Javelin: Internet-Based Computing Using Java. In <I>1997 ACM Workshop on Java for Science and Engineering Computation (submitted)</I>, 1997.</P>
+<P><A NAME="Scheduling97SC"></A>[10] K. Aida, H. Kasahara, and S. Narita. Scheduling Scheme of Parallel Jobs on a Multiprocessor System, <I>Supercomputing '97 (submitted to Technical Paper)</I>, 1997.</P>
+<P><A NAME="RCS96LN"></A>[11] P. Arbenz, W. Gander, and M. Oettli. The Remote Computational System, High-Performance Computation and Network. Volume 1067 of <I>Lecture Note in Computer Science</I>, pages 662-667, Springer, 1996.</P>
+<DL>
+<DT><A NAME="Legion94TR"></A>[12] A. S. Grimshaw, W. A. Wulf, J. C. French, A. C. Weaver, and P. F. Reynolds Jr. Legion: The Next Logical Step Toward a Natiowide Virtual Computer. Technical Report CS-94-21, University of Virginia, 1994.</DT>
+</DL>
+<FONT FACE="ＭＳ 明朝" LANG="JA"><P><A NAME="Mentat93IEEE"></A></FONT>[13] A. S. Grimshaw. Easy to Use Object-Oriented Parallel Programing with Mentat, <I>IEEE Computer</I>, pages 39-51, 1993.</P>
+<P><A NAME="Globus97IJSA"></A>[14] I. Foster, and C. Kesselman. Globus: A Metacomputing Infrastructure Toolkit, <I>International Journal of Supercomputer Applications (to appear)</I>, 1997. </P></BODY>
+</HTML>

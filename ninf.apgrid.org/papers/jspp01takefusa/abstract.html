@@ -1,0 +1,42 @@
+<h1> Abstract </h1>
+<hr>
+広域ネットワークに接続された計算資源を1つの計算基盤として提供する
+Gridシステムが将来の高性能計算アプリケーションの計算基盤として
+注目されている．
+Gridシステムとして，ネットワーク上で計算資源とともにサービスの提供を
+可能にするNetwork-enabled Server（NES）が複数提案されている．
+NESは一般的にクライアント・サーバ型アーキテクチャとなっており，
+分散したGrid計算資源上にサーバを用意する．
+しかしながら，複数サーバ，複数のクライアントを想定したGridの
+スケジューリングに関する議論が十分に行われていない．
+また，将来のNESシステム運用での課金に伴い，Gridユーザはジョブ
+実行時間を最短にすることから最小コストの資源群を利用して規定時間内に
+処理を終了させることを要求するようになる．
+本稿ではデッドラインスケジューリングに着目し，その性能特性をGrid のス
+ケジューリング手法の評価システムBricksを拡張して調査した．
+まず，複数サーバ，複数クライアントを想定した，デッドラインスケジューリング
+アルゴリズムを紹介するとともに，そのアルゴリズムの性能を高めるメ
+カニズム，Load CorrectionとFallbackを提案する．
+次に，Bricksシステムを用いたシミュレーションによる評価より，Grid上での
+NESシステムのデッドラインスケジューリングの有効性を示す．
+
+<hr>
+The Computational Grid is a promising platform for the deployment 
+of high-performance computing applications.  A number of projects 
+have addressed the idea of software as a service on the network. 
+These systems usually implement client-server architectures
+with many servers running on distributed Grid resources and have 
+commonly been referred to as Network-enabled servers (NES). 
+An important question is that of {\em scheduling} in this 
+multi-client multi-server scenario. Note that in this context most
+requests are computationally intensive as they are generated
+by high-performance computing applications. 
+The Bricks simulation framework has been developed and extensively 
+used to evaluate scheduling strategies for NES systems. 
+In this paper we discuss a deadline scheduling strategy that is 
+appropriate for the multi-client multi-server case. 
+We propose a simple deadline scheduling algorithm and then augment 
+it with Load Correction and Fallback mechanisms which could improve 
+the performance of the algorithm in our context. We then give 
+simulation results and draw conclusion on the value and feasibility
+of deadline scheduling for NES systems on the Grid.

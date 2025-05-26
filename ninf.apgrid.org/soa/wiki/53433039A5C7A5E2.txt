@@ -1,0 +1,52 @@
+*SC09 GriVon Cluster [#qe2eaab8]
+
+
+- Frontend Node
+ gdcweb00.hpcc.jp (163.220.2.46)
+ (gdcweb* はDNSにホスト名が登録されている)
+
+- Gateway Node
+ 内側: 　vm-container-0-0
+ 外側：　gdcweb02.hpcc.jp (163.220.2.44)
+
+- Gateway Node予備ノード
+ 内側: 　vm-container-0-1
+ 外側: 　gdcweb03.hpcc.jp (163.220.2.43)
+
+- vm-container-0-1〜6
+ vcomputeを立てるノード
+
+- IPMI
+ vm-container-0-0 : 10.1.1.10
+    ;
+ vm-container-0-6 : 10.1.1.16
+
+  ON:         ipmitool -l lanplus -H 10.1.1.11 -U root -P passowrd  power on
+  OFF:        ipmitool -l lanplus -H 10.1.1.11 -U root -P password  power soft
+  Status :    ipmitool -l lanplus -H 10.1.1.11 -U root -P password  power status
+  (On/Offは予約のページに操作ボタンがある。パスワードは従来のai03と同じもの)
+
+- NFS （1.4TB）
+ Server : 10.1.1.189
+ Client : 各ノードの/data/vmにマウントしてある。
+
+- Power Sensor
+ http://10.1.1.17   (Sensor ID 1: Frontend,   2: vm-contianer-0-0,....    4: vm-container-0-2)
+ http://10.1.1.18   (1 : vm-container-0-3, .....    4: vm-container-0-6)
+
+- Sensor CGI
+ gdcweb00:/root/viewerCGI/server.py
+
+- Sensor RRD program
+ gdcweb00:/root/tyokoi/s_powersensor/getSensorData.py
+
+- Sensor Viewer
+ gdcweb00:/root/rrdviewer
+  #java -cp bin:test jp.aist.rrdviewer.Viewer test.prop
+
+- Global IP
+ VFrontendに使用可能です。
+ IP: 163.220.2.42,  163.220.2.110-112
+ Netmask: 255.255.224.0
+ Gateway: 163.220.0.1
+ DNS: 163.220.2.34

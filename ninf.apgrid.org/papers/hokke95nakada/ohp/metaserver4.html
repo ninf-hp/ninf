@@ -1,0 +1,22 @@
+ <center> <H1>  トランザクション  </H1> </center> <hr noshade width = 80% algn = "center"> <H2>
+分散実行の対象となる範囲
+<code>Ninf_check_in()</code>と
+<code>Ninf_check_out()</code>で囲んだ領域
+
+ <H1>  例: </H1>
+<PRE>
+    Ninf_check_in();
+    Ninf_call(&quot;mmul&quot;,N,A,B,E);
+    Ninf_call(&quot;mmul&quot;,N,C,D,F);
+    Ninf_call(&quot;mmul&quot;,N,E,F,G);
+    Ninf_check_out();
+</PRE>
+
+<li>トランザクションは動的に決定<p>
+<center>
+--> 分岐、ループを含むことが可能
+</center>
+
+ <hr> <center><table><td><h2>　　　　　　　　　　　　　　　</td><td></td><td></td><td><h2><em>　　　　　　　HOKKE' 96 </td></table></center>
+
+

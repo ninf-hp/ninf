@@ -1,0 +1,5 @@
+package ninf.basic;
+
+public interface Informable{
+  public void inform();
+}

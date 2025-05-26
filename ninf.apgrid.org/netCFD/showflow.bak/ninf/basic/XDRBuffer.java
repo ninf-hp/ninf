@@ -1,0 +1,168 @@
+package ninf.basic;
+
+import java.io.*;
+
+public class XDRBuffer {
+  private static int XDRLIMIT = 4;
+
+  byte buf[];
+  int index;
+
+  void grow(int i){
+    byte[] tmp = new byte[buf.length + i];
+    System.arraycopy(buf, 0, tmp, 0, buf.length);
+    buf = tmp;
+  }
+
+  public XDRBuffer(int length){
+    buf = new byte[length];
+    index = 0;
+  }
+
+  public XDRBuffer(byte buffer[]){
+    buf = buffer;
+    index = 0;
+  }
+
+  public byte[] getBuf(){
+    return buf;
+  }
+
+  public final void writeByte(int v) {
+    buf[index++] = (byte)(v & 0xFF);
+  }
+
+  public final void writeShort(int v) {
+    buf[index++] = (byte)((v >>>  8) & 0xFF);
+    buf[index++] = (byte)((v >>>  0) & 0xFF);
+  }
+
+  public final void writeChar(int v) {
+    buf[index++] = (byte)((v >>>  8) & 0xFF);
+    buf[index++] = (byte)((v >>>  0) & 0xFF);
+  }
+
+  public final void writeInt(int v)  {
+    buf[index++] = (byte)((v >>> 24) & 0xFF);
+    buf[index++] = (byte)((v >>> 16) & 0xFF);
+    buf[index++] = (byte)((v >>>  8) & 0xFF);
+    buf[index++] = (byte)((v >>>  0) & 0xFF);
+  }
+  public final void writeLong(long v)  {
+    buf[index++] = (byte)((v >>> 56) & 0xFF);
+    buf[index++] = (byte)((v >>> 48) & 0xFF);
+    buf[index++] = (byte)((v >>> 40) & 0xFF);
+    buf[index++] = (byte)((v >>> 32) & 0xFF);
+    buf[index++] = (byte)((v >>> 24) & 0xFF);
+    buf[index++] = (byte)((v >>> 16) & 0xFF);
+    buf[index++] = (byte)((v >>>  8) & 0xFF);
+    buf[index++] = (byte)((v >>>  0) & 0xFF);
+  }
+
+  public final void writeFloat(float v){
+    writeInt(Float.floatToIntBits(v));
+  }
+
+  public final void writeDouble(double v){
+	writeLong(Double.doubleToLongBits(v));
+  }
+
+
+  public void writeString(String s) {
+    int length = s.length();
+    int rest = length % XDRLIMIT;
+    rest = (rest != 0)? XDRLIMIT - rest: rest;
+    grow(length + rest + 4);
+    this.writeInt(length);
+    for (int i = 0; i < length; i++){
+      this.writeByte((byte)(s.charAt(i)));
+    }
+    for (int i = 0; i < rest; i++){
+      this.writeByte(0);
+    }
+  }
+
+  /**************** read functions ***************/
+  public void align(){
+    int rest = index % XDRLIMIT;
+    rest = (rest != 0)? XDRLIMIT - rest: 0;
+    index += rest;
+  }
+
+  public final byte readByte(){
+    return (buf[index++]);
+  }
+
+  public final int  readUnsignedByte(){
+    int ch1 = (int)buf[index++];
+    return (ch1);
+  }
+
+  public final short readShort() {
+    int ch1 = (int)buf[index++];
+    int ch2 = (int)buf[index++];
+    ch1 &= 0xff;
+    ch2 &= 0xff;
+    return (short)((ch1 << 8) + (ch2 << 0));
+  }
+  public final int readUnsignedShort() {
+    int ch1 = (int)buf[index++];
+    int ch2 = (int)buf[index++];
+    ch1 &= 0xff;
+    ch2 &= 0xff;
+    return ((ch1 << 8) + (ch2 << 0));
+  }
+  public final char readChar() {
+    int ch1 = (int)buf[index++];
+    int ch2 = (int)buf[index++];
+    ch1 &= 0xff;
+    ch2 &= 0xff;
+    return (char)((ch1 << 8) + (ch2 << 0));
+  }
+  public final int readInt(){
+    int ch1 = (int)buf[index++];
+    int ch2 = (int)buf[index++];
+    int ch3 = (int)buf[index++];
+    int ch4 = (int)buf[index++];
+    ch1 &= 0xff;
+    ch2 &= 0xff;
+    ch3 &= 0xff;
+    ch4 &= 0xff;
+    return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
+  }
+
+  public final long readLong(){
+    long tmp = readInt();
+    return (tmp << 32L) + (readInt() & 0xFFFFFFFFL);
+  }
+
+  public final float readFloat() {
+    return Float.intBitsToFloat(readInt());
+  }
+  public final double readDouble() {
+    return Double.longBitsToDouble(readLong());
+  }
+
+  public String readString() {
+    int length = this.readInt();
+    byte cont[] = new byte[length];
+
+    for (int i = 0; i < length; i++){
+      cont[i] = this.readByte();
+    }
+    align();
+    return new String(cont, 0);
+  }
+
+  public static void main(String args[]){
+    byte buf[] = new byte[100];
+    XDRBuffer tmp = new XDRBuffer(buf);
+    tmp.writeInt(90000);
+    for (int i = 0; i < 4; i++)
+      System.out.print(tmp.buf[i] + " ");
+
+    tmp.index = 0;
+    System.out.println("90000 = " + tmp.readInt());
+  }
+
+}

@@ -1,0 +1,65 @@
+<div class="section"><font color="red">Hot Topics!</font></div>
+<ul>
+  <li><h2>Ninf-G2 Alpha 2 is now available! (Jan. 13, 2004)</h2>
+      Ninf-G version 2.0.0a2 (Ninf-G Version 2 alpha 2) is now available! (Jan. 13, 2004)<br>
+  Download the <a href="packages/welcome.shtml"> latest version </a> now!
+</ul>
+
+<div class="section">Welcome to Ninf Home Page</div>
+
+<div class="abstract">
+The Ninf Project is developing Grid technologies which allows users to
+access various resources such as hardware, software and scientific
+data on the Grid with an easy-to-use interface.  The Ninf system is a
+<a href="http://www.eece.unm.edu/~apm/docs/APM_GridRPC_0702.pdf">Grid
+RPC</a> system which has been developed by the Ninf Project.
+Ninf system provides Ninf Remote Procedure Call facilities which
+is designed to provide a programmming interface similar to
+conventional function calls and enable the user to build Grid-enabled
+applications.
+<br>
+</div>
+<br>
+<div class="section"> <img align="middle" src="image/Lecture.gif" width="20"> About Ninf-G </div>
+<strong>
+<div class="section_contents">
+Ninf-G is a reference implementation of Grid RPC system using the <a
+href="http://www.globus.org/">Globus Toolkit</a>.  Ninf-G provides
+Grid RPC APIs which are discussed for the standardization at the <a
+href="http://www.eece.unm.edu/~apm/">Advanced Programming Models
+Research Group</a> of the <a
+href="http://www.globalgridforum.org/">Global Grid Forum</a>.  The
+details of the standardization of the Grid RPC APIs is reported on the
+<a href="http://www.eece.unm.edu/~apm/docs/APM_GridRPC_0702.pdf"> GGF
+Working Group Document</a>.<br>
+</div>
+<ul>
+<li> related links
+  <ul>
+  <li> <a href="http://www.globalgridforum.org/">Global Grid Forum</a>
+  <li> <a href="http://www.eece.unm.edu/~apm/">GGF Advanced Programming Models Research Group</a>
+  <li> <a href="http://www.eece.unm.edu/~apm/docs/APM_GridRPC_0702.pdf">GridRPC:
+  A Remote Procedure Call API for Grid Computing</a>
+  <li> <a href="http://icl.cs.utk.edu/netsolve">NetSolve</a>: A
+  reference implementation of Grid RPC APIs.
+  </ul>
+</ul>
+</strong>
+<br>
+<br>
+<div class="section"> <img align="middle" src="image/Lecture.gif" width="20"> What's New</div>
+<ul>
+<li> <a href="packages/welcome.shtml"> Ninf-G Ver. 2.0.0a is now available! [11/17/2003]<a></li>
+<li> <a href="packages/welcome.shtml"> Ninf-G Ver. 1.1.1 is now available! [03/14/2003]</a></li>
+<li> <a href="packages/welcome.shtml"> Patch for Ver. 1.1 to Ver. 1.1.1 is now available [03/14/2003]</a></li>
+<li> <a href="packages/welcome.shtml"> Ninf-G Ver. 1.1 is now available! [02/17/2003]</a></li>
+<li> <a href="packages/welcome.shtml"> The old Ninf-1 updated. [12/10/2002]</a></b> </li>
+<li> <a href="papers/papers.shtml">Papers list updated [12/9/2002] </a></li>
+<li> <a href="packages/welcome.shtml"> Ninf-G Ver. 1.0 is now available! [11/19/2002]</a> </li>
+<li> <a href="topics.shtml#topic-ninf-g"> Introduction of Ninf-G   [11/21/2001]</a> </li>
+<li> <a href="documents/welcome.shtml">Ninf tutorial kit [3/20/2001] </a></li>
+<li> <a href="papers/papers.shtml#gridrpc_tutorial">GridRPC tutorial added [3/1/2001] </a></li>
+<li> <a href="http://www.apgrid.org"> Asia-Pasific Grid [3/1/2001] </a></li>
+<li> <a href="http://datafarm.apgrid.org"> DataFarm Project  [3/1/2001] </a></li>
+</ul>
+

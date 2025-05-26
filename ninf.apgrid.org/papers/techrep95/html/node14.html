@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> IDL による記述の内容</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" IDL による記述の内容">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html174 HREF="node15.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html172 HREF="node12.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html166 HREF="node13.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html175 HREF="node15.html"> Ninf IDL の構文</A>
+<B>Up:</B> <A NAME=tex2html173 HREF="node12.html"> Ninf Interface Definition </A>
+<B> Previous:</B> <A NAME=tex2html167 HREF="node13.html"> IDL ファイルの役割 と </A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00062000000000000000> IDL による記述の内容</A></H2>
+<P>
+IDL ファイルには, 以下の情報が記述される。
+<UL><LI>
+        モジュール名 
+<LI>
+        各関数の呼び出し方 (marshaling 情報)
+<LI>
+        モジュール全体のMakeのための情報。
+<LI> 
+        (別名の定義)
+</UL>
+<P>
+この記述から、Ninf Procedure  との橋渡しをする スタブ  とそれらをコンパイルするための
+Makefileを生成する
+<P>
+このファイルを、NINF stub generator ``ninf_gen''で処理することによって、
+それぞれ関数定義に応じた スタブ  とそれらをコンパイルする
+Makefileを生成することができる。
+<P>
+<blockquote> <PRE>Usage:          ninf_gen [-d] infile.idl
+</PRE></blockquote>
+(-dはデバックオプション)<BR> 
+各Ninf Executable  は、Ninf_callに対して、Ninf severにより起動され、各ライ
+ブラリ関数を実行する。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

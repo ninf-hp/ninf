@@ -1,0 +1,51 @@
+<!--#include file="frame_head.shtml"-->
+
+<H2>Publications in English</H2>
+
+<UL>
+<LI CLASS=red><A NAME="ijhpc"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, 
+S. Sekiguchi, and U. Nagashima.<BR>
+<B>Performance evaluation model for scheduling in a global computing
+system</B>.<BR>
+<EM>International Journal of High-Performance Computing (submitted)</EM>.<BR>
+<!--A HREF="publications/ijhpc99-abst.txt">Abstract</A-->
+[<A HREF ="publications/ijhpc-aida.ps.gz">Paper(ps)</A>]
+</P>
+
+<LI CLASS=blue><A NAME="hpdc99"></A><P>
+A. Takefusa, S. Matsuoka, H. Nakada, K. Aida, and U. Nagashima.<BR>
+<B>Overview of a Performance Evaluation System for Global Computing
+Scheduling Algorithms</B>.<BR>
+<EM>Proceedings of 8th IEEE International Symposium on High Performance
+Distributed Computing,</EM>, 1999.08.<BR>
+[<A HREF="publications/hpdc99-abst.txt">Abstract</A> |
+ <A HREF="publications/hpdc99-takefusa.ps.gz">Paper(ps)</A> |
+ <A HREF="publications/hpdc99-takefusa.pdf">Slides(pdf)</A> |
+ <A HREF="publications/hpdc99-takefusa.ppt">Slides(ppt)</A>]
+</P>
+
+<LI CLASS=green><A NAME="nasa98"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, S. Sekiguchi, 
+and U. Nagashima.<BR>
+<B>Performance Evaluation Model for Scheduling in Global Computing Systems
+</B>. <BR>
+<EM>First NASA Workshop on Performance-Engineered Information Systems</EM>,
+1998.09. <BR>
+[<A HREF="publications/nasa98-aida.pdf">Slides(pdf)</A>]
+</P>
+
+<LI CLASS=yellow><A NAME="hpdc98"></A><P>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, and U. Nagashima. </BR>
+<B>Performance Evaluation Model for Job Scheduling in a Global Computing
+System</B>.<BR>
+<EM>Proceedings of 7th IEEE International Symposium on High Performance
+Distributed Computing</EM>, pp. 352-353, 1998.08.<BR>
+[<A HREF="publications/hpdc98-abst.txt">Abstract</A> | 
+ <A HREF="publications/hpdc98-aida.ps.gz">Paper(ps)</A> | 
+ <A HREF="publications/hpdc98-aida.pdf">Poster(pdf)</A>]
+</P>
+
+</UL>
+
+<!--#include file="frame_tail.shtml"-->

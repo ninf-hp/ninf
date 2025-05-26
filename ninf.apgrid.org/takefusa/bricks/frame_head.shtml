@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<TITLE>
+Bricks: 
+A Performance Evaluation System for Grid Computing Scheduling Algorithms
+</TITLE>
+<LINK REL="stylesheet" TYPE="text/css" HREF="style.css">
+</HEAD>
+
+<BODY>
+<CENTER>
+<H1>Bricks: 
+A Performance Evaluation System for Grid Computing Scheduling Algorithms
+</H1>
+</CENTER>
+
+<TABLE BORDER="0" WIDTH="100%">
+<TR>
+<!--TD VALIGN="top" width="20%" STYLE="background-image : url(back055.jpg)"-->
+<TD VALIGN="top" width="25%" 
+    STYLE="background-color : white ;
+	   border-width : thin ; 
+	   border-style : outset">
+
+<!--UL STYLE="line-height : 150% ; text-indent : -5pt"-->
+<UL STYLE="text-indent : -5pt">
+<LI CLASS=red>
+<P><A HREF = "index.shtml">Top page</A></P>
+<LI CLASS=blue>
+<P><A HREF = "contents.shtml">Contents</A></P>
+<LI CLASS=green>
+<P>Publications<BR>
+[<A HREF = "publications.shtml">English</A>], 
+[<A HREF = "publications_j.shtml">Japanese</A>]
+</P>
+<LI CLASS=yellow>
+<P><SPAN STYLE="text-decoration : line-through">Download package</SPAN></P>
+<LI CLASS=red>
+<P><A HREF = "related_work.shtml">Related Work</A></P>
+<LI CLASS=blue>
+<P><A HREF = "collaborators.shtml">Collaborators</A></P>
+<LI CLASS=green>
+<P><A HREF = "staff.shtml">Research Staff</A></P>
+</UL>
+
+<P>
+<FONT SIZE=2>
+Comments?<BR>
+<DIV STYLE="background-color : white ;
+     border-width : thin ; 
+     border-style : outset">
+<ADDRESS>
+Atsuko Takefusa, Ph. D.<BR>
+<A HREF="http://www.gtrc.aist.go.jp/">Grid Technology Research Center</a><br>
+<A HREF="http://www.aist.go.jp/">National Institute of AIST</a><br>
+Akihabara Dai Bldg , <br>
+1-18-13 Sotokanda, Chiyoda-ku, <br>
+Tokyo 101-0021, Japan<br>
+Phone: +81-3-5298-4724<br>
+Fax: 81-3-5298-4502<br>
+E-mail: takefusa ( at ) acm.org<br>
+</ADDRESS>
+</DIV>
+</FONT>
+</P>
+
+</TD>
+
+<TD VALIGN="top" width="3%"></TD>
+
+<TD>

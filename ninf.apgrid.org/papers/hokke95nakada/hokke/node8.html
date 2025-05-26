@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf サーバ
+  の選択</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf サーバ
+  の選択">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html126 HREF="node9.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html124 HREF="node5.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html118 HREF="node7.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html127 HREF="node9.html"> メタサーバ
+  間の通信</A>
+<B>Up:</B> <A NAME=tex2html125 HREF="node5.html">  メタサーバ
+  </A>
+<B> Previous:</B> <A NAME=tex2html119 HREF="node7.html"> メタサーバ
+  アーキテクチャの設計</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00033000000000000000> Ninf サーバ
+  の選択</A></H2>
+<P>
+メタサーバ
+  は複数のNinf サーバ
+  を登録する。
+個々のNinf サーバ
+  に関して以下のような情報を管理する。
+<P>
+<UL><LI> Ninf サーバ
+  の位置(アドレスとポート番号)
+<LI> 処理できる計算の種類
+<LI> Ninf サーバ
+  への距離(通信のスループット)
+<LI> Ninf サーバ
+  の計算能力
+</UL>
+<P>
+クライアントからのリクエストを受けた際に、メタサーバ
+  は
+処理時間が最小になるように、Ninf サーバ
+  を選択する。
+処理時間は、転送時間と計算時間の和である。
+処理時間を最小にするためには、そのリクエストを処理することが
+できるすべてのNinf サーバ
+  に対して、そのリクエストの計算に
+かかる転送時間と計算時間を見積もらなければならない。
+<P>
+転送時間を見積もるためには、メタサーバ
+  が それぞれのNinf サーバ
+  に対する
+通信のスループットを知っている必要がある。転送量はリクエストの時点で
+正確に知ることができる。
+<P>
+また計算時間を見積もるためには、
+それぞれのNinf サーバ
+  の計算能力とその計算自身の計算量が
+わからなければならない。計算能力は、Ninf サーバ
+  を立てる際に
+登録する。ここで問題になるのは、計算の計算量である。
+現在、計算量のオーダーをインターフェイス情報の一部として
+ユーザーが提供する方法を検討している。
+しかしオーダのみでは実際の計算量は類推できないので、
+過去の計算のログとオーダーから計算量を推定することを検討している。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

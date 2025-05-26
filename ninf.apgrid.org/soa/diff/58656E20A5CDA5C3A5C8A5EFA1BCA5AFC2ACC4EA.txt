@@ -1,0 +1,60 @@
+ * 計算機環境 [#k9c679a6]
+ 
+ XGtestPC6 および XGtestPC7 の2台を使用。
+  ・hp ProLiant ML-350 TO4p
+  ・Xeon(64EM/T) 3.0GHzx2
+  ・Mem: 1GB(DDR2-400x2)
+  ・HDD: 250GB (7L250S0)
+  ・NIC: GbEx2 on PCI(eth1, BCM5705) and on PCI-Ex(eth0, BCM5721)
+  ・OS: FedoraCore5 (x86_64) 2.6.15-1.2054_FC5(Dom[0U])
+  ・Xen3.0
+ 
+ * ネットワーク [#ddf10158]
+ VLAN未使用時
+  ・XGtestPC6Dom0: eth0 10.0.0.16, eth1: 163.220.2.196(DHCP)
+  ・XGtestPC6Dom1: eth0 10.0.0.26
+  ・XGtestPC7Dom0: eth0 10.0.0.17, eth1: 163.220.2.236(DHCP)
+  ・XGtestPC7Dom1: eth0 10.0.0.27
+ 
+ VLAN使用時
+  ・XGtestPC6Dom0: eth0.100 10.0.100.16, eth1: 163.220.2.196(DHCP)
+  ・XGtestPC6Dom1: eth0 10.0.100.26
+  ・XGtestPC7Dom0: eth0.100 10.0.100.17, eth1: 163.220.2.236(DHCP)
+  ・XGtestPC7Dom1: eth0 10.0.100.27
+ 
+ eth0側スイッチ: Cisco S4948-10G
+-eth1側スイッチ: NetGear 
+ 
++eth1側スイッチ: NetGear
++
+ * iperfの性能 [#j64d81b5]
+ TCP (-w 128k -t 10)
+ |  -c    |  -s    |  no VLAN  |  VLAN  |
+ |PC6Dom0 |PC6Dom1 |639 Mbps   |397 Mbps|
+ |PC6Dom1 |PC6Dom0 |816 Mbps   |813 Mbps|
+ |PC6Dom0 |PC7Dom0 |941 Mbps   |939 Mbps|
+ |PC6Dom0 |PC7Dom1 |632 Mbps   |640 Mbps|
+ |PC6Dom1 |PC7Dom0 |939 Mbps   |936 Mbps|
+ |PC6Dom1 |PC7Dom1 |557 Mbps   |549 Mbps|
+ 
+ PC6Dom0->PC6Dom1 のVLAN時の性能が低いが、これは（Xenのバグのため？）VLAN使用時にチェックサムオフロードをオフにしなければならないため。no VLAN時も同様の設定にすると同程度の性能に低下する。
+ 
+ それ以外はチェックサムオフロードをオフにした影響もあまりなくno VLAN/VLAN でほぼ同じ性能。
+ 
+ Dom0 から Dom1 の通信と Dom1 から Dom0 への通信を比べると、同一ホスト間および異るホスト間ともに、Dom1 が受信時の性能のほうが低い。おそらくこの受信側の性能低下のため、Dom1 間の性能が低下しているものと思われる。
+ 
+ 
+ 
+ UDP (-u -b 1000M -w 128k -t 10 を10回実行した平均)
+ | -c     | -s     |  no VLAN      |  VLAN         | no VLAN (csumTx off)|
+ |        |        |Tx  Rx  Loss   |Tx  Rx  Loss   |Tx  Rx  Loss|
+ |PC6Dom0 |PC6Dom1 |425 406 0.02%  |421 395 0.03%  |395 395 0.03%|
+ |PC6Dom1 |PC6Dom0 |692 691 0.00%  |658 658 0.00%  |659 659 0.00%|
+ |PC6Dom0 |PC7Dom0 |832 834 0.02%  |780 780 0.00%  |806 806 0.01%|
+ |PC6Dom0 |PC7Dom1 |834 773 7.10%  |791 774 1.77%  |806 788 2.14%|
+ |PC6Dom1 |PC7Dom0 |762 763 0.02%  |696 695 0.01%  |744 743 0.02%|
+ |PC6Dom1 |PC7Dom1 |765 741 3.2%   |695 693 0.52%  |734 730 1.85%|
+ 
+ 上記は10秒を10回繰り返した平均であるが、一部 Tx が高くなり過ぎてLoss率が高くなり過ぎている場合を除いている。それを含め性能のばらつきは大きい。VLAN の性能がやや低い。これは チェックサムオフロードをオフにした影響もあると思われるが、詳細は不明。
+ 
+ PC6/7間の通信では、Dom0 からの出力の方が Dom1 からの出力より70Mbpsほど性能や良い。また、Dom0ではほぼLossなしで受信できているが、Dom1 でやや取りこぼしが見られる。

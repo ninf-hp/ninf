@@ -1,0 +1,17 @@
+How to Demonstrate with Matrix Calulator
+-----
+load: TestMatrix8x8.2.txt
+show editor
+load: TestMatrix8.8.3.txt
+Execute: Matrix Add
+POP
+
+load: TestMat.txt
+Duplicate
+Execute: Matrix Multiply
+Duplicate
+
+load: TestVecto66.txt
+Execute: LU decomposition
+Editor
+Execute: Matrix Multiply

@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=x-sjis">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>表題&#9;</TITLE>
+</HEAD>
+<BODY LINK="#0000ff">
+
+<TABLE CELLSPACING=0 BORDER=0 CELLPADDING=8 WIDTH=720>
+<TR><TD VALIGN="TOP">
+<FONT FACE="ＭＳ Ｐゴシック" LANG="JA" SIZE=4><P ALIGN="CENTER">・グローバルコンピューティングへの夢<BR>
+</FONT><FONT FACE="Arial">? </FONT><FONT FACE="ＭＳ Ｐゴシック" LANG="JA">メタコンピュータ・</FONT><FONT FACE="Arial">Java</FONT><FONT FACE="ＭＳ Ｐゴシック" LANG="JA">・リフレクション技術による将来の計算基盤へのいざない</FONT><FONT FACE="Arial"> ?</FONT></TD>
+</TR>
+<TR><TD VALIGN="TOP">
+<FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1><P ALIGN="CENTER">松岡　聡　</FONT><FONT SIZE=1>(</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>東京工業大学</FONT><FONT SIZE=1>) †</FONT></TD>
+</TR>
+<TR><TD VALIGN="TOP"><DIR>
+<DIR>
+
+<FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1><P ALIGN="JUSTIFY">高速なコンピュータネットワークにより、地球上の任意の地域に置かれた計算機に対して遠隔的に計算させることが可能となり、それに基いて超高性能広域計算を行なう仮想的な「グローバルコンピュータ」が米国を中心に我々の</FONT><I><FONT SIZE=1>Ninf</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>プロジェクト</I>を含め研究が活発化してきている。今回は、グローバルコンピューティングの紹介を行なうとともに、オブジェクト指向・</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>・リフレクションがどのようにその構築技術となっているかを論じる。特に、</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>とデザインパターンを活用した</FONT><I><FONT SIZE=1>Ninflet</I></FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>システムと、リフレクションを用いて</FONT><FONT SIZE=1>JIT</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>コンパイラレベルで異機種環境に適合を行なう</FONT><I><FONT SIZE=1>OpenJIT</I></FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>を中心とする。</DIR>
+</DIR>
+</FONT></TD>
+</TR>
+<TR><TD VALIGN="TOP">
+<FONT FACE="Arial" SIZE=4><P ALIGN="CENTER">Towards Global Computing</FONT><FONT FACE="ＭＳ Ｐゴシック" LANG="JA" SIZE=4><BR>
+</FONT><FONT FACE="Arial">? Future Computing Platform with Metacomputer, Java, and Reflection ?</FONT></TD>
+</TR>
+<TR><TD VALIGN="TOP">
+<FONT SIZE=1><P ALIGN="CENTER">Satoshi Matsuoka (Tokyo Institute of Technology) †</FONT></TD>
+</TR>
+<TR><TD VALIGN="TOP"><DIR>
+<DIR>
+
+<FONT SIZE=1><P ALIGN="JUSTIFY">Fast networks are now making it feasible to remotely delegate computation to any computer in the world, and as a result, research on “Global Computing” is becoming active, including our <I>Ninf</I> project. In the talk, we introduce various aspects of global computing, especially the architectural support of object-orientation, Java, and reflection. In particular, we concentrate on our <I>Ninflet</I> system, which employs Java and Design Patterns, and also <I>OpenJIT</I>, which allow adaptation to heterogeneous computing environment at JIT-compiler level.</DIR>
+</DIR>
+</FONT></TD>
+</TR>
+</TABLE>
+
+<FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1><P ALIGN="CENTER">　</P>
+<OL>
+
+</FONT><FONT FACE="ＭＳ Ｐゴシック" LANG="JA"><P ALIGN="JUSTIFY"><LI>はじめに</LI></P>
+</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1><P ALIGN="JUSTIFY">インターネットに代表される世界規模で結ばれた高速なコンピュータネットワークにより、地球上の任意の地域に置かれた計算機に対して遠隔的な計算が可能となった。現状では</FONT><FONT SIZE=1>Java Applet</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>のブラウザ内実行や、</FONT><FONT SIZE=1>CGI</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>による</FONT><FONT SIZE=1>Client-Server</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>型の処理など、個々のユーザの独立した非常に単純な処理が主であるが、将来はさらなるネットワークの高速化により、多数のスーパーコンピュータを接続して大規模な超広域高性能計算を行なったり、ネットワークに接続された莫大な数の計算機のうち、夜間に遊休な計算機を地球の裏側の昼間の地域に貸し出して有効利用することが可能となる。</P>
+<P ALIGN="JUSTIFY">このように、キャンパスや組織内のような台数的には数百台から数千台の中規模ネットワークから、インターネットのような地球規模の広域ネットワーク上に、仮想計算環境を構築し、大規模な並列処理を行なえるようなシステムをグローバルコンピュータ</FONT><FONT SIZE=1>(Global Computer)</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>あるいはメタコンピュータ</FONT><FONT SIZE=1>(Metacomputer)</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>と呼び、最近特に米国の</FONT><FONT SIZE=1>HPC-NGI(Next Generation Internet)</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>関係の研究者による研究が盛んになっており、ワークショップやシンポジウムが開催され、実際</FONT><FONT SIZE=1>Globus[1], Legion[2], Netsolve[3]</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>などのシステムが研究開発されている。</P>
+<P ALIGN="JUSTIFY">我々は</FONT><FONT SIZE=1>1995</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>年より、グローバルコンピューティングのための</FONT><FONT SIZE=1> Ninf </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>システム</FONT><FONT SIZE=1>[4]</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>を提案してきた。</FONT><FONT SIZE=1>Ninf </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>システムは、サーバー・クライアントモデルに基づいており、</FONT><FONT SIZE=1>Ninf </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>サーバ上に予め用意されている計算ルーチンを、クライアントであるユーザプログラムから</FONT><FONT SIZE=1> RPC (Remote Procedure Call) </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>で呼び出すことを実現する。また、計算をサポートする広域データベース機能や、各種言語処理系に対する</FONT><FONT SIZE=1>API</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>や</FONT><FONT SIZE=1>GUI</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>なども兼ね備える。</P>
+</FONT><FONT FACE="ＭＳ Ｐゴシック" LANG="JA"><P ALIGN="JUSTIFY"><LI>グローバルコンピュータの技術的課題</LI></P>
+</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1><P ALIGN="JUSTIFY">グローバルコンピュータは、複数の異なる管理化にある計算機群を一つの計算機として仮想化せねばならず、セキュリティや対故障性など、管理上の様々な技術的問題が生じる。これらの技術は従来の分散システム技術としても存在したが、それらに加えてネットワークのレーテンシに抗して高性能を保たなくてはならならず、有効な資源配分、スケジューリング、大幅なレーテンシの隠蔽などが分散コンピューティング技術と緻密に連係しシステムが構築されなくてはならない。逆に言えば、現状の</FONT><FONT SIZE=1>Unix</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>や分散</FONT><FONT SIZE=1>OS,WWW</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>技術のみでは機能的に不足しており、</FONT><FONT SIZE=1>Globus</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>をはじめ各システムではそれらに関し柔軟でかつロバストなフレームワークを提供している。我々の</FONT><FONT SIZE=1>Ninf</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>システムでも、超広域高性能計算の資源配分の枠組みを提案し、かつ各種の性能評価・シミュレーションを行なっている</FONT><FONT SIZE=1>[5]</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>。</P>
+</FONT><FONT FACE="ＭＳ Ｐゴシック" LANG="JA"><P ALIGN="JUSTIFY"><LI>グローバルコンピューティングとオブジェクト指向・</FONT>Java<FONT FACE="ＭＳ Ｐゴシック" LANG="JA">・リフレクション</LI></P></OL>
+
+</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1><P ALIGN="JUSTIFY">グローバルコンピューティングにおいても、オブジェクト指向の諸技術がその構築において有功であると認識されており、様々な試みがなされている。</FONT><FONT SIZE=1>Globus[1]</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>ではセキュリティ、負荷分散、通信などがツールキット化されており、ユーザは必要なツールキットのモジュールを用いてカスタム化することにより、グローバルコンピューティングのアプリケーションを構築する。</FONT><FONT SIZE=1>Legion[2]</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>はより野心的で、システム全体がオブジェクト指向で統一されており、かつメタクラスで組織やアプリケーションによりそれぞれ異なるシステムの各機能の管理ポリシーを導入するという、リフレクションの技術を用いている。また、</FONT><FONT SIZE=1>CORBA</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>をデータ並列通信を行なえるように拡張したり、グローバルコンピューティング用のコンポーネント技術など、米国を中心に盛り上がりを見せている。</P>
+<P ALIGN="JUSTIFY">さらに最近では、</FONT><FONT SIZE=1>Java </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>を用いた</FONT><FONT SIZE=1>Global Computing</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>溝築技術が、複数する提案されている。</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>は</FONT><FONT SIZE=1>I/O</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>、ネットワーク、スレッドなど比較的低位の言語機能から</FONT><FONT SIZE=1>GUI</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>、</FONT><FONT SIZE=1>WWW</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>やコンポーネントフレームワークなど高い機能まで標準化されており、かつ異機種でポータブルな実行が可能で、グローバルコンピューティングの基盤として有用であるとみなされてる。特に、セキュリティの面では、リモートファイルやネットワークのアクセスの制限、異なる</FONT><FONT SIZE=1> ThreadGroup </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>のスレッドに対する操作などの可否を制御する</FONT><B><FONT FACE="Courier New" SIZE=1>java.lang.SecurityManager</B></FONT><FONT SIZE=1> </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>クラス、不正なメモリ番地へのアクセスを起こさないことを保証するオブジェクトポインタや添字チェックされる配列といった言語仕様、不正なコードが含まれていないかチェックする</FONT><FONT SIZE=1> bytecode verifier</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>、異なる</FONT><FONT SIZE=1> ClassLoader </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>からロードされた同名のクラスを別クラスとして扱う機構、異なる</FONT><FONT SIZE=1> package </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>のクラスに対するアクセスを禁止できる機構といった、グローバルコンピューティングの基盤となるセキュリティ技術を多々内包している。</P>
+<P ALIGN="JUSTIFY">現在までに提案されている</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>を基盤としたグローバルコンピュータのシステムは、このように</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>のセキュリティに関する言語的特徴を活かしたものが多い。これらは</FONT><FONT SIZE=1>Javelin[6]</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>に代表される</FONT><FONT SIZE=1>Applet</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>のセキュリティに基づいたもの、および我々の</FONT><FONT SIZE=1>Ninflet</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>システム</FONT><FONT SIZE=1>[7]</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>のように、独自の計算サーバーをベースとしてセキュリティをカスタム化したもの、に大別される。一見</FONT><FONT SIZE=1>Applet</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>の方が一般のブラウザで実行可能など、有利なように思えるが、実はそれぞれ一長一短があり、両者を融合する技術も考えられる。</P>
+</FONT><FONT SIZE=1><P ALIGN="JUSTIFY">Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>をグローバルコンピューティングに用いた場合、問題なのは性能とそのポータビリティである。通常の</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>の実行の高速化には</FONT><FONT SIZE=1>JIT</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>コンパイラが用いられるが、我々の研究ではそれらは性能的改善は進んでいるものの、</FONT><FONT SIZE=1>Fortran, C</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>と比較してまだまだ速度的に十分であるとはいえない</FONT><FONT SIZE=1>[8]. </FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>これは単純な速度の問題のみならず、</FONT><FONT SIZE=1>Fortran,</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>　</FONT><FONT SIZE=1>C</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>では比較的普遍的な高レベルの最適化が、</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>の言語セマンティックスおよび実装の特性によって、それぞれの処理系で効果が大きく異なるという、異機種間の性能の可搬性の問題も含まれている。また、</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>自身、その可搬性は、</FONT><FONT SIZE=1>JVM</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>が提供する機能に限定されており、分散共有メモリ、ユーザレベル通信、スレッドマイグレーションなど、</FONT><FONT SIZE=1>JVM</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>が未サポートな機能は基本的に可搬にかつ効率よく実装するのは非常に困難である。この問題を解決するために、我々は富士通と共同で</FONT><FONT SIZE=1>OpenJIT</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>の研究開発を進めている。</FONT><FONT SIZE=1>OpenJIT</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>はリフレクション技術を用い、世界で初の</FONT><FONT SIZE=1>Java</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>で書かれた可搬性の高い</FONT><FONT SIZE=1>JIT</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>コンパイラである。</FONT><FONT SIZE=1>OpenJIT</FONT><FONT FACE="ＭＳ Ｐ明朝" LANG="JA" SIZE=1>はクラスフレームワークであるため、実行時にアプリケーションや実行環境に特化したクラスファイルを動的にダウンロードすることを可能としている。これにより、様々なグローバルコンピューティング環境上で、異なる並列プログラミングのパラダイムを効率よくサポートする。</P>
+</FONT><FONT FACE="ＭＳ Ｐゴシック" LANG="JA"><P ALIGN="JUSTIFY">参考文献<A NAME="DesignPattern"></A></P>
+<OL>
+
+</FONT><FONT SIZE=1><P ALIGN="JUSTIFY"><LI>Ian Foster and Carl Kesselman, “Globus: A Metacomputing Infrastructure Toolkit”, Prc. International Journal of Supercomputer Applications, 1997.</LI></P>
+<P ALIGN="JUSTIFY"><LI>A. S. Grimshaw et. al. “Legion: The Next Logical Step Toward a Nationwide Virtual Computer”, Tech. Rep. CS-94-21, University of Virginia, 1994.</LI></P>
+<P ALIGN="JUSTIFY"><LI>H. Casanova and J. Dongarrra. "NetSolve: A Network Server for Solving Computational Science Problems", Proc. IEEE Supercomputing '96, San Diego, Nov. 1996.</LI></P>
+<P ALIGN="JUSTIFY"><LI>S. Sekiguchi, M. Sato, H. Nakada, S. Matsuoka, and U. Nagashima. “- Ninf -: Network based Information Library for Globally High Performance Computing”, Parallel Object-Oriented Methods and Applications (POOMA’96), 1996, </FONT><B><FONT FACE="Courier New" SIZE=1>http://phase.hpcc.gr.jp/ninf/</LI></P>
+</B></FONT><FONT SIZE=1><P ALIGN="JUSTIFY"><LI>Atsuko Takefusa, Satoshi Matsuoka, et. al., “Multi-client LAN/WAN Analysis of Ninf: a High-Performance  Global Computing System”, Proc. IEEE/ACM Supercomputing '97, San Jose, CA, Nov. 1997.</LI></P>
+<P ALIGN="JUSTIFY"><LI>B. Christiansen, P.Cappello, M.Ionescu, M. Neary, K. Schauser, and D. Wu. “Javelin: Internet-Based Parallel Computing Using Java”, Proc. ACM Workshop on Java for Science and Engineering Computation, 1997.</LI></P>
+<P ALIGN="JUSTIFY"><LI>H. Takagi, S. Matsuoka et. al. “Ninflet: a Migratable Parallel Objects Framework using Java”, Proc. ACM Workshop on Java for Science and Engineering Computation, Palo Alto, 1998.</LI></P>
+<P ALIGN="JUSTIFY"><LI>OpenJIT: a Reflective Java JIT Compiler in Java, </FONT><B><FONT FACE="Courier New" SIZE=1>http://openjit.is.titech.ac.jp/.</LI></P></OL>
+</B></FONT></BODY>
+</HTML>

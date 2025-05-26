@@ -1,0 +1,29 @@
+ * Frontend での eth0 と eth1 の交換方法 [#g0248f57]
+ 
+ [https://lists.sdsc.edu/pipermail/npaci-rocks-discussion/2007-February/024001.html ここ] に情報があった．
+ 
+- step 1.
++ Step 1.
+  Dump the add-extra-nic table with
+  # add-extra-nic --dump > /tmp/myinterfaces.sh
+  
+  You should get a file that looks like:
+  /opt/rocks/sbin/add-extra-nic --name="ikelite" --if="eth0" --module="e1000" --mac="00:14:22:22:ee:66" --ip="10.1.1.1" --netmask="255.0.0.0" --gateway="None" --no-update --no-modify ikelite
+  /opt/rocks/sbin/add-extra-nic --name="ikelite.rocksclusters.org" --if="eth1" --module="e1000" --mac="00:14:22:22:ee:67" --ip="137.110.119.53" --netmask="255.255.255.0" --gateway="137.110.119.1" --no-update --no-modify ikelite
+  
+  Step 2.
+  Edit this file to
+  a) reflect which you want to have as eth1 and which as eth0. It is most reliable of you swap the --mac= and --module= pair.
+  b) remove the --no-modify flag from the lines.
+  
+  Step 3.  (change the values in the database)
+  # sh /tmp/myinterfaces.sh
+  # insert-ethers --update
+  
+  Step 4. Regenerate the ifcfg-eth0, ifcfg-eth1 and modprobe.conf files (using ikelite from above at the host name, substitute appropriately)
+  # dbreport ifcfg eth0 ikelite > /etc/sysconfig/network-scripts/ifcfg-eth0
+  # dbreport ifcfg eth1 ikelite > /etc/sysconfig/network-scripts/ifcfg-eth1
+  # sed -i '/alias eth/d' /etc/modprobe.conf  <-- this removes the previous alias lines.
+  # dbreport ifcfg modules ikelite >> /etc/modprobe.conf
+  
+  Step 5. Reboot (you will get complaints about mismatched HW addresses when shutting down your network)

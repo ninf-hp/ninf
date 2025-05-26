@@ -1,0 +1,212 @@
+#
+# -*- coding: shift_jis -*-
+import csv
+import sys
+import os
+import re
+
+csvFilename = "publication2005.csv"
+dataDir     = "dataDir"
+httpPrefixMyHome = "http://ninf.apgrid.org/publication/dataDir"
+httpPrefixNinf  = "dataDir"
+#httpPrefix  = "dataDir"
+
+mynamePattern = unicode(".*íÜìc.*èGäÓ.*")
+myEnamePattern = unicode(".*Hidemoto.*Nakada.*")
+
+pdfFormat   = "%s.pdf"
+slideFormat = "%s_slide.pdf"
+abstFileFormat = "%s_abst.html"
+
+
+reader = csv.reader(file(csvFilename), dialect='excel')
+
+# category ninf, nakada, 
+
+class Item:
+   
+   
+   def __init__(self, row):
+      self.id        = row[0];
+      self.title     = row[1];
+      self.booktitle = row[2]
+      self.pages     = row[3]
+      self.year      = row[4]
+      self.date      = row[5]
+      self.code      = row[6]
+      self.abst      = row[7]
+      self.category  = row[8]
+      self.authors   = row[9:]
+      # dirty hack to avoid excel automatic conversion
+      if self.pages != "":
+         if self.pages[0] == "'":
+            self.pages = self.pages[1:]
+      
+   def toXML(self, stream, lang):
+      if (lang != "none") & (lang != self.code):
+         return
+      stream.write('<item tag="%s" lang="%s">\n' % (self.id, self.code))
+      stream.write('  <authors lang="%s">\n' % (self.code))
+
+      for author in self.authors:
+         if author == '':
+            break
+         stream.write('    <author>%s</author>\n' % (author))
+
+      stream.write('  </authors>\n')
+      stream.write('  <title lang="%s">%s</title>\n' % (self.code, self.title))
+      stream.write('  <booktitle lang="%s">%s</booktitle>\n' % (self.code, self.booktitle))
+      if self.pages != "":
+         stream.write( '  <pages>%s</pages>\n' % (self.pages))
+
+      if self.year != "":
+         stream.write( '  <year>%s</year>\n' % (self.year))
+
+      self.writeOutAbst(stream)
+      self.writeOutURL(stream, "PDF", pdfFormat)
+      self.writeOutURL(stream, "Slides", slideFormat)
+      stream.write( '</item>\n')
+      stream.write( '\n')            
+
+   def writeOutURL(self, stream, tag, format):
+      filename = dataDir    + "/" + format % (self.id)
+      url      = httpPrefixMyHome + "/" + format % (self.id)
+      stream.write(' <url type="%s">%s</url>\n' % (tag, url))
+
+   def writeOutAbst(self, stream):
+      stream.write('  <abstract lang="%s">\n' % (self.code))
+      stream.write(self.abst + '\n')
+      stream.write('  </abstract>\n');
+
+   def checkAndGenAbstFile(self):
+      if self.hasAbst():
+         return
+      if self.abst == "":
+         return
+      file = open(dataDir + '/' + abstFileFormat % (self.id), "w")
+      file.write('<h1> Abstract </h1>\n')
+      file.write('<hr>\n')
+      file.write(self.abst + '\n')
+      file.write('<hr>\n')      	
+      file.close()
+
+   def writeOutNinfHomeXML(self, stream, lang):         
+      if (lang != "none") & (lang != self.code):
+         return
+
+      self. checkAndGenAbstFile()
+
+      stream.write('<DIV class="paper">\n')
+      stream.write('  <SPAN class="papertitle">\n')      
+      stream.write('   <a name="%s">\n' % (self.id))
+      stream.write('    ' + self.title)      
+      stream.write('   </a>\n')
+      stream.write('  </SPAN>\n')
+      stream.write('  <SPAN class="authors">\n')
+      stream.write('  ' + self.authors[0])  
+      for author in self.authors[1:]:
+         if author == "":
+            break
+         stream.write(', ' + author)  
+      stream.write('  </SPAN>\n')
+      stream.write('  <SPAN class="bookname">\n')
+      stream.write('    ' + self.booktitle)
+      if self.pages != '':
+         stream.write(', pp.' + self.pages)
+      if self.year != '':
+         stream.write(',' + self.year)
+      stream.write('\n')
+      stream.write('  </SPAN>\n')
+      if self.hasAbst() | self.hasPdf() | self.hasSlide() :
+         stream.write('  <SPAN class="links">\n [ ')
+         isFirst = True
+         if self.hasAbst():
+            stream.write('<a href="%s">Abstact</a>' % (httpPrefixNinf + '/' + abstFileFormat % (self.id)))
+            isFirst = False
+
+         if self.hasPdf():
+            if not isFirst:
+               stream.write(' / ')
+            stream.write('<a href="%s">Paper</a>' % (httpPrefixNinf + '/' + pdfFormat % (self.id)))
+            isFirst = False
+
+         if self.hasSlide():
+            if not isFirst:
+               stream.write(' / ')
+            stream.write('<a href="%s">Slide</a>' % (httpPrefixNinf + '/' + slideFormat % (self.id)))
+         stream.write(' ]\n  </SPAN>\n')
+      stream.write('</DIV>\n\n')
+
+      
+   def hasAbst(self):
+      return os.access(dataDir + '/' + abstFileFormat % (self.id), os.F_OK)
+
+   def hasPdf(self):
+      return os.access(dataDir + '/' + pdfFormat % (self.id), os.F_OK)
+
+   def hasSlide(self):
+      return os.access(dataDir + '/' + slideFormat % (self.id), os.F_OK)      
+               
+
+   #isNinf       = 1     # category Ç… ninf
+   #isNakadaGrid = 2     # Author Ç… íÜìc, category Ç… jojo Ç»Çµ
+   #isNakadaJojo = 3     # Author Ç… íÜìc, category Ç… jojo
+
+   def isNinfHome(self):
+      return re.match(".*ninf.*", self.category)
+
+   def isNakada(self):
+      for author in self.authors:
+         if re.match(mynamePattern, unicode(author)):
+            return True
+      for author in self.authors:
+         if re.match(myEnamePattern, unicode(author)):
+            return True
+      return False
+   
+   def isNakadaGrid(self):
+      if self.isNakada() & (not re.match(".*jojo.*", self.category)):
+         return True
+      return False
+
+   def isNakadaJojo(self):
+      if self.isNakada() & (not not re.match(".*jojo.*", self.category)):
+         return True
+      return False
+
+   def isEn(self):
+      return self.code == "en"
+
+   def isJa(self):
+      return self.code == "ja"
+
+
+      
+def usage():
+   print "usage: python cvsTest ninfHome| grid | jojo  [ja | en] "
+   sys.exit(3);
+
+if __name__ == "__main__" :
+   if len(sys.argv) < 2:
+      usage()
+   code = "none"
+   if len(sys.argv) > 2:
+      code = sys.argv[2]
+      
+   for row in reader:
+      if row[0] != "":
+         #       print "======"
+         item = Item(row)
+         if sys.argv[1] == "ninfHome":
+            if item.isNinfHome():
+               item.writeOutNinfHomeXML(sys.stdout, code)
+         elif sys.argv[1] == "grid":
+            if item.isNakadaGrid():
+               item.toXML(sys.stdout, code)
+         elif sys.argv[1] == "jojo":
+            if item.isNakadaJojo():
+               item.toXML(sys.stdout, code)        
+            
+            #      item.toXML(sys.stdout)
+      
+

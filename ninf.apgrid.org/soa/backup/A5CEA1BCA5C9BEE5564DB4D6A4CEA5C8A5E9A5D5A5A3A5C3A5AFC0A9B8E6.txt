@@ -1,0 +1,91 @@
+>>>>>>>>>> 1175034620
+* 計算機環境 [#fba8bf0c]
+
+XGtestPC0 および XGtestPC1 の2台を使用。
+ ・hp ProLiant ML-350 TO4p
+ ・Xeon(64EM/T) 3.0GHzx2
+ ・Mem: 5GB(DDR2-400)@PC0, 2GB(DDR2-400)@PC1
+ ・HDD: 250GB (7L250S0)
+ ・NIC: GbEx2 on PCI(eth1, BCM5705) and on PCI-Ex(eth0, BCM5721)
+ ・HostOS: FedoraCore4 (x86_64) 2.6.11-1.1369_FC4smp
+ ・VMwareServer 1.0.1
+ ・GuestOS: CentOS4.3 (Memory 768MB, processor 1)
+
+* ネットワーク [#b078390a]
+ ・XGtestPC0: eth0 10.0.0.10, eth1 163.220.30.228
+ ・XGtestPC0guest0: eth0 10.0.0.20
+ ・XGtestPC0guest1: eth0 10.0.0.30
+ ・XGtestPC1: eth0 10.0.0.11, eth1 163.220.30.229
+ ・XGtestPC1guest0: eth0 10.0.0.21
+ ・XGtestPC1guest1: eth0 10.0.0.31
+
+eth0側スイッチ: NetGear
+ 
+* iperfの性能 [#b5183e70]
+TCP (-t 100)
+|  PC0guest0 -> PC1guest0    |  PC0guest1 -> PC1guest1 |
+|        452 Mbps            |         ---             |
+|        ---                 |         459 Mbps        |
+|        384 Mbps            |         379 Mbps        |
+
+ノードあたり2つのVMを立ち上げ、1ペアでiperfを実行したときは450Mbps程度であるが、2ペアで実行すると合計750Mbps程度は出ている。
+
+出力ポートをGtrcNET-1で12us間隔のバンド幅を観測すると、1ペアのとき9パケット流れて11パケット分アイドルになるようなバースト転送が観測された。2ペアのときもほぼ同じで、2つのストリームのバーストが同時に起きると、ほぼ交互にパケットが出力されており、ほぼ公平な通信が行われている。
+
+* rate control [#d1743b04]
+次に、PC0のホストOS上で以下のようなrate control を設定した。
+>>>>>>>>>> 1175036131
+* 計算機環境 [#fba8bf0c]
+
+XGtestPC0 および XGtestPC1 の2台を使用。
+ ・hp ProLiant ML-350 TO4p
+ ・Xeon(64EM/T) 3.0GHzx2
+ ・Mem: 5GB(DDR2-400)@PC0, 2GB(DDR2-400)@PC1
+ ・HDD: 250GB (7L250S0)
+ ・NIC: GbEx2 on PCI(eth1, BCM5705) and on PCI-Ex(eth0, BCM5721)
+ ・HostOS: FedoraCore4 (x86_64) 2.6.11-1.1369_FC4smp
+ ・VMwareServer 1.0.1
+ ・GuestOS: CentOS4.3 (Memory 768MB, processor 1)
+
+* ネットワーク [#b078390a]
+ ・XGtestPC0: eth0 10.0.0.10, eth1 163.220.30.228
+ ・XGtestPC0guest0: eth0 10.0.0.20
+ ・XGtestPC0guest1: eth0 10.0.0.30
+ ・XGtestPC1: eth0 10.0.0.11, eth1 163.220.30.229
+ ・XGtestPC1guest0: eth0 10.0.0.21
+ ・XGtestPC1guest1: eth0 10.0.0.31
+
+eth0側スイッチ: NetGear
+ 
+* iperfの性能 [#b5183e70]
+TCP (-t 100)
+|  PC0guest0 -> PC1guest0    |  PC0guest1 -> PC1guest1 |
+|        452 Mbps            |         ---             |
+|        ---                 |         459 Mbps        |
+|        384 Mbps            |         379 Mbps        |
+
+ノードあたり2つのVMを立ち上げ、1ペアでiperfを実行したときは450Mbps程度であるが、2ペアで実行すると合計750Mbps程度は出ている。
+
+1ペアでの性能が低い理由は不明であるが、出力ポートをGtrcNET-1で12us間隔のバンド幅を観測すると、1ペアのとき9パケット流れて11パケット分アイドルになるようなバースト転送が観測された。2ペアのときもほぼ同じで、2つのストリームのバーストが同時に起きると、ほぼ交互にパケットが出力されており、ほぼ公平な通信が行われている。
+
+* rate control [#d1743b04]
+次に、PC0のホストOS上で以下のようにLinuxで標準にサポートされているhtb (Hierarchy Token Bucket)によりguest0側を400Mbps, guest1側を200Mbpsにrate control を設定した。
+  # /sbin/tc qdisc del dev eth0 root handle 1:
+  # /sbin/tc qdisc add dev eth0 root handle 1: htb default 10
+  # /sbin/tc class add dev eth0 parent 1: classid 1:1 htb rate 600mbit burst 100k
+  # /sbin/tc class add dev eth0 parent 1:1 classid 1:10 htb rate 400mbit burst 100k
+  # /sbin/tc class add dev eth0 parent 1:1 classid 1:20 htb rate 200mbit burst 100k
+  # /sbin/tc qdisc add dev eth0 parent 1:10 handle 10: pfifo
+  # /sbin/tc qdisc add dev eth0 parent 1:20 handle 11: pfifo
+  # /sbin/tc filter add dev eth0 parent 1: protocol ip pref 1 u32 match ip src 10.0.0.20 classid 1:10
+  # /sbin/tc filter add dev eth0 parent 1: protocol ip pref 1 u32 match ip src 10.0.0.30 classid 1:20
+
+このとき、iperf の結果はguest0側: 389 Mbps、guest1側: 193 Mbpsとほぼ2:1に制御できました。ただし、この設定ではguest1側だけを実行しても193 Mbpsに出力が絞られてしまいます。
+
+さらに、rateの設定部分を以下のように変更し、上限値を600Mbpsとすると、同時に実行したときには2:1に制御され、どちらか一方のみ実行したときには430Mbps とrate control しないときとほぼ同じバンド幅で転送が可能であった。
+
+  # /sbin/tc class add dev eth0 parent 1:1 classid 1:10 htb rate 400mbit ceil 600mbit burst 100k
+  # /sbin/tc class add dev eth0 parent 1:1 classid 1:20 htb rate 200mbit ceil 600mbit burst 100k
+
+また、このhtbにより100Mbpsに制御したストリームをGtrcNET-1で12us間隔のバンド幅を観測するとほぼ2msごとにパケットの転送が開始されており、このrate controlの制御は2ms の分解能で行われていることがわかった。PSPacer を用いると、より高い精度でrate control することができる。
+

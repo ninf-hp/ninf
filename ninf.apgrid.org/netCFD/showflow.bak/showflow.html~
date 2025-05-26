@@ -1,0 +1,33 @@
+<html>
+<head><title> netCFD </title></head>
+<body>
+<h1> netCFD: a Demonstration of Ninf and femFlow </h1>
+
+This is a GUI interface to CFD simulation.<br>
+The applet connects with a Ninf Server on pdplab.trc.rwcp.or.jp.<br>
+<p>
+<ul>
+<li>Click "Load" Button to select the mesh file in the server. <br>
+<li> Chick "Start" Button to start a simulation on the loaded mesh data.
+<li> You may change the view by selecting the display modes:
+<ul> 
+<li> Vector, the direction of flow
+<li> Element, showing the value by painted colors.
+<li> Mesh, viewing mesh data
+</ul>
+<li> You may also select the values for the color:
+<ul> 
+<li> Pressure
+<li> Velocity
+<li> Temperature
+</ul>
+</ul>
+<hr>
+<applet codebase="." code="ShowFlow.class" width=700 height=700>
+<param name=host value= "pdplab.trc.rwcp.or.jp">
+<param name=port value= "3000"> 
+</applet>
+
+</body>
+</html>
+

@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>grpc_is_canceled_np</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<h3>NAME</h3>
+<code>grpc_is_canceled_np</code>
+     - Checks whether the Ninf-G client has requested cancellation.
+
+<h3>SYNOPSIS</h3>
+<pre>
+<code>
+#include &lt;grpc_executable.h&gt;
+
+int grpc_is_canceled_np()
+</code>
+</pre>
+
+<h3>ARGUMENTS</h3>
+None
+
+<h3>DESCRIPTION</h3>
+<p>The grpc_is_canceled_np() function checks whether the Ninf-G client
+has requested cancellation or not.</p>
+
+<p>Note: grpc_is_canceled_np() is defined as Ninf-G Executable API,
+which is only used by the server side program.</p>
+
+<br>
+<h3>RETURN VALUE</h3>
+<p>If the Ninf-G Client requested the session cancel by grpc_cancel(),
+this function returns 1.
+Otherwise, this function returns 0.</p>
+
+<br>
+<h3>ERRORS</h3>
+<dl>
+<dt><code>  None</code></dt>
+</dl>
+<hr>
+last update : $Date: 2005/07/11 07:11:24 $
+</body>
+</html>

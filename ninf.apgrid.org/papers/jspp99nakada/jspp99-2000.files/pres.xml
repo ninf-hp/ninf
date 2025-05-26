@@ -1,0 +1,76 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+ xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+ <p:presentation notessizex="4248" notessizey="6216" hidecomments="t">
+  <p:master id="4" type="main" href="master04.htm" xmlhref="master04.xml"
+   template="Whirlpool" layout="title_body"
+   slots="title,body,dateTime,footer,slideNumber">
+   <p:schemes>
+    <p:colorscheme
+     colors="#0000CC,#CCECFF,#000066,#CCFFFF,#CC99FF,#9999FF,#99CCFF,#0066FF"/>
+    <p:colorscheme
+     colors="#6699FF,#CCECFF,#000066,#CCFFFF,#CC99FF,#9999FF,#99CCFF,#0066FF"/>
+    <p:colorscheme
+     colors="#FFFFFF,#000000,#393939,#000000,#CBCBCB,#868686,#4D4D4D,#EAEAEA"/>
+    <p:colorscheme
+     colors="#FFFFFF,#000066,#000066,#003300,#FFFF66,#CC0000,#99CCFF,#0066FF"/>
+   </p:schemes>
+  </p:master>
+  <p:master id="5" type="title" href="master05.htm" xmlhref="master05.xml"
+   layout="title_subtitle"
+   slots="centerTitle,subTitle,dateTime,footer,slideNumber"/>
+  <p:master id="1" type="notes" href="master01.htm" layout="notes"
+   slots="header,dateTime,slideImage,body,footer,slideNumber"/>
+  <p:master id="2" type="handout" href="master02.htm" layout="handout"
+   slots="header,dateTime,footer,slideNumber"/>
+  <p:slide id="26" href="slide0026.htm" masterhref="master05.htm"
+   layout="title_subtitle" slots="centerTitle,subTitle"/>
+  <p:slide id="40" href="slide0040.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="36" href="slide0036.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="35" href="slide0035.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="37" href="slide0037.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="38" href="slide0038.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="44" href="slide0044.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="46" href="slide0046.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="39" href="slide0039.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="43" href="slide0043.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="47" href="slide0047.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="48" href="slide0048.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="12" href="slide0012.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="2" href="slide0002.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="19" href="slide0019.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="8" href="slide0008.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="31" href="slide0031.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="34" href="slide0034.htm" xmlhref="slide0034.xml"
+   layout="title_body" slots="title,body"/>
+  <p:slide id="33" href="slide0033.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="32" href="slide0032.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="42" href="slide0042.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="41" href="slide0041.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="45" href="slide0045.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="6" href="slide0006.htm" layout="title_body" slots="title,body"/>
+  <p:slide id="7" href="slide0007.htm" layout="title_body" slots="title,body"/>
+  <p:viewstate type="slideView" sorterscale="100"/>
+  <p:guide type="horizontal" position="2160"/>
+  <p:guide type="vertical" position="2160"/>
+  <p:font name="Times New Roman" charset="0" type="4"/>
+  <p:font name="ＭＳ Ｐゴシック" charset="128" type="4"/>
+  <p:font name="Helvetica" charset="0" type="10" family="34"/>
+  <p:font name="Monotype Sorts" charset="2" type="6" family="2"/>
+  <p:font name="ＭＳ ゴシック" charset="128" type="6" family="49"/>
+  <p:font name="Arial" charset="0" type="4" family="34"/>
+  <p:font name="Symbol" charset="2" type="6" family="18"/>
+  <p:font name="Arial Narrow" charset="0" type="6" family="34"/>
+  <p:font name="Courier" charset="0" type="10" family="18"/>
+  <p:font name="Courier New" charset="0" type="6" family="49"/>
+  <p:headersfooters noheader="t"/>
+  <p:headersfooters notes="t" slidenumber="t"/>
+  <p:pptdocumentsettings framecolors="WhiteTextOnBlack" hideslideanimation="t"
+   browsersupport="dual"/>
+ </p:presentation>
+ <o:shapedefaults v:ext="edit" spidmax="174082">
+  <o:colormru v:ext="edit" colors="#6fc,#ffc,#91f196,#0fc,#f30,yellow,#cc0,#ddd"/>
+  <o:colormenu v:ext="edit" fillcolor="none [2]" shadowcolor="none"
+   extrusioncolor="none"/>
+ </o:shapedefaults></xml>

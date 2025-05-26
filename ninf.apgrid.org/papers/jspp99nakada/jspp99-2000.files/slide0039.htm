@@ -1,0 +1,356 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../jspp99-2000.htm">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Utilizing the Metaserver Architecture in the Ninf Global Computing
+System</title>
+<meta name=Description content="99/07/09: ネットワークタスク スケジューリング">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0039.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]><o:shapelayout v:ext="edit">
+ <o:idmap v:ext="edit" data="154"/>
+</o:shapelayout>
+</head>
+
+<body lang=JA style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#000066,#000066,#003300,#FFFF66,#CC0000,#99CCFF,#0066FF"
+ masterhref="master04.xml">
+ <p:shaperange href="master04.xml#_x0000_s8193"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s8196"/><p:shaperange
+  href="master04.xml#_x0000_s8197"/><p:shaperange
+  href="master04.xml#_x0000_s8199"/><![if !vml]><img border=0
+ v:shapes="_x0000_s8199" src="master04_image049.gif" style='position:absolute;
+ top:24.0%;left:0%;width:36.89%;height:2.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s8201"/><![if !vml]><img border=0
+ v:shapes="_x0000_s8201" src="master04_image050.gif" style='position:absolute;
+ top:0%;left:79.96%;width:20.03%;height:12.5%'><![endif]><![endif]><v:rect
+  id="_x0000_s157720" style='position:absolute;left:501.625pt;top:3in;width:198pt;
+  height:120pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="#6fc"
+  strokecolor="#006 [1]">
+  <v:shadow color="#006 [2]"/>
+ </v:rect><p:shaperange href="master04.xml#_x0000_m8194"/><v:shape id="_x0000_s157698"
+  type="#_x0000_m8194" style='position:absolute;left:54pt;top:36pt;width:612pt;
+  height:90pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <p:placeholder type="title"/></v:shape><p:shaperange
+  href="master04.xml#_x0000_m8195"/><v:shape id="_x0000_s157699" type="#_x0000_m8195"
+  style='position:absolute;left:42pt;top:156pt;width:336pt;height:324pt'>
+  <v:fill o:detectmouseclick="f"/>
+  <v:stroke o:forcedash="f"/>
+  <p:placeholder type="body" position="1"/></v:shape><![if !vml]><img border=0
+ v:shapes="_x0000_s157720" src="slide0039_image064.gif" style='position:absolute;
+ top:40.0%;left:69.66%;width:27.9%;height:22.75%'><![endif]>
+ <div v:shape="_x0000_s157698" class=T style='position:absolute;top:14.25%;
+ left:.56%;width:99.06%;height:8.5%'><span style='font-size:91%'>ネットワークタスク</span><span
+ style='font-family:Helvetica;mso-ascii-font-family:Helvetica;font-size:91%'> </span><span
+ style='font-size:91%'>スケジューリング</span></div>
+ <div v:shape="_x0000_s157699">
+ <div class=B style='position:absolute;top:30.5%;left:6.92%;width:44.75%;
+ height:5.5%'><span style='position:absolute;top:0%;left:8.36%;width:91.63%'><span
+ style='font-size:88%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-9.13%;top:.3em;font-family:"Monotype Sorts";
+ font-size:75%'>n</span></span><span style='font-size:88%'><b>下位スケジューラ</b></span><span
+ style='font-size:88%;display:none'>&#13;</span></span></div>
+ <div class=B1 style='position:absolute;top:37.5%;left:11.79%;width:41.94%;
+ height:4.75%'><span style='position:absolute;top:0%;left:7.58%;width:92.85%'><span
+ style='font-size:86%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-8.17%'>&#8211;</span></span><span
+ style='font-size:86%'>ネットワークの割り当て&#13;</span></span></div>
+ <div class=B style='position:absolute;top:44.25%;left:6.92%;width:44.75%;
+ height:5.5%'><span style='position:absolute;top:0%;left:8.36%;width:91.63%'><span
+ style='font-size:88%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-9.13%;top:.3em;font-family:"Monotype Sorts";
+ font-size:75%'>n</span></span><span style='font-size:88%'><b>実行時サポート&#13;</b></span></span></div>
+ <div class=B1 style='position:absolute;top:51.5%;left:11.79%;width:41.76%;
+ height:4.75%'><span style='position:absolute;top:0%;left:7.62%;width:92.37%'><span
+ style='font-size:86%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-8.25%'>&#8211;</span></span><span
+ style='font-size:86%'><b>ネットワーク資源モニタ</b></span><span style='font-size:86%;
+ display:none'>&#13;</span></span></div>
+ <div class=B2><span style='position:absolute;top:57.5%;left:19.28%;width:37.82%'><span
+ style='font-size:83%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-6.43%;top:.61em;font-family:"Monotype Sorts";
+ font-size:60%'>n</span></span><span style='font-size:83%'>各クライアント・サーバ間の</span></span><span
+ style='position:absolute;top:62.0%;left:19.28%;width:32.39%'><span
+ style='font-size:83%'>スループットを測定&#13;</span></span></div>
+ <div class=B1 style='position:absolute;top:67.75%;left:11.79%;width:39.88%;
+ height:4.75%'><span style='position:absolute;top:0%;left:7.98%;width:92.01%'><span
+ style='font-size:86%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-8.67%'>&#8211;</span></span><span
+ style='font-size:86%'><b>計算資源モニタ</b></span><span style='font-size:86%;
+ display:none'>&#13;</span></span></div>
+ <div class=B1 style='position:absolute;top:74.0%;left:11.79%;width:39.88%;
+ height:4.75%'><span style='position:absolute;top:0%;left:7.98%;width:92.01%'><span
+ style='font-size:86%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-8.67%'>&#8211;</span></span><span
+ style='font-size:86%'><b>リソース情報管理</b></span><span style='font-size:86%;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ </div>
+ <v:group id="_x0000_s157724" style='position:absolute;left:12pt;top:438pt;
+  width:241.625pt;height:84.625pt' coordorigin="3251,1071" coordsize="2077,728">
+  <v:shapetype id="_x0000_t202" coordsize="21600,21600" o:spt="202" path="m0,0l0,21600,21600,21600,21600,0xe">
+   <v:stroke joinstyle="miter"/>
+   <v:path gradientshapeok="t" o:connecttype="rect"/>
+  </v:shapetype><v:shape id="_x0000_s157700" type="#_x0000_t202" style='position:absolute;
+   left:3251;top:1071;width:2077;height:195;v-text-anchor:top-baseline'
+   fillcolor="white [0]" strokecolor="#c00 [5]" strokeweight=".35275mm">
+   <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+    endarrowlength="short"/>
+   <v:shadow on="t" color="#006 [2]" offset="6pt,6pt"/>
+   <v:textbox style='mso-fit-shape-to-text:t'/>
+  </v:shape><v:shape id="_x0000_s157701" type="#_x0000_t202" style='position:absolute;
+   left:3264;top:1296;width:2060;height:215' fillcolor="#cff" strokecolor="#c00 [5]"
+   strokeweight=".35275mm">
+   <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+    endarrowlength="short"/>
+   <v:shadow on="t" color="#006 [2]" offset="6pt,6pt"/>
+   <v:textbox style='mso-fit-shape-to-text:t'/>
+  </v:shape><v:shape id="_x0000_s157702" type="#_x0000_t202" style='position:absolute;
+   left:3264;top:1584;width:2064;height:215' fillcolor="#0fc" strokecolor="#c00 [5]"
+   strokeweight=".35275mm">
+   <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+    endarrowlength="short"/>
+   <v:shadow on="t" color="#006 [2]" offset="6pt,6pt"/>
+   <v:textbox style='mso-fit-shape-to-text:t'/>
+  </v:shape></v:group><![if !vml]><img border=0
+ v:shapes="_x0000_s157724,_x0000_s157700,_x0000_s157701,_x0000_s157702"
+ src="slide0039_image065.gif" style='position:absolute;top:81.0%;left:1.68%;
+ width:34.83%;height:17.5%'><![endif]>
+ <div v:shape="_x0000_s157700" class=O style='text-align:center;position:absolute;
+ top:82.0%;left:.93%;width:35.2%;height:2.75%'><span lang=EN-US
+ style='font-family:Arial;mso-ascii-font-family:Arial;mso-hansi-font-family:
+ Arial;font-size:50%;color:#CC0000;mso-color-index:5;mso-fareast-language:JA'><b>Job
+ / Application Resource Allocator</b></span><span lang=EN-US style='mso-ascii-font-family:
+ Arial;mso-hansi-font-family:Arial;font-size:58%;color:#003300;mso-color-index:
+ 3;mso-fareast-language:JA;mso-special-format:lastCR;display:none'><b>&#13;</b></span></div>
+ <div v:shape="_x0000_s157701" class=O style='text-align:center;position:absolute;
+ top:87.0%;left:2.99%;width:31.27%;height:3.25%'><span lang=EN-US
+ style='font-family:Arial;mso-ascii-font-family:Arial;mso-hansi-font-family:
+ Arial;font-size:58%;color:#003300;mso-color-index:3;mso-fareast-language:JA'><b>Low-Level
+ Scheduler</b></span></div>
+ <div v:shape="_x0000_s157702" class=O style='text-align:center;position:absolute;
+ top:93.0%;left:2.99%;width:31.27%;height:3.25%'><span lang=EN-US
+ style='font-family:Arial;mso-ascii-font-family:Arial;mso-hansi-font-family:
+ Arial;font-size:58%;color:#003300;mso-color-index:3;mso-fareast-language:JA'><b>Runtime
+ Support</b></span></div>
+ <v:shape id="_x0000_s157703" type="#_x0000_t202" style='position:absolute;
+  left:632.5pt;top:358.75pt;width:76.75pt;height:31.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' fillcolor="#f9f" stroked="f" strokecolor="#006 [1]"
+  strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><![if !vml]><img border=0 v:shapes="_x0000_s157703"
+ src="slide0039_image066.gif" style='position:absolute;top:66.5%;left:87.82%;
+ width:11.04%;height:6.25%'><![endif]>
+ <div v:shape="_x0000_s157703" class=O style='text-align:center;position:absolute;
+ top:67.25%;left:88.01%;width:10.48%;height:4.5%'><span lang=EN-US
+ style='font-family:Helvetica;mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:83%;mso-fareast-language:JA'><b><i>Server</i></b></span></div>
+ <v:shape id="_x0000_s157704" type="#_x0000_t202" style='position:absolute;
+  left:366pt;top:396pt;width:70pt;height:31.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' fillcolor="#ff9" stroked="f" strokecolor="#006 [1]"
+  strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><![if !vml]><img border=0 v:shapes="_x0000_s157704"
+ src="slide0039_image067.gif" style='position:absolute;top:73.25%;left:50.74%;
+ width:10.11%;height:6.25%'><![endif]>
+ <div v:shape="_x0000_s157704" class=O style='text-align:center;position:absolute;
+ top:74.25%;left:51.12%;width:9.36%;height:4.5%'><span lang=EN-US
+ style='font-family:Helvetica;mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:83%;mso-fareast-language:JA'><b><i>Client</i></b></span></div>
+ <v:shape id="_x0000_s157705" type="#_x0000_t202" style='position:absolute;
+  left:498pt;top:168pt;width:207.625pt;height:32.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' fillcolor="#cff" strokecolor="#c00 [5]"
+  strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]" offset="6pt,6pt"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><![if !vml]><img border=0 v:shapes="_x0000_s157705"
+ src="slide0039_image068.gif" style='position:absolute;top:31.0%;left:69.1%;
+ width:29.21%;height:6.5%'><![endif]>
+ <div v:shape="_x0000_s157705" class=O style='text-align:center;position:absolute;
+ top:32.25%;left:67.6%;width:32.2%;height:4.5%'><span lang=EN-US
+ style='font-family:Arial;mso-ascii-font-family:Arial;mso-hansi-font-family:
+ Arial;font-size:83%;mso-fareast-language:JA'><b>Low level Scheduler</b></span></div>
+ <v:shape id="_x0000_s157706" type="#_x0000_t202" style='position:absolute;
+  left:609.625pt;top:4in;width:88.75pt;height:32.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' fillcolor="#cff" strokecolor="#c00 [5]"
+  strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]" offset="6pt,6pt"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:shape id="_x0000_s157707" type="#_x0000_t202" style='position:absolute;
+  left:513.625pt;top:228pt;width:180.375pt;height:32.25pt' fillcolor="#cff"
+  strokecolor="#c00 [5]" strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]" offset="6pt,6pt"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:line id="_x0000_s157708" style='position:absolute;flip:y;
+  mso-wrap-style:none;v-text-anchor:middle' from="438pt,370.875pt" to="635.5pt,408pt"
+  strokecolor="#006 [1]" strokeweight="3pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:rect id="_x0000_s157709" style='position:absolute;left:7in;top:354pt;
+  width:54pt;height:36pt;mso-wrap-style:none;v-text-anchor:middle' fillcolor="#0c0"
+  strokecolor="#006 [1]" strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]"/>
+ </v:rect><v:line id="_x0000_s157710" style='position:absolute;flip:x;
+  mso-wrap-style:none;v-text-anchor:middle' from="663.625pt,318pt" to="669.625pt,5in"
+  strokecolor="#030 [3]" strokeweight="2.25pt">
+  <v:stroke dashstyle="1 1" startarrowwidth="narrow" startarrowlength="short"
+   endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:line id="_x0000_s157711" style='position:absolute;flip:x y;
+  mso-wrap-style:none;v-text-anchor:middle' from="651.625pt,264pt" to="657.625pt,282pt"
+  strokecolor="#030 [3]" strokeweight="2.25pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:shape id="_x0000_s157712" type="#_x0000_t202" style='position:absolute;
+  left:507.625pt;top:4in;width:88.75pt;height:32.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' fillcolor="#cff" strokecolor="#c00 [5]"
+  strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]" offset="6pt,6pt"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><v:line id="_x0000_s157713" style='position:absolute;
+  mso-wrap-style:none;v-text-anchor:middle' from="573.625pt,324pt" to="579.625pt,372pt"
+  strokecolor="#030 [3]" strokeweight="2.25pt">
+  <v:stroke dashstyle="1 1" startarrowwidth="narrow" startarrowlength="short"
+   endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:line id="_x0000_s157714" style='position:absolute;flip:y;
+  mso-wrap-style:none;v-text-anchor:middle' from="573.625pt,264pt" to="579.625pt,4in"
+  strokecolor="#030 [3]" strokeweight="2.25pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:line id="_x0000_s157717" style='position:absolute;
+  mso-wrap-style:none;v-text-anchor:middle' from="561.625pt,198pt" to="567.625pt,228pt"
+  strokecolor="#030 [3]" strokeweight="2.25pt">
+  <v:stroke startarrow="open" endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:line id="_x0000_s157718" style='position:absolute;flip:y;
+  mso-wrap-style:none;v-text-anchor:middle' from="408pt,186pt" to="495.625pt,390pt"
+  strokecolor="#030 [3]" strokeweight="2.25pt">
+  <v:stroke endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:line id="_x0000_s157719" style='position:absolute;flip:y;
+  mso-wrap-style:none;v-text-anchor:middle' from="420pt,198pt" to="501.625pt,396pt"
+  strokecolor="#030 [3]" strokeweight="2.25pt">
+  <v:stroke startarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:shape id="_x0000_s157721" type="#_x0000_t202" style='position:absolute;
+  left:630pt;top:396pt;width:76.75pt;height:31.25pt;mso-wrap-style:none;
+  v-text-anchor:top-baseline' fillcolor="#f9f" stroked="f" strokecolor="#006 [1]"
+  strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]"/>
+  <v:textbox style='mso-fit-shape-to-text:t'/>
+ </v:shape><![if !vml]><img border=0
+ v:shapes="_x0000_s157706,_x0000_s157707,_x0000_s157708,_x0000_s157709,_x0000_s157710,_x0000_s157711,_x0000_s157712,_x0000_s157713,_x0000_s157714,_x0000_s157717,_x0000_s157718,_x0000_s157719,_x0000_s157721"
+ src="slide0039_image069.gif" style='position:absolute;top:34.25%;left:56.55%;
+ width:41.94%;height:45.25%'><![endif]>
+ <div v:shape="_x0000_s157706" class=O style='text-align:center;position:absolute;
+ top:54.25%;left:84.64%;width:12.35%;height:4.5%'><span lang=EN-US
+ style='font-family:Arial;mso-ascii-font-family:Arial;mso-hansi-font-family:
+ Arial;font-size:83%;mso-fareast-language:JA'><b><i>Monitor</i></b></span></div>
+ <div v:shape="_x0000_s157707" class=O style='text-align:center;position:absolute;
+ top:43.25%;left:72.47%;width:23.03%;height:4.5%'><span style='mso-ascii-font-family:
+ Arial;mso-hansi-font-family:Arial;font-size:83%'><b><i>資源情報</i></b></span><span
+ lang=EN-US style='font-family:Arial;mso-ascii-font-family:Arial;mso-hansi-font-family:
+ Arial;font-size:83%;mso-fareast-language:JA'><b><i>DB</i></b></span><span
+ lang=EN-US style='font-size:83%;mso-fareast-language:JA;mso-special-format:
+ lastCR;display:none'><b><i>&#13;</i></b></span></div>
+ <div v:shape="_x0000_s157709" class=O style='text-align:center;position:absolute;
+ top:66.5%;left:70.22%;width:7.3%;height:5.25%'><span lang=EN-US
+ style='font-family:"Arial Narrow";mso-ascii-font-family:"Arial Narrow";
+ mso-hansi-font-family:"Arial Narrow";text-shadow:auto;mso-fareast-language:
+ JA'>Task</span><span lang=EN-US style='mso-ascii-font-family:"Arial Narrow";
+ mso-hansi-font-family:"Arial Narrow";font-size:67%;text-shadow:auto;
+ color:#CCFFCC;mso-fareast-language:JA;mso-special-format:lastCR;display:none'>&#13;</span></div>
+ <div v:shape="_x0000_s157712" class=O style='text-align:center;position:absolute;
+ top:54.25%;left:70.59%;width:12.35%;height:4.5%'><span lang=EN-US
+ style='font-family:Arial;mso-ascii-font-family:Arial;mso-hansi-font-family:
+ Arial;font-size:83%;mso-fareast-language:JA'><b><i>Monitor</i></b></span></div>
+ <div v:shape="_x0000_s157721" class=O style='text-align:center;position:absolute;
+ top:74.25%;left:87.64%;width:10.48%;height:4.5%'><span lang=EN-US
+ style='font-family:Helvetica;mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:83%;mso-fareast-language:JA'><b><i>Server</i></b></span></div>
+ <v:line id="_x0000_s157722" style='position:absolute;flip:y;mso-wrap-style:none;
+  v-text-anchor:middle' from="438pt,414pt" to="630pt,421.125pt" strokecolor="#006 [1]"
+  strokeweight="3pt">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrow="open"/>
+  <v:shadow color="#006 [2]"/>
+ </v:line><v:rect id="_x0000_s157723" style='position:absolute;left:522pt;
+  top:402pt;width:54pt;height:36pt;mso-wrap-style:none;v-text-anchor:middle'
+  fillcolor="#0c0" strokecolor="#006 [1]" strokeweight=".35275mm">
+  <v:stroke startarrowwidth="narrow" startarrowlength="short" endarrowwidth="narrow"
+   endarrowlength="short"/>
+  <v:shadow color="#006 [2]"/>
+ </v:rect><![if !vml]><img border=0 v:shapes="_x0000_s157722,_x0000_s157723"
+ src="slide0039_image070.gif" style='position:absolute;top:74.25%;left:60.67%;
+ width:27.52%;height:7.25%'><![endif]>
+ <div v:shape="_x0000_s157723" class=O style='text-align:center;position:absolute;
+ top:75.25%;left:72.65%;width:7.3%;height:5.25%'><span lang=EN-US
+ style='font-family:"Arial Narrow";mso-ascii-font-family:"Arial Narrow";
+ mso-hansi-font-family:"Arial Narrow";text-shadow:auto;mso-fareast-language:
+ JA'>Task</span><span lang=EN-US style='mso-ascii-font-family:"Arial Narrow";
+ mso-hansi-font-family:"Arial Narrow";font-size:67%;text-shadow:auto;
+ color:#CCFFCC;mso-fareast-language:JA;mso-special-format:lastCR;display:none'>&#13;</span></div>
+</p:slide></div>
+
+</body>
+
+</html>

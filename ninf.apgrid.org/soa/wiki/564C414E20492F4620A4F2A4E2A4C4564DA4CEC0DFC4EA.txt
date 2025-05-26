@@ -1,0 +1,33 @@
+* Xen with Fedora Core 5 [#lfb56cd8]
+
+１．物理I/FにVLAN設定を行うために、デフォルトで作成される（あるは直前に作成した）ブリッジを削除する。
+  # /etc/xen/scripts/network-bridge stop vifnum=0 netdev=eth0
+
+このときnetdev を明示的に指定しないとだめなときがある。それは、network-bridge のコメントにはnetdev = eth${vifnum} と書かれているが、実際のスクリプトでは
+
+  netdev=${netdev:-$(ip route list default scope global| awk '{ print $NF}')}
+  netdev=${netdev:-eth${vifnum}}
+
+とdefault route に使われる eth を使うように設定されており、default としてeth0 以外が使われることがあるためである。基本的には起動時(/etc/xen/xend-config.sxp)と同様の引数の指定をstop時も行えば良いであろう。また、以下の通りVLANを用いた場合には、default の設定とは異なるため、netdev=eth0.100のようにVLAN I/Fを明示する必要がある。
+
+２．物理I/FにVLAN の設定を行う。
+IPアドレスなどは /etc/sysconfig/network-scripts/ifcfg-eth0.100で指定されているものとする。
+  # vconfig add eth0 100
+  # ifdown eth0.100
+  # ifup eth0.100
+
+３．ブリッジの作成。netdevとして上で作成したVLAN I/Fを指定する。
+  # /etc/xen/scripts/network-bridge start vifnum=0 netdev=eth0.100
+
+４．VMの立ち上げ。上でデフォルトのxenbr0を用いているので、デフォルトのままで特に指定は必要なし。
+  # xm create -c /etc/xen/fc5-guest.conf
+
+これで、VMからは通常のeth0にしか見えないが、VLAN タグつきのパケットしか通信できない構成とすることができる。実際にスイッチのVLAN 設定を行い、指定したタグを許可したときのみVM間で通信ができることを確認した。
+
+５．実は上記はping で疎通確認しただけであった。iperf により性能測定を行おうとしたら実行が途中で止まってしまった。http://wiki.xensource.com/xenwiki/XenFaq#head-4ce9767df34fe1c9cf4f85f7e07cb10110eae9b7
+によると、以下によりチェックサムオフロードを無効にする必要があるようである。これによりiperf の実行を確認した。
+  # ethtool -K eth0 tx off
+
+参考：~
+http://wiki.xensource.com/xenwiki/XenNetworking~
+/etc/xen/scripts/network-bridge のスクリプト内のコメント（およびスクリプト自身）

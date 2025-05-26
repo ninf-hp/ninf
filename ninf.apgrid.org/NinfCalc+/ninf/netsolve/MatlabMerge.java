@@ -1,0 +1,1 @@
+package ninf.netsolve;public class MatlabMerge {  public int output1;  public int output2;  public MatlabMerge next;}

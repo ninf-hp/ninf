@@ -1,0 +1,70 @@
+ * [[Demo@わくわくIT]] [#fdcf3333]
+ 
+ * Rocks with VM [#d62d7a4d]
+ 
+ - [[VMplayer作業記録]] [#se9950d0]
+ - [[VMWare Roll]]
+ - [[Tagging VLAN+ VMWare]]
+ - [[VMware Server作業記録]]
+ - [[VMwareMigrationもどき]]
+ 
+ - [[仮想クラスタ予約]]
+ - [[仮想クラスタ予約テーブル]]
+ - [[仮想クラスタ予約 XML インターフェース]]
+ 
+ - [[マルチサイト対応検討]]
+ 
+ ** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+ 
+ - [[VMWareWithVLANTrunking]]
+ - [[VLAN_ID Numbering]]
+ - [[ModifyingVMnetConfig]]
+ - [[AutomatedVLANConfigForVMware]]
+ - [[VMwareGriVonScript]]
+ - [[VMnetChangeScript]]
+ - [[InterVLANConnection]]
+ - [[GrivonServerVLANScript]]
+ - [[GrivonDellPowerConnect5224]]
+ 
+ - [[VMwareTips]] (おまけ)
+ 
+ * Monitoring [#d1165b15]
+ 
+ - [[CustomizingGanglia]]
+ 
+ * Virtual Storage [#o1405cff]
+ 
+ - [[クライアントの設定]]
+ - [[サーバの設定]]
+ - [[VS サーバへのコマンド]]
+ - [[調査項目]]
+ -- [[Rocks Tips]]
+ - [[iSCSI セキュリティ]]
+ - [[共有ファイルシステムの比較]]
+ -- [[Gfarm Roll]]
+ - [[試験用サーバ]]
+ - [[iSCSIの性能評価：パラメータチューニング]]
+ - [[VMwareが利用するストレージの性能評価]]
+ 
+ * Network [#j5a7e504]
+ 
+ - [[Xen ネットワーク測定]]
+ - [[VLAN I/F をもつVMの設定]]
+ - [[ネットワークスイッチ設定]]
+ - [[ノード上VM間のトラフィック制御]]
+ - [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+ - [[VPN管理プログラム]]
+ 
+ 
+ * [[SC09デモ]] [#ic16f5d9]
+ 
+ * [[SC08デモ]] [#ic16f5c7]
+ 
+ * [[SC07準備]] [#xbbe80e5]
+ 
+ * ミーティング資料 [#a569e1a5]
+-
++- [[2009-12-8]]
+ - [[2006-7-14]]
+ - [[2006-6-23]]
+ - [[2006-6-2]]

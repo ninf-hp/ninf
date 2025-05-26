@@ -1,0 +1,14 @@
+-iSCSI Target をホストするマシンへのコマンドとして次の3つを用意する．
+ 
+-#contents
+-
+-** create-vs [#wbf0144a]
+-
+-** destroy-vs [#i97d1f84]
+-
+-** show-all-vs [#s7454ccb]
+-
+-** 備考 [#i5aff765]
+-
+-- ietデーモンの起動，終了，監視は /etc/init.d/iscsi-target スクリプトを用いて行うこと．
+-

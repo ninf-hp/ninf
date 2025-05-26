@@ -1,0 +1,1 @@
+// CallableStruct.javapackage ninf.MetaServer;import ninf.basic.*;import ninf.client.*;public interface CallableStruct {  public NinfCallable getCallable();  public NinfStub getStub();  public void addManager(FunctionManager f);}// end of CallableStruct.java

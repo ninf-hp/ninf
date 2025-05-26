@@ -1,0 +1,23 @@
+<h1> Abstract </h1>
+<hr>
+Javaを含むネットワーク可搬性が高い言語処理系を用いて、 夜間などに稼動し
+ていない遊休計算機資源を活用した広域並列計算システムが数多く研究されて
+おり、我々のNinfletシステムはその一つである。しかし、これらのシステムでは、単純
+なマスターワーカーモデルの並列計算でしか評価していないことが多く、また、
+RMIやMPIなどの低レベルな通信プリミティブをそのまま使用し繁雑なプログラ
+ミングス タイルをとっている。本研究では、広域並列計算を容易にプログラム
+することを支援するために、通信を含む並列処理のアルゴリズムを、デザインパ
+ターンを用いて抽象化したNinfletシステム用のクラスライブラリを実装し、従来のプロ
+グラミング手法と比較、検討する。
+<hr>
+ There have been several recent proposals of high-performance distributed
+systems that utilize idle computing resources during the nights, etc. These
+systems typically employ highly portable programming language systems
+such as Java, and our Ninflet is one such system. However, evaluation of
+these systems have been mostly done with simple master-worker styles only,
+and more complex parallel programming styles have resorted
+to low-level communication primitives such as RMI and MPI. Instead, we
+design and encapsulate several high-level parallel programming patterns as
+class libraries for Ninflet using the so-called `design patterns',
+and evaluate its effectiveness by comparing with traditional parallel
+Programming styles.

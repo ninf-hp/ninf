@@ -1,0 +1,40 @@
+<center> 
+<h1> Testing Server </h1>
+</center>
+<hr>
+
+<h2> Samples </h2>
+
+This package includes very few server test programs.
+
+Firstly, make sure you already set the 'NINF_DIR' variable to point to 
+the installed package directory.
+Then, go to the '$(NINF_DIR)/serverTest' directory and just type 'make'.
+
+You'll get several programs.
+<ul>
+<li> _stub_mmul :  matrix multiply
+<li> _stub_sin : sin
+<li> _stub_cos : cos
+</ul>
+
+Now you can start up your Ninf Server.
+You can specify the port which will be used by the server
+using command line option.
+<pre>
+> $NINF_DIR/bin/ninf_serv_tcp  -port 3030 sample.config
+</pre>
+Default port number is 3000. 
+<p>
+You can check this server using $NINF_DIR/clientTest/test.
+<p>
+
+In this directory, we also provide an IDL file for a linpack routines
+and lapack routines.
+However, we cannot provide the numerical routines themselves because of 
+license problems.
+If you get the routine by your self, you can use linpack and lapack 
+routines via ninf.
+<pre>
+make linpack
+</pre>

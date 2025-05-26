@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> 分散並列実行</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" 分散並列実行">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html164 HREF="node13.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html162 HREF="node10.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html158 HREF="node11.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html165 HREF="node13.html"> 実装</A>
+<B>Up:</B> <A NAME=tex2html163 HREF="node10.html"> メタサーバ
+  による分散並列実行</A>
+<B> Previous:</B> <A NAME=tex2html159 HREF="node11.html"> トランザクション</A>
+<BR> <HR> <P>
+<H3><A NAME=SECTION00035200000000000000> 分散並列実行</A></H3>
+<P>
+client プログラムでは、トランザクション内の ninf call 間の 
+依存関係を解析して、データフローを作成する。
+client プログラムは、このデータフローをメタサーバ
+  に送る。
+メタサーバ
+  はそのデータフローに基づいて適切なスケジューリング
+を行なって、複数のNinf サーバ
+  に対して個々の ninf call を行なう。
+このときに、データ依存関係がない ninf call に関しては並行して
+ninf call を発行することで、並列処理が実現される。
+<P>
+トランザクションを導入すると、計算の中間結果などの
+本質的にその後の計算に必要のない情報がわかる。
+このような値に関しては、
+メタサーバ
+  から、クライアントに書き戻さないことが可能である。
+これによって、通信コストの削減が可能である。
+<P>
+
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

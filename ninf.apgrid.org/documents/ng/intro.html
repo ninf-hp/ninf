@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Introduction</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFF" text="#000000">
+<h2> Introduction </h2> 
+
+Ninf-G is a Grid RPC system built on top of Globus Tookit.  
+GridRPC is a middleware that provides remote library access and task-parallel
+programming model on the Grid. Representative systems include Ninf,
+Netsolve, etc. GridRPC can be effectively used as a
+programming abstraction in situations including the followings: </p>
+
+  <h4> Utilizing resources that are specific to a specific computer on the Grid.</h4>
+   Commercial programs and libraries are often only provided in binary form, 
+    and cannot be executed on a machine with different CPU or networking architecture. 
+    Software License, source code incompatibility, could also be problematic. 
+    Special peripherals such as video cameras, electron microscopes, telescopes, 
+    and other various sensors may only be available as a resource on a particular 
+    machine, and their software libraries must <br>
+    <br>
+  
+  <h4> Executing Compute/Data Intensive Routines on Large Servers on the Grid.</h4>
+    For most programs, time is dominated by only a small portion of the entire 
+    program. By offloading such parts to large compute servers, we significantly 
+    reduce the time required for overall program execution. Another example is 
+    where the client machine is too constrained in terms of memory or disk space 
+    to perform large-scale computations. In such a case, transparent offloading 
+    without considering argument marshalling is desirable. <br>
+
+  <h4>Parameter Sweep Studies using multiple servers on the Grid</h4>
+    Parameter sweep involves taking subsets of the overall parameter space and 
+    farming them off in a parallel, systematic manner to multiple servers. Each 
+    server performs identical computation with different sets of parameters, independent 
+    or semi-independent of other servers. There are a surprising number of real-world 
+    applications that could be categorized as parameter-sweep; Monte-Carlo is 
+    one such example. Although parameter sweep can be implemented using message 
+    passing libraries MPI, GridRPC allows considerably easier programming, and 
+    moreover allows the program to scale automatically to the Grid, such as remotely 
+    using multiple clusters, with considerations for properties such as resource 
+    allocation and security. <br>
+    <br>
+  <h4>General and Scalable Task-Parallel Programs on the Grid.</h4>
+    GridRPC can be effectively used to implement task-parallel programs in a easy 
+    and transparent manner on the Grid.  APIs are available to support various 
+    types of task-parallel synchronization, where multiple client-server interactions 
+    can become quite complex. Not only that GridRPC provides numerics-friendly, 
+    easy-to-use interface for task-parallelism, but also allows the computation 
+    to scale to the Grid in the same manner as the parameter sweep case. 
+    Section 2 will cover the basic ÅgGridifyingÅh of a given numerical library using 
+    GridRPC. Section3 will cover how binary executables with command-line interfaces 
+    and file I/O can be wrapped as a GridRPC component. Section 4 will exemplify 
+    parallel programming for the parameter sweep case. (Section 5, task parallel 
+    programming, is in the works.). 
+<p></p>
+
+<hr> 
+<a href="install.html"> Next </a>
+
+</body>
+</html>

@@ -1,0 +1,683 @@
+<HEAD>
+<TITLE> Ninf Protocol </TITLE>
+</HEAD>
+<BODY>
+<P>
+<center>
+<H1> Ninf Protocol </H1>
+</center>
+<hr>
+<H1>1. このドキュメントの目的 </H1>
+
+このドキュメントはNinf の用いるプロトコルをクライアント製作の観点から
+述べたものである。クライアントには直接関係のないNinfServer/NinfExecutable
+間の通信プロトコルに関しては意図的に省いてある。
+<P>
+
+<H1>2. Over View </H1>
+<H1>2.1 Ninf RPC の概要 </H1>
+プロトコルの前に Ninf RPC の概要を述べる。
+
+<IMG  ALIGN=RIGHT ALT="" SRC="ninf_overview.gif">
+我々のシステムは、サーバとクライアント・ライブラリで構成される。
+計算ライブラリを提供する人は、対象となるライブラリの
+仕様をNinf IDL(Interface Description Language)と呼ばれる言語で記述する。
+Ninf stub generator が、このIDLから引数に関する情報を
+とりだし、計算ライブラリとの間を橋渡しするstub プログラムを生成する。
+このstubプログラムと計算ライブラリをリンクすることで、
+ターゲットプログラムが生成される。
+このターゲットプログラムを Ninf Executable  と呼ぶ。
+計算ライブラリのインターフェイス  はNinf Executable  自身に蓄えられている。
+サーバはあらかじめNinf Executable  にアクセスし、
+Ninf Executable  のインターフェイス  をテーブルに格納しておく。
+クライアント・ライブラリはNinf Executable  の実行の際に、
+引数の送信に先だってサーバと通信し、インターフェイス  を取得し、
+その情報にしたがって引数を送信する。
+もちろん、これらの過程は、ライブラリによってユーザから隠蔽される。
+
+<H1>2.1 Protocol の概要 </H1>
+Ninf のプロトコルは、２層構造になっている。
+NinfServer が解釈する NinfServer Protocol と、 NinfExecutable が
+解釈する NinfExecutable Protocol である。
+後者は前者のプロトコル上に実現されている。
+このようにプロトコルを２層化したのは、NinfServer への変更なしに
+NinfExecutable Protocol の変更を可能にするためである。
+
+<pre>
++----------------------------+
+|  Ninf Executable Protocol  |
++----------------------------+
+|    Ninf Server Protocol    |
++----------------------------+
+|          TCP/IP            |
++----------------------------+
+</pre>
+<P>
+
+<H1>3. NinfServer Protocol </H1>
+このプロトコルはパケット通信である。
+こプロトコルでは、Ninf libraryのインターフェイス 取得、
+Ninf Executable  の起動、終了、NinfExecutable Protocol の
+カプセル化が行われる。
+パケットは現在は4Kバイトとなっているが、
+とくにそれに依存している部分はない。
+
+<P>
+このレベルのプロトコルは、<code>MAX_PKT_LEN</code>以下のパケットを単位とし
+て通信する。パケットのheaderには、以下の情報が格納されている。
+<P>
+<UL>
+<LI> size: パケットのサイズ
+<LI> code: コマンド、パケットの種別を示す。
+<LI> arg1,arg2: codeに応じた情報を格納する。
+</UL>
+これらの情報はそれぞれ 4byteのネットワークバイトオーダでエンコードされている。
+
+<pre>
+  +---------------------+
+  |     Packet Size     |  4 bytes
+  +---------------------+
+  |     Packet Code     |  4 bytes
+  +---------------------+
+  |     Argument 1      |  4 bytes
+  +---------------------+
+  |     Argument 2      |  4 bytes
+  +---------------------+
+  |                     |  
+  =                     =  Packet Size - 16 bytes
+  |                     |  
+  +---------------------+
+</pre>
+
+
+<P>
+Ninf Serverには、登録されているNinf Executable  と関数名の対応表があり、関
+数名を指定して、このテーブルのindexを取得して、このindexを用いて、
+Ninf Executable  を起動する。
+<P>
+
+パケットのコマンドは以下の通りである。
+
+<h2> Client -> Server </h2>
+<UL><LI> <code>NINF_PKT_REQ_STUB_INFO:  4</code><BR> 
+データ部にNinf 関数名を XDRでエンコードしたものを与える。
+これに対する返答は
+<code>NINF_PKT_RPY_STUB_INFO</code>パケットで返される。
+その関数の index(サーバ内での管理番号)が arg1 として
+関数のインタフェースがデータ部に与えられる。
+
+<pre>
++----+-+-+-+---------------------------+
+|size|4|X|X| xdr encoded function name |
++----+-+-+-+---------------------------+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_REQ_CALL: 6</code><BR> 
+arg1にindexを指定し、そのindexに対応する Ninf Executable  を起動する。
+起動に成功した場合には、<code>NINF_PKT_RPY_CALL</code>が返される。
+<pre>
++----+-+-----+-+
+| 16 |6|index|X|
++----+-+-----+-+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_KILL: 1</code><BR> 
+起動している Ninf Executable  を終了させる。返答パケットはない。
+<pre>
++----+-+-+-+
+| 16 |1|X|X|
++----+-+-+-+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_TO_STUB: 2</code><BR> 
+Client から Ninf Executable へのデータをカプセル化するパケット。
+<pre>
++----+-+-+-+---------------------------+
+|size|2|X|X| executable protocol data  |
++----+-+-+-+---------------------------+
+</pre>
+<p>
+
+<h2> Client <- Server </h2>
+<LI> <code>NINF_PKT_RPY_STUB_INFO: 5</code><BR> 
+<code>NINF_PKT_REQ_STUB_INFO</code>に対する応答パケット。arg1にindexが格納さ
+れており、データ部で インタフェース を返す。
+<pre>
++----+-+-----+-+-----------+
+|size|5|index|X| interface |
++----+-+-----+-+-----------+
+</pre>
+
+<P>
+<LI> <code>NINF_PKT_RPY_CALL: 7</code><BR> 
+<code>NINF_PKT_REQ_CALL</code>が成功したことを通知する。
+<pre>
++----+-+-+-+
+| 16 |7|X|X|
++----+-+-+-+
+</pre>
+<P>
+<LI> <code>NINF_PKT_TO_CLIENT: 3</code><BR> 
+Ninf Executable  からClientへのデータをカプセル化するパケット。
+<pre>
++----+-+-+-+---------------------------+
+|size|3|X|X| executable protocol data  |
++----+-+-+-+---------------------------+
+</pre>
+<p>
+<LI> <code>NINF_PKT_ERROR: -1</code><BR> 
+requestパケットがエラーであったことを示す。
+<pre>
++----+-+-+-+
+| 16 |7|X|X|
++----+-+-+-+
+</pre>
+</UL>
+<P>
+
+<P>
+図<A HREF="node10.html#ninf_call">4</A>に、remote client <code>Ninf_call</code>の概要を示す。
+<P>
+<P><A NAME=191>&#160;</A><A NAME=ninf_call>&#160;</A>
+<IMG  ALIGN=BOTTOM ALT="" SRC="ninf_call.gif">
+<P>
+
+<H1>4. Ninf Executable  との交信のためのプロトコル</H1>
+
+クライアントプログラムとNinf Executable  の通信は
+NinfServerプロトコルに埋め込まれる。
+クライアントプログラムからNinf Executable  への通信は
+<code>NINF_PKT_TO_STUB</code>パケットに埋め込まれる。
+Ninf Server はこのパケットのヘッダを取り外し、中身を
+Ninf Executable  へのストリームに流す。
+Ninf Executable  からクライアントプログラムへの通信は、
+<code>NINF_PKT_TO_CLIENT</code>に埋め込まれる。
+Ninf Server が Ninf Executable  からのストリームを切りわけ、
+ヘッダをつけて<code>NINF_PKT_TO_CLIENT</code>のパケットとして
+クライアントプログラムへ送信する。
+<p>
+
+NinfExecutable プロトコルは最初に下記のコマンドのコードをXDRで
+integerとしてエンコードしたものを送り、
+必要に応じて引数をその後に続けて送るものである。
+
+<P>
+Client -> Executable
+<UL>
+<LI> <code>NINF_REQ_STUB_INFO: 2</code><BR> 
+続く入力はなし。Ninf Procedure  のインタフェースを返す。
+<p>
+成功時のNinfExcutable の返答は、
+まずNINF_OK コードが返され、
+そのあとにインタフェースをXDRでエンコードした
+ものが送られる。
+<p>
+通常、クライアントはサーバから インタフェース情報を取得するので
+クライアントからこのコードを用いることはない。
+<p>
+<LI> <code>NINF_REQ_CALL: 1</code><BR> 
+Ninf_call の実行を行う。
+このコマンドの引数として、Ninf_callの引数をエンコードして渡す。
+エンコードの仕方は5節で述べる。
+<p> 
+成功時には、まずNINF_OK コードが返され、
+その後に出力データが転送されてくる。
+<P>
+<LI> <code>NINF_REQ_KILL: 3</code><BR> 
+続く入力はなし。Ninf Executable  を終了させる。
+<P>
+</ul>
+Client <- Executable
+<ul>
+<LI> <code>NINF_ACK_OK: 0</code><br>
+成功時にNinfExecutableから返されるコード。
+コマンドによってはこのあとになんらかのデータが付加される。
+<p>
+<LI> <code>NINF_ACK_ERROR: -1</code><br>
+失敗時にNinfExecutableから返されるコード。
+続けてエラーコード(インテジャー)が送られる。
+<p>
+</UL>
+
+非常に簡単なNinf_callを行う疑似コードを示す。PKT はパケット構造体、
+DATA はパケット構造体のデータ部分とする。
+
+<pre>
+   /*   get stub interface  */
+   /*   make packet and send */
+   init_data(DATA);
+   add_data(DATA, NinfLibraryName);
+   PKT = make_packet(NINF_PKT_REQ_STUB_INFO, dummy, DATA);
+   send_pkt(PKT);
+
+   /*   receive pacekt and decode */
+   PKT = receive_pkt();
+   if (NINF_PKT_RPY_STUB_INFO == get_code(PKT))
+       interface = decode_stub_interface(get_data(PKT));
+   index = get_arg1(PKT);
+
+   /*  index represent the NinfLibrary */
+   PKT = make_packet(NINF_PKT_REQ_CALL, index, dummy_data);
+   send_pkt(PKT);
+   PKT = receive_pkt();
+   if (get_code(PKT) != NINF_PKT_RPY_CALL){
+	/* failed  */
+   }
+
+   /*  request call accepted  */
+   /* setup data for the  NinfExecutable */
+   init_data(DATA);
+   add_data(DATA, NINF_REQ_CALL);
+   add_data(DATA, encodeded_parameters);
+
+   /*  make packet and send */
+   PKT = make_packet(NINF_PKT_TO_STUB, dummy, encoded_parametaers);	
+   send_pkt(PKT);
+
+   /*  receive packet */
+   PKT = receive_pkt();	
+   if (get_code(PKT) != NINF_PKT_TO_CLIENT){
+        /* failed */
+   }
+   DATA = get_data(PKT);
+   if (get_first_data(DATA) != NINF_OK){
+        /* failed */
+   }
+   decode_parameter(get_rest_data(DATA));
+</pre>
+
+ここでは、Ninf_call の入力パラメータ出力パラメータともに
+1パケットに収まっているかのように書いたが、もちろん
+複数のパケット分割しなければならない場合のほうがおおい。
+その場合はDATAを単に分割して、それぞれのパケットに
+納めて送れば良い。
+
+<h1>5. インタフェース情報 の構造とその転送</h1>
+
+<h2>5.1 インタフェース情報 の構造</h2>
+各ライブラリのインターフェイス情報は次の構造体で表現される。
+
+<pre>
+typedef struct ninf_stub_information
+{
+  int version_major,version_minor;	/* protocol version */
+  int info_type;			/* information type */
+  char module_name[MAX_NAME_LEN];	/* module name */
+  char entry_name[MAX_NAME_LEN];	/* entry name */
+  int nparam;
+  struct ninf_param_desc * params;
+  int order_type;
+  NINF_EXPRESSION order;
+  char * description;
+};
+</pre>
+
+version_major, version_minor はNinf のプロトコルのバージョン
+番号であるが実際には使われていない。
+info_type も同様である。
+module_name/entry_nameはそれぞれライブラリのモジュール名/ルーチン名
+である。
+nparam は ライブラリのパラメータの数をあらわす。
+params は パラメータの構造を格納した構造体 ninf_param_desc の
+配列へのポインタになっている。
+order_type, order は計算時間を推測するための計算のオーダーを
+格納するため変数であるが、現在は用いられていない。
+<p>
+
+構造体 ninf_param_desc を下に示す。
+
+	
+<pre>
+struct ninf_param_desc {
+  enum data_type param_type;	/* argument type */
+  enum mode_spec param_inout;	/* IN/OUT */
+  int ndim;			/* number of dimensions */
+  struct {
+    VALUE_TYPE size_type;
+    int size;
+    NINF_EXPRESSION size_exp;
+    VALUE_TYPE start_type;
+    int start;
+    NINF_EXPRESSION start_exp;
+    VALUE_TYPE end_type;
+    int end;
+    NINF_EXPRESSION end_exp;
+    VALUE_TYPE step_type;
+    int step;
+    NINF_EXPRESSION step_exp;
+  } dim[MAX_DIM];
+};
+</pre>
+
+param_type はパラメータのデータ型を示す。
+下のenumeration を用いる。
+<pre>
+typedef enum data_type
+{
+    UNDEF,	/* undefined */
+    VOID,
+    CHAR,
+    SHORT,
+    INT,
+    LONG,
+    LONGLONG,
+    UNSIGNED_CHAR,
+    UNSIGNED_SHORT,
+    UNSIGNED,
+    UNSIGNED_LONG,
+    UNSIGNED_LONGLONG,
+    FLOAT,
+    DOUBLE,
+    LONG_DOUBLE,
+    STRING_TYPE,
+    FUNC_TYPE,
+    BASIC_TYPE_END
+} DATA_TYPE;
+</pre>
+
+param_inout は パラメータのI/Oモードを示す。
+以下のenum で表現する。
+<pre>
+typedef enum mode_spec
+{
+    MODE_NONE = 0,
+    MODE_IN = 1,	/* default */
+    MODE_OUT = 2,
+    MODE_INOUT = 3,
+
+    MODE_WORK = 4,      /* mode for work space */
+} MODE_SPEC;
+</pre>
+
+ndim にはパラメータの次元数を与える。
+構造体dim はパラメータの各次元の大きさ/ストライド等の情報を
+保持する。
+ここで注意しなければならないのは次元の低い順に
+納められることである。
+例えば3次元の配列であれば、
+1次元目(最低次元)の情報が dim[0] に、
+3次元目の情報がdim[2]に納められる。
+
+各次元の情報は、size, start, end, step で構成されている。
+これらはそれぞれ、その次元のサイズ、転送を要する項目の始点/終点/
+ステップを示している。
+size, start, end, step の各情報は
+<pre>
+    VALUE_TYPE XXX_type;
+    int XXX;
+    NINF_EXPRESSION XXX_exp;
+</pre>
+という三つ組みで表されている。これらは
+type は以下のenumerate で与えられる。
+<pre>
+typedef enum value_type
+{
+    VALUE_NONE = 0,	/* default */
+    VALUE_CONST = 1,	/* default, given in constant */
+    VALUE_IN_ARG = 2,	/* specified by IN scalar paramter */
+    VALUE_BY_EXPR = 3, 	/* computed by interpreter */
+    VALUE_OP = 4,       /* operation code */
+    VALUE_END_OF_OP = 5, /* end of expression */
+    VALUE_ERROR = -1
+} VALUE_TYPE;
+</pre>
+XXX_type が VALUE_CONSTの時には、 XXX の値がこの三つ組みの値として
+与えられる。
+VALUE_IN_ARG のときには XXX番目のパラメータ(スカラーでなければならない)の値が
+値となる。
+VALUE_BY_EXPR の時には XXX_exp を評価した値が用いられる。
+
+XXX_exp は下のような構造体で表される。
+これは type と val のペアが NINF_EXPRESSION_LENGTH(20)個並んだ構造
+である。式を逆ポーランド記法で記述する。
+
+<pre>
+typedef struct ninf_expression 
+{
+  VALUE_TYPE type[NINF_EXPRESSION_LENGTH];
+  int val[NINF_EXPRESSION_LENGTH];
+} NINF_EXPRESSION;
+</pre>
+
+type と val のペアの意味は上述の XXX_type と XXX のペアと同じ意味であるが、
+ここでは、 XXX_type に VALUE_OP を使うことができる。
+VALUE_OPは 演算子を意味する。演算子は以下のように定義されている。
+
+<pre>
+#define OP_VALUE_PLUS  1
+#define OP_VALUE_MINUS 2
+#define OP_VALUE_MUL   3
+#define OP_VALUE_DIV   4
+#define OP_VALUE_MOD   5
+#define OP_VALUE_UN_MINUS   6
+#define OP_VALUE_BEKI   7
+</pre>
+
+<h2>5.2 インタフェース例 </h2>
+例として
+<pre>
+Module sample;
+
+Define mmul(long mode_in int n, mode_in double A[n][n+1-1], 
+	mode_in double B[n][n+2-3+1],
+	mode_out double C[n*n])
+Required &quot;sample.o&quot;
+CalcOrder n^3
+Calls &quot;C&quot; mmul(n,A,B,C);
+</pre>
+
+というIDLで定義されたインタフェースがどのように表現されるか
+見てみよう。
+
+<pre>
+{
+	0,0,0,	&quot;sample&quot;,&quot;mmul&quot;,4,
+	param_desc, 
+		3, 
+			{ {2,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,3,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+	stub_description
+};
+</pre>
+param_desc は下のように定義されている。
+
+<pre>
+struct ninf_param_desc param_desc[] = {
+	{ 5, 1, 0,},
+	{ 13, 1, 2,{
+		{ 3, 2, { {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		{ 2, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+	{ 13, 1, 2,{
+		{ 3, 1, { {2,1,4,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,2,1,3,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		{ 2, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+	{ 13, 2, 1,{
+		{ 3, 3,	{ {2,2,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+};
+
+</pre>
+
+一つずつ見ていこう。
+<p>
+第一パラメータは
+<pre>
+	{ 5, 1, 0,},
+</pre>
+と表されている。これは、このパラメータが
+long(param_type = 5) であり、mode は in (param_inout = 1) であり 
+スカラ値(ndim = 0)であることを意味している。
+<p>
+第二パラメータは
+<pre>
+	{ 13, 1, 2,{
+		{ 3, 2, { {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		{ 2, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+		}},
+</pre>
+と表されている。これは、このパラメータが
+double(param_type = 13) であり、mode は in (param_inout = 1) であり 
+２次元の配列(ndim = 2)であることを意味している。
+<pre>
+// size		{ 3, 2, { {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+// start	  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+// end		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},
+// step		  0, 0, { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+			  {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}},},
+</pre>
+が一つの次元の記述である。
+<code>3</code> はこの値が 式であることを意味する。
+この式の元の形は、<code> n + 1 - 1</code> であるがこれを
+逆ポーランド記法で書くと <code> n 1 + 1 - </code>となる。
+<pre>
+  {2,1,4,1,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+  {0,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,}
+</pre>
+がこの式に対応する。
+[2,0] が ０番目の引数 n を表す。 [1,1] は 定数 1を 、[4,1]は'+' を
+[4,2] は '-' を示す。[5, 0] は式のターミネータである。
+
+
+<h2> 5.3  インタフェースの転送 </h2>
+インタフェースの転送は基本的に上記の構造体をそのまま
+XDRでエンコードして転送することで行われる。
+ただし、転送すべきパラメータ構造体の数は nparam で
+制限される。
+またパラメータ構造体内の各次元の表現も ndim で
+制限される。
+XXX_exp も XXX_type が VALUE_BY_EXPR の時のみ転送される。
+
+インタフェースを転送する疑似コードを下に示す。
+
+<pre>
+  trans_int(version_major);
+  trans_int(version_minor);
+  trans_int(info_type);
+  trans_string(module_name);
+  trans_string(entry_name);  	
+
+  trans_int(nparam);
+  for (int i = 0; i &lt; nparam; i++){
+     trans_enum(params[i]-&gt;param_type);
+     trans_enum(params[i]-&gt;param_inout);
+     trans_int (params[i]-&gt;ndim);
+     for (int j = 0; j &lt; params[i]-&gt;ndim; i++){
+         trans_enum(((params[i]-&gt;dim)[j]).size_type);
+         trans_int (((params[i]-&gt;dim)[j]).size);
+         if (((params[i]-&gt;dim)[j]).size_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).size_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).size_exp.val[k]);
+            }
+         trans_enum(((params[i]-&gt;dim)[j]).start_type);
+         trans_int (((params[i]-&gt;dim)[j]).start);
+         if (((params[i]-&gt;dim)[j]).start_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).start_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).start_exp.val[k]);
+            }
+         trans_enum(((params[i]-&gt;dim)[j]).end_type);
+         trans_int (((params[i]-&gt;dim)[j]).end);
+         if (((params[i]-&gt;dim)[j]).end_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).end_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).end_exp.val[k]);
+            }
+         trans_enum(((params[i]-&gt;dim)[j]).step_type);
+         trans_int (((params[i]-&gt;dim)[j]).step);
+         if (((params[i]-&gt;dim)[j]).step_type == VALUE_BY_EXPR)
+	    for (int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+               trans_int(((params[i]-&gt;dim)[j]).step_exp.type[k]);
+               trans_int(((params[i]-&gt;dim)[j]).step_exp.val[k]);
+            }
+     }
+  }
+  trans_enum(order_type);
+  if (order_type == VALUE_BY_EXPR)
+    for(int k = 0; k &lt; NINF_EXPRESSION_LENGTH; k++){
+      trans_int(order.type[k]);
+      trans_int(order.val[k]);
+    }
+  trans_string(description);
+</pre>
+
+
+<h1> 6.  データのエンコーディング/デコーディング </h1>
+各データはXDRでエンコーディングされる。
+
+Client -> Server のエンコーディングは
+スカラパラメータ、配列パラメータの順で行われる。
+これはスカラパラメータが配列のサイズを決定するために
+用いられることがあるためである。
+スカラパラメータ、配列パラメータはそれぞれパラメータの
+順序で転送される。
+それぞれのパラメータの間にデリミタなどは挟まない。
+<p>
+dim が -1 の時には読み出し側では転送サイズを動的に決定する。
+すなわち、まず32ビットのinteger を 2つ読み出し、
+それの積をサイズと考えてreadする。
+
+<p>
+配列の要素にstart,end,step が指定されている場合には、
+指定されている部分だけを同様にXDRでエンコードして転送する。
+<p>
+ライブラリからの出力データも同様にXDRでエンコードされてくる。
+Ninfでは出力データはすべて配列値なので、スカラを特別に
+考える必要はない。
+

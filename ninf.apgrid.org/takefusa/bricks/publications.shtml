@@ -1,0 +1,7 @@
+<!--#include file="frame_head.shtml"-->
+
+<H2>Publications in English</H2>
+
+<!--#include virtual="/takefusa/bricks/publications/bricks.shtml"-->
+
+<!--#include file="frame_tail.shtml"-->

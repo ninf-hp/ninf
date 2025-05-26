@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> クライアント</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" クライアント">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html223 HREF="node18.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html221 HREF="node16.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html215 HREF="node16.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html224 HREF="node18.html"> トランザクションの実行</A>
+<B>Up:</B> <A NAME=tex2html222 HREF="node16.html"> 分散並列実行の実装</A>
+<B> Previous:</B> <A NAME=tex2html216 HREF="node16.html"> 分散並列実行の実装</A>
+<BR> <HR> <P>
+<H3><A NAME=SECTION00043100000000000000> クライアント</A></H3>
+<P>
+クライアントのライブラリにトランザクションを定義するための
+関数
+<code>Ninf_check_in</code>, 
+<code>Ninf_check_out</code> を用意した。
+<P>
+例として行列<code>A</code>,<code>B</code>の積<code>E</code>と<code>C</code>,<code>D</code>の積<code>F</code>を
+さらに掛け合わせたものを<code>G</code>に入れる計算を考えてみる。
+これは以下のように書ける。
+<PRE>    Ninf_check_in();
+    Ninf_call(&quot;mmul&quot;,N,A,B,E);
+    Ninf_call(&quot;mmul&quot;,N,C,D,F);
+    Ninf_call(&quot;mmul&quot;,N,E,F,G);
+    Ninf_check_out();
+</PRE>
+<P>
+<code>Ninf_check_in</code> 後の 
+<code>Ninf_call</code> ではその場で実行を行なわずに、
+データフローだけの作成を行なう。最後の<code>Ninf_check_out</code>の時点で、
+実際の計算を行なう。
+<P>
+各<code>Ninf_call</code> 間の依存関係は、共有する構造データと入出力モードに
+よって判断する。構造データを共有するかどうかの判断は、
+構造データのアドレスの比較によって行なう。
+上の例では、<code>E</code>、<code>F</code>が共有されている。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

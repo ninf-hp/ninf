@@ -1,0 +1,61 @@
+<!-- 1.0@bugzilla.org -->
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #
+  # Contributor(s): Tetsuya Kaneuchi <tetsuyak@ka2.so-net.ne.jp>
+  #     -- J10N
+  #%]
+
+[%# INTERFACE:
+  # has_bits: array of strings. May be empty.
+  #           Descriptions of the permission bits the user has. 
+  # set_bits: array of strings. May be empty. 
+  #           Descriptions of the permission bits the user can set for 
+  #           other people.
+  #%]
+ 
+<table>
+  <tr>
+    <td>
+      [% IF has_bits.size %]
+	あなたのアカウントには以下のことが許可されています。
+        <ul>
+          [% FOREACH bit_description = has_bits %]
+            <li>[% bit_description %]</li>
+          [% END %]
+        </ul>
+      [% ELSE %]
+	あなたのアカウントに許可は設定されていません。
+        There are no permission bits set on your account.
+      [% END %]
+
+      [% IF set_bits.size %]
+	さらに、あなたは以下の項目について
+        <a href="editusers.cgi">他のユーザ</a>への許可を設定できます。
+        <p>
+          <ul>
+          [% FOREACH bit_description = set_bits %]
+            <li>[% bit_description %]</li>
+          [% END %]
+          </ul>
+        </p>
+      [% END %]
+    </td>
+  </tr>
+</table>

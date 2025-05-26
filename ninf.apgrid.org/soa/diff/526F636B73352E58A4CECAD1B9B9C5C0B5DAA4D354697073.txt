@@ -1,0 +1,68 @@
+-
+ -CDブート時のコマンドはこれまでの"frontend" から"build"に変更。
+ 
++
++-iptablesのweb accessの部分は”defaultで禁止”から”同一セグメントならdefaultで許可”に変更。
++
++  # http and https is allowed for all nodes on the public subnet
++  -A INPUT -m state --state NEW -p tcp --dport https --source 192.50.74.0/255.255.255.0 -j ACCEPT
++  -A INPUT -m state --state NEW -p tcp --dport www --source 192.50.74.0/255.255.255.0 -j ACCEPT
++
++-VLAN設定の機能が追加されたが、使い方は複雑なので割愛する。詳細については、マニュアルを参照。
++
++  http://www.rocksclusters.org/roll-documentation/base/5.1/x676.html
++-NFSのパスが変更された。
++
++--従来：Server:/export/apps, Client:/share/apps
++--現在：Server:/share/apps, Client:/share/apps
++
++-Compute nodeをリモートで再インストールさせる方法が増えた。
++--従来: 
++      # eval `ssh-agent` 
++      # shoot-node compute-0-0
++      　　　(あるいは)
++      # insert-ethers --replace compute-0-0
++
++--現在： 
++      # ssh-agent $SHELL
++      # ssh-add
++      # rocks run host compute '/boot/kickstart/cluster-kickstart-pxe'
++　　　　　　（あるいは）
++      # rocks set host pxeboot compute-0-0 action=install
++      # ssh compute-0-0 "shutdown -r now" 
++
++-Rollの保存場所のパスやパッケージをビルトするコマンドが変更
++--従来：
++      # cd /home/install
++      # rocks-dist sit
++
++--現在: 
++      # cd /export/rocks/install
++      # rocks create distro
++
++-initrd.imgにdevice driverを追加する仕組みが増えた。長いので割愛する。
++
++   http://www.rocksclusters.org/roll-documentation/base/5.1/customization-driver.html
++
++-Rollの追加方法が変更
++--従来：
++      # mount -o loop <rollname>*.iso /mnt/cdrom
++      # rocks-dist --install copyroll
++      # cd /home/install && rocks-dist dist
++
++--現在：
++      # rocks add roll <rollname>*.iso
++      # rocks create distro
++
++-VFrontendをPFrontendに配置する方法が増えた。
++　
++   http://www.rocksclusters.org/roll-documentation/xen/5.1/using-virtual-clusters.html
++
++-Roll開発時のApplianceの追加方法が変更
++--従来：
++      #/opt/rocks/sbin/add-new-appliance --appliance-name "VMware Server" --xml-config-file-name vmserver-compute
++
++--現在：
++      #/opt/rocks/bin/rocks add appliance vmware-server membership='VMware Server' node='vmserver-compute' graph='default' compute='yes' public='yes'
++
++

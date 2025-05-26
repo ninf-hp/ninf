@@ -1,0 +1,8 @@
+#!/bin/csh
+foreach i (index sld011 sld022 tsld006 tsld017 sld001 sld012 sld023 tsld007 tsld018 sld002 sld013 sld024 tsld008 tsld019 sld003 sld014 sld025 tsld009 tsld020 sld004 sld015 sld026 tsld010 tsld021 sld005 sld016 sld027 tsld011 tsld022 sld006 sld017 tsld001 tsld012 tsld023 sld007 sld018 tsld002 tsld013 tsld024 sld008 sld019 tsld003 tsld014 tsld025 sld009 sld020 tsld004 tsld015 tsld026 sld010 sld021 tsld005 tsld016 tsld027 )
+  tmp.pl $i.htm > $i.html
+end
+
+foreach i (img001 img007 img013 img019 img025 img002 img008 img014 img020 img026 img003 img009 img015 img021 img027 img004 img010 img016 img022 img005 img011 img017 img023 img006 img012 img018 img024 )
+  mv $i.gif $i.GIF
+end

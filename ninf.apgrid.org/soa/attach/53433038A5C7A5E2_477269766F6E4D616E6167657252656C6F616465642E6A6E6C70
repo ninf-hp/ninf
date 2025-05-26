@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="file:/Users/nakada/NetBeansProjects/GrivonManagerReloaded/dist/" href="GrivonManagerReloaded.jnlp">
+    <information>
+        <title>GrivonManagerReloaded</title>
+        <vendor>nakada</vendor>
+        <homepage href=""/>
+        <description>GrivonManagerReloaded</description>
+        <offline-allowed/>
+        <shortcut>
+            <desktop/>
+        </shortcut>
+    </information>
+    <resources>
+        <j2se version="1.5+"/>
+        <extension name="JavaFX Runtime" href="http://dl.javafx.com/1.2/javafx-rt.jnlp"/>
+        <jar href="GrivonManagerReloaded.jar" main="true"/>
+        <jar href="lib/activation.jar"/>
+        <jar href="lib/jaxb-api.jar"/>
+        <jar href="lib/jaxb-impl.jar"/>
+        <jar href="lib/jaxb-xjc.jar"/>
+        <jar href="lib/jsr173_api.jar"/>
+    </resources>
+    <application-desc main-class="com.sun.javafx.runtime.main.Main">
+        <argument>MainJavaFXScript=grivonmanager.Mock</argument>
+    </application-desc>
+    <update check="background">
+</jnlp>

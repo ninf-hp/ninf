@@ -1,0 +1,69 @@
+<!--
+  $URL$ $Rev$ $Date$
+  $AIST_Release: 5.1.0 $
+  $AIST_Copyright:
+   Copyright 2003, 2004, 2005, 2006 Grid Technology Research Center,
+   National Institute of Advanced Industrial Science and Technology
+   Copyright 2003, 2004, 2005, 2006 National Institute of Informatics
+   
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+   
+       http://www.apache.org/licenses/LICENSE-2.0
+   
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   $
+ -->
+
+<html>
+<head>
+<title>GRPC_PROBE_OR</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<h3>NAME</h3>
+<code>GRPC_PROBE_OR</code> - Checks the session execution status.
+<h3>SYNOPSIS</h3>
+<code>
+INTEGER FUNCTION GRPC_PROBE_OR(SIDS, N, ID)
+</code>
+<h3>ARGUMENTS</h3>
+<dl>
+<dt><code> INTEGER SIDS(*) </code></dt>
+<dd>	The session IDs</dd>
+<dt><code> INTEGER N </code></dt>
+<dd>	The number of session IDs stored in SIDS</dd>
+<dt><code> INTEGER ID</code></dt>
+<dd>	An area for returning the session ID of the session that has completed execution</dd>
+</dl>
+<h3>DESCRIPTION</h3>
+<p>
+The GRPC_PROBE_OR() function returns the execution status of the sessions specified by session IDs.
+If no sessions have been completed, the function returns an error.
+</p>
+
+<p> This function is MT-safe. </p>
+<h3>RETURN VALUE</h3>
+<p>
+If successful, GRPC_NO_ERROR is returned. In the case of an error, error code is returned.
+</p>
+<h3>ERRORS</h3>
+<dl>
+<dt><code>  GRPC_NOT_INITIALIZED</code></dt>
+<dd>	GRPC client is not initialized yet.</dd>
+<dt><code>  GRPC_INVALID_SESSION_ID</code></dt>
+<dd>    Session ID is not valid.</dd>
+<dt><code>  GRPC_OTHER_ERROR_CODE</code></dt>
+<dd>	Internal error is detected.</dd>
+<dt><code>  GRPC_NONE_COMPLETED</code></dt>
+<dd>    No sessions have been completed.</dd>
+</dl>
+<hr>
+last update : $Date$
+</body>
+</html>

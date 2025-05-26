@@ -1,0 +1,50 @@
+ [[FrontPage]]
+ 
+ このページでは[[VMWareWithVLANTrunking]]を自動化することを考える。
+ 
+ * その前に解決すべき点 [#q50aa98d]
+ 
+ - [[VMware Server作業記録]]のvmware_control.shがどのようなvmxファイルを生成するのかがよく分からない。
+ - [[仮想クラスタ予約テーブル]]には、「VLAN_ID」と「VMが使用するVMnet」に関する項目がない。
+ 
+ →VLAN_IDに関しては、予約時に100〜4094までの整数値を仮想クラスタごとに振る。仮想クラスタが破壊されるタイミングでそれまで使用されていたVLAN_IDは返却され、再利用されるものとする。
+ 
+ →VMが使用するVMnetに関しては、現在はどのVMをallocateする際もVMnet0を使用するようになっていると想像される。VLANを張る場合にはVLANごとに異なるVMnetを利用することになるので、ホスト内でVMがアロケートされるたびに重複しないVMnetを選択する必要がある。
+ 
+ もう少し具体例で説明。ホストにVMを2個(guest1,2)配置するとする。vmnet0はeth0(host)にブリッジ接続されているものとする。インストール時eth0(guest1)、eth0(guest2)はvmnet0を使ってネットワークに接続し、インストール後はそれぞれvmnet1, vmnet2を使ってネットワークに接続するようにしたいとする。そのためには、今アロケートしようとしているVMがどのvmnetを使うかを知っている必要があるということである。
+ 
+ * 自動化 [#y3398d0d]
+ 
+ 自動化をステップごとに考える。
+ 
+ ** 前処理 [#r2c7e3e2]
+ 
+ HostOSの/etc/sysconfig/networkの以下の行は、最初にHostOSがdeployされた時点で設定する。
+ 
+  VLAN="yes"
+ 
+ ** 本処理 [#lb64915e]
+ 
+ 一発で切り替えたい。何らかの事情でHost OSが再起動した場合にも再セットアップされて欲しい。
+ → /sbin/ifup でできるとよいのでは。
+ 
+ *** /etc/sysconfig/network-scripts/ifcfg-<PHYSDEV>.<VLAN_ID> での設定事項 [#vd993828]
+ 
+ - /sbin/vconfig によるVirtual NICの作成
+ - /sbin/ifconfig によるVirtual NICへのIPアドレスなどの割り当て
+ - (optional) /sbin/route によるdefault routeの設定
+ 
+ *** /etc/sysconfig/network-scripts/route-<PHYSDEV>.<VLAN_ID> での設定事項 [#n01431b7]
+ 
+ - (optional) /sbin/route によるstatic routeの設定
+ 
+ *** /sbin/ifup-local での設定事項 [#f670f25b]
+ 
+ - 他のもろもろの処理
+ 
++
++この案はよくない。なぜなら/etc/init.d/networkが実行されるのは/etc/init.d/vmwareが起動するよりも先だから。ifup-localでvmnetを作ったりしようと思ったが無理。
++
++→ boot時、/etc/init.d/network, /etc/init.d/vmwareより後にstartし、かつshutdown時これらより前にstopするinit scriptが必要。
++
++→ [[VMwareGriVonScript]]

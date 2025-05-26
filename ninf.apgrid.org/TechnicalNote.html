@@ -1,0 +1,773 @@
+<HTML>
+<HEAD>
+<TITLE> Ninf: Network Information Library </TITLE>
+</HEAD>
+<Link rev="made" href="mailto:EMAIL">
+<BODY bgcolor="#ffffff">
+<CENTER>
+<img alt="Ninf LOGO" src="/image/Ninf-A.gif">
+</CENTER>
+<H1 ALIGN=CENTER> 
+Ninf: A Network based Information Library for
+Global World-Wide Computing Infrastructure
+</H1>
+<hr>
+<br>
+<h2><a name="Abstract">Abstract </a></H2>
+
+Ninf is an ongoing global network-wide computing infrastructure
+project which allows users to access computational resources including
+hardware, software and scientific data distributed across a wide area
+network with an easy-to-use interface. Ninf is intended not only to
+exploit high performance in network parallel computing, but also to
+provide high quality numerical computation services and accesses to
+scientific database published by other researchers. 
+Computational resources are shared as Ninf remote
+libraries executable at a remote Ninf server. Users can build an
+application by calling the libraries with the Ninf Remote Procedure
+Call, which is designed to provide a programming interface
+similar to conventional function calls in existing languages, and is
+tailored for scientific computation. In order to facilitate location
+transparency and network-wide parallelism, Ninf
+metaserver maintains global resource information regarding
+computational server and databases, allocating and scheduling
+coarse-grained computation to achieve good global load balancing. 
+Ninf also interfaces with existing network service such as the WWW for easy
+accessibility.
+
+<h2><a name="Introduction">1. Introduction </a></H2>
+Remarkable growth of computer network technology has spurned a variety of
+information services accessible through the Internet. The important
+feature of such services is location transparency; information can be
+obtained irrespective of time or location in a virtually shared manner. 
+However, most existing global network services such as e-mail, file
+archives, and the WWW, are limited to merely sharing data resources. The
+global network could be far better utilized, embodying the potential to
+provide a computational environment to share computational resources
+including CPUs and disk storage. The coming of gigabit information
+superhighway will further enhance the vision of world-wide global
+computing resources, being able to tap into powers of enormous numbers of
+computers with idle computation cycles.
+
+<p>
+As an infrastructure for world-wide global computing in scientific
+computation, we are currently pursuing the <em> Ninf 
+(Network based Information Library for high
+performance computing</em>) project <A HREF=#sekiguchi96>[1]</A>.  Our
+goal is to provide a platform for global scientific computing with
+computational resources distributed in a world-wide global network.
+The paper describes the motivation of Ninf, its components,
+and the underlying technologies that support such global computing.
+
+<P>
+The basic Ninf system supports client-server based computing.  The
+computational resources are available as remote libraries at a remote
+computation host which can be called through the global network from a
+programmer's client program written in existing languages such as Fortran, 
+C, or C++. The parameters, including large arrays, are efficiently marshalled
+and sent to the <em> Ninf server </em> on a remote host, which in turn
+executes the requested libraries, and sends back the result. The <em> Ninf
+remote procedure call (RPC) </em> is designed to provide programming
+interface which will be very familiar to the programmers of existing
+languages. The programmer can build a global computing systems by using
+the Ninf remote libraries as its components, without being aware of
+complexities and hassles of network programming.
+<P>
+The benefits of Ninf are as follows:
+
+<UL>
+<LI> 
+A client can execute the most time-consuming part of his program in
+multiple, remote high-performance computers, such as vector supercomputers
+and MPPs, without any requirement for special hardware or operating
+systems. If such supercomputers are reachable via a high speed network,
+the application will naturally run considerably faster.
+It also provides uniform access to a variety of supercomputers.
+
+<LI> The Ninf programming interface is designed to be extremely
+easy-to-use and familiar-looking for programmers of existing languages
+such as FORTRAN, C and C++. The user can call the remote libraries without
+any knowledge of the network programming, and easily convert his existing
+applications that already use popular numerical libraries such as LAPACK.
+Servers can be specified in a variety of ways, including environment
+variables, URLs, startup files, etc. This is one of the philosophy of Ninf
+design, i.e. "Make the interface as transparent and flexible as possible
+to use."
+
+<LI> The Ninf RPC can also be asynchronous and automatic: for parallel
+applications, a group of <em> Ninf metaservers </em> maintains the
+information of Ninf servers in the network in a distributed manner, and
+automatically allocates remote library calls dynamically on appropriate
+servers for load balancing. To allocate multiple calls to achieve
+network-wide parallelism, Ninf provides a transaction system, where the
+data-dependencies among the Ninf calls are automatically detected and
+scheduled by the metaserver. The Ninf metaserver could be regarded as a
+network agent which locates an appropriate server depending on client
+request and status of network resources.
+
+<LI> The Ninf network database server provides query on accurate constant
+database needed in scientific computation, such as important constants of
+physics and chemistry. By doing so, the user is freed from the burdens
+and mistakes of inputting accurate constant data from printed charts.
+Furthermore, we plan to develop a framework where data values of reports
+on experiments by researchers could be referenced directly over a network
+in the midst of user's computation. Such provisions for attaining
+accuracy is especially important for natural science areas such as
+experimental physics, astronomy, chemistry, medicine, and biology, etc.
+</UL>
+<p>
+While Ninf can serve to speed-up the applications by exploiting the power
+of remote supercomputer servers and network parallelism, it is a convenient
+tool for obtaining the answer of a particular numerical function and
+values quickly. We have designed a WWW interface as a front-end so that
+Ninf libraries registered in computation servers could be cataloged,
+browsed, and tried out through Web browsers.
+
+<P>
+From the user's perspective, Ninf offers yet another way to share
+resources over a global network. On the other hand, there are already
+various network infrastructures and tools already in use, and one might ask
+would another infrastructure be needed; for example, one could claim the
+extreme that, one could use existing file transfer services such as ftp
+to remotely obtain numerical libraries, compile on his local machine, and
+execute the program there. Aside from the issue of having a supercomputer
+locally on hand, there are many other advantages to Ninf in this case ---
+security and proprietary issues naturally are obvious topics; there are
+other practical issues of expending the efforts of fetching, compiling, and
+maintaining code in heterogeneous computing environments. Ninf allows
+reduction of maintenance costs by concentrating the efforts of
+high-quality, well-maintained libraries on compute servers and not on each
+machine. Thus, even for slower networks where there are no speed
+advantages to be gained, Ninf is still beneficial in this regard.
+
+<P>
+The rest of the paper gives an overview of the entire Ninf system, its
+interface, and its underlying technologies. Section 2 gives
+an overview of Ninf and reports a preliminary result; 
+Section 3 describes the Ninf metaserver and its parallel programming.
+In Section 4, presents some applications of Ninf.
+Related Work is briefly discussed in Section 5.
+We finally presents the current status and future work in Section 6.
+<br>
+<hr>
+<h2><a name="Overview">2. Ninf Overview </a></H2>
+<br>
+<H3><a name="SystemArchitecture">
+2.1. The Ninf System Architecture </a></H3>
+
+The basic Ninf system employs a client-server model. The server machine
+and a client may be connected via a local area network or over an
+Internet. Machines may be heterogeneous: data in communication
+is translated into the common network data format.
+
+<P>
+A Ninf server process runs on the Ninf computation server host.  The Ninf
+remote libraries are implemented as executable programs which contain
+network <em> stub </em> routine as its main routine, and managed by the
+server process. We call such executable programs <em> Ninf executables
+(programs) </em>. When the library is called by a client program, the Ninf
+server searches the Ninf executables associated with its name, and
+executes the found executable, setting up an appropriate communication
+with the client. The stub routine handles the communication to the Ninf
+server and its client, including argument marshaling. The underlying
+executable can be written in any existing scientific languages such as
+Fortran, C, etc., as long as it can be executed in the host.
+
+<P>
+A <em> library provider </em>, who provides the numerical library and
+computational resource to the network at large, prepares the Ninf
+executables by
+(1) writing the necessary interface description of each
+library function in <em> Ninf IDL (Interface Description Language) </em>,
+(2) running the Ninf IDL compiler, which emits the necessary header files
+and stub code, 
+(3) Compiling the library with the compiler for the
+programming language the library is written in, 
+and, (4) linking with the Ninf RPC libraries, 
+finally, (5) <em> registering </em> them with the
+Ninf server running on his host. 
+After these steps, anyone in the network
+can use the libraries by the Ninf RPC in a transparent. Some existing
+libraries, such as LAPACK, have already been 'Ninfied' in this manner.
+
+<P>
+The Ninf user interface consists of programming and browsing interfaces. 
+The client user can call the Ninf library directly from his program, or
+experiment with the library interactively using the Ninf browsing tool on
+the WWW. As we will see later on, the Ninf client interface is remarkably
+simple; the user merely needs to link the <tt> Ninf_call() </tt> routine
+which acts as the sole interface to all functionalities provided by Ninf. 
+Thus, on the client side, the user merely needs to download and link a
+small, precompiled Ninf client library, without ever experiencing the
+hassles of maintaining the latest source code, header files, IDL files,
+and their associated makefiles. 
+Also, the browsing tool helps the user to find required
+functions from available sever in the network.
+Such a design has been motivated by the desire to provide a
+simplest, language-independent client interface to the Ninf
+infrastructure, while relieving the users of code/library maintenance.
+
+<P>
+In the current implementation, the communication between a client and the
+server is achieved by means of standard TCP/IP connection to ensure
+reliable communication between processes. In an heterogeneous environment,
+Ninf uses the Sun XDR data format as a default protocol.
+Also, as we shall see, clients can
+also specify call back functions on the client side for various purposes,
+such as interactive data visualization, I/O of data, etc. 
+
+<br>
+<H3><a name="ProgInterface">
+2.2. The Programming Interface </a></H3>
+
+As mentioned above, <tt> Ninf_call() </tt> is the sole client interface to
+the Ninf compute and database servers. In order to illustrate the
+programming interface with an example, let us consider a simple matrix
+multiply routine in C programs with the following interface:
+<PRE>
+double A[N][N],B[N][N],C[N][N];   /* declaration */
+....
+dmmul(N,A,B,C);	                  /* calls matrix multiply, C = A * B */
+</PRE>
+When the <tt> dmmul </tt> routine is available on a Ninf server,
+the client program can call the remote library using  <tt> Ninf_call </tt>, 
+in the following manner:
+<PRE>
+Ninf_call(&quot;dmmul&quot;,N,A,B,C); /* call remote Ninf library on server */
+</PRE>
+Here, <tt> dmmul </tt> is the name of library registered as a Ninf
+executable on a server, and <tt> N,A,B,C </tt> are the same arguments.
+As we see here, the client user only needs to specify the name
+of the function as if he were making a local function call;
+<tt> Ninf_call() </tt> automatically determines the function arity and 
+the type of each argument, appropriately marshals the arguments, makes
+the remote call to the server, obtains the results, places the
+results in the appropriate argument, and returns to the client.
+In this way, the Ninf RPC is designed to give the users an
+illusion that arguments are shared between the client and the server.
+
+<P>
+The reader may also notice that the physical location of the Ninf server
+is not specified in the example. Ninf provides a variety of ways for
+the client to specify the server and its registered library: 
+<UL>
+<LI> Specify server with a .ninfrc file.
+<LI> Specify server with an environment variable.
+<LI> Directly specify server and library with an URL of the Ninf executable.
+<LI> Automatic server allocation by Ninf metaserver.
+</UL>
+<P>
+To realize such simplicity in the client programming interface,
+we designed Ninf RPC so that client function call obtains all the 
+interface information regarding the called library function at runtime
+from the server. Although this will cost an extra network round trip
+time, we judged that typical scientific applications are both
+compute and data intensive such that the overhead should be small
+enough. The interface information includes:
+<UL>
+<LI> the number of parameters.
+<LI> argument types.
+<LI> access mode of arguments (read or write).
+<LI> size of arguments.
+<LI> argument marshaling information.
+<LI> how to send and receive data from/to the Ninf server.
+</UL>
+As shown in Figure 1, the client function call requests the interface
+information of the calling function to the Ninf server, which in turn
+returns the registered Ninf executable interface information to the client. 
+The client library then interprets and marshals the arguments on the
+stack according to the supplied information. For variable-sized array
+arguments, the IDL must specify an expression that includes the input
+scalar arguments whereby the size of the arrays can be computed.
+This design is in contrast to traditional RPCs, where stub generation
+is done on the client side at compile time. As a result of dynamic
+interface acquisition, Ninf RPC does not require such compile-time
+activities at all, relieving the users from any code maintenance.
+<A HREF=#ninfnakada95>[2]</A> describes the structure of the 
+interface information and the protocol in detail.
+
+<P>
+In the above example, the client function call sends the input arrays,
+<tt>A</tt> and <tt>B</tt>,
+whose size is computed by the parameter <tt> N </tt>.
+The Ninf server invokes the Ninf executable of <tt> dmmul </tt> library,
+and forwards the input data to it.
+When the computation is done, the result is sent back to the client 
+through the server. The client function call stores the returned data at
+the location pointed by the argument, C.
+
+<P>
+The Ninf RPC may also be invoked asynchronously to exploit network-wide
+parallelism.  It is possible to issue the request to a Ninf server,
+continue with the other computation, and poll for the request later. 
+Multiple RPC requests to different servers are also possible.  For this
+reason, the asynchronous Ninf PRC is an important feature for parallel
+programming, as we describe in Section 3.
+
+<P><center>
+<IMG SRC="/image/rpcSequence.gif" ISMAP BORDER=0>
+<BR><STRONG>Figure 1:</STRONG> Ninf RPC <BR>
+</center><P>
+
+<br>
+<H3> <a name="IDL">2.3. Ninf IDL
+(Interface Description Language) </a></h3>
+
+The Ninf library provider describes the interface of the library
+function in Ninf IDL to register his library function into the Ninf server.
+Since the Ninf system is designed for numerical applications, the
+supported data type in Ninf is tailored for such a purpose; for example,
+the data types are limited to scalars and their multi-dimensional arrays. 
+On the other hand, there are special provisions in the IDL for numerical
+applications, such as support for
+expressions involving input arguments to compute array size, designation
+of temporary array arguments that need to be allocated on the server side
+but not transferred, etc.
+
+<P>
+For example, the interface description for the matrix multiply 
+given in the previous section is:
+<PRE>
+Define dmmul(long mode_in int n, mode_in double A[n][n],
+        mode_in double B[n][n], mode_out double C[n][n])
+"... description ..."
+Required "libxxx.o"        /* specify library including this routine. */
+Calls "C" dmmul(n,A,B,C);  /* Use C calling convention. */
+</PRE>
+where the <em> access specifiers </em>, 
+<tt> mode_in </tt> and <tt> mode_out </tt>, specify
+whether the argument is read or written.
+To specify the size of each argument, the other <tt> mode_in </tt> arguments
+can be used to form a size expression.
+In this example, the value of <tt> n </tt> is 
+referenced to calculate the size of the array arguments <tt> A, B, C </tt>.
+
+<P>
+In addition to the interface definition of the library function,
+the following information has to be described in the IDL:
+<UL>
+<LI> the library function to be registered,
+<LI> a module name to specify the library name,
+<LI> the language, in which the library is programmed,
+<LI> linking options to create the executables.
+<LI> aliases (names) for the library function.
+</UL>
+As illustrated in Figure 2, the interface description is compiled by the
+<em> Ninf interface generator </em> to generate a stub program for each
+library function described in its interface information.  The interface
+generator also automatically outputs a makefile with which the Ninf
+executables can be created by linking the stub programs and library functions.
+
+<P>
+The interface description can also include the textual information, which
+is used to automatically create manual pages for the library functions.
+The remote users can browse the available library functions in the
+server, its interface, and the other information generated by the
+interface generator through a Web browser interface.
+
+<P><center><IMG  ALIGN=BOTTOM ALT="" SRC="/image/stubGenerator.gif" ISMAP BORDER=0>
+<BR><STRONG>Figure 2:</STRONG> Ninf IDL and interface generator <BR>
+</center><P>
+
+<br>
+<H3><a name="binding">2.4. Other Language bindings </a></H3>
+
+Since the Ninf client programming interface is designed to be as
+language independent as possible, the Ninf client may written
+in a variety of programming languages.
+It is usually easy to design a client interface to Ninf, so long as
+the language supports standard foreign function interface to C programs.
+We have already designed and implemented the client 
+<tt> Ninf_call </tt> functions
+for C, FORTRAN, Java, and Lisp. The client and the remote library 
+can be written in a totally different language.
+<P>
+One caveat is that the language must support variable number arguments,
+which must be properly converted to multiple arguments being pushed onto
+the stack for foreign C function calls. Otherwise, the
+arguments must be passed in an array, and a glue code must be inserted to
+perform the necessary marshaling from the array.
+<P>
+The interface information may also be used on the client side at compile
+time. The remote user can get the interface information from the server
+to generate appropriate client stub routine and its prototype header files
+for its library which is registered there.
+In this case, the program will be entirely typechecked, 
+improving code reliability. Also,
+dynamic interface information acquisition will be skipped as mentioned
+earlier, improving performance slightly. On the
+other hand, instead of using only <tt> Ninf_call() </tt>, the user must
+call the client stub routine that will be created for each function
+available at the server. 
+
+<br>
+<H3><a name="Preliminary">2.5. Preliminary Performance </a></H3>
+
+Figure 3 shows preliminary performance of Linpack benchmark
+with the Ninf.
+We use a SUN SparcStation-20 (40 MHz SuperSPARC, 131MB memory) as a client.
+The Ninf server runs at JCC Ultra Sparc JU1/140 (143 MHz UltraSPARC, 
+98 MB memory).
+These machines are connected by a 100 base-TX ether switch.
+The performance of the client local computation is
+from 1.1 MFLOPS to 0.9 MFLOPS as indicated
+in the dashed line, and
+the performance of the host is from 2.5 MFLOPS to 1.8 MFLOPS
+<A HREF="#f2"><SUP>2</SUP></A>.
+In the Ninf program of Linpack,
+two routines, <tt> dgefa </tt> and <tt> dgesl </tt>,
+are called as the remote Ninf libraries in the Ninf server.
+The solid line indicates the performance using the Ninf call.
+Note that the Ninf program's performance exceeds the local performance
+when the matrix size is larger than 800.
+For the matrix size <em> n </em>, 
+the computation time is <em> O(n<SUP>3</SUP>) </em>and 
+the data transfer time is <em> O(n<sup>2</sup>) </em>.
+As the matrix size is increased, the Ninf program can take more advantage
+of the high performance remote machine.
+
+<P><center>
+<IMG ALIGN=BOTTOM ALT="" SRC="/image/linpack.gif">
+<BR><STRONG>Figure 3:</STRONG> Ninf Performance for Linpack benchmark <BR>
+</center><P>
+
+<br>
+<hr>
+<H2><a name="MetaServer">3. Ninf Metaserver </a></H2>
+<p>
+
+The <em> Ninf metaserver </em> <A HREF=#ninfnakada96>[3]</A> is
+an agent, a set of which gathers network information regarding the
+Ninf servers, and also helps the client to choose an appropriate Ninf 
+server, either automatically or semi-automatically.
+When the client executes in Ninf transaction mode, 
+he is able to issue a request to a metaserver, who in turn
+chooses the appropriate server and delegates the request.
+Also, instead of calling the server directly, the user may
+call the metaserver directly to find
+the "best" server to execute the requested library,
+resulting in good load balancing for multiple severs over the entire 
+network.
+
+<P> The current metaserver is implemented in Java, in order
+to exploit its portability, ease of network programming, and 
+multi-threading, and also given that speed is not an absolute factor.
+
+<br>
+<H3><a name="ServerManage">3.1. Ninf Server Management </a></H3>
+
+When the number of Ninf servers are increased, it becomes increasingly
+difficult for a client to determine which server he should select
+among the ones in the network.  The Ninf metaserver helps to alleviate
+this situation by gathering the meta-information of the status and the
+resource made available by the servers, and also by making Ninf
+services location transparent.  For example, if many clients share the
+same server, the computation time is greatly influenced by the
+computation requested by other clients. Such dynamic information is
+constantly probed and delegated to other metaservers in a distributed
+way. To be more specific, the Ninf metaserver keeps track of the
+following information for each Ninf server:
+<UL>
+<LI> the location (address and port number).
+<LI> the list of functions registered in the server.
+<LI> the distance to the server with respect to the bandwidth
+of communication.
+<LI> computational ability of the machine (clock speed, FLOPS, etc...)
+<LI> the status of the server including the load average.
+</UL>
+The entire Ninf infrastructure consists of sets of servers and
+metaservers distributed in a network.
+Metaservers exchange information with each others periodically
+For example, if a new Ninf server is added into the metaserver,
+the location of the new server is propagated among the metaserver network.
+Also, when a metaserver does not have a particular information available
+(e.g., availability of a certain library), a query is propagated through 
+the metaserver network and the result is gathered by the issuing 
+metaserver, who in turn delegates the info or makes automatic
+decisions for the client (Figure 4). 
+
+<P><center><IMG  ALIGN=BOTTOM ALT="" SRC="/image/metaServer.gif"
+ISMAP BORDER=0>
+<BR><STRONG>Figure 4:</STRONG> Ninf metaserver network<BR>
+</center><P>
+
+<br>
+<H3> <a name="MetaServerProg">
+3.2. Parallel Programming with Metaserver </H3></a>
+
+Load balancing is one of the most important features of the Ninf metaserver.
+The metaserver is able to find the "best" server
+with respect to the computational ability and the current load status.
+<P>
+In addition, in order to support parallel programming,
+the client issues multiple requests asynchronously via a Ninf
+call <tt> Ninf_call_async() </tt>. 
+Each outstanding request is dispatched to the
+best server by the metaserver. 
+The client may continue its local computation, and wait
+for result to come back with <tt> Ninf_call_wait </tt> function.
+
+<P>
+Another programming interface for parallel programming
+Ninf parallel transaction, as mentioned earlier.
+The parallel transaction is a program region surrounded by
+<tt> Ninf_check_in() </tt> and <tt> Ninf_check_out() </tt>.
+When <tt> Ninf_check_in() </tt> is executed, 
+the Ninf calls do not issue actual requests spontaneously, 
+but the information of the calls are is stored
+and a dataflow graph is built to represent the data dependency
+of the remote computations. When the execution reaches 
+<tt> Ninf_check_out() </tt>, the dataflow graph is sent to the Ninf
+metaserver. The metaserver schedules the computations 
+in the dataflow graph to execute them efficiently with multiple Ninf
+servers, according to the information it has. For example,
+<PRE>
+Ninf_check_in();
+Ninf_call("dmmul",N,A,B,E);
+Ninf_call("dmmul",N,C,D,F);
+Ninf_call("dmmul",N,E,F,G);
+Ninf_check_out();
+</PRE>
+Here, the computations for <tt> E </tt> and <tt> F </tt> can be executed in 
+parallel. Note that the interface information of <tt> dmmul </tt> is
+used to construct the dataflow graph of these computations.
+At the point where <tt> Ninf_check_out() </tt> is returned,
+all computations are finished.
+The advantage of the parallel transaction is that the user only 
+inserts <tt> Ninf_check_in() </tt> and <tt> Ninf_check_out() </tt>
+without modifying the sequence of the Ninf calls.
+
+<br>
+<hr>
+<H2><a name="Applications"> 4. Applications </a></H2>
+
+In this section, we describe some applications of the Ninf.
+
+<br>
+<H3> <a name="Visualization">Visualization in scientific simulation systems by call back </a></H3>
+
+Consider a scientific simulation as an application of the Ninf.
+A typical simulation program initializes the state, 
+and updates the state to display or records it at every certain time steps.
+One of problems in  Ninf RPC for this kind of applications is that
+no client state can be maintained in a Ninf server.
+When the execution of the Ninf executable is over, any information
+disappears in the server. As a result, a large amount of state
+must be transfered back at every call.
+
+<P>
+To alleviate this situation, Ninf supports callback
+functional argument to communicate with the client regarding the
+current execution state.
+A Ninf library routine can take the functional argument to 
+call the user-supplied routine from the Ninf executable. 
+<P>
+For simulation applications, this feature can be exploited to 
+implement client-side real-time visualization. The main part of
+the simulation program can be supplied as a Ninf library, 
+and the user can set his
+visualization routine to be the callback function to display the results
+at each time step.
+The client and the Ninf executable effectively execute as coroutines.
+Figure 5 shows a typical configuration of the system. We have currently
+implemented a run-time visualizer for Berkeley MP3D benchmark as 
+an example, 
+and are investigating applications to more elaborate simulations.
+
+<P><center><IMG  ALIGN=BOTTOM ALT="" SRC="/image/callBack.gif">
+<BR><STRONG>Figure 5:</STRONG> Call back example <BR>
+</center><P>
+
+<br>
+<H3> <a name="DDM">Domain decomposition solver </a></H3>
+
+The domain decomposition solver is one of the most suitable 
+parallel applications
+for the Ninf system. In the domain decomposition method,
+a large problem can be divided into several small sub-problems
+which can be solved in parallel.
+The master process summarizes the results of sub-problems and adjusts
+the boundary conditions between the domains of sub-problems
+to obtain the entire solution.
+While the Ninf client performs the master process,
+the solvers for sub-problems are executed
+in parallel by multiple Ninf servers.
+The Ninf metaserver performs load balancing
+by allocating the solver's tasks to the severs
+in order to minimize the entire computation time.
+
+<br>
+<H3><a name="InterfaceTool"> Interactive interface tools </a></H3>
+
+Interactive interfaces is often very attractive for real-world
+applications.
+A simple WWW-based interactive interface is provided as a part of the Ninf
+browser. The user can test a library function with particular arguments
+via the browser's graphical interface.
+<P>
+It would be also very useful to use the Ninf along with interactive languages such as
+Mathematica and MATLAB <A HREF=#MATLAB> [4] </A>. 
+In such a system, it is usually difficult to incorporate a new
+numerical function. Once a Ninf call interface is built into the
+system, one can use any library functions over the network interactively.
+We are currently planning to add client-side interface to Mathematica.
+
+<br>
+<hr>
+<H2> <a name="RelatedWork">Related Work </a></H2>
+
+The high-speed global network makes possible the realization of
+high performance world-wide global computing.
+A few systems are proposed for such computing system:
+Legion <A HREF=#Legion> [5] </A>
+is a project for constructing the nationwide virtual computer
+comprised of many supercomputers and workstations.
+Legion uses an object-oriented language, Mentat <A HREF=#mentat> [6] </A>, 
+to program global distributed computing systems.
+The current version of Ninf does not allow a user to
+export his program into the server.
+In this sense, the Ninf is not a programming language for distributed
+computing, but rather a more loosely-coupled server-client RPC-based
+system with lower-threshold for people to use.
+Ninf remote libraries are installed and registered in the host
+only by a responsible library provider.
+The client only uses them as a component for his global computing, in
+a very similar manner as his local computation.
+<P>
+NetSolve <A HREF=#netsolve96> [7] </A> is a similar project to our Ninf project.
+It also provides a easy-to-use programming interface similar to
+ours, but it has no description language for interface information.
+An agent process is provided for load balancing in the system,
+in a similar manner as the Ninf metaserver.
+
+<P>
+The Remote Computation System (RCS) <A HREF=#RCS> [8] </A>
+ is a remote procedure call facility
+to provide uniform access to a variety of supercomputers.
+It focuses on load-balancing. The RCS server in the local computer
+chooses solvers of remote computers.
+The client must use a specific client library function to
+call the associated remote library.
+The prototype system is implemented on top of PVM.
+
+<br>
+<hr>
+<H2> <a name="CurrentStatus">
+6. Current Status and Future Work </a></H2>
+
+As the Ninf project is an on-going effort, we do expect various
+changes and extensions to occur as we gain more experience from
+real applications, and as the system becomes more mature through
+widespread use.
+
+<P>
+Currently, we are preparing a suite of Ninf servers on Cray J-90,
+Sun UltraSparcs, and a 64-processor SparcStation 20-based NOW
+cluster at Electorotechnical Laboratory of Tsukuba, Japan for
+public release. On these servers, we have 
+ported existing mathematical libraries by defined Ninf IDLs 
+and registering with the Ninf server. The libraries
+include linear algebra packages such as LAPACK, Cray's LibSci,
+and other special mathematical libraries.
+A scientific constant database for physics and 
+chemistry is also being designed and being built.
+The database will have flexible query facilities to cope
+with physical constants that change minutely over time.
+<P>
+Since our objective is for Ninf to be a global service infrastructure
+available for free for a wide variety of scientific and engineering use,
+involving not only high performance but also quality-of-use, there are still
+numerous research issues to be addressed:
+<UL>
+<LI><em>Authentication and accounting:</em>
+     Although Ninf itself will be available
+for free, institutions will naturally want to establish its own
+authentication and accounting policies.  This immediately brings up a
+lot of technical challenges, including local policy enforcing mechanisms
+such as how one would allocate certain percentage of the machine's
+capabilities to anonymous users under existing operating systems, and
+global policies such as enforcing reciprocal accounting on use vs.  making
+computer servers available. This further transcends into protection
+policies for database servers, and metaservers which must take into
+account various institutional policies when scheduling the computations
+automatically.
+
+<LI> <em>Exporting of client code:</em>
+     The current Ninf has no facilities to
+execute client's code on a remote host.  In some cases, it will be
+desirable to export client's code for efficiency reasons --- for example, a
+Ninf function implementing an iterative solve could be parameterized by an
+error function for specifying termination conditions; it could then be
+prohibitive to perform callback per every iteration of the solver.
+Although code shipping technology is already available for interpreted
+languages such as Java or Telescript, for efficiency reasons it is
+desirable for the client code to be compiled using some form
+of dynamic compilation techniques, while maintaining portability
+and security.
+
+<LI> <em>Fault tolerance:</em>
+Since global network is not fault-safe,
+checkpoinging and recovery facility will be needed for fault tolerance.
+We are currently planning to extend the Ninf transaction facilities into
+full-fledged recoverable transactions; however, doing so without
+sacrificing computation speed or wasting too much resources is not an easy
+issue. 
+
+<LI> <em>Security:</em> Security is naturally important, especially since
+each Ninf server will act as computation server and not mere database
+server. Provisions for entrusted Ninf server nodes, as well as encryption,
+will be an important issue for future evolution of Ninf.
+</DL>
+
+These and other issues will be developed in accordance with advancements
+in other global networking standards, and other efforts on global network
+computing.
+
+<br>
+<hr>
+<A NAME=SECTIONREF><H2>References</H2></A><P>
+<DL COMPACT>
+<DT> <A NAME="sekiguchi96"><STRONG> [1] </STRONG> </A> <DD>
+S. Sekiguchi, M. Sato, H. Nakada, S. Matsuoka and U. Nagashima,
+"--- Ninf --- : Network based Information Library for Globally High
+Performance Computing", Proc. of Parallel Object-Oriented Methods
+and Applications (POOMA), Santa Fe, Feb., 1996.
+
+<DT><A NAME=ninfnakada95><STRONG>[2]</STRONG></A><DD>
+Nakada, Sato and Sekiguchi: "Ninf RPC Protocol",
+ETL Technical Report TR 95-28, Electrotechnical Laboratory (1995).
+
+<DT> <A NAME=ninfnakada96><STRONG>[3]</STRONG></A><DD>
+Nakada, Kusano, Matsuoka, Sato, Sekiguchi,
+"A Metaserver Architecture for Ninf: Networked Information
+Library for High Performance Computing",
+IPSJ 96-HPC-60 (1996) (in Japanese).
+
+<DT> <A NAME=MATLAB> <STRONG> [4] </STRONG> </A> <DD>
+The Math Works, Inc, "MATLAB Reference Guide", 1992.
+
+<DT> <A Name=Legion> <STRONG> [5] </STRONG> </A> <DD>
+A. S. Grimshaw, W. A. Wulf, J. C. French, A. C. Weaver and
+P. F. Reynolds Jr,"Legion: The Next Logical Step Toward a
+Nationalwide Virtual Computer", Technical Report No. CS-94-21,
+University of Virginia, 1994.
+
+<DT><A NAME=mentat><STRONG>[6]</STRONG></A><DD>
+Grimshaw, A. S.: "Easy to Use Object-Oriented Parallel Programming with
+Mentat", <em> IEEE Computer</em>, pp. 39--51 (1993).
+
+<DT> <A NAME=netsolve96><STRONG>[7]</STRONG></A><DD>
+H. Casanova and J. Dongarra: "NetSolve: A Network Server
+for Solving Computational Science Problems",
+Technical Report of University of Tennessee, 1996.
+
+<DT> <A NAME=RCS> <STRONG> [8] </STRONG> </A> <DD>
+P. Arbenz, W. Gander and M. Oettli,
+"The Remote Computational System",
+Lecture Note in Computer Science, Vol. 1067,
+High-Performance Computation and Network, Springer, 662-667(1996)
+</DL> 
+<BR>
+</BODY>
+</html>
+

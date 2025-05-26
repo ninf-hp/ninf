@@ -1,0 +1,181 @@
+#!/bin/sh
+#
+# chkconfig: 235 20 07
+# description: Manages netwrok needed to run GriVon-VMs
+
+. /etc/rc.d/init.d/functions
+. /etc/vmware-grivon/network
+
+# common setting
+REORDER_HDR=
+VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
+
+RETVAL=0
+
+create_vmnet() {
+    local VNET="$1"
+    local VNET_DEVICE=/dev/vmnet${VNET}
+
+    if [ ! -e ${VNET_DEVICE} ]; then
+	mknod -m 600 ${VNET_DEVICE} c 119 ${VNET}
+    fi
+}
+
+start_bridge() {
+    local VNET="$1"
+    local PHYSDEV="$2"
+    local VID="$3"
+    local DEVICE="$PHYSDEV"."$VID"
+
+    cd /usr/bin && /usr/bin/vmnet-bridge \
+	-d /var/run/vmware-bridge-grivon-${VNET}.pid /dev/vmnet${VNET} ${DEVICE}
+}
+
+stop_bridge() {
+   local VNET="$1"
+
+   killproc -p /var/run/vmware-bridge-grivon-${VNET}.pid
+   rm -f /var/run/vmware-bridge-grivon-${VNET}.pid
+}
+
+create_vlan_nic() {
+    local PHYSDEV="$1"
+    local VID="$2"
+    local DEVICE="$PHYSDEV"."$VID"
+
+    if [ ! -d /proc/net/vlan ]; then
+	if modprobe 8021q >/dev/null 2>&1 ; then
+	    test -z "$VLAN_NAME_TYPE" && VLAN_NAME_TYPE=DEV_PLUS_VID_NO_PAD
+	    /sbin/vconfig set_name_type "$VLAN_NAME_TYPE" >/dev/null 2>&1 || {
+		echo $"Could not set 802.1Q VLAN parameters."
+	    }
+	else
+	    echo $"No 802.1Q VLAN support available in kernel for device ${DEVICE}"
+	    exit 1
+	fi
+    fi
+
+    (/sbin/ip -o link | grep -q $PHYSDEV) || {
+	echo $"Device ${DEVICE} does not seem to be present, delaying initialization."
+	exit 1
+    }
+
+    if [ ! -f /proc/net/vlan/${DEVICE} ]; then
+	/sbin/vconfig add ${PHYSDEV} ${VID} || {
+	    (logger -p daemon.info -t ifup \
+		$"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}" &)&
+	    echo $"ERROR: could not add vlan ${VID} as ${DEVICE} on dev ${PHYSDEV}"
+	    exit 1
+	}
+    fi
+
+    if [ -f /proc/net/vlan/${DEVICE} ]; then
+	case "$REORDER_HDR" in
+	yes|1)
+		/sbin/vconfig set_flag ${DEVICE} 1 1 || {
+		    (logger -p daemon.info -t ifup \
+			"WARNING: vconfig not able to enable REORDER_HDR on ${DEVICE}" &)&
+		}
+		;;
+	no|0)
+		/sbin/vconfig set_flag ${DEVICE} 1 0 || {
+		    (logger -p daemon.info -t ifup \
+			$"WARNING: vconfig not able to disable REORDER_HDR on ${DEVICE}" &)&
+		}
+		;;
+	esac
+    fi
+
+    /sbin/ifconfig ${DEVICE} 0.0.0.0 up
+}
+
+remove_vlan_nic() {
+    local PHYSDEV="$1"
+    local VID="$2"
+    local DEVICE="$PHYSDEV"."$VID"
+
+    /sbin/ifconfig ${DEVICE} down
+    /sbin/vconfig rem ${DEVICE}
+}
+
+start() {
+    if [ ! -f /var/lock/subsys/vmware-grivon ]; then
+	echo -n $"Starting VMware-GriVon network: "
+	echo
+
+	vnet=0
+	while [ $vnet -lt 256 ]; do
+	    eval 'physdev="$VNET'$vnet'_DEV"'
+	    eval 'vlanid="$VNET'$vnet'_VID"'
+	    if [ -n "$physdev" -a -n "$vlanid" ]; then
+		create_vlan_nic $physdev $vlanid
+		create_vmnet $vnet
+		start_bridge $vnet $physdev $vlanid
+	    fi
+	    vnet=$(($vnet + 1))
+	done
+
+	echo
+	touch /var/lock/subsys/vmware-grivon
+    fi
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping VMware-GriVon network: "
+    echo
+
+    vnet=0
+    while [ $vnet -lt 256 ]; do
+	eval 'physdev="$VNET'$vnet'_DEV"'
+	eval 'vlanid="$VNET'$vnet'_VID"'
+	if [ -n "$physdev" -a -n "$vlanid" ]; then
+	    stop_bridge $vnet
+	    remove_vlan_nic $physdev $vlanid
+	fi
+	vnet=$(($vnet + 1))
+    done
+
+    rm -f /var/lock/subsys/vmware-grivon
+    echo
+    return $RETVAL
+}
+
+restart() {
+	stop
+	start
+}	
+
+case "$1" in
+start)
+	start
+	;;
+stop)
+	stop
+	;;
+restart)
+	restart
+	;;
+condrestart)
+	if [ -f /var/lock/subsys/vmware-grivon ]; then
+	    restart
+	fi
+	;;
+status)
+	vnet=0
+	while [ $vnet -lt 256 ]; do
+	    eval 'physdev="$VNET'$vnet'_DEV"'
+	    eval 'vlanid="$VNET'$vnet'_VID"'
+	    if [ -n "$physdev" -a -n "$vlanid" ]; then
+		echo -n "VNET${vnet}: "
+		status -p /var/run/vmware-bridge-grivon-${vnet}.pid
+	    fi
+	    vnet=$(($vnet + 1))
+	done
+	;;
+*)
+	echo $"Usage: $0 {start|stop|status|restart|condrestart}"
+	exit 1
+esac
+
+exit $RETVAL

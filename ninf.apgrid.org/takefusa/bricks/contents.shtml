@@ -1,0 +1,52 @@
+<!--#include file="frame_head.shtml"-->
+
+<H2>Overview of The Bricks System</H2>
+
+<DL COMPACT>
+<DT></DT><DD>
+<A HREF="contents/hpdc99.html#abstract">Abstract</A>
+</DD><DT></DT><DD>
+1. <A HREF="contents/hpdc99.html#introduction">Introduction</A>
+</DD><DT></DT><DD>
+2. <A HREF="contents/hpdc99.html#overview">Overview of the Bricks System</A>
+</DD><DT></DT><DD>
+3. <A HREF="contents/hpdc99.html#architecture">The Bricks Architecture</A>
+</DD><DT></DT><DD>
+3.1. <A HREF="contents/hpdc99.html#architecture:gce">
+Global Computing Environment Simulation Part</A>
+</DD><DT></DT><DD>
+3.1.1. <A HREF="contents/hpdc99.html#architecture:gce:tm">Task Model</A>
+</DD><DT></DT><DD>
+3.1.2. <A HREF="contents/hpdc99.html#architecture:gce:cm">
+Communication Model</A>
+</DD><DT></DT><DD>
+3.1.3. <A HREF="contents/hpdc99.html#architecture:gce:sm">Server Model</A>
+</DD><DT></DT><DD>
+3.2. <A HREF="contents/hpdc99.html#architecture:su">Scheduling Unit</A>
+</DD><DT></DT><DD>
+3.3. <A HREF="contents/hpdc99.html#architecture:sim">
+Overview of Global Computing Simulation with Bricks</A>
+</DD><DT></DT><DD>
+4. <A HREF="contents/hpdc99.html#incorpolating">
+Incorporating Existing Global Computing Components</A>
+</DD><DT></DT><DD>
+4.1. <A HREF="contents/hpdc99.html#incorpolating:spi">
+SPI (Service Provider Interface)</A>
+</DD><DT></DT><DD>
+4.2. <A HREF="contents/hpdc99.html#incorpolating:nws">
+Incorporating The NWS System</A>
+</DD><DT></DT><DD>
+5. <A HREF="contents/hpdc99.html#evaluation">Bricks Experiments</A>
+</DD><DT></DT><DD>
+5.1. <A HREF="contents/hpdc99.html#evaluation:set">Experiment Procedure</A>
+</DD><DT></DT><DD>
+5.2. <A HREF="contents/hpdc99.html#evaluation:res">Experimental Results</A>
+</DD><DT></DT><DD>
+6. <A HREF="contents/hpdc99.html#related_work">Related Work</A>
+</DD><DT></DT><DD>
+7. <A HREF="contents/hpdc99.html#conclusion">Conclusions and Future Work</A>
+</DD></DL>
+
+<!--H2>The Bricks Script</H2-->
+
+<!--#include file="frame_tail.shtml"-->

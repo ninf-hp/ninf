@@ -1,0 +1,1 @@
+package ninf.MetaServer;import ninf.basic.*;public class CheckOutputStream implements Checkable{  OutputStream os;  public CheckOutputStream(OutputStream os){    this.os = os;  }  public boolean check(){    System.out.println("checking");  }}

@@ -1,0 +1,240 @@
+#!/usr/bin/ruby
+
+require "webrick"
+require "xmlrpc/server"
+require "optparse"
+
+
+
+# 0. get all physical compute nodes.
+ComputeNodes = []
+File.read("|dbreport ethers").each_line{|line|
+	hostname = line.split[1]
+	if hostname =~ /^vmware-server-\d/
+		ComputeNodes << hostname.gsub(/\.local$/, '')
+	end
+}
+
+
+
+VnodeID = {}
+def scanVnodeID(regid)
+	ComputeNodes.each{|hostname|
+		## ssh   vmware-server-0-4   ls  /state/partition1/vm/1
+		cmd = "|ssh #{hostname} ls /state/partition1/vm/#{regid}"
+
+		vnodeid = File.read(cmd).chomp
+		if $? != 0
+			puts "FAIL(#{$?.exitstatus}): #{cmd}"
+		end
+
+		if vnodeid == ""
+			# This compute node does not have a VM for the cluster of
+			# regid.
+		else
+			VnodeID[hostname] = vnodeid
+		end
+	}
+
+	ComputeNodes.each{|hostname|
+		str = ""
+		if VnodeID[hostname] 
+			str = "vnodeid #{VnodeID[hostname]}"
+		else
+			str = "(not used)"
+		end
+
+		puts ("regid #{regid}:  %-30s " % hostname)  + str
+	}
+end
+
+
+def suspend(hostname, regid, suspend = true)
+	vnodeid = VnodeID[hostname]
+	unless vnodeid
+		puts "no virtual machine of cluster #{regid} on #{hostname}"
+		return 255
+	end
+
+	cmd = ""
+	if suspend
+		cmd = "ssh #{hostname} vmware-cmd /state/partition1/vm/#{regid}/#{vnodeid}/vnode.vmx suspend hard"
+	else
+		cmd = "ssh #{hostname} vmware-cmd /state/partition1/vm/#{regid}/#{vnodeid}/vnode.vmx start"
+	end
+
+	system(cmd)
+	ret = $?.exitstatus
+	if ret != 0
+		puts "FAIL(#{ret}): #{cmd}"
+	end
+
+	return ret
+end
+
+def resume(hostname, regid)
+	suspend(hostname, regid, false)
+end
+
+def getstate(hostname, regid)
+	vnodeid = VnodeID[hostname]
+	unless vnodeid
+		puts "no virtual machine of cluster #{regid} on #{hostname}"
+		return 255
+	end
+
+	cmd = "|ssh #{hostname} vmware-cmd -q /state/partition1/vm/#{regid}/#{vnodeid}/vnode.vmx getstate"
+	state = File.read(cmd).chomp
+	if $?.exitstatus != 0
+		return "error"
+	else
+		return state
+	end
+end
+
+def getvmservers(regid)
+	# only the cluster nodes of regid
+	ComputeNodes.find_all{|hostname| VnodeID.has_key?(hostname) }
+end
+		
+	
+
+
+# class VM
+# 	def initialize(host, regid, vnodeid)
+# 		@host = host
+# 		@regid = regid
+# 		@vnodeid = vnodeid
+# 		@vmx = "/state/partition1/vm/#@regid/#@vnodeid/vnode.vmx"
+# 	end
+# 
+# 	def suspend(suspend = true)
+# 		cmd = ""
+# 		if suspend
+# 			cmd = "ssh #@host vmware-cmd #@vmx suspend hard"
+# 		else
+# 			cmd = "ssh #@host vmware-cmd #@vmx resume"
+# 		end
+# 
+# 		system(cmd)
+# 		if $? != 0
+# 			puts "FAIL(#{$?}): #{cmd}"
+# 		end
+# 	end
+# 
+# 	def resume
+# 		suspend(false)
+# 	end
+# end
+# 
+# class ComputeNode
+# 	def initialize(host)
+# 		@host = host
+# 		@vms  = []
+# 	end
+# 
+# 	def 
+# 
+# 
+# def getClusterVMs(regid)
+# 	ComputeNodes.each{|hostname|
+# 		cmd = "|ssh #{hostname} ls /state/partition1/vm/#{regid}"
+# 
+# 		Open3.popen3(cmd){|stdin, stdout, stderr|
+# 			vnodeid = stdout.read.chomp
+# 			emesg   = stderr.read.chomp
+# 
+# 			if $? != 0
+# 				puts "FAIL(#{cmd}), #{$?}, #{vnodeid}, #{emesg}"
+# 				next
+# 			end
+# 
+# 			if vnodeid == ""
+# 				# This compute node does not have a VM for the cluster of
+# 				# regid.
+# 			else
+# 				VnodeID[hostname] = vnodeid
+# 			end
+# }
+
+
+class VMControlXMLRPCServlet < XMLRPC::WEBrickServlet
+	def initialize(regid)
+		@regid = regid
+
+		super()
+		add_handlers
+
+		set_service_hook{|obj, *args|
+			ret = obj.call(*args)
+			puts "#{obj.inspect} #{args.inspect} => #{ret.inspect}"
+			ret
+		}
+	end
+
+	private
+	def add_handlers
+		add_handler("suspend"){|hostname|
+			begin
+				suspend(hostname, @regid)
+			rescue => e
+				raise XMLRPC::FaultException.new(255, "VMControlXMLRPCServlet internal error")
+			end
+		}
+
+		add_handler("resume"){|hostname|
+			begin
+				resume(hostname, @regid)
+			rescue => e
+				raise XMLRPC::FaultException.new(255, "VMControlXMLRPCServlet internal error")
+			end
+		}
+
+		add_handler("getstate"){|hostname|
+			begin
+				getstate(hostname, @regid)
+			rescue => e
+				raise XMLRPC::FaultException.new(255, "VMControlXMLRPCServlet internal error")
+			end
+		}
+
+		add_handler("getvmservers"){
+			begin
+				getvmservers(@regid)
+			rescue => e
+				raise XMLRPC::FaultException.new(255, "VMControlXMLRPCServlet internal error")
+			end
+		}
+	end
+end
+
+
+$DEBUG = true
+
+if $0 == __FILE__
+	opt = {}
+	OptionParser.new{|parser|
+		parser.on("--regid regid"){|regid|
+			opt[:regid] = regid
+		}
+
+		parser.parse!(ARGV)
+	}
+
+	unless opt[:regid]
+		puts "#{$0} --regid regid"
+		exit 1
+	end
+
+	scanVnodeID(opt[:regid])
+
+	httpd = WEBrick::HTTPServer.new(:Port => 8090)
+	servlet = VMControlXMLRPCServlet.new(opt[:regid])
+	httpd.mount("/RPC2", servlet)
+
+	Signal.trap("TERM") { httpd.shutdown }
+	Signal.trap("HUP") { httpd.shutdown }
+	Signal.trap("INT") { httpd.shutdown }
+
+	httpd.start
+end

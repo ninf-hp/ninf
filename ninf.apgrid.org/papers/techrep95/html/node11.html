@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf Server 管理プロトコル</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf Server 管理プロトコル">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html141 HREF="node12.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html139 HREF="node8.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html135 HREF="node10.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html142 HREF="node12.html"> Ninf Interface Definition </A>
+<B>Up:</B> <A NAME=tex2html140 HREF="node8.html"> Ninf RPC   のプロトコル</A>
+<B> Previous:</B> <A NAME=tex2html136 HREF="node10.html"> Ninf Serverとの通信</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00053000000000000000> Ninf Server 管理プロトコル</A></H2>
+<A NAME=ninfManagementProtocol>&#160;</A>
+<P>
+<code>Ninf_call</code>では、登録されている関数の名前(entry nameとmodule
+name?)を用いて、呼び出すことができる。そのために、Ninf serverでは、そ
+の関数名とNinf Executable  の対応表を保持している。
+<P>
+Ninf serverでは、Unix domainのlocal socket <code>/tmp/ninf.register</code>を
+用いて、管理プログラムとの通信を行って、Ninf Executable  の登録を行っている。
+そのプロトコルは、固定長のパケットを用いる。このプロトコルは
+ローカルにしか用いられないため、xdrを用いていない。
+<P>
+Ninf server 管理プロトコルには以下の種類のパケットがある。
+<UL><LI> <code>NINF_REG_ENTER_STUB</code><BR> 
+データ部に指定された Ninf Executable  を登録する。具体的には、Ninf Executable  を一度
+起動し、インターフェイス  を取得し、その名前とprogramを対応表に登録する。
+<P>
+<LI> <code>NINF_REG_REMOVE_STUB</code> (not implemented yet)<BR> 
+データ部に指定された関数名を削除する。
+<P>
+<LI> <code>NINF_REG_STOP</code> (not implemented yet)<BR> 
+Ninf Server を停止する。
+</UL>
+<P>
+
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

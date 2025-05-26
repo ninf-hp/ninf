@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>The Administrator's Manual</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h2> The Administrator's Manual</h2>
+
+This section describes the way to create and manage Ninf-G
+libraries.
+
+<h3><a name="manage">Managing the Ninf-G remote libraries </a> </h3>
+
+Before starting, be sure that the environment variables
+<i>GLOBUS_LOCATION</i> (for GT2) or <i>GLOBUS_INSTALL_PATH</i> (for Globus Ver.1),
+and <i>NS_DIR</i> are defined appropriately.
+
+The Ninf-G system has no server component in charge of dispatching an
+appropriate numerical library to the client unlike the original Ninf system. As
+described in the previous section, the Globus JobManager on the host
+which the Ninf-G remote libraries are installed spawns off a numerical library. 
+Consequently, it is not required to start or stop the Ninf-G server component
+explicity as long as Globus is available.
+
+Be sure that the Globus gatekeeper and GRIS/GIIS are appropriately running and available
+on the host.
+
+<hr> 
+<a href="user.html"> Next </a>
+
+</body>
+</html>

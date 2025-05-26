@@ -1,0 +1,464 @@
+<!--
+  $RCSfile: grpc_session_info_get_np.html,v $ $Revision: 1636 $ $Date: 2010-04-16 01:09:25 +0900 (金, 16  4月 2010) $
+  $AIST_Release: 5.1.0 $
+  $AIST_Copyright:
+   Copyright 2003, 2004, 2005, 2006 Grid Technology Research Center,
+   National Institute of Advanced Industrial Science and Technology
+   Copyright 2003, 2004, 2005, 2006 National Institute of Informatics
+   
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+   
+       http://www.apache.org/licenses/LICENSE-2.0
+   
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   $
+ -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<title>grpc_session_info_get_np</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+</head>
+<body>
+<h3>NAME</h3>
+<code>grpc_session_info_get_np</code> - Get session information.
+<h3>SYNOPSIS</h3>
+<code>
+grpc_error_t grpc_session_info_get_np(grpc_sessionid_t session_id, grpc_session_info_t_np **info, int *status)
+</code>
+<h3>ARGUMENTS</h3>
+<dl>
+<dt><code>grpc_sessionid_t session_id</code></dt>
+<dd>The session ID</dd>
+<dt><code>grpc_session_info_t_np **info</code></dt>
+<dd>The session information</dd>
+<dt><code>int *status</code></dt>
+<dd>The session status</dd>
+</dl>
+<h3>DESCRIPTION</h3>
+<p>
+The grpc_session_info_get_np() function returns information on the specified session.
+</p>
+<p>
+If NULL is specified in info, only the session status is returned as the return value.
+The storage of session information was allocated in this function.
+Release the session information by grpc_session_info_release_np() when it becomes unnecessary.
+</p>
+
+<p>
+Refer to the following for return status.
+<dl>
+  <dt>GRPC_SESSION_ARG_IS_NOT_TRANSMITTED</dt>
+  <dd>Transmission of the arguments to the stub has not been completed.</dd>
+  
+  <dt>GRPC_SESSION_EXECUTING</dt>
+  <dd>The session is in progress.</dd>
+
+  <dt>GRPC_SESSION_DOWN</dt>
+  <dd>The session is not being executed.</dd>
+
+  <dt>GRPC_SESSION_DONE</dt>
+  <dd>The session has ended.</dd>
+
+  <dt>GRPC_SESSION_UNKNOWN_STATUS </dt>
+  <dd>API was failed.</dd>
+</dl>
+</p>
+
+<p> This function is MT-safe. </p>
+
+<h4>Session Information</h4>
+<p>
+grpc_session_info_t_np is the structure for storing session information.
+It is defined in $NG_DIR/include/grpc.h.
+Its definition is shown below.
+<code>
+<pre>
+typedef struct grpc_session_info_s_np {
+    <a href="#grpc_exec_info_executable_t_np">grpc_exec_info_executable_t_np</a> gei_measureExecutable;
+    <a href="#grpc_exec_info_client_t_np">grpc_exec_info_client_t_np</a>     gei_measureClient;
+
+    struct {
+        int nElements;
+        <a href="#grpc_compression_info_t_np">grpc_compression_info_t_np</a> *toRemote;
+        <a href="#grpc_compression_info_t_np">grpc_compression_info_t_np</a> *toClient;
+    } gei_compressionInformation;
+} grpc_session_info_t_np;
+</pre>
+</code>
+</p>
+<p>
+
+<table border="1">
+  <tr>
+    <th>Member name</th>
+    <th>Explanation</th>
+  </tr>
+  <tr>
+    <td>gei_measureExecutable</td>
+    <td>Information measured in Ninf-G Executable</td>
+  </tr>
+  <tr>
+    <td>gei_measureClient</td>
+    <td>Information measured in Ninf-G Client</td>
+  </tr>
+  <tr>
+    <td>gei_compressionInformation</td>
+    <td>Compression information of arguments</td>
+  </tr>
+  <tr>
+    <td>gei_compressionInformation.nElements</td>
+    <td>Number of compression information.
+      Its value is number of remote function/remote method arguments.</td>
+  </tr>
+  <tr>
+    <td>gei_compressionInformation.toRemote</td>
+    <td>Compression information of arguments transmitted from Ninf-G Client to Ninf-G Executable.
+      This is an array and number of its elements is gei_compressionInformation.nElements.
+    </td>
+  </tr>
+  <tr>
+    <td>gei_compressionInformation.toClient</td>
+    <td>Compression information of arguments transmitted from Ninf-G Executable to Ninf-G Client.
+      This is an array and number of its elements is gei_compressionInformation.nElements.
+    </td>
+  </tr>
+</table>
+</p>
+
+<p>
+<a name="grpc_exec_info_executable_t_np"></a>
+grpc_exec_info_executable_t_np is the structure for storing execution 
+information of Ninf-G Executables. 
+It is defined in $NG_DIR/include/grpc.h. 
+Its definition is shown below.
+
+
+    <code>
+<pre>
+typedef struct grpc_exec_info_executable_s_np {
+    int callbackNtimesCalled;
+
+    struct timeval transferArgumentToRemoteRealTime;
+    struct timeval transferArgumentToRemoteCpuTime;
+
+    struct timeval calculationRealTime;
+    struct timeval calculationCpuTime;
+
+    struct timeval transferResultToClientRealTime;
+    struct timeval transferResultToClientCpuTime;
+
+    struct timeval callbackTransferArgumentToClientRealTime;
+    struct timeval callbackTransferArgumentToClientCpuTime;
+
+    struct timeval callbackCalculationRealTime;
+    struct timeval callbackCalculationCpuTime;
+
+    struct timeval callbackTransferResultToRemoteRealTime;
+    struct timeval callbackTransferResultToRemoteCpuTime;
+} grpc_exec_info_executable_t_np;
+</pre>
+</code>
+</p>
+
+<p>
+The explanation about each member of grpc_exec_info_executable_t_np is shown below.
+<table border="1">
+  <tr>
+    <th>Member name</th>
+    <th>Explanation</th>
+  </tr>
+  <tr>
+    <td>callbackNtimesCalled</td>
+    <td>The number of call of callbacks</td>
+  </tr>
+  <tr>
+    <td>transferArgumentToRemoteRealTime</td>
+    <td rowspan="2">The time taken for transmitting arguments data from Ninf-G Client to Ninf-G Executable before calculation</td>
+  </tr>
+  <tr>
+    <td>transferArgumentToRemoteCpuTime</td>
+  </tr>
+  <tr>
+    <td>calculationRealTime</td>
+    <td rowspan="2">The calculation time of remote function/remote method</td>
+  </tr>
+  <tr>
+    <td>calculationCpuTime</td>
+  </tr>
+  <tr>
+    <td>transferResultToClientRealTime</td>
+    <td rowspan="2">The time taken for transmitting arguments data from Ninf-G Executable to Ninf-G Client after calculation</td>
+  </tr>
+  <tr>
+    <td>transferResultToClientCpuTime</td>
+  </tr>
+  <tr>
+    <td>callbackTransferArgumentToClientRealTime</td>
+    <td rowspan="2">The time taken for transmitting callback arguments data from Ninf-G Executable to Ninf-G Client before calculation of callback.
+      When callback is called more than one time, this value is the total of each transfer time.
+    </td>
+  </tr>
+  <tr>
+    <td>callbackTransferArgumentToClientCpuTime</td>
+  </tr>
+  <tr>
+    <td>callbackCalculationRealTime</td>
+    <td rowspan="2">The calculation time of callback.
+      When callback is called more than one time, this value is the total of each calculation time.
+    </td>
+  </tr>
+  <tr>
+    <td>callbackCalculationCpuTime</td>
+  </tr>
+  <tr>
+    <td>callbackTransferResultToRemoteRealTime</td>
+    <td rowspan="2">The time taken for transmitting callback arguments data from Ninf-G Client to Ninf-G Executable after calculation of callback.
+      When callback is called more than one time, this value is the total of each transfer time.
+    </td>
+  </tr>
+  <tr>
+    <td>callbackTransferResultToRemoteCpuTime</td>
+  </tr>
+</table>
+</p>
+<p>
+Note: The following members are removed in Ninf-G version 5.1.0.
+<pre><code>
+transferFileToRemoteRealTime
+transferFileToRemoteCpuTime
+transferFileToClientRealTime
+transferFileToClientCpuTime
+</code></pre>
+
+<p>
+<a name="grpc_exec_info_client_t_np"></a>
+grpc_exec_info_client_t_np is the structure for containing
+information measured in Ninf-G Client.
+It is defined in $NG_DIR/include/grpc.h.
+grpc_exec_info_client_t_np is the structure for storing execution information of Ninf-G Client. 
+It is defined in $NG_DIR/include/grpc.h. 
+Its definition is shown below.
+<code>
+<pre>
+typedef struct grpc_exec_info_client_s_np {
+    int callbackNtimesCalled;
+
+    struct timeval remoteMachineInfoRequestRealTime;
+
+    struct timeval remoteClassInfoRequestRealTime;
+
+    struct timeval remoteExecutableInvokeReadTime;
+
+    struct timeval transferArgumentToRemoteRealTime;
+    struct timeval transferArgumentToRemoteCpuTime;
+
+    struct timeval calculationRealTime;
+
+    struct timeval transferResultToClientRealTime;
+    struct timeval transferResultToClientCpuTime;
+
+    struct timeval callbackTransferArgumentToClientRealTime;
+    struct timeval callbackTransferArgumentToClientCpuTime;
+
+    struct timeval callbackCalculationRealTime;
+    struct timeval callbackCalculationCpuTime;
+
+    struct timeval callbackTransferResultToRemoteRealTime;
+    struct timeval callbackTransferResultToRemoteCpuTime;
+
+} grpc_exec_info_client_t_np;
+</pre>
+</code>
+</p>
+
+<p>
+<table border="1">
+  <tr>
+    <th>Member name</th>
+    <th>Explanation</th>
+  </tr>
+
+  <tr>
+    <td>callbackNtimesCalled</td>
+    <td>The number of call of callbacks</td>
+  </tr>
+  <tr>
+    <td>remoteMachineInfoRequestRealTime</td>
+    <td>The time taken for getting path of Ninf-G Executable.
+        Ninf-G Client may query to Information Service on getting path.
+        When Ninf-G Client does not query, this value is very small.
+    </td>
+  </tr>
+
+  <tr>
+    <td>remoteClassInfoRequestRealTime</td>
+    <td>The time taken for getting information about remote function/remote object.
+        Ninf-G Client may query to Ninf-G Executable on getting information.
+        When Ninf-G Client does not query, this value is very small.
+    </td>
+  </tr>
+  <tr>
+    <td>remoteExecutableInvokeReadTime</td>
+    <td>The time taken for invoking Ninf-G Executable.
+      <p>Note: This member appeared in Ninf-G 5.x.x.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>transferArgumentToRemoteRealTime</td>
+    <td rowspan="2">The time taken for transmitting arguments data from Ninf-G Client to Ninf-G Executable before calculation</td>
+  </tr>
+  <tr>
+    <td>transferArgumentToRemoteCpuTime</td>
+  </tr>
+
+  <tr>
+    <td>calculationRealTime</td>
+    <td>The calculation time of remote function/remote method</td>
+  </tr>
+
+  <tr>
+    <td>transferResultToClientRealTime</td>
+    <td rowspan="2">The time taken for transmitting arguments data from Ninf-G Executable to Ninf-G Client after calculation</td>
+  </tr>
+  <tr>
+    <td>transferResultToClientCpuTime</td>
+  </tr>
+  <tr>
+    <td>callbackTransferArgumentToClientRealTime</td>
+    <td rowspan="2">The time taken for transmitting callback arguments data from Ninf-G Executable to Ninf-G Client before calculation of callback.
+      When callback is called more than one time, this value is the total of each transfer time.
+    </td>
+  </tr>
+  <tr>
+    <td>callbackTransferArgumentToClientCpuTime</td>
+  </tr>
+  <tr>
+    <td>callbackCalculationRealTime</td>
+    <td rowspan="2">The calculation time of callback.
+      When callback is called more than one time, this value is the total of each calculation time.
+    </td>
+  </tr>
+  <tr>
+    <td>callbackCalculationCpuTime</td>
+  </tr>
+  <tr>
+    <td>callbackTransferResultToRemoteRealTime</td>
+    <td rowspan="2">The time taken for transmitting callback arguments data from Ninf-G Client to Ninf-G Executable after calculation of callback.
+      When callback is called more than one time, this value is the total of each transfer time.
+  </td>
+  </tr>
+  <tr>
+    <td>callbackTransferResultToRemoteCpuTime</td>
+  </tr>
+</table>
+</p>
+Note: The following members are removed in Ninf-G version 5.1.0.
+<pre><code>
+remoteMachineInfoRequestCpuTime
+remoteClassInfoRequestCpuTime
+gramInvokeRealTime
+gramInvokeCpuTime
+calculationCpuTime
+<code> </pre>
+</p>
+
+<p>
+<a name="grpc_compression_info_t_np"></a>
+grpc_exec_info_client_t_np is the structure for storing execution information 
+of Ninf-G Client. 
+It is defined in $NG_DIR/include/grpc.h. 
+Its definition is shown below.
+<code>
+<pre>
+typedef struct grpc_compression_info_s_np {
+    int         valid;
+
+    size_t      originalNbytes;
+    size_t      compressionNbytes;
+
+    struct timeval compressionRealTime;
+    struct timeval compressionCpuTime;
+
+    struct timeval decompressionRealTime;
+    struct timeval decompressionCpuTime;
+} grpc_compression_info_t_np;
+</pre>
+</code>
+</p>
+
+<p>
+<table border="1">
+  <tr>
+    <th>Member name</th>
+    <th>Explanation</th>
+  </tr>
+  <tr>
+    <td>valid</td> 
+    <td>
+      Whether the data in this structure is valid or not.
+      If the data is valid, this value is 1.
+      Otherwise, this value is 0.
+      The data is valid when the argument data is compressed.
+    </td>
+  </tr>
+
+  <tr>
+    <td>originalNbytes</td>
+    <td>The argument data size before compression</td>
+  </tr>
+
+  <tr>
+    <td>compressionNbytes</td>
+    <td>The argument data size after compression</td>
+  </tr>
+
+  <tr>
+    <td>compressionRealTime</td>
+    <td rowspan="2">The time taken for compression</td>
+  </tr>
+  <tr>
+    <td>compressionCpuTime</td>
+  </tr>
+
+  <tr>
+    <td>decompressionRealTime</td>
+    <td rowspan="2">The time taken for decompression</td>
+  </tr>
+  <tr>
+    <td>decompressionCpuTime</td>
+  </tr>
+</table>
+</p>
+<p>
+Note: The arguments transfer time in session information is not accurate since 
+communication required by Ninf-G protocol is also included.
+Argument transfer time measured in Ninf-G Client is more accurate than
+the time measured in Ninf-G Executable. 
+</p>
+
+
+<h3>RETURN VALUE</h3>
+<p>
+If successful, GRPC_NO_ERROR is returned. In the case of an error, Error code is returned.
+</p>
+<h3>ERRORS</h3>
+<dl>
+<dt><code>GRPC_NOT_INITIALIZED</code></dt>
+<dd>GRPC client is not initialized yet.</dd>
+<dt><code>GRPC_INVALID_SESSION_ID</code></dt>
+<dd>Session ID is not valid.</dd>
+<dt><code>GRPC_OTHER_ERROR_CODE</code></dt>
+<dd>Internal error detected.</dd>
+</dl>
+<hr>
+last update : $Date: 2010-04-16 01:09:25 +0900 (金, 16  4月 2010) $
+</body>
+</html>

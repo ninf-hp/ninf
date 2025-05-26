@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> トランザクションの実行</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" トランザクションの実行">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html233 HREF="node19.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html231 HREF="node16.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html225 HREF="node17.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html234 HREF="node19.html"> 疑似インターフェイス情報の実装</A>
+<B>Up:</B> <A NAME=tex2html232 HREF="node16.html"> 分散並列実行の実装</A>
+<B> Previous:</B> <A NAME=tex2html226 HREF="node17.html"> クライアント</A>
+<BR> <HR> <P>
+<H3><A NAME=SECTION00043200000000000000> トランザクションの実行</A></H3>
+<P>
+トランザクションは、以下のように処理される。
+<P>
+<OL><LI> トランザクションの内部(<code>Ninf_check_in()</code> の後)で、
+<code>Ninf_call</code> が呼び出されると、クライアントはデータフローを作成する。
+まず、メタサーバ
+  にコネクトし、その<code>Ninf_call</code> のインターフェイス情報
+を取得する。このインターフェイス情報に、各引数の入出力モードが含まれており、
+このモード情報と、引数の共有状態から各<code>Ninf_call</code>間の依存関係を
+導く。
+<P>
+<LI> <code>Ninf_check_out()</code> によってトランザクションが終了すると、
+データフローが完成する。この時点でクライアントは
+メタサーバ
+  に対してデータフローを送る。
+<P>
+<LI> MetaServer では、受けとったデータフローを用いて、トランザクションに
+対応する疑似的なインターフェイス情報を作成しそれを送り返す。
+<P>
+<LI> クライアントは、通常のNinf呼び出しとおなじ手順でその
+インターフェイス情報に対して実行をおこなう。すなわち、そのインターフェイス
+情報にしたがって、引数のマーシャリングをおこない、送信する。
+また同様にして、結果の受信をおこなう。
+<P>
+<LI> MetaServer はデータフローにしたがって、複数の関数を順次ディスパッチ
+する。すべての関数の実行が終了すると、書き戻すべき情報をクライアントに送信して
+終了する。
+</OL>
+<P>
+疑似的なインターフェイス情報は、通常のNinf 呼びだしで用いている
+インターフェイス情報と同じ形式を用いている。
+このため、クライアントから見ると、
+疑似インターフェイス情報を受けとった以降の動作は、
+通常のNinf 呼び出しと何ら変わらない。
+このようにすることで、クライアントの構造を単純にすることができた。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

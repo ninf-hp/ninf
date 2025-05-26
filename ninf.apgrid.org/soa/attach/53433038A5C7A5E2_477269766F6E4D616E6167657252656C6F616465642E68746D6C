@@ -1,0 +1,22 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>GrivonManagerReloaded</title>
+</head>
+<body>
+<h1>GrivonManagerReloaded</h1>
+<script src="http://dl.javafx.com/1.2/dtfx.js"></script>
+<script>
+    javafx(
+        {
+              archive: "GrivonManagerReloaded.jar",
+              draggable: true,
+              width: 200,
+              height: 200,
+              code: "grivonmanager.Mock",
+              name: "GrivonManagerReloaded"
+        }
+    );
+</script>
+</body>
+</html>

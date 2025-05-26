@@ -1,0 +1,91 @@
+<!-- 1.0@bugzilla.org -->
+[%# -*- mode: html -*- %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Terry Weissman <terry@mozilla.org>
+  #                 Jacob Steenhagen <jake@acutex.net>
+  #%]
+
+[%# INTERFACE:
+  # username: string. The login name of the user, if any.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = 'Bugzilla Main Page'
+%]
+
+<script type="text/javascript" language="JavaScript">
+<!--
+function addSidebar() {
+      if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
+      {
+         window.sidebar.addPanel ("Bugzilla", "[% Param('urlbase') %]sidebar.cgi", "");
+      }
+      else
+      {
+         var rv = window.confirm ("This page is enhanced for use with Netscape 6.  " + "Would you like to upgrade now?");
+         if (rv)
+            document.location.href = "http://home.netscape.com/download/index.html";
+      }
+   }
+//-->
+</script>
+
+
+<table width="100%"><tr>
+ <td>
+  <p>ここに Bugzilla を説明する気のきいたことばを記述します。</p>
+
+  しかしそれは要するに以下の選択肢のどれかを選びなさいということです :
+  <p>
+  <a href="query.cgi">既存バグレポートの検索</a><br>
+  <a href="enter_bug.cgi">新規バグレポート登録</a><br>
+  <a href="reports.cgi">統計</a><br>
+  </p><p>
+[% IF username %]
+  <a href="userprefs.cgi">パスワード変更と設定変更</a><br>
+  <a href="relogin.cgi">ログアウト [% username FILTER html %]</a><br>
+[% ELSE %]
+  <a href="query.cgi?GoAheadAndLogIn=1">既存アカウントへのログイン</a><br>
+  <a href="createaccount.cgi">新規 Bugzilla アカウント作成</a><br>
+[% END %]
+  </p><p>
+  <a href="javascript:addSidebar()">サイドバーに追加</a> (Mozilla か Netscape 6 が必要)<br>
+  </p>
+  <form name="f" action="show_bug.cgi" method="get"
+      onsubmit="QuickSearch(f.id.value); return false;"> 
+  <p>
+  バグ番号か検索語を入力 :<br>
+  <input type="text" name="id">
+  <input type="submit" value="検索">
+  <a href="quicksearch.html">[Help]</a>
+  </p>
+  </form>
+ </td>
+ <td align="right"><img src="ant.jpg" width="329" height="220" border="2" alt="ant.jpg [8.5k]"></td>
+</tr></table>
+
+<script type="text/javascript" language="JavaScript" src="localconfig.js"></script>
+<script type="text/javascript" language="JavaScript" src="quicksearch.js"></script>
+<script type="text/javascript">
+<!--
+document.forms['f'].id.focus();
+//-->
+</script>
+
+[% PROCESS global/footer.html.tmpl %]

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0+"
+    codebase="https://www.apgrid.org/CA/"
+    href="iaik_jce.jnlp">
+  <information>
+     <title>Java Crypto</title>
+     <vendor>IAIK</vendor>
+     <offline-allowed/>
+  </information>
+  <security>
+    <all-permissions/>
+  </security>
+  <resources>
+    <jar href="iaik_jce_full.jar"/>
+  </resources>
+  <component-desc/>
+</jnlp>

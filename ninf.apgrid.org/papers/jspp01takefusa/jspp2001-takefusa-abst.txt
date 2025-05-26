@@ -1,0 +1,19 @@
+The Computational Grid is a promising platform for the deployment 
+of high-performance computing applications.  A number of projects 
+have addressed the idea of software as a service on the network. 
+These systems usually implement client-server architectures
+with many servers running on distributed Grid resources and have 
+commonly been referred to as Network-enabled servers (NES). 
+An important question is that of {\em scheduling} in this 
+multi-client multi-server scenario. Note that in this context most
+requests are computationally intensive as they are generated
+by high-performance computing applications. 
+The Bricks simulation framework has been developed and extensively 
+used to evaluate scheduling strategies for NES systems. 
+In this paper we discuss a deadline scheduling strategy that is 
+appropriate for the multi-client multi-server case. 
+We propose a simple deadline scheduling algorithm and then augment 
+it with Load Correction and Fallback mechanisms which could improve 
+the performance of the algorithm in our context. We then give 
+simulation results and draw conclusion on the value and feasibility
+of deadline scheduling for NES systems on the Grid.

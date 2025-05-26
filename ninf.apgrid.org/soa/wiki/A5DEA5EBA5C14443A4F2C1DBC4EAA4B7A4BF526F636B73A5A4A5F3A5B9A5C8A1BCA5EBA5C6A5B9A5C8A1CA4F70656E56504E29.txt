@@ -1,0 +1,253 @@
+#contents
+----
+
+* 前提 [#p7698b5a]
+
+- 離れた場所にあるイーサネットセグメントをつないで、RocksのComputeノードをインストール
+-- DHCPのブロードキャストやRocksのモニタリングデーモン？のマルチキャストが通る必要
+- 両拠点ともに固定グローバスIPアドレスあり
+
+* 候補 [#t7e68d6b]
+
+-　イーサネットセグメントをブリッジできるもの
+-- 基本的には、VPN用の仮想ネットワークインタフェースデバイスを作成して、それをbridge-utilsで物理ネットワークインタフェースとブリッジする仕組み
+-- ユーザランドVPNデーモンが、仮想ネットワークインタフェースデバイスをタップしてカプセル化を担う
+-- ブロードキャスト・マルチキャストがそのままとおる
+-- IPv4以外のプロトコルも通るはず
+--- OpenVPN
+--- TINC
+--- VTUN
+--- PacketIX
+--- 上記機能的にあんまり大差ない
+
+-　その他
+-- PPTP、L2TP
+--- 拠点間 %%接続というよりもむしろ、%% あるいは　リモートアクセス向き
+--- %%L2TP(Layer Two Tunnel Protocol)という名前の割には、ブロードキャスト・マルチキャストはたぶんは通らない（実装依存？、仕様依存？）%%
+--- L2TPv3 なら可能だが、いまのところLinux上の実装で対応しているものはなさそう
+http://www.cisco.com/japanese/warp/public/3/jp/product/hs/ios/univpn/tech/l2tpv3_qp.shtml
+http://download.seil.jp/guide/L2-VPN/2.pdf
+
+
+-- IPSec　（トンネルモード）
+--- 王道だけど、拠点ネットワーク間の接続
+--- マルチキャスト・ブロードキャストは通らない
+
+-- GRE
+--- 仮想ネットワークインタフェースデバイスを物理ネットワークインタフェースデバイスとブリッジ設定できず。Linuxのブリッジ実装の仕様？。
+--- CISCOとかしゃべれる（詳細未確認）
+
+
+* OpenVPN + bridge-utilsの設定 [#jedf332e]
+
+** 物理ネットワークトポロジ [#le7ea071]
+#ref(./physical-topo.png,50%)
+
+** 論理ネットワークトポロジ [#e2b33b8d]
+#ref(./logical-topo.png,50%)
+
+** 設定例 [#s9dca670]
+
+これから設定するのは図の中のOpenVPNノード部分のみ。
+
+OpenVPNは証明書による認証もできるが、とりあえずは事前共有鍵方式で設定する。
+
+まずは、共有鍵を作成してすべてのOpenVPNノードにコピーしておく。
+ openvpn --genkey --secret secret.key
+
+secret.keyをなんらかの方法でOpenVPNノードへコピー (/etc/openvpn/secret.conf)
+
+OpenVPNサーバ側の設定 (/etc/openvpn/server.conf)
+ local 163.220.60.103 （リッスンすべきアドレス、なくてもよし）
+ port 1194
+ proto udp
+ dev tap0
+ secret secret.key
+ # 以下おまけ
+ keepalive 10 120
+ persist-key
+ persist-tun
+ status openvpn-status.log
+ verb 3
+
+OpenVPNクライアント側の設定(/etc/openvpn/client.conf)
+ remote gfm55.apgrid.org　（リモートOpenVPNサーバのアドレス）
+ dev tap
+ secret secret.key
+
+両方のノードでOpenVPNを起動する
+ /etc/init.d/openvpn start とか
+
+成功すると、両ノードでtap0っていうネットワークインタフェースがupしているはず
+ gfm51% ifconfig tap0
+ tap0      Link encap:Ethernet  HWaddr AE:13:33:08:1F:59
+          inet6 addr: fe80::ac13:33ff:fe08:1f59/64 Scope:Link
+          UP BROADCAST RUNNING PROMISC MULTICAST  MTU:1500  Metric:1
+          RX packets:50472 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:35127 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:100
+          RX bytes:9437855 (9.0 MiB)  TX bytes:3075842 (2.9 MiB)
+
+両方のノードで物理ネットワークインタフェースとのブリッジの設定をする。
+bridge-utilsが必要。この例の場合、eth1がプライベートアドレス向けのインタフェース。グローバル側のインタフェースと間違えないように。
+
+ brctl addbr br0
+ brctl addif br0 eth1
+ brctl addif br0 tap0
+ 
+ ifconfig tap0 0.0.0.0 promisc up
+ ifconfig eth1 0.0.0.0 promisc up
+ ifconfig br0 up
+
+これで、完成。
+
+３０秒ぐらいまつと動き出す。このdelayはbridge-utilsで設定可能。
+
+あとは、computeノードとなるべきホストを起動すると、PXEでインストールが始まるはず。
+
+
+** RocksフロントエンドノードでOpenVPNノードをかねることは可能か？ [#y367ffd9]
+
+方法としては二通り思いついたが、いずれもできれば避けたいやり方。
+
+*** 理由 [#j3c6514d]
+上記の設定例のように、ブリッジするネットワークインタフェースには直接IPアドレスを振らないから。
+ ifconfig tap0 0.0.0.0 promisc up
+ ifconfig eth1 0.0.0.0 promisc up
+
+代わりにアドレスを振るのであれば、ブリッジネットワークインタフェース(tap0 + eth1 = br0)に設定する。
+ ifconfig br0 163.220.x.x up
+
+Rocksフロントエンドノードの場合、eth0がローカル向けのネットワークインタフェースとしてすでにアドレスが振られて動作しているので、このアドレスをクリアしてしまうのはRocksとして問題がありそう。
+
+ただし、実際に試した限りでは、eth0のアドレスをクリアしないでも、br0にアドレス10.x.x.xを設定しルーティングテーブルを適切に設定すれば動作した。
+しかし、実装の想定外のことをやっていると思われるので、避けたほうがよい。
+
+*** まとめ [#p35e007b]
+
+今のところいい方法はなさそう。やるのであれば以下の二通り。
+
+- Rocksの内部を書き換えてeth0の代わりにbr0をローカル向けネットワークインタフェースとして使用するよう変更する
+-- かなり面倒？
+
+- eth0のアドレスをクリアせずそのままブリッジを設定する
+-- 動作はするが、実装の想定外（たぶん）。できる限り避けたい。
+
+*** 追記 [#m82e6935]
+
+というわけで、実際やってみたがやっぱりだめっぽい。
+
+ 向こうのPCから投げられたDHCPのリクエストが、フロントエンドノートのtap0や
+ br0には届いているんですが、eth0からは届いてこない。（そりゃたしかに）
+ 
+ そこで、dhcpdがbr0も見るようあれこれ設定すると、
+ 
+ dhcpd: DHCPDISCOVER from 00:0c:29:a9:c3:2b via br0
+ dhcpd: DHCPOFFER on 10.255.255.254 to 00:0c:29:a9:c3:2b via br0
+ dhcpd: DHCPREQUEST for 10.255.255.254 (10.1.1.10) from 00:0c:29:a9:c3:2b via br0
+ dhcpd: DHCPACK on 10.255.255.254 to 00:0c:29:a9:c3:2b via br0
+ 
+ となって、アドレスを配ってくれる。
+ でも、/var/log/messageをparseしているRocksのinsert-ethersは、そもそも
+ eth0しか想定していないんで、tftp以上の処理に進めない。
+
+** tagging VLANとの組み合わせ [#d6eac7b5]
+
+とりあえず簡単な動作確認。
+
+ vconfig add eth1 0
+
+
+すると、eth1.0っていうVLAN ID 0なネットワークインタフェースができる。
+（ほんとはVLAN ID 0はさけること）
+
+これを、eth1の代わりに
+
+ # brctl addif br0 eth1.0
+
+ # sudo brctl show
+ bridge name     bridge id               STP enabled     interfaces
+ br0             8000.00e08123dc84       no              eth1.0
+                                                         tap0
+
+すればよし。
+
+VLANネットワークインタフェースだと、タグなしのフレームが見えて、
+このフレームがOpenVPNで転送される。
+
+ gfm55% sudo tcpdump -i eth1.0
+ tcpdump: WARNING: eth1.0: no IPv4 address assigned
+ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+ listening on eth1.0, link-type EN10MB (Ethernet), capture size 96 bytes
+ 12:16:26.344476 IP 192.168.0.1 > 192.168.0.255: ICMP echo request, id 50028, seq 0, length 64
+ 12:16:27.345425 IP 192.168.0.1 > 192.168.0.255: ICMP echo request, id 50028, seq 1, length 64
+ 12:16:28.345417 IP 192.168.0.1 > 192.168.0.255: ICMP echo request, id 50028, seq 2, length 64
+
+ちなみに、物理ネットワークインタフェースでは、タグ付のフレームが見えている。
+
+ gfm55% sudo tcpdump -i eth1
+ tcpdump: WARNING: eth1: no IPv4 address assigned
+ tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+ listening on eth1, link-type EN10MB (Ethernet), capture size 96 bytes
+ 12:17:31.354011 vlan 0, p 0, IP 192.168.0.1 > 192.168.0.255: ICMP echo request, id 50028, seq 65, length 64
+ 12:17:32.353937 vlan 0, p 0, IP 192.168.0.1 > 192.168.0.255: ICMP echo request, id 50028, seq 66, length 64
+ 12:17:33.353918 vlan 0, p 0, IP 192.168.0.1 > 192.168.0.255: ICMP echo request, id 50028, seq 67, length 64
+
+
+reoderフラグは1、man vconfigにはデフォルト0ってなってるけど...
+
+ gfm55% sudo cat /proc/net/vlan/eth1.0
+ eth1.0  VID: 0   REORDER_HDR: 1  dev->priv_flags: 1
+          total frames received         2081
+           total bytes received       183016
+       Broadcast/Multicast Rcvd            5
+ 
+       total frames transmitted           40
+        total bytes transmitted         7504
+             total headroom inc           34
+            total encap on xmit           40
+ Device: eth1
+ INGRESS priority mappings: 0:0  1:0  2:0  3:0  4:0  5:0  6:0 7:0
+ EGRESSS priority Mappings:
+
+
+----
+*** メモ（未整理） [#a0fd334d]
+
+すくなくともFOWRADチェインのACCEPTのそれは必要。
+
+
+[root@vmware-server-gw-0-0 ~]# iptables -L -v
+Chain INPUT (policy ACCEPT 33 packets, 1280 bytes)
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 ACCEPT     all  --  tap0   any     anywhere             anywhere
+    0     0 ACCEPT     all  --  br0    any     anywhere             anywhere
+ 4841  363K ACCEPT     all  --  eth0   any     anywhere             anywhere
+ 1206  136K ACCEPT     all  --  lo     any     anywhere             anywhere
+    4   232 ACCEPT     tcp  --  any    any     anywhere             anywhere            state NEW tcp dpt:ssh
+    1    60 ACCEPT     icmp --  any    any     anywhere             anywhere            icmp any
+ 3366  257K ACCEPT     all  --  any    any     anywhere             anywhere            state RELATED,ESTABLISHED
+   82 16944 REJECT     udp  --  any    any     anywhere             anywhere            udp dpts:0:1024 reject-with icmp-port-unreachable
+    0     0 REJECT     tcp  --  any    any     anywhere             anywhere            tcp dpts:0:1024 reject-with icmp-port-unreachable
+    0     0 REJECT     udp  --  any    any     anywhere             anywhere            udp dpt:8649 reject-with icmp-port-unreachable
+
+Chain FORWARD (policy DROP 3788 packets, 228K bytes)
+ pkts bytes target     prot opt in     out     source               destination
+  573 33216 ACCEPT     all  --  br0    any     anywhere             anywhere
+
+Chain OUTPUT (policy ACCEPT 10400 packets, 1492K bytes)
+ pkts bytes target     prot opt in     out     source               destination
+
+
+br0になんかアドレスふる必要ありか？
+さもないと10.x.x.x との通信がうまくできてない。
+ふると、
+ 10.0.0.0        0.0.0.0         255.0.0.0       U         0 0          0 br0
+だけども、
+ 10.0.0.0        0.0.0.0         255.0.0.0       U         0 0          0 eth0
+もあるし、こっちは消さないといけないけど、でもそれRocks DBと矛盾？
+
+この状態だと、gwからping -b 10.255.255.255は返事返るようになる。
+そとからはだめ。
+
+なので、上記eth0の行をroute delしたらOK?

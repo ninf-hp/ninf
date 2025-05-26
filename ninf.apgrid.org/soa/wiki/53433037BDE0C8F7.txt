@@ -1,0 +1,31 @@
+* Graph [#a77a1af7]
+
+- &ref(viewer.jar);
+- java -cp viewer.jar Viewer で起動
+
+* VMControler [#ib293265]
+
+*** ソースコード [#r9d49a1d]
+subversionレポジトリ http://gfm81.apgrid.org/svnjavafx/ 。
+NetBeans5.5のプロジェクトになっている。最新。
+チェックアウトして実行とかビルドすればOK。
+
+*** バイナリ [#w8a6209c]
+あらかじめビルド(というかパッケージング)したもの &ref(sc2007.zip) 。
+展開して、
+ java -jar "C:\Users\t.hirofuchi\sc2007\dist\sc2007.jar" sc2007.MultiSiteView
+
+*** WebStart [#z715eae2]
+http://gfm81.apgrid.org/sc2007/sc2007.jnlp
+もしキャッシュが悪さするなら javaws -なんとか で消せる。
+
+* VFrontendで動かすもの [#j83c8245]
+
+添付ファイル参照のこと
+
+ノード数のカウント、condorジョブスループットのカウント
+
+* つくば・アキバのCMで動かすもの [#wd04f45a]
+
+VMのサスペンド/レジュームXMLRPCデーモン、javafxバックエンド
+vmctrl.rb

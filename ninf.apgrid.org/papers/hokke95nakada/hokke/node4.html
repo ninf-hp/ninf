@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> メタサーバ
+  の必要性</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" メタサーバ
+  の必要性">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html79 HREF="node5.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html77 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html73 HREF="node3.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html80 HREF="node5.html">  メタサーバ
+  </A>
+<B>Up:</B> <A NAME=tex2html78 HREF="node2.html"> Ninfシステムの概要</A>
+<B> Previous:</B> <A NAME=tex2html74 HREF="node3.html"> Ninf サーバ
+  と </A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00022000000000000000> メタサーバ
+  の必要性</A></H2>
+<P>
+Ninf サーバ
+  とクライアントがあれば、Ninf の目的とする
+分散環境における計算自信の供給は基本的には可能である。
+しかし、単純なサーバ、クライアントシステムでは以下のような問題が生じる。
+<P>
+<P><A NAME=118>&#160;</A><A NAME=serverclient>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="img4.gif">
+<BR><STRONG>図:</STRONG> Ninf サーバ
+  のみによる構成<BR>
+<P>
+<P>
+<UL><LI> ユーザが、Ninf サーバ
+  のアドレスを知らなければならない。<BR> 
+Ninf サーバ
+  は、提供する計算を実行する計算機に存在しなければ
+ならない。
+Ninf では複数の計算機がそれぞれ得意な計算を提供することを前提としている
+ので、Ninf サーバ
+  の数は増加することが予想される。
+増加したNinf サーバ
+  のアドレスをユーザが把握するのはむずかしい。
+また、ユーザーが一つのプログラムで複数の計算を行なう際に、
+一つのNinf サーバ
+  がすべての計算をサポートしていなければ、
+それぞれの計算にあわせてNinf サーバ
+  を切替えなければならなくなる
+(図<A HREF="node4.html#serverclient">3</A>)。
+これはユーザへの負担となる。
+<P>
+<LI> 並列実行ができない。<BR> 
+連続して Ninf を用いた複数の計算をする場合を考える。複数の計算の間に
+依存関係がなければ、本質的に並列に実行することが可能である。
+しかし、通常のサーバ、クライアントモデルでは、サーバが単体である
+ことを前提とするため、難しい。
+<P>
+</UL>
+<P>
+これらの問題を解決するためには、何らかの機構が
+クライアントとNinf サーバ
+  の中間に存在して、
+クライアントに対して、Ninf サーバ
+  の位置を隠蔽してくれたり、
+並列実行のマネージメントを行なってくれれば良い(図<A HREF="node4.html#metaserverfig">4</A>)。
+このための仕掛けとして、メタサーバ
+  を導入した。
+<P><A NAME=126>&#160;</A><A NAME=metaserverfig>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="img5.gif">
+<BR><STRONG>図:</STRONG> メタサーバ
+  を用いた構成<BR>
+<P>
+<P>
+
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

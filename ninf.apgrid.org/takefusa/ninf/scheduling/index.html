@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<TITLE> Global Scheduling
+computing)</TITLE>
+</HEAD>
+
+<BODY bgcolor="FFFFFF">
+<BASEFONT SIZE = 3>
+
+<h1>Global Scheduling</h1>
+
+<h3>Users guide for Global Computing Simulator</h3>
+<UL>
+  <LI> Input file format
+  <LI> Output file format
+</UL>
+</P>
+
+
+<P>
+<h3>Experimental Results with Ninf MetaServer</h3>
+<UL>
+<LI><a href = "RoundRobin.html">RoundRobin</a>
+<LI><a href = "LoadOnly.html">Load</a>
+<LI><a href = "LoadOnlyL.html">Load (Predict Load)</a>
+<LI><a href = "LoadThroughput.html">LoadThroughput</a>
+<LI><a href = "LoadThroughputL.html">LoadThroughput (Predict Load)</a>
+<LI><a href = "LoadThroughputT.html">LoadThroughput (Predict throughput)</a>
+<LI><a href = "LoadThroughputLT.html">LoadThroughput (Predict Load, Throughput)</a>
+</UL>
+
+<font size="2">
+<table border="3">
+<tr><th rowspan="2">scheduler</th> <th colspan="2">predict</th>
+    <th>ave. calculation</th> <th>ave. transmission</th>
+    <th>ave. elapsed time</th>
+    <th colspan="2">servers' load average</th>
+    <th colspan="2">actual throughput</th></tr>
+<tr><th>Load</th> <th>Throughput</th>
+    <th>[sec]</th> <th>[sec]</th> <th>[sec]</th>
+    <th>A (400Mflops)</th> <th>B (40Mflops)</th>
+    <th>A [MB/s]</th> <th>B [MB/s]<th>
+
+<tr><th>RR</th> <th>-</th> <th>-</th>
+    <th>2.408</th> <th>9.965</th> <th>12.937</th>
+    <th>0.093</th> <th>0.369</th> <th>0.112</th> <th>0.686</th> </tr>
+<tr><th>LOAD</th> <th>-</th> <th>-</th>
+    <th>0.404</th> <th>46.391</th> <th>48.161</th>
+    <th>0.181</th> <th>0.001</th> <th>0.083</th> <th>0.765</th></tr>
+<tr><th>LOAD+L</th> <th><img src = "maru.gif" width="14"></th> <th>-</th>
+    <th>0.391</th> <th>38.889</th> <th>40.604</th>
+    <th>0.184</th> <th>0.009</th> <th>0.070</th> <th>0.780</th> </tr>
+<tr><th>LOTH</th> <th>-</th> <th>-</th>
+    <th>6.907</th> <th>10.562</th> <th>18.072</th>
+    <th>0.061</th> <th>0.406</th> <th>0.139</th> <th>0.678</th> </tr>
+<tr><th>LOTH+L</th> <th><img src = "maru.gif" width="14"></th> <th>-</th>
+    <th>4.338</th> <th>14.245</th> <th>19.221</th>
+    <th>0.086</th> <th>0.079</th> <th>0.144</th> <th>0.712</th> </tr>
+<tr><th>LOTH+T</th> <th>-</th> <th><img src = "maru.gif" width="14"></th>
+    <th>7.625</th> <th>8.442</th> <th>16.872</th>
+    <th>0.042</th> <th>0.444</th> <th>0.125</th> <th>0.803</th> </tr>
+<tr><th>LOTH+LT</th> <th><img src = "maru.gif" width="14"></th> <th><img src = "maru.gif" width="14"></th>
+    <th>4.533</th> <th>11.669</th> <th>16.748</th>
+    <th>0.066</th> <th>0.297</th> <th>0.106</th> <th>0.648</th> </tr>
+</table>
+</font>
+
+</P>
+
+
+<font size=2>
+<A HREF="http://www.sap.is.ocha.ac.jp/~takefusa/">
+<!--img src="http://www.sap.is.ocha.ac.jp/~takefusa/home.gif" border="0" width="32"-->
+http://www.sap.is.ocha.ac.jp/~takefusa/</A>
+</font>
+</BODY>
+</HTML>

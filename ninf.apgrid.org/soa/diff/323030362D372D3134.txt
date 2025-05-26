@@ -1,0 +1,6 @@
+ [[FrontPage]]
+ 
+ - 仮想ストレージの設定(谷村) &ref("VS設定.ppt");
+ 
+-- SOIスケジューラ(竹房) &ref("SOI_schedulers_takefusa_060623.ppt");
++- SOIスケジューラ(竹房) &ref("SOI-schedulers_takefusa_060623.ppt");

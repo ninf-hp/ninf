@@ -1,0 +1,3 @@
+AddType application/x-ninf-biynary .ninfbin
+AddType x-math/coordination .coordination
+AddType x-math/matrixmarket .mmf

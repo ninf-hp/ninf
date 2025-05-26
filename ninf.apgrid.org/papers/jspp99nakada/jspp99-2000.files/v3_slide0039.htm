@@ -1,0 +1,334 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../jspp99-2000.htm">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Utilizing the Metaserver Architecture in the Ninf Global Computing
+System</title>
+<meta name=Description content="99/07/09: ネットワークタスク スケジューリング">
+<link rel=next href="v3_slide0043.htm">
+<![if !ppt]>
+<script>
+<!--
+function Update()
+{
+  if( window.name == "PPTSld" )
+    parent.SlideUpdated('v3_slide0039.htm');   
+  else
+    parent.location.href = "v3_document.htm";
+}
+
+function NoHref() {}
+//-->
+</script>
+<![endif]>
+</head>
+
+<body background="v3_slide0039_background.gif" bgcolor=white alink="#cc0000"
+link="#99ccff" vlink="#0066ff" text="#000066" topmargin=0 leftmargin=0
+onload="Update()">
+
+<table border=0 valign=top width=475 height=356 cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=14 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=10 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=144 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=73 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=78 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=11 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=6 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=15 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=18 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=7 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=6 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=13 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=13 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=11 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=13 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+ </tr>
+ <tr>
+  <td width=475 height=51 colspan=25></td>
+ </tr>
+ <tr>
+  <td width=22 height=30 colspan=2></td>
+  <td width=432 height=30 colspan=18>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=432 height=30 align=center><font face="ＭＳ Ｐゴシック" color="#003300"
+    size=5>ネットワークタスク</font><font face=Helvetica color="#003300" size=5> </font><font
+    face="ＭＳ Ｐゴシック" color="#003300" size=5>スケジューリング</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=21 height=30 colspan=5></td>
+ </tr>
+ <tr>
+  <td width=475 height=27 colspan=25></td>
+ </tr>
+ <tr>
+  <td width=32 height=6 colspan=3></td>
+  <td width=217 height=172 colspan=2 rowspan=15>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=15 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=12 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=85 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=3 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=12 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=9 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=28 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=18 height=19><font face="Monotype Sorts" color="#0066ff" size=2>n</font></td>
+    <td width=143 height=19 colspan=10><font face="ＭＳ Ｐゴシック" size=3><b>下位スケジューラ</b></font><br>
+    </td>
+    <td width=57 height=19 colspan=5></td>
+   </tr>
+   <tr>
+    <td width=218 height=7 colspan=16></td>
+   </tr>
+   <tr>
+    <td width=24 height=17 colspan=3></td>
+    <td width=15 height=17><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=162 height=17 colspan=11><font face="ＭＳ Ｐゴシック" size=2>ネットワークの割り当て</font><br>
+    </td>
+    <td width=17 height=17></td>
+   </tr>
+   <tr>
+    <td width=218 height=7 colspan=16></td>
+   </tr>
+   <tr>
+    <td width=18 height=19><font face="Monotype Sorts" color="#0066ff" size=2>n</font></td>
+    <td width=128 height=19 colspan=8><font face="ＭＳ Ｐゴシック" size=3><b>実行時サポート</b></font><br>
+    </td>
+    <td width=72 height=19 colspan=7></td>
+   </tr>
+   <tr>
+    <td width=218 height=6 colspan=16></td>
+   </tr>
+   <tr>
+    <td width=24 height=17 colspan=3></td>
+    <td width=15 height=17><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=161 height=17 colspan=10><font face="ＭＳ Ｐゴシック" size=2><b>ネットワーク資源モニタ</b></font><br>
+    </td>
+    <td width=18 height=17 colspan=2></td>
+   </tr>
+   <tr>
+    <td width=218 height=5 colspan=16></td>
+   </tr>
+   <tr>
+    <td width=48 height=14 colspan=6></td>
+    <td width=12 height=14><font face="Monotype Sorts" color="#0066ff" size=1>n</font></td>
+    <td width=158 height=14 colspan=9><font face="ＭＳ Ｐゴシック" size=1>各クライアント・サーバ間の</font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=218 height=2 colspan=16></td>
+   </tr>
+   <tr>
+    <td width=60 height=14 colspan=7></td>
+    <td width=112 height=14 colspan=6><font face="ＭＳ Ｐゴシック" size=1>スループットを測定</font><br>
+    </td>
+    <td width=46 height=14 colspan=3></td>
+   </tr>
+   <tr>
+    <td width=218 height=6 colspan=16></td>
+   </tr>
+   <tr>
+    <td width=24 height=17 colspan=3></td>
+    <td width=15 height=17><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=110 height=17 colspan=6><font face="ＭＳ Ｐゴシック" size=2><b>計算資源モニタ</b></font><br>
+    </td>
+    <td width=69 height=17 colspan=6></td>
+   </tr>
+   <tr>
+    <td width=218 height=6 colspan=16></td>
+   </tr>
+   <tr>
+    <td width=24 height=17 colspan=3></td>
+    <td width=15 height=17><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=124 height=17 colspan=8><font face="ＭＳ Ｐゴシック" size=2><b>リソース情報管理</b></font><br>
+    </td>
+    <td width=55 height=17 colspan=4></td>
+   </tr>
+  </table>
+  </td>
+  <td width=226 height=6 colspan=20></td>
+ </tr>
+ <tr>
+  <td width=32 height=16 colspan=3></td>
+  <td width=78 height=16></td>
+  <td width=140 height=16 colspan=18>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=140 height=16 align=center><font face=Arial size=1><b>Low level
+    Scheduler</b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=8 height=16></td>
+ </tr>
+ <tr>
+  <td width=32 height=24 colspan=3></td>
+  <td width=226 height=24 colspan=20></td>
+ </tr>
+ <tr>
+  <td width=32 height=16 colspan=3></td>
+  <td width=110 height=16 colspan=4></td>
+  <td width=80 height=16 colspan=9>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=80 height=16 align=center><font face="ＭＳ Ｐゴシック" size=1><b><i>資源情報</i></b></font><font
+    face=Arial size=1><b><i>DB</i></b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=36 height=16 colspan=7></td>
+ </tr>
+ <tr>
+  <td width=32 height=3 colspan=3></td>
+  <td width=226 height=3 colspan=20></td>
+ </tr>
+ <tr>
+  <td width=32 height=17 colspan=3></td>
+  <td width=179 height=17 colspan=12></td>
+  <td width=13 height=17 colspan=2><img src="v3_slide0039_image009.gif"
+  border=0 width=13 height=17></td>
+  <td width=34 height=17 colspan=6></td>
+ </tr>
+ <tr>
+  <td width=32 height=3 colspan=3></td>
+  <td width=226 height=3 colspan=20></td>
+ </tr>
+ <tr>
+  <td width=32 height=16 colspan=3></td>
+  <td width=89 height=16 colspan=2></td>
+  <td width=54 height=16 colspan=6>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=54 height=16 align=center><font face=Arial size=1><b><i>Monitor</i></b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=13 height=16></td>
+  <td width=54 height=16 colspan=7>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=54 height=16 align=center><font face=Arial size=1><b><i>Monitor</i></b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=16 height=16 colspan=4></td>
+ </tr>
+ <tr>
+  <td width=32 height=4 colspan=3></td>
+  <td width=226 height=4 colspan=20></td>
+ </tr>
+ <tr>
+  <td width=32 height=27 colspan=3></td>
+  <td width=128 height=27 colspan=5></td>
+  <td width=13 height=37 colspan=2 rowspan=2><img
+  src="v3_slide0039_image010.gif" border=0 width=13 height=37></td>
+  <td width=85 height=27 colspan=13></td>
+ </tr>
+ <tr>
+  <td width=32 height=10 colspan=3></td>
+  <td width=128 height=10 colspan=5></td>
+  <td width=30 height=10 colspan=4></td>
+  <td width=46 height=16 colspan=7 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=46 height=16 align=center><font face=Helvetica size=1><b><i>Server</i></b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=9 height=10 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=32 height=6 colspan=3></td>
+  <td width=171 height=6 colspan=11></td>
+  <td width=9 height=6 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=32 height=8 colspan=3></td>
+  <td width=226 height=8 colspan=20></td>
+ </tr>
+ <tr>
+  <td width=32 height=1 colspan=3></td>
+  <td width=169 height=1 colspan=10></td>
+  <td width=46 height=16 colspan=7 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=46 height=16 align=center><font face=Helvetica size=1><b><i>Server</i></b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=11 height=1 colspan=3></td>
+ </tr>
+ <tr>
+  <td width=32 height=15 colspan=3></td>
+  <td width=95 height=15 colspan=3></td>
+  <td width=40 height=28 colspan=3 rowspan=3><img
+  src="v3_slide0039_image011.gif" border=0 width=40 height=28></td>
+  <td width=34 height=15 colspan=4></td>
+  <td width=11 height=15 colspan=3></td>
+ </tr>
+ <tr>
+  <td width=344 height=8 colspan=8></td>
+  <td width=91 height=8 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=8 height=5></td>
+  <td width=168 height=64 colspan=3 rowspan=2><img
+  src="v3_slide0039_image012.gif" border=0 width=168 height=64></td>
+  <td width=168 height=5 colspan=4></td>
+  <td width=91 height=5 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=8 height=59></td>
+  <td width=299 height=59 colspan=21></td>
+ </tr>
+ <tr>
+  <td width=475 height=4 colspan=25></td>
+ </tr>
+</table>
+
+</body>
+
+</html>

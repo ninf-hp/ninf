@@ -1,0 +1,119 @@
+How to aplly this patch.
+
+  % cd ng-4.2.2/utility/invoke_server/condor/org/apgrid/grpc/tools/invokeServer/condor
+  % patch -p0 < /path/to/ng-4.2.2_invoke-server-condor.diff
+
+--- CondorJob.java	2007-01-16 17:03:03.000000000 +0900
++++ CondorJob.java	2007-04-25 19:01:07.000000000 +0900
+@@ -34,17 +34,17 @@
+             jd.addAttribute("universe", universe);
+ 
+             StringBuffer arg = new StringBuffer();
+-            for (String i: args)
+-                arg.append(" " + i);
++            for (Iterator itr = args.iterator(); itr.hasNext(); )
++                arg.append(" ").append(itr.next());
+             jd.addAttribute("arguments", arg.toString());
+ 
+             StringBuffer env = new StringBuffer();
+-            for (String i: envs)
+-                env.append(" " + i);
++            for (Iterator itr = args.iterator(); itr.hasNext(); ) 
++                env.append(" ").append(itr.next());
+             if (env.length() > 0) {
+                 jd.addAttribute("environment" , env.toString());
+             }
+-            
++
+             if (redirect_enable) {
+                 jd.addAttribute("output", stdout_file);
+                 jd.addAttribute("error", stderr_file);
+@@ -84,7 +84,7 @@
+             Log.printStackTrace(e);
+             throw new TargetJob.Exception(e.getMessage());
+         }
+-	jobId = Integer.toString(cluster.id);
++        jobId = Integer.toString(cluster.id);
+         Log.set(jobId);
+         Log.log("got Job ID = \"" + jobId +"\"");
+     }
+--- CondorJobStatus.java	2006-07-12 20:26:21.000000000 +0900
++++ CondorJobStatus.java	2007-04-25 19:01:07.000000000 +0900
+@@ -11,8 +11,6 @@
+ import condorAPI.*;
+ import condorAPI.event.*; 
+ 
+-import java.util.Map;
+-import java.util.HashMap;
+ import java.util.Iterator;
+ 
+ public class CondorJobStatus extends TargetJobStatus {
+@@ -23,18 +21,28 @@
+ 
+         for (Iterator itr = cluster.iterator(); itr.hasNext(); ) {
+             Job job = (Job)itr.next();
+-            Integer code = statusMap.get(job.getStatus());
+-            if (code == null)
++            int code = _getISJobStatus(job.getStatus());
++            if (code < 0)
+                 throw new TargetJob.Exception("failed to map status " + job.getStatus());
+ 
+-            if ( stat > internalJobStatus(code.intValue()) ) {
+-                stat = internalJobStatus(code.intValue());
+-                job_status = code.intValue();
++            int s = internalJobStatus(code);
++            if ( isSeriousStatusDetected(s, stat) ) {
++                stat = s;
++                job_status = code;
+             }
+         }
++        // set TargetJobStatus's status
+         jobStatus = job_status;
+     }
+ 
++
++    private boolean isSeriousStatusDetected(int newStat, int oldStat) {
++        return (newStat < oldStat);
++    }
++
++    /*
++     * return a status using CondorJobStatus.
++     */
+     private int internalJobStatus(int status) {
+         switch (status) {
+         case TargetJob.FAILED:
+@@ -49,14 +57,25 @@
+         return 0;
+     }
+ 
+-    static Map<Integer, Integer> statusMap = new HashMap<Integer, Integer>();
+-    static {
+-        statusMap.put(Status.UNEXPANDED     , TargetJob.PENDING);
+-        statusMap.put(Status.IDLE           , TargetJob.PENDING);
+-        statusMap.put(Status.RUNNING        , TargetJob.ACTIVE);
+-        statusMap.put(Status.REMOVED        , TargetJob.DONE);
+-        statusMap.put(Status.COMPLETED      , TargetJob.DONE);
+-        statusMap.put(Status.HELD           , TargetJob.PENDING);
+-        statusMap.put(Status.SUBMISSION_ERR , TargetJob.FAILED);
++    /*
++     * @param cjstatus - A condor job status
++     * @return A invoke server job status translated from condor job status
++     */
++    private int _getISJobStatus(int cjstatus) {
++        if (cjstatus < Status.UNEXPANDED || 
++            cjstatus > Status.SUBMISSION_ERR ) { return -1; }
++        return statusMap[cjstatus];
+     }
++
++    // Condor Job status map
++    static int [] statusMap =
++        new int [] {TargetJob.PENDING, // Status.UNEXPANDED
++                    TargetJob.PENDING, // Status.IDLE
++                    TargetJob.ACTIVE,  // Status.RUNNING
++                    TargetJob.DONE,    // Status.REMOVED
++                    TargetJob.DONE,    // Status.COMPLETED
++                    TargetJob.PENDING, // Status.HELD
++                    TargetJob.FAILED   // Status.SUBMISSION_ERR
++        };
++
+ }

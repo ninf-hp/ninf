@@ -1,0 +1,77 @@
+beta 版 操作方法
+
++ ターミナルから ssh でフロントエンドノードにログインする。
+--ssh ポートフォワーディングにより、フロントエンドノードの web サーバ(ポート80) にアクセスするため。
+--また、ターミナルから iscsi ターゲットに ssh ログインできる準備をしておく。
+ブラウザに表示される公開鍵を iscsi ターゲットに設定する必要があるため(後述)。
++ フロントエンドノードの /vc/index.html にアクセスする。
+--例えば、ローカルホストの 8080 番にポートフォワーディングされている場合:
+ http://localhost:8080/vc/
+-- 以下のメニューが選択可能
+--- 'iscsi target setup' iscsi ターゲットのアドレスを登録する
+--- 'Regist a New Virtual Cluster' 新しい仮想クラスタを追加する
+--- 'View Registration' 登録状態を参照する
+--- 'Show All Tables' (←デバッグ用)
++ メニュー 'iscsi target setup' を選択し、iscsi ターゲットの IP アドレスを設定する。
+--このとき、フロントエンドノードの公開鍵が表示されるので、この公開鍵を
+iscsi ターゲットの ~root/.ssh/authorized_keys に追加する。
+これにより、クラスタ側から iscsi ターゲットへのアクセスが可能となる。
++ メニュー 'Regist a New Virtual Cluster' を選択し、仮想クラスタを予約する。以下の設定を行う。
+--利用開始時刻/使用終了時刻
+開始時刻は予約時点での時刻より前であってもよい。
+--使用するゲートウェイノード数
+--非ゲートウェイノード数
+--各ノードの使用メモリ、使用ディスク
+--iscsiマウントポイント
++ メニュー 'View Registration' を選択し、予約状態を参照することができる。
+--現在停止中の仮想クラスタ(未実行あるいは停止済み)はこのメニューから削除できる。
++ 利用開始時刻として指定した時刻になるまで待つ。
+
+tips:
+- 仮想クラスタの起動/停止は 1 分間隔の cron 実行によって行っている。
+時刻を無視して特定の仮想クラスタを起動/停止したい場合には、
+フロントエンドノード上で以下を実行する。
+++ crontab -e で cron 起動を停止する(/opt/vc/sbin/vc_cron.py 呼び出しを削除/コメントアウト)。
+++ /opt/vc/sbin/vc_ct.py で仮想クラスタを起動/停止する。
+--- 指定 rack 番号の仮想クラスタを起動
+ /opt/vc/sbin/vc_ctl.py start <rack番号>
+--- 指定 rack 番号の仮想クラスタを停止
+ /opt/vc/sbin/vc_ctl.py stop <rack番号>
+- 仮想クラスタの削除~
+'View Registration' ページから仮想クラスタを選択し、'delete' ボタンを押すと
+当該仮想クラスタを DB から削除できる。
+ただし、削除は当該クラスタが停止しているときにしかできない。
+動作中の仮想クラスタを削除したい場合には以下の手順を実施する。
+++ crontab -e で cron 起動を停止する ( '#' でコメントアウト)
+++ /opt/vc/sbin/vc_ctl.py stop <番号> で当該仮想クラスタを停止する。
+++ 'View Registration' ページから仮想クラスタを削除する。
+++ crontab -e で cron 起動を再開する (コメントアウトを元に戻す)
+- VLAN 切り替え
+-- フロントエンドノード上で以下のコマンドを実行すると、全仮想ノード / iscsi ターゲットの VLAN 切り替えが可能。
+--- VLAN 設定
+ /opt/vc/sbin/grivon-vlan.py add <rack番号>
+--- VLAN 解除
+ /opt/vc/sbin/grivon-vlan.py del <rack番号>
+- rack 番号はメニュー 'View Registration' で確認する。
+
+--------
+
+仮想 frontend 対応
+
+仮想 frontend 化と同時に以下の修正を行う。
++ 現状で、iscsi ターゲットのマウントは各仮想ノードが行っているが、仮想 frontend のみ iscsi ターゲットのマウントを行うこととする。その他のノードは NFS クライアントとして当該領域をマウントする
+
+このためにデータベーステーブルを一部変更する。
+
++ ノードに関連づけていた iscsi マウントポイント情報 (vciscsi) を vcregist&appliance に関連づける。
++ vcregist&appliance に関連づけた nfsclient 情報を設ける。
++ vcregist&appliance に関連づけた nfsserver 情報を設ける。
+
+添付ファイル
+
+- oldDB.tiff β版のテーブル構成
+- newDB.tiff 仮想フロントエンド対応版テーブル構成（暫定）
+
+検討事項
+
+- vcregist テーブルに仮想クラスタ破棄要求のためのエントリを追加すべきか

@@ -1,0 +1,23 @@
+Index: ng-2.0.0/c/client/ngclContext.c
+diff -ur ng-2.0.0.orig/c/client/ngclContext.c ng-2.0.0/c/client/ngclContext.c
+--- ng-2.0.0.orig/c/client/ngclContext.c	Wed Mar 17 15:09:07 2004
++++ ng-2.0.0/c/client/ngclContext.c	Mon Mar 29 16:48:12 2004
+@@ -3651,6 +3651,8 @@
+ 	if (session != NULL) {
+ 	    goto found;
+ 	}
++	/* reset status of executable */
++	NGI_SET_ERROR_EXECUTABLE(executable, NG_ERROR_NO_ERROR, NULL);
+     }
+ 
+     /* Not found */
+@@ -3688,6 +3690,9 @@
+ 	}
+     }
+ 
++    /* set error */
++    NGI_SET_ERROR_CONTEXT(context, error, NULL);
++
+     /* Failed */
+     return NULL;
+ }

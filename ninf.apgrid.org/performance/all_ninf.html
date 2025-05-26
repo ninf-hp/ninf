@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<TITLE>Ninf (Network based Information Library for High Performance
+computing)</TITLE>
+</HEAD>
+
+<BODY>
+<BASEFONT SIZE = 4>
+
+<H2>ninf_call performance<BR></H2>
+
+<HR SIZE="3">
+<P>
+<FONT SIZE=5>Environment</FONT>
+<UL>
+<LI> <A HREF = "program.html">Program</A><BR>
+     Linpack, Double, [dgefa, dgesl]<P>
+<LI> Client Machine:<BR>
+     etlhpc - SPARCStation20(60MHz, 2proc)<BR>
+     mem = 131072K (0x8000000)<P>
+<LI> Server Machine:
+    <UL>
+    <LI> taro - UltraSPARC(143 MHz, 1proc)<BR>
+         mem = 98304k (0x6000000)<BR>
+         Bandwidth = 100 Mbps
+    <LI> etlj90 - Cray J90(4 proc. 10 ns)<BR>
+	 mem = 512 Mbyte (total)<BR>
+         Bandwidth = 10 Mbps
+    </UL>
+</UL>
+<P>
+<HR SIZE="3">
+<P>
+<FONT SIZE=5>Result</FONT> ( <BLINK><A HREF = "data">Data</A></BLINK>)
+<P>
+<FONT SIZE=5>ninf_call elapsed time</FONT>
+<P>
+<A HREF = "graph1/elapsed_time.gif">elapsed_time.gif</A> : matrix size 100-1600
+<BR>
+<A HREF = "graph1/elapsed_time2.gif">elapsed_time2.gif</A> : matrix size 100-600
+<P>
+<TABLE>
+<TR><TD>hpc-j90</TD>  <TD>:</TD><TD>hpc - j90 ninf_call elapsed time</TD></TR>
+<TR><TD>hpc-taro</TD> <TD>:</TD><TD>hpc - taro ninf_call elapsed time</TD></TR>
+<TR><TD>hpc-local</TD><TD>:</TD><TD>hpc calculation time</TD></TR>
+</TABLE>
+<P>
+<FONT SIZE=5>performance</FONT>
+<P>
+<A HREF = "graph1/performance.gif">performance.gif</A> : yrange[0:80000]<BR>
+<A HREF = "graph1/performance2.gif">performance2.gif</A> : yrange[0:40000]
+<P>
+<TABLE>
+<TR><TD>j90_ninf_per</TD> <TD>:</TD><TD>hpc - j90 ninf_call performance</TD></TR>
+<TR><TD>taro_ninf_per</TD><TD>:</TD><TD> taro - j90 ninf_call performance</TD></TR>
+<TR><TD>j90_cal_per</TD>  <TD>:</TD><TD> j90 calculation performance</TD></TR>
+<TR><TD>taro_cal_per</TD> <TD>:</TD><TD> taro calculation performance</TD></TR>
+<TR><TD>hpc_cal_per</TD>  <TD>:</TD><TD> hpc calculation performance</TD></TR>
+</TABLE>
+<P>
+<FONT SIZE=5>transmission speed</FONT>
+<P>
+<A HREF = "graph1/trans_speed.gif">trans_speed.gif</A><BR>
+<TABLE>
+<TR><TD>j90_speed</TD>  <TD>:</TD><TD> hpc-j90 bandwidth
+<TR><TD>taro_speed</TD> <TD>:</TD><TD> hpc-taro bandwidth
+</TABLE>
+<P>
+<HR SIZE="3">
+<P>
+<FONT SIZE=5><A HREF = "kekka1.gif">Consideration</FONT>
+<P>
+</BODY>
+</HTML>

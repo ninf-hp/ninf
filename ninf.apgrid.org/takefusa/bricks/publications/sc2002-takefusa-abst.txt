@@ -1,0 +1,21 @@
+By enhancing our Bricks Grid simulator to be able to simulate Data
+Grid scenarios, we compare the performance of different Data Grid
+models in the Grid Datafarm architecture; the architecture is mainly
+categorized into the central and the tier models but with varying
+scheduling and replication strategies, under realistic assumptions of
+job processing for the CERN LHC experiments. The Grid Datafarm
+architecture provides a global parallel striping file system with
+on-line petascale storage using a grid of clusters to achieve scalable
+disk I/O bandwidth. We propose simple on-line scheduling and
+replication policies for tier-based Data Grid models and investigate
+the performance of central and tier models with the combinations of
+our scheduling and replication policies. Our simulations show the
+central model performance improves with higher Tier 0 site
+performance, the system quick became unstable for resource-starved
+situations. For the tier model, in comparing its aggregate performance
+to the equivalent amount of resources for the central model, it is
+beaten hands down. However, if we have greater amount of resources we
+can sustain system stability and achieve higher performance while each
+tier being smaller than the central model. In such a case employing
+speculative class of scheduling and replication policies prove to be
+effective.

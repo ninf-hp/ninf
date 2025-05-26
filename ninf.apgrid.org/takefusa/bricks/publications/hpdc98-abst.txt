@@ -1,0 +1,9 @@
+
+This paper proposes a performance evaluation model for
+effective job scheduling in global computing systems.  The
+proposed model represents a global computing system by a
+queueing network, in which servers and networks are
+represented by queueing systems. Evaluation of the proposed
+model showed that the model could simulate behavior of an
+actual global computing system and job scheduling on the
+system effectively.

@@ -1,0 +1,2618 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=us-ascii">
+<title>Creating and setting up client-side programs</title>
+</head>
+<body bgcolor=white>
+
+<h2><a name="Creating_and_setting_up_client-side_prog">
+4 Creating and setting up client-side programs</a></h2>
+
+<h3><a name="Creating_a_Ninf-G_Client">
+4.1 Creating a Ninf-G Client</a></h3>
+
+<ul>
+<li>Creating an application program
+
+<p>Programs for executing remote functions and
+remote methods are written using the GridRPC API.
+The creation of these programs is described in section 4.5.</p>
+
+<li>Setting the NG_COMPILER environment variable
+
+<p>(If the application program is written in C,
+there is no particular need for the NG_COMPILER settings.)
+
+<p>The NG_COMPILER environment variable is used to specify
+the compiler to be used to compile the Ninf-G Client.
+The default compiler for ng_cc is cc.
+Required options can be specified in NG_COMPILER in addition
+to the compiler name (path).
+When g++ is used, for example, NG_COMPILER is set
+in the following way.</p>
+
+<p><code>'g++ -Wall -g'</code></p>
+
+<li>Setting the NG_LINKER environment variable
+
+<p>(If the application program is written in C,
+there is no particular need for the NG_LINKER settings.)</p>
+
+<p>The NG_ LINKER environment variable is used to specify
+the linker to be used to link the Ninf-G Client.
+The default linker for ng_cc is cc.
+Required options can be specified in NG_ LINKER in addition
+to the linker name (path).
+When g++ is used, for example, NG_ LINKER is set in the following way.</p>
+
+<p><code>'g++ -Wall -g'</code></p>
+
+<li>Creating a Ninf-G Client program
+
+<p>The application program created earlier is compiled using the ng_cc
+command, thus creating a Ninf-G Client program.
+An example of using the ng_cc command is shown below.</p>
+
+<p>
+<pre>
+<code>
+% ${NG_DIR}/bin/ng_cc -g -o test_client test_client.c
+
+test_client.c:  Ninf-G client source program 
+test_client:    Ninf-G client executable program
+                (the result of compiling source program)
+</code>
+</pre>
+</p>
+</ul>
+
+<h3><a name="Setting_up_the_Ninf-G_Client_operating_environment">
+4.2 Setting up the Ninf-G Client operating environment</a></h3>
+
+<ul>
+<li>Preparing the Ninf-G Client configuration file
+
+<p>This is the configuration file for settings concerning servers,
+clients and the MDS.</p>
+
+<p>(The configuration file specifications are described in section 4.3.)</p>
+
+<li>Preparing the files specified by the configuration file
+
+<p>Prepare the following files as specified in the configuration file.</p>
+
+<ul>
+<li>The configuration file specified by INCLUDE.
+<li>The local LDIF file specified by LOCAL_LDIF
+<li>The Ninf-G Executable executable file for
+    which the staging is specified by FUNCTION_INFO
+</ul>
+
+<p>Note: The local LDIF file is generated
+when the Ninf-G Executable is created on the server.
+When used, the local LDIF file that is generated on the server
+that executes the remote functions or
+remote methods must be copied to a place where it can be used
+from the Ninf-G Client.</p>
+
+<p>Note: The environment variable LD_LIBRARY_PATH must be specified
+appropriately in the client configuration file
+if the Ninf-G Executable file will be staged to a system
+whose software environment is different from the
+build environment of the Ninf-G Executable.</p>
+</ul>
+
+<h3><a name="Ninf-G_Client_configuration_file_specifications">
+4.3 Ninf-G Client configuration file specifications</a></h3>
+
+<h4><a name="Structure_of_the_configuration_file">
+4.3.1 Structure of the configuration file</a></h4>
+
+<p>The Ninf-G Client configuration file is a text file
+which contains settings information that is required for the
+operation of Ninf-G Client.
+It consists of seven sections,
+which are INCLUDE, CLIENT, LOCAL_LDIF, FUNCTION_INFO,
+MDS_SERVER, SERVER, and SERVER_DEFAULT.</p>
+
+<ul>
+<li>The INCLUDE section describes the files to be included.
+<li>The CLIENT section describes information related to the Ninf-G Client.
+<li>The LOCAL_LDIF section describes information for the local LDIF file.
+<li>The FUNCTION_INFO section describes information on the remote function.
+<li>The MDS_SERVER section describes information concerning the MDS server.
+<li>The SERVER section describes information concerning Ninf-G Executable.
+<li>The SERVER_DEFAULT section describes the default values for
+    the SERVER section.
+</ul>
+
+<p>Examples of section and attribute descriptions are shown below.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+#comment
+&lt;section&gt;
+attribute    value    # comment
+
+attribute    value    # comment
+attribute    value    # comment
+&lt;/section&gt;
+...
+</pre>
+</td></tr>
+</table>
+</center>
+
+<ul>
+<li>The definitions of each section begin with &lt;section &gt;
+and end with &lt;/section &gt;.
+<li>The &lt;section &gt; and &lt;/section &gt; are called section tags,
+or simply tags.
+<li>Anything following a pound sign (#) is regarded as a comment.
+<li>The information described in each section includes
+attributes and attribute values.
+<li>There cannot be multiple descriptions in a section that does not
+allow multiple definitions.
+<li>In a section that does not allow multiple definitions,
+the key attribute cannot have redundant attribute values.
+<li>The section tag and an attribute cannot be written on the same line.
+<li>At least one space or one tab character must separate
+an attribute and its attribute value.
+<li>Multiple attributes cannot be defined on one line.
+<li>An attribute and its attribute value must be written on one line.
+<li>The backslash character (\) cannot be used to extend a definition over
+multiple lines.
+<li>Attributes which can have multiple definitions cannot have
+redundant attribute values.
+<li>Upper case and lower case letters are distinguished,
+so the attribute name 'aaa',
+for example, cannot be written as Aaa or AAA, etc.
+The attribute values 'aaa' and 'AAA' are also judged as different.
+</ul>
+
+<p>Examples of errors in description are shown below.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+&lt;section&gt;Attribute Value
+                             # Section and attribute on the same line
+ 
+AttributeValue     # No delimiter between the attribute and attribute value
+ 
+Attribute  Value   Attribute  Value
+                             # Multiple attributes on the same line
+ 
+Attribute                    # Attribute and attribute value
+Value                        # extend across more than one line.
+ 
+Attribute \
+Value                        # Line continued with a backslash (\)
+ 
+Attribute                    #  No attribute value
+&lt;/section&gt;
+ 
+&lt;CLIENT&gt;                     # Multiple definitions in a section where
+...                          #
+&lt;/CLIENT&gt;                    #
+&lt;CLIENT&gt;                     # multiple definitions are not allowed
+...                          #
+&lt;/CLIENT&gt;                    #
+ 
+&lt;MDS_SERVER&gt;                 # Attribute value redundancy within a section
+hostname  example.org        #  where multiple definitions are allowed
+&lt;/MDS_SERVER&gt;
+&lt;MDS_SERVER&gt;
+hostname  example.org        #
+&lt;/MDS_SERVER&gt;                #
+ 
+&lt;LOCAL_LDIF&gt;                 # Attribute value redundancy
+filename  example.ngdef      # for an attribute that allows
+filename  example.ngdef      #  multiple attribute values
+&lt;/LOCAL_LDIF&gt;
+ 
+&lt;SERVER&gt;
+HostName  example.com        # Upper and lower case letters
+hostname  EXAMPLE.COM        # Upper and lower case letters
+&lt;/SERVER&gt;
+</pre>
+</td></tr>
+</table>
+</center>
+
+<h4><a name="Specifying_the_unit_for_time">
+4.3.2 Specifying the unit for time</a></h4>
+
+<p>When a time value is specified as an attribute value
+(for time-out or other such attributes),
+a unit of time can be specified (e.g., 30 s, 30 sec or 30 seconds).</p>
+
+<p>It is also possible to specify 'minute' or 'hour' as the time unit.
+Character strings such as 'se' and 'seco' are also interpreted
+to mean second, but strings that are not contained in 'second',
+such as 'set' will cause an error.</p>
+
+<h4><a name="Specifying_the_unit_for_number_of_bytes">
+4.3.3 Specifying the unit for number of bytes</a></h4>
+
+<p>When specifying the number of bytes as an attribute value for
+attributes such as log file size, units (*)
+such as 1 K or 1 Kilo can be specified.
+Mega and Giga can also be specified as a unit for number of bytes.</p>
+
+<p>Character strings such as Me, Meg, etc. are also interpreted
+to mean Mega, but strings that are not contained in Mega,
+such as Ma cause an error.</p>
+
+<p>(*) 1 K = 1024 bytes, 1 M = 1024 Kbytes, 1 G = 1024 Mbytes</p>
+
+<p>Each section of the configuration file is described below.</p>
+
+<h4><a name="INCLUDE_section">
+4.3.4 INCLUDE section</a></h4>
+
+<p>The INCLUDE section allows multiple definitions.</p>
+<p>An example of an INCLUDE section description is shown below.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+&lt;INCLUDE&gt;
+filename    file name
+filename    file name
+&lt;/INCLUDE&gt;
+</pre>
+</td></tr>
+</table>
+</center>
+
+<p>The attributes and attribute values of the INCLUDE section are
+shown below.</p>
+
+<center>
+<table border>
+
+<tr>
+<th> Attribute </th>
+<th> Attribute value </th>
+<th> Default value </th>
+<th> Multiple </th>
+<th> Explanation </th>
+</tr>
+
+<tr>
+<td> filename </td>
+<td> File name </td>
+<td> None </td>
+<td> Yes </td>
+<td> File to include </td>
+</tr>
+
+</table>
+</center>
+
+<ul>
+<li>filename(file to include)
+
+<p>The file name of the configuration file to be read is specified.
+The file to be read must be in the configuration file format.</p>
+
+</ul>
+
+<h4><a name="CLIENT_section">4.3.5 CLIENT section</a></h4>
+
+<p>The CLIENT section does not allow multiple definitions.</p>
+<p>An example of a CLIENT section description is shown below.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+&lt;CLIENT&gt;
+hostname                  Host name
+save_sessionInfo          Session information count
+loglevel                  [0-5]
+loglevel_globusToolkit    [0-5]
+loglevel_ninfgProtocol    [0-5]
+loglevel_ninfgInternal    [0-5]
+loglevel_ninfgGrpc        [0-5]
+log_filePath              File name
+log_suffix                Suffix
+log_nFiles                Number of files
+log_maxFileSize           Number of bytes
+log_overwriteDirectory    [true/false]
+refresh_credential        Seconds
+&lt;/CLIENT&gt;
+</pre>
+</td></tr>
+</table>
+</center>
+
+<p>The attributes and attribute values of the CLIENT section are shown
+below.</p>
+
+<center>
+<table border>
+
+<tr>
+<th> Attribute </th>
+<th> Attribute value </th>
+<th> Default value </th>
+<th> Multiple </th>
+<th> Explanation </th>
+</tr>
+
+<tr>
+<td> hostname </td>
+<td> Host name </td>
+<td> globus_libc_ gethostname() </td>
+<td> No </td>
+<td> The host name of the client </td>
+</tr>
+
+<tr>
+<td> save_sessionInfo </td>
+<td> Session information count </td>
+<td> 256 </td>
+<td> No </td>
+<td> The number of session information units to be saved </td>
+</tr>
+
+<tr>
+<td> loglevel </td>
+<td> [0-5] </td>
+<td> 2 </td>
+<td> No </td>
+<td> Overall log level </td>
+</tr>
+
+<tr>
+<td> loglevel_globusToolkit </td>
+<td> [0-5] </td>
+<td> 2 </td>
+<td> No </td>
+<td> Globus Toolkit API error log level </td>
+</tr>
+
+<tr>
+<td> loglevel_ninfgProtocol </td>
+<td> [0-5] </td>
+<td> 2 </td>
+<td> No </td>
+<td> Ninf-G protocol error log level </td>
+</tr>
+
+<tr>
+<td> loglevel_ninfgInternal </td>
+<td> [0-5] </td>
+<td> 2 </td>
+<td> No </td>
+<td> Ninf-G internal error log level </td>
+</tr>
+
+<tr>
+<td> loglevel_ninfgGrpc </td>
+<td> [0-5] </td>
+<td> 2 </td>
+<td> No </td>
+<td> Grid RPC API error log level </td>
+</tr>
+
+<tr>
+<td> log_filePath </td>
+<td> File name </td>
+<td> stderr </td>
+<td> No </td>
+<td> The log file name </td>
+</tr>
+
+<tr>
+<td> log_suffix </td>
+<td> Suffix </td>
+<td> Sequence number </td>
+<td> No </td>
+<td> The log file suffix </td>
+</tr>
+
+<tr>
+<td> log_nFiles </td>
+<td> Number of files </td>
+<td> 1 </td>
+<td> No </td>
+<td> The number of files for log </td>
+</tr>
+
+<tr>
+<td> log_maxFileSize </td>
+<td> Number of bytes </td>
+<td> 1M/unlimited </td>
+<td> No </td>
+<td> Maximum number of bytes for log file </td>
+</tr>
+
+<tr>
+<td> log_overwriteDirectory </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> Over-write permission for log directory </td>
+</tr>
+
+<tr>
+<td> refresh_credential </td>
+<td> Seconds </td>
+<td> 0 </td>
+<td> No </td>
+<td> Refreshing proxy credential interval </td>
+</tr>
+
+</table>
+</center>
+
+<p>The log level can be specified by using the strings listed in the
+'Meaning' column in the table below as well as by using a number value.</p>
+<p>The meanings of the log level values are described below.</p>
+
+<center>
+<table border>
+<tr>
+<th> Value </th>
+<th> Meaning </th>
+<th> Explanation </th>
+</tr>
+
+<tr>
+<td> 0 </td>
+<td> Off </td>
+<td> Nothing is output. </td>
+</tr>
+
+<tr>
+<td> 1 </td>
+<td> Fatal </td>
+<td> A fatal error is output. </td>
+</tr>
+
+<tr>
+<td> 2 </td>
+<td> Error </td>
+<td> A nonfatal error is output. </td>
+</tr>
+
+<tr>
+<td> 3 </td>
+<td> Warning </td>
+<td> A warning error is output. </td>
+</tr>
+
+<tr>
+<td> 4 </td>
+<td> Information </td>
+<td> Guidance or other such information is output. </td>
+</tr>
+
+<tr>
+<td> 5 </td>
+<td> Debug </td>
+<td> Debugging information is output. </td>
+</tr>
+</table>
+</center>
+
+
+<ul>
+<li>hostname(client host name)
+
+<p>This host name is the host name of client machine on which the
+Ninf-G Client is running.
+It is used by Ninf-G Executable when connecting to Ninf-G Client.</p>
+
+<p>The host name can be specified by an IP address
+such as 192.168.0.1 as well as by the ordinary host name.</p>
+
+<p>If omitted, the hostname returned by the Globus Toolkit API
+globus_libc_gethostname() function is used.
+The hostname is equivalent to the output of
+globus-hostname command.</p>
+
+<p>The main purposes for which this is used are described below.</p>
+
+<p>
+<ul>
+<li>When Ninf-G Executable uses the DNS (Domain Name System),
+but for some reason the IP address cannot be resolved from
+the host name of the client machine on which Ninf-G Client is running.
+
+<li>The host name set for the client machine on which
+Ninf-G Client is running and the host name derived
+in reverse from the IP address using DNS are different.
+</ul>
+</p>
+
+<p>Note: If hostname attribute is set, the environment variable
+GLOBUS_HOSTNAME is overwritten by its value.</p>
+<p>Note: The hostname attribute may not be set appropriately when
+globus_libc_gethostname() is called before grpc_initialize().</p>
+
+<li>save_sessionInfo(number of session information units to save)
+
+<p>This is the number of session information units stored internally by
+Ninf-G.</p>
+
+<p>If the number defined here is exceeded, the session entries are
+discarded beginning with the oldest first.</p>
+
+<ul>
+<li>If the value 0 is specified, the information is not saved.
+<li>If a value of 1 or greater is specified,
+that number of session information units is saved.
+<li>If a negative value is specified,
+there is no automatic discarding of information.
+</ul>
+
+<p>If omitted, the value of 256 is used.</p>
+
+<li>loglevel*(log level)
+
+<p>The log level is specified for all log categories by log level and
+for each category individually by loglevel_*.</p>
+
+<p>When the log level for each category has not been specified,
+the log level for all categories is applied.</p>
+
+<p>When omitted, the value of NG_LOG_LEVEL environment variable is used.<br>
+If NG_LOG_LEVEL environment variable is not set, 2 (Error) is used as
+the default value of loglevel.</p>
+
+<li>log_filePath(log file name)
+
+<p>The name of the file to which the log is output is specified
+in the log file name.</p>
+
+<p>The file name may include a path that includes a directory
+(e.g., "/home/myHome/var/logFile").</p>
+
+<p>The file and directory name can include the following
+specifiers.</p>
+
+<p>
+<ul>
+<li>"%t"
+<p>"%t" is replaced with the date as year, month and day,
+and the time in hours, minutes, seconds and milliseconds
+("yyyymmdd-hhmmss-MMM")
+(e.g., "/ home/myHome/var/logDir%t/logFile" is replaced by
+"/home/myHome/var/logDir20030101-154801-123/logFile").</p>
+
+<li>"%h"
+<p>"%h" is replaced with the Ninf-G Client hostname.</p>
+
+<li>"%p"
+<p>"%p" is replaced with the process id of the Ninf-G Client.</p>
+
+</ul>
+</p>
+
+<p>When omitted, the log is output to standard error.
+If the log file name is omitted, the log_suffix, log_nFiles and
+log_maxFileSize are ignored.</p>
+
+<li>log_suffix(log file suffix)
+
+<p>When a log file is specified, this specifies the suffix for when the
+log file is created.</p>
+
+<p>If a suffix is specified, the generated file name will be from
+"filename[000].suffix" to "filename[nnn].suffix".
+If omitted, the generated file name will be from
+"filename.[000]" to "filename.[nnn]".
+The number of files minus 1 is "nnn".</p>
+
+<p>The number of digits in "nnn" is the same as the number of
+digits in number of files minus 1.
+For example, if the number of files is set to 100,
+then the number will range from "00" to "99".</p>
+
+<li>log_nFiles(the number of files for log output)
+
+<p>This is the number of files created for log output.</p>
+
+<p>0 indicates to output unlimited number of files.
+An negative value results in an error.</p>
+
+<p>If omitted, the value 1 is used.</p>
+
+<li>log_maxFileSize(maximum number of bytes for the log file)
+
+<p>This is the maximum number of bytes for the log file.</p>
+
+<p>If omitted, the value will be unlimited
+if the number of files is one or 1Mbyte
+if the number of files is two or more.</p>
+
+<li>log_overwriteDirectory(over-write permission for the directory)
+
+<p>This establishes overwrite permission for the directory.
+If the specified directory exists, this specifies whether
+the creation of log files in that directory is enabled or disabled.
+The operation in the case that the directory exists is shown below.</p>
+
+<p>
+<ul>
+<li>true:
+No error results, even if the directory specified by
+log_filePath exists.
+If files exist in the directory, those file may be overwritten.
+<li>false:
+An error results if the directory specified by log_filePath exists.
+</ul>
+</p>
+
+<li>refresh_credential(Refreshing proxy credential interval)
+
+<p>This specifies the interval for refreshing the proxy credential.</p>
+
+<p>If the value 0 is specified, Ninf-G Client will not
+refresh the proxy credential.
+If a value of 1 or greater is specified,
+Ninf-G Client will refresh the proxy credential and send
+it to Job Manager.
+If a negative value is specified, an error results.</p>
+
+<p>If omitted, the value 0 is used.</p>
+
+<p>Note: refreshing the proxy credential on
+client program feature is supported only in pthread version.
+It's OK to build Ninf-G Executable with both pthread version and
+non-thread version of Globus Toolkit flavor.</p>
+
+<p>Note: Ninf-G Java Client does not support this feature.</p>
+</ul>
+
+<h4><a name="LOCAL_LDIF_section">
+4.3.6 LOCAL_LDIF section</a></h4>
+
+<p>The LOCAL_LDIF section allows multiple definitions. The
+LOCAL_LDIF section may be omitted.</p>
+
+<p>An example of a LOCAL_LDIF section description is shown below.</p>
+
+<p>
+<center>
+<table border>
+<tr><td>
+<pre>
+&lt;LOCAL_LDIF&gt;
+filename    file name
+filename    file name
+&lt;/LOCAL_LDIF&gt;
+</pre>
+</td></tr>
+</table>
+</center>
+</p>
+
+<p>The attributes and attribute values of the LOCAL_LDIF section are
+shown below.</p>
+
+<p>
+<center>
+<table border>
+<tr>
+<th> Attribute </th>
+<th> Attribute value </th>
+<th> Default value </th>
+<th> Multiple </th>
+<th> Explanation </th>
+</tr>
+
+<tr>
+<td> filename </td>
+<td> File name </td>
+<td> None </td>
+<td> Yes </td>
+<td> Local LDIF file </td>
+</tr>
+
+</table>
+</center>
+</p>
+
+<ul>
+<li>filename(local LDIF file)
+
+<p>This specifies the local LDIF file that contains the Ninf-G
+Executable information.
+One file name cannot have multiple descriptions.
+The local LDIF file is generated by the ng_gen command.</p>
+
+</ul>
+
+<h4><a name="FUNCTION_INFO_section">
+4.3.7 FUNCTION_INFO section</a></h4>
+
+<p>The FUNCTION_INFO section allows multiple definitions.
+The FUNCTION_INFO section may be omitted.</p>
+
+<p>An example of a FUNCTION_INFO section description is shown below.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+&lt;FUNCTION_INFO&gt;
+hostname     Host name
+funcname     Function name
+
+path         Path
+staging      [true/false]
+backend      Backend
+session_timeout Seconds
+&lt;/FUNCTION_INFO&gt;
+</pre>
+</td></tr>
+</table>
+</center>
+
+<p>The attributes and attribute values of the FUNCTION_INFO section
+are shown below.</p>
+
+<p>
+<center>
+<table border>
+<tr>
+<th> Attribute </th>
+<th> Attribute value </th>
+<th> Default value </th>
+<th> Multiple </th>
+<th> Explanation </th>
+</tr>
+
+<tr>
+<td> hostname </td>
+<td> Host name </td>
+<td> None </td>
+<td> No </td>
+<td> Server machine host name </td>
+</tr>
+
+<tr>
+<td> funcname </td>
+<td> Function name </td>
+<td> None </td>
+<td> No </td>
+<td> The function name of the remote function </td>
+</tr>
+
+<tr>
+<td> path </td>
+<td> Path </td>
+<td> None </td>
+<td> No </td>
+<td> The path to the Ninf-G Executable </td>
+</tr>
+
+<tr>
+<td> staging </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> Staging enabled or disabled </td>
+</tr>
+
+<tr>
+<td> backend </td>
+<td> Backend </td>
+<td> normal </td>
+<td> No </td>
+<td> Backend software by which Ninf-G Executable is launched </td>
+</tr>
+
+<tr>
+<td> session_timeout </td>
+<td> Seconds </td>
+<td> 0 </td>
+<td> No </td>
+<td> RPC execution timeout </td>
+</tr>
+
+</table>
+</center>
+</p>
+
+
+<ul>
+<li>hostname(host name of the server machine)
+
+<p>This specifies the host name of the server machine.</p>
+
+<p>It cannot be omitted.</p>
+
+<li>funcname(function name of the remote function)
+
+<p>This specifies the function name of the remote function.</p>
+
+<p>It cannot be omitted.</p>
+
+<li>path(path to Ninf-G Executable)
+
+<p>This specifies the path to Ninf-G Executable.
+If staging is set to true, the path on
+the client machine is specified.
+If staging is set to false, the path on the server machine
+is specified.</p>
+
+<p>It cannot be omitted.</p>
+
+<li>staging
+
+<p>This specifies whether or not staging (*) is to be executed.
+If 'true' is specified, staging is executed.</p>
+<p>If omitted, the value is taken to be 'false'.</p>
+
+<p>(*) A function for starting up the Ninf-G Executable
+located on the client machine after transfer to the server machine.</p>
+
+<li>backend
+
+<p>This specifies backend software by which Ninf-G Executable is
+launched.
+Backend should be either normal, mpi or blacs.
+If the backend is normal, Ninf-G Executable is
+directly launched by GRAM.
+If the backend is mpi, GRAM will use mpirun command
+to launch Ninf-G Executable as MPI processes.
+blacs is used when Ninf-G Executable should be launched by blacs.</p>
+
+<p>Backend should be specified if neither MDS nor local LDIF
+is used for execution and users intend to use mpi or blacs
+for launching Ninf-G Executable.</p>
+
+<p>If omitted, the value is taken to be 'normal'.</p>
+
+<li>session_timeout
+
+<p>This specifies the RPC execution timeout value.
+If the RPC execution time exceeds the timeout,
+then the outstanding RPC will be terminated and returned as a timeout
+error.
+The handle which was associated with the RPC becomes inoperative and
+will not be able to be used for any RPCs.</p>
+
+<p>Measurement of the execution time of an RPC is started when a session
+invocation API such as grpc_call() is called.
+The execution time of an RPC involves not only the time for
+computation of the remote library but also other unexpected time.  For
+example, the timeout error may occur when the job will not be invoked
+due to unknown reason.</p>
+
+<p>The session_timeout attribute can be used for avoiding unexpected
+freeze of the Ninf-G client caused by rare-case accidents on Ninf-G
+Executables.</p>
+
+<p>If 0 is specified, then the timeout feature is disabled.
+The default value of session_timeout is 0.</p>
+
+<p>Note: session_timeout feature is supported for pthreads flavors.</p>
+</ul>
+
+<h4><a name="MDS_SERVER_section">
+4.3.8 MDS_SERVER section</a></h4>
+
+<p>The MDS_SERVER section allows multiple definitions.
+The MDS_SERVER section can be omitted.</p>
+
+<p>When an MDS request for information is made,
+the request is issued to the MDS server specified by
+the MDS_SERVER section defined in the configuration file.
+The search is executed repeatedly in order, beginning with the first
+definition, until the information has been found or
+the last MDS_SERVER defined in the section has been searched.</p>
+
+<p>An example of MDS_SERVER section description is shown below.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+&lt;MDS_SERVER&gt;
+hostname          Host name
+port              Port number
+vo_name           VONAME
+client_timeout    Seconds
+server_timeout    Seconds
+&lt;/MDS_SERVER&gt;
+</pre>
+</td></tr>
+</table>
+</center>
+
+
+<p>The attributes and attribute values of the MDS_SERVER section are
+shown below.</p>
+
+<p>
+<center>
+<table border>
+
+<tr>
+<th> Attribute </th>
+<th> Attribute value </th>
+<th> Default value </th>
+<th> Multiple </th>
+<th> Explanation </th>
+</tr>
+
+<tr>
+<td> hostname </td>
+<td> Host name </td>
+<td> None </td>
+<td> No </td>
+<td> MDS server host name </td>
+</tr>
+
+<tr>
+<td> port </td>
+<td> Port number </td>
+<td> 2135 </td>
+<td> No </td>
+<td> MDS server port number </td>
+</tr>
+
+<tr>
+<td> vo_name </td>
+<td> VONAME </td>
+<td> Local </td>
+<td> No </td>
+<td> GIIS vo name </td>
+</tr>
+
+<tr>
+<td> client_timeout </td>
+<td> Seconds </td>
+<td> 0 </td>
+<td> No </td>
+<td> The client time-out time </td>
+</tr>
+
+<tr>
+<td> server_timeout </td>
+<td> Seconds </td>
+<td> 0 </td>
+<td> No </td>
+<td> The server time-out time </td>
+</tr>
+
+</table>
+</center>
+</p>
+
+<ul>
+<li>hostname(the host name of the MDS server)
+
+<p>This specifies the host name of the MDS server.</p>
+<p>The MDS server host name cannot be omitted.</p>
+
+<li>port(the port number of the MDS server )
+
+<p>This specifies the port number of the MDS server.</p>
+<p>If omitted, the default port 2135 is used.</p>
+
+<li>vo_name(the GIIS vo name)
+
+<p>This specifies the vo name of GIIS.</p>
+<p>If omitted, "local" is used.</p>
+
+<li>client_timeout(client time-out value)
+
+<p>The client time-out value specifies the time-out time
+for connection between client and server.</p>
+
+<p>If the value 0 is specified, there is no time-out
+in waiting for a response.</p>
+<p>If omitted, the default value 0 is used.</p>
+
+<li>server_timeout(the server time-out value)
+
+<p>The server time-out value specifies the time-out time for connection
+between servers.</p>
+<p>If the value 0 is specified, there is no time-out in waiting
+for a response.</p>
+<p>If omitted, the default value 0 is used.</p>
+</ul>
+
+<h4><a name="SERVER_section">
+4.3.9 SERVER section</a></h4>
+
+<p>The SERVER section allows multiple definitions.</p>
+
+<p>When the SERVER section contains multiple definitions,
+the following API checks to see if remote function information
+is registered in the first-defined SERVER.
+If it is, that server is used.
+If it is not, a check is made for registered
+remote function information in the second SERVER.
+This is repeated until remote function information is found.</p>
+
+<ul>
+<li>grpc_function_handle_default()
+<li>grpc_function_handle_array_default_np()
+<li>grpc_object_handle_default_np()
+<li>grpc_object_handle_array_default_np()
+</ul>
+
+<p>An example of a SERVER section description is shown below.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+&lt;SERVER&gt;
+hostname                      Host name
+hostname                      Host name  host name  host name
+
+port                          Port number
+mds_hostname                  host name
+mpi_runNoOfCPUs               [function name]=number of CPUs
+gass_scheme                   [http/https]
+crypt                         [false/SSL/GSI]
+protocol                      [XML/binary]
+force_xdr                     [true/false]
+jobmanager                    JOBMANAGER
+subject                       "Subject"
+
+job_startTimeout              Seconds
+job_stopTimeout               Seconds
+job_maxTime                   Minutes
+job_maxWallTime               Minutes
+job_maxCpuTime                Minutes
+job_queue                     queue name
+job_project                   project name
+job_hostCount                 Number of nodes
+job_minMemory                 Size
+job_maxMemory                 Size
+
+heartbeat                     Seconds
+heartbeat_timeoutCount        Times
+redirect_outerr               [true/false]
+tcp_nodelay                   [true/false]
+tcp_connect_retryCount        Counts
+tcp_connect_retryBaseInterval Seconds
+tcp_connect_retryIncreaseRatio Ratio
+tcp_connect_retryRandom       [true/false]
+argument_transfer             [wait/nowait/copy]
+compress                      [raw/zlib]
+compress_threshold            Number of bytes
+argument_blockSize            Number of bytes
+workDirectory                 Directory name
+coreDumpSize                  Size
+
+commLog_enable                [true/false]
+commLog_filePath              File name
+commLog_suffix                Suffix
+commLog_nFiles                Number of files
+commLog_maxFileSize           Number of bytes
+commLog_overwriteDirectory    [true/false]
+
+debug                         [true/false]
+debug_display                 DISPLAY
+debug_terminal                Command path name
+debug_debugger                Command path name
+debug_busyLoop                [true/false]
+
+environment                   Variable name
+environment                   Variable name = value
+&lt;/SERVER&gt;
+</pre>
+</td></tr>
+</table>
+</center>
+
+<p>The attributes and attribute values of the SERVER section are shown
+below.</p>
+
+<p>
+<center>
+<table border>
+
+<tr>
+<th> Attribute </th>
+<th> Attribute value </th>
+<th> Default value </th>
+<th> Multiple </th>
+<th> Explanation </th>
+</tr>
+
+<tr>
+<td> hostname </td>
+<td> Host name </td>
+<td> None </td>
+<td> Yes </td>
+<td> Server machine host name </td>
+</tr>
+
+<tr>
+<td> port </td>
+<td> Port number </td>
+<td> 2119 </td>
+<td> No </td>
+<td> The server port number on which the Globus gatekeeper is listening </td>
+</tr>
+
+<tr>
+<td> mds_hostname </td>
+<td> Host name </td>
+<td> None </td>
+<td> No </td>
+<td> MDS server host name </td>
+</tr>
+
+<tr>
+<td> mpi_runNoOfCPUs </td>
+<td> Function name, Number of CPUs </td>
+<td> None </td>
+<td> Yes </td>
+<td> The number of CPUs used by MPI function </td>
+</tr>
+
+<tr>
+<td> gass_scheme </td>
+<td> [http/https] </td>
+<td> http </td>
+<td> No </td>
+<td> GASS server scheme </td>
+</tr>
+
+<tr>
+<td> crypt </td>
+<td> [false/SSL/GSI] </td>
+<td> false </td>
+<td> No </td>
+<td> Specification of the communication path encryption </td>
+</tr>
+
+<tr>
+<td> protocol </td>
+<td> [XML/binary] </td>
+<td> XML </td>
+<td> No </td>
+<td> Specifies the protocol. </td>
+</tr>
+
+<tr>
+<td> force_xdr </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> Makes XDR compulsory. </td>
+</tr>
+
+<tr>
+<td> jobmanager </td>
+<td> JOBMANAGER </td>
+<td> None </td>
+<td> No </td>
+<td> The job manager used on the server machine </td>
+</tr>
+
+<tr>
+<td> subject </td>
+<td> Subject </td>
+<td> None </td>
+<td> No </td>
+<td> Subject of resource manager contact </td>
+</tr>
+
+<tr>
+<td> job_startTimeout </td>
+<td> Seconds </td>
+<td> 0 </td>
+<td> No </td>
+<td> The time-out at job startup </td>
+</tr>
+
+<tr>
+<td> job_stopTimeout </td>
+<td> Seconds </td>
+<td> -1 </td>
+<td> No </td>
+<td> The time-out for when the job stops </td>
+</tr>
+
+<tr>
+<td> job_maxTime </td>
+<td> Minutes </td>
+<td> None </td>
+<td> No </td>
+<td> The maximum job execution time </td>
+</tr>
+
+<tr>
+<td> job_maxWallTime </td>
+<td> Minutes </td>
+<td> None </td>
+<td> No </td>
+<td> The maximum job execution wall clock time </td>
+</tr>
+
+<tr>
+<td> job_maxCpuTime </td>
+<td> Minutes </td>
+<td> None </td>
+<td> No </td>
+<td> The maximum job execution cpu time </td>
+</tr>
+
+<tr>
+<td> job_queue </td>
+<td> queue name </td>
+<td> None </td>
+<td> No </td>
+<td> A remote queue name </td>
+</tr>
+
+<tr>
+<td> job_project </td>
+<td> project name </td>
+<td> None </td>
+<td> No </td>
+<td> A remote project name </td>
+</tr>
+
+<tr>
+<td> job_hostCount </td>
+<td> Number of nodes </td>
+<td> None </td>
+<td> No </td>
+<td> Number of nodes (for SMP clusters) </td>
+</tr>
+
+<tr>
+<td> job_minMemory </td>
+<td> Size </td>
+<td> None </td>
+<td> No </td>
+<td> Minimum amount of memory, in Megabytes </td>
+</tr>
+
+<tr>
+<td> job_maxMemory </td>
+<td> Size </td>
+<td> None </td>
+<td> No </td>
+<td> Maximum amount of memory, in Megabytes </td>
+</tr>
+
+<tr>
+<td> heartbeat </td>
+<td> Seconds </td>
+<td> 60 </td>
+<td> No </td>
+<td> The heart-beat interval </td>
+</tr>
+
+<tr>
+<td> heartbeat_timeoutCount </td>
+<td> Times </td>
+<td> 5 </td>
+<td> No </td>
+<td> The heart-beat time-out times </td>
+</tr>
+
+<tr>
+<td> redirect_outerr </td>
+<td> [true/false] </td>
+<td> true </td>
+<td> No </td>
+<td> Ninf-G Executable output redirect </td>
+</tr>
+
+<tr>
+<td> tcp_nodelay </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> TCP_NODELAY socket option </td>
+</tr>
+
+<tr>
+<td> tcp_connect_retryCount </td>
+<td> Counts </td>
+<td> 4 </td>
+<td> No </td>
+<td> The maximum number of retries for a TCP connection </td>
+</tr>
+
+<tr>
+<td> tcp_connect_retryBaseInterval </td>
+<td> Seconds </td>
+<td> 1 </td>
+<td> No </td>
+<td> The base interval time for the first retry </td>
+</tr>
+
+<tr>
+<td> tcp_connect_retryIncreaseRatio </td>
+<td> Ratio </td>
+<td> 2.0 </td>
+<td> No </td>
+<td> The increase ratio for calculating the maximum interval time
+between retries </td>
+</tr>
+
+<tr>
+<td> tcp_connect_retryRandom </td>
+<td> [true/false] </td>
+<td> true </td>
+<td> No </td>
+<td> A flag that specifies whether the random value is used
+or not for the interval time </td>
+</tr>
+
+<tr>
+<td> argument_transfer </td>
+<td> [wait/nowait/copy] </td>
+<td> wait </td>
+<td> No </td>
+<td> Returns the called function for an asynchronous
+function call Timing
+(Wait or do not wait for completion of argument transfer.) </td>
+</tr>
+
+<tr>
+<td> compress </td>
+<td> [raw/zlib] </td>
+<td> raw </td>
+<td> No </td>
+<td> Compression method </td>
+</tr>
+
+<tr>
+<td> compress_threshold </td>
+<td> Number of bytes </td>
+<td> 64KBytes </td>
+<td> No </td>
+<td> Threshold for performing compression </td>
+</tr>
+
+<tr>
+<td> argument_blockSize </td>
+<td> Number of bytes </td>
+<td> 16KBytes </td>
+<td> No </td>
+<td> The block size of transferred arguments </td>
+</tr>
+
+<tr>
+<td> workDirectory </td>
+<td> Directory name </td>
+<td> The path to the Ninf-G Executable </td>
+<td> No </td>
+<td> The working directory for Ninf-G Executable </td>
+</tr>
+
+<tr>
+<td> coreDumpSize </td>
+<td> Size </td>
+<td> Undefined </td>
+<td> No </td>
+<td> Core dump size for Ninf-G Executable </td>
+</tr>
+
+<tr>
+<td> commLog_enable </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> Whether the communication log output is enabled or disabled </td>
+</tr>
+
+<tr>
+<td> commLog_filePath </td>
+<td> File name </td>
+<td> stderr </td>
+<td> No </td>
+<td> Communication log file name </td>
+</tr>
+
+<tr>
+<td> commLog_suffix </td>
+<td> Suffix </td>
+<td> Sequence number </td>
+<td> No </td>
+<td> The communication log file suffix </td>
+</tr>
+
+<tr>
+<td> commLog_nFiles </td>
+<td> Number of files </td>
+<td> 1 </td>
+<td> No </td>
+<td> The number of files for communication log output </td>
+</tr>
+
+<tr>
+<td> commLog_maxFileSize </td>
+<td> Number of bytes </td>
+<td> 1M/unlimited </td>
+<td> No </td>
+<td> Maximum number of bytes for the communication log file </td>
+</tr>
+
+<tr>
+<td> commLog_overwriteDirectory </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> Overwrite permission for the communication log directory </td>
+</tr>
+
+<tr>
+<td> debug </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> Whether the debugging function is enabled or not </td>
+</tr>
+
+<tr>
+<td> debug_display </td>
+<td> DISPLAY </td>
+<td> Environment variable </td>
+<td> No </td>
+<td> Debugging display </td>
+</tr>
+
+<tr>
+<td> debug_terminal </td>
+<td> Command path name </td>
+<td> Environment variable </td>
+<td> No </td>
+<td> Path to the debugging terminal emulator </td>
+</tr>
+
+<tr>
+<td> debug_debugger </td>
+<td> Command path name </td>
+<td> Environment variable </td>
+<td> No </td>
+<td> Debugger path </td>
+</tr>
+
+<tr>
+<td> debug_busyLoop </td>
+<td> [true/false] </td>
+<td> false </td>
+<td> No </td>
+<td> Wait attach from debugger or not </td>
+</tr>
+
+<tr>
+<td> environment </td>
+<td> Character string </td>
+<td> None </td>
+<td> Yes </td>
+<td> Environment variable </td>
+</tr>
+</table>
+</center>
+
+Note: mpi_runCommand attribute is obsoleted in 2004/06/30.
+Changed implementation to use Globus RSL (jobType=mpi),
+to invoke MPI function handle.
+
+<ul>
+<li>hostname(the host name of the server machine)
+
+<p>This specifies the host name of the server machine.<br>
+Multiple hostname attributes can be defined. <br>
+It is possible for multiple host names to be defined on one line. <br>
+This value cannot be omitted.</p>
+
+<li>port
+
+<p>This specifies the port number on the Globus gatekeeper is
+listening.</p>
+
+<p>If omitted, the default '2119' value is used.</p>
+
+<li>mds_hostname(the host name of the MDS server)
+
+<p>This is the MDS queried first when querying for
+information concerning the MPI of the server machine
+and remote function information.
+This specifies the host name of the server.</p>
+
+<p>This specifies the path to the MPI command when MPI is used on the
+server machine.</p>
+
+<li>mpi_runNoOfCPUs(number of MPI CPUs)
+
+<p>This specifies the number of CPUs for when MPI
+is used on the server machine.</p>
+
+<p>The number of CPUs for executing particular functions
+can be specified with the format "function name = number of CPUs".</p>
+
+<p>If the function name is omitted, the default value for
+the number of CPUs for MPI on that server machine is used.</p>
+
+<li>gass_scheme(GASS server scheme)
+
+<p>This specifies the scheme for the GASS server.</p>
+<p>If omitted, http is used.</p>
+
+<li>crypt(specification of the communication path encryption)
+
+<p>This specifies whether an SSL encrypted communication path
+or an unencrypted path is used for communications
+between a Ninf-G Client and Ninf-G Executable.</p>
+
+<p>If omitted, the unencrypted communication path is used.</p>
+
+<li>protocol(protocol specification)
+
+<p>This specifies the protocol between a Ninf-G Client and Ninf-G
+Executable. Either XML or binary can be specified.</p>
+<p>If omitted, the XML is used.</p>
+
+<li>force_xdr(whether or not to force XDR)
+
+<p>This specifies whether or not to force the use of XDR in the
+protocol between a Ninf-G Client and Ninf-G Executable.</p>
+
+<p>If XML is used as the protocol, this setting has no effect.
+The main purpose of using this is
+for measurement of processing speed when XDR is used.</p>
+
+<p>If omitted, the default value 'false' is used.</p>
+
+<li>jobmanager(the job manager to be used on the server machine)
+
+<p>This specifies the job manager to be used on the server machine.
+Any of jobmanager-fork, jobmanager-pbs, jobmanager-gdr
+or jobmanager-lsf can be specified,
+depending on the server machine settings.</p>
+
+<p>If omitted, the default job manager on the server machine is used.</p>
+
+<li>subject (subject part of GRAM resource manager contact)
+
+<p>This specifies the subject part of the Globus Toolkit GRAM
+resource manager contact.
+The subject are usually used for the Globus personal gatekeeper.</p>
+
+<p>If the value are quoted by double-quote character ("),
+the value can include the space character,
+like "/C=JP/O=EXAMPLE/OU=GRID/CN=Example of Subject".</p>
+
+<p>If omitted, no values is used.</p>
+
+<li>job_startTimeout(the job startup time-out)
+
+<p>This specifies the time-out time for job startup.</p>
+
+<p>When grpc_call(), grpc_invoke_np() or other such RPC is executed,
+if the job has not started after this time has passed
+since the job start request was issued, a time-out occurs;
+each API ends and returns an error.</p>
+
+<p>If the 0 value is specified, there is no time-out and
+the process waits until the job starts.
+If a value of 1 or greater is specified,
+the process waits that amount of time for the job to start.
+If a negative value is specified, an error results.</p>
+
+<p>If omitted, the 0 value is used.</p>
+
+<li>job_stopTimeout(the job stop time-out time)
+
+<p>When grpc_function_handle_destruct(),
+grpc_object_handle_destruct()
+or other such job stop request is issued by the API,
+if the job has not stopped after this time elapses,
+a time-out occurs; each API ends and returns an error.</p>
+
+<p>If a negative value is specified, there is no time-out and the
+process waits until the job stops. If the 0 value is specified, the
+process doesn't wait the job to stop. If a value of 1 or greater is
+specified, the process waits that amount of time for the job to stop.</p>
+
+<p>If omitted, the -1 value is used.</p>
+
+<p>Note: This attribute is changed on Ninf-G version 2.4.0.<br/>
+In Ninf-G version 2.3.0 or former:<br/>
+If the 0 value is specified, there is no time-out and the process
+waits until the job stops. If a negative value is specified, an
+error results.</p>
+
+<li>job_maxTime (the maximum job execution time)
+
+<p>This specifies the maximum job execution time.
+The value specified is used to pass Globus GRAM RSL attribute "maxTime".
+The units is in minutes.</p>
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.2.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.2.0, or use later version.</p>
+
+<li>job_maxWallTime (the maximum job execution wall clock time)
+
+<p>This specifies the maximum job execution wall clock time.
+The value specified is used to pass
+Globus GRAM RSL attribute "maxWallTime".
+The units is in minutes.</p>
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.2.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.2.0, or use later version.</p>
+
+<li>job_maxCpuTime (the maximum job execution cpu time)
+
+<p>This specifies the maximum job execution cpu time.
+The value specified is used to pass Globus GRAM RSL attribute "maxCpuTime".
+The units is in minutes.</p>
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.2.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.2.0, or use later version.</p>
+
+<li>job_queue (queue name)
+
+<p>Target the GRAM job to a queue (class) name as defined by
+the scheduler at the defined (remote) resource.</p>
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.0.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.0.0, or use later version.</p>
+
+<li>job_project (project name)
+
+<p>Target the GRAM job to be allocated to a project account as defined
+by the scheduler at the defined (remote) resource.</p>
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.0.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.0.0, or use later version.</p>
+
+<li>job_hostCount (number of nodes)
+
+<p>Defines the number of nodes (hosts) to distribute
+the Ninf-G Executable processes created by
+handle array init API across.
+This attribute is only applies to clusters of SMP computers.</p>
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.0.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.0.0, or use later version.</p>
+
+<p>Note: There is a BUG of jobmanager-pbs, 
+so jobmanager-pbs doesn't work with this attribute variable.</p>
+
+<li>job_minMemory (minimum amount of memory)
+
+<p>Specify the minimum amount of memory required for
+Ninf-G Executable process.
+Units are in Megabytes.
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.0.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.0.0, or use later version.</p>
+
+<li>job_maxMemory (maximum amount of memory)
+
+<p>Specify the maximum amount of memory required for
+Ninf-G Executable process.
+Units are in Megabytes.</p>
+
+<p>If omitted, no values are used.</p>
+
+<p>Note: This attribute is not appeared in Ninf-G version 2.0.0.
+If you want to use this attribute, apply the patch for this attribute
+into Ninf-G version 2.0.0, or use later version.</p>
+
+<li>heartbeat(the heart-beat interval)
+
+<p>This specifies the interval for sending the heart-beat from
+Ninf-G Executable to Ninf-G Client.</p>
+
+<p>If the value 0 is specified, the heart-beat is not sent.
+If a value of 1 or greater is specified,
+the heartbeat is sent at that interval.
+If a negative value is specified, an error results.</p>
+
+<p>If omitted, the value 60 is used.</p>
+
+<p>Note: heartbeat checking on client program feature is
+supported only in pthread version.
+heartbeat sending on Ninf-G Executable feature is
+supported both pthread version and non-thread version of
+Globus Toolkit flavor.</p>
+
+<p>Note: If you debugging Ninf-G Executable or client,
+I suggest that, you disable heartbeat feature.
+For to suppress periodic heartbeat work
+and unexpected heartbeat timeout.</p>
+
+<li>heartbeat_timeoutCount(the heart-beat time-out time)
+
+<p>This specifies the number of times until a time-out occurs
+when the heart-beat is not being sent.</p>
+
+<p>When the heartbeat has not been sent for a time equal
+to the heart-beat interval times the heart-beat time-out value,
+the Ninf-G Client takes it as meaning that the Ninf-G Executable
+is also not operating.</p>
+
+<p>If omitted, the value 5 is used.</p>
+
+<li>redirect_outerr(redirection of the Ninf-G Executable output)
+
+<p>This specifies redirection of the standard error or standard output
+of a Ninf-G Executable to a Ninf-G Client.</p>
+
+<p>If omitted, the value 'true' is used.</p>
+
+<p>Note: If save_stdout or save_stderr attribute on the server side
+configuration file is set, stdout or stderr is not delivered to
+the Ninf-G Client regardless of the value of redirect_outerr.</p>
+
+<li>tcp_nodelay(TCP_NODELAY socket option)
+
+<p>This specifies whether or not to set TCP_NODELAY for both ends
+of connections between a Ninf-G Client and Ninf-G Executables.</p>
+
+<p>If omitted, "false" is used.</p>
+
+<p>Note: Setting this attribute to true is not
+available with Globus Toolkit 3 (probably).</p>
+
+<p>Note: There are the following report from users.</p>
+
+<p>"If the size of arguments or results is less than 1.5KB, 
+performance of data transfer is improved by setting tcp_nodelay
+to true."</p>
+
+<li>tcp_connect_retryCount(Retry count for TCP connect)
+<p>This specifies the maximum number of retries for establishing a TCP
+connection.
+This attribute is used for the following cases.</p>
+
+<ul>
+<li>A connection for a connect back from a Ninf-G executable to a client.
+<li>A connection for GASS file transfers with FILENAME type arguments.
+</ul>
+
+<p>The default value of this attribute is 4.</p>
+
+<p>Note: Ninf-G 2.3.0 and prior versions do not support this attribute.
+In order to disable this attribute, set
+tcp_connect_retryCount to 0 if the version of Ninf-G on the server
+is 2.3.0 or prior.</p>
+
+<li>tcp_connect_retryBaseInterval(Retry base interval for TCP connect)
+
+<p>This specifies the base interval time for the first retry.
+The value is in second and must be a non-negative integer.
+This value is used as the maximum interval time for the first retry.</p>
+
+<p>The default value of this attribute is 1.</p>
+
+<li>tcp_connect_retryIncreaseRatio(Retry increase ratio for TCP connect)
+
+<p>This specifies the increase ratio
+which is used to calculate the maximum interval time between retries.
+The maximum interval time is calculated by multiplying this value
+and the maximum interval time for the last retry.
+For the first retry, the value of
+tcp_connect_retryBaseInterval is used as the maximum interval time.</p>
+
+<p>The value must be greater than 1.0 and the default value of this
+attribute is 2.0.</p>
+
+<li>tcp_connect_retryRandom (Random for TCP connect)
+<p>This specifies a flag that specifies whether the random value is
+used or not for the interval time.
+If the value is true, interval time between retries is set
+randomly between 0.0 second to the maximum interval time.
+If the value is false, the maximum interval time is
+used as interval time.</p>
+
+<p>The default value of this attribute is true.</p>
+
+<li>argument_transfer
+(the timing for the return of the calling function
+for an asynchronous call)
+
+<p>When an asynchronous call function is used, this specifies the
+timing for that function's return.</p>
+
+<p>The values that can be specified are
+'wait' (wait until argument transfer is completed),
+'nowait' (do not wait until argument transfer is completed),
+and 'copy' (without waiting for the completion of argument transfer,
+the values of the arguments passed to the asynchronous
+function are copied on the client side,
+and the argument transfer is done in the background).</p>
+
+<p>If omitted, 'wait' is used.</p>
+
+<li>compress(compression method)
+
+<p>This specifies the method for compressing the argument information.
+Either 'raw' or 'zlib' can be specified.</p>
+
+<p>If omitted, 'raw' is used.</p>
+
+<li>compress_threshold(the threshold value for performing compression)
+
+<p>This specifies the threshold value for when compression is
+performed.
+If the argument information size equals or exceeds the specified
+value, the information is compressed.</p>
+
+<p>If omitted, the value of 64 kilobytes is used.</p>
+
+<li>argument_blockSize(The argument block size)
+
+<p>Arguments and results are divided into specified block size, when
+they are transferred between Ninf-G Client and Ninf-G Executable.</p>
+
+<p> The value of this attribute affect the performance of data transfer
+and appropriate value should be specified according to the size of
+the transferred data and network performance.</p>
+
+<p>If 0 is specified, arguments and results will not be divided.
+If a positive integer is specified, they are divided into blocks
+with the specified value.  An error occurs if a negative value is
+specified.</p>
+
+<p>If omitted, the default value 16Kbytes is used.</p>
+
+<li>workDirectory(the working directory for Ninf-G Executable)
+
+<p>This specifies the working directory for Ninf-G Executable.</p>
+
+<p>If omitted, no changing directory was made
+when staging function was used,
+other case, Ninf-G Executable path was used for working directory.</p>
+
+<li>coreDumpSize(core dump size for Ninf-G Executable)
+
+<p>This specifies the core dump file size for Ninf-G Executable.
+The size is 1024-byte increments.</p>
+
+<p>If 0 was specified, it means no core dump file was created.
+If -1 was specified, it means core dump file size is unlimited
+and infinite.</p>
+
+<p>If omitted, No setup for core dump file size was performed.</p>
+
+<li>commLog_enable(whether communication log output is enabled or disabled)
+
+<p>This specifies whether the communication log output function is
+enabled or disabled.</p>
+
+<p>If 'true' is specified, the communication log is output.</p>
+
+<p>If not specified, the default value is false.</p>
+
+<li>commLog_filePath(communication log file name )
+
+<p>The name of the file to which the communication log is
+output is specified in the log file name.</p>
+
+<p>The file name may include a path that includes a directory
+(e.g., "/home/myHome/var/logFile").</p>
+
+<p>The file and directory name can include the following
+specifiers.</p>
+
+<p>
+<ul>
+<li>"%t"
+<p>"%t" is replaced with the date as year, month and day,
+and the time in hours, minutes, seconds and milliseconds
+("yyyymmdd-hhmmss-MMM")
+(e.g., "/ home/myHome/var/logDir%t/logFile" is replaced by
+"/home/myHome/var/logDir20030101-154801-123/logFile").</p>
+
+<li>"%h"
+<p>"%h" is replaced with the Ninf-G Client hostname.</p>
+
+<li>"%p"
+<p>"%p" is replaced with the process id of Ninf-G Client.</p>
+
+</ul>
+</p>
+
+<p>The Ninf-G Executable id number is added to the end of the
+file name.</p>
+
+<p>When omitted, the log is output to standard error.
+If the communication log file name is omitted, the commLog_suffix,
+commLog_nFiles and commLog_maxFileSize are ignored.</p>
+
+<li>commLog_suffix(communication log file suffix)
+
+<p>When the communication log file is specified,
+this specifies the suffix for when the log file is created.</p>
+
+<p>If a suffix is specified, the generated file name will be from
+"filename[000].suffix" to "filename[nnn].suffix".
+If omitted, the generated file name will be from
+"filename.[000]" to "filename.[nnn]".
+The number of files minus 1 is "nnn".
+The number of digits in "nnn" is the same as the number of digits in
+number of files minus 1. For example, if the number of files is set to 100,
+then the number will range from "00" to "99".</p>
+
+<li>commLog_nFiles(number of files for communication log output)
+
+<p>This is the number of files created for communication log output.</p>
+
+<p>0 indicates to output unlimited number of files.
+An negative value results in an error.</p>
+
+<p>If omitted, the value 1 is used.</p>
+
+<li>commLog_maxFileSize
+(maximum number of bytes for the communication log file)
+
+<p>This specifies the maximum number of bytes for the
+communication log file.</p>
+
+<p>If omitted, the value will be unlimited
+if the number of files is one, or 1Mbyte if the number of
+files is two or more.</p>
+
+<li>commLog_overwriteDirectory(over-write permission for the directory)
+
+<p>This establishes overwrite permission for the directory.
+If the specified directory exists, this specifies whether
+creation of log files in that directory is enabled or disabled.
+The operation in the case that the directory exists is shown below.</p>
+
+<p>
+<ul>
+<li>true:
+There is no error even if the directory specified by log_filePath exists.
+It is possible that files located in that directory will be overwritten.
+<li>false:
+If the directory specified by log_filePath exists, an error results.
+</ul>
+</p>
+
+<li>debug(debugging function enabled or disabled)
+
+<p>This specifies whether the debugging function is enabled or
+disabled.</p>
+
+<p>If 'true' is specified, the debugger will be started up
+when the Ninf-G Executable starts up,
+allowing debugging of the Ninf-G Executable.
+If 'false' is specified, Ninf-G Executable starts up without
+starting the debugger.</p>
+
+<p>If omitted, the default 'false' value is used.</p>
+
+<li> debug_display(debugging display)
+
+<p>This specifies an X11 display for displaying the debugging terminal
+emulator.</p>
+
+<p>To use the debugger,
+start up the terminal emulator on the server machine,
+and run the debugger on that terminal.
+This defines the value for the environment
+variable DISPLAY that is passed to the terminal emulator.</p>
+
+<li>debug_terminal(the path to the debugging terminal emulator)
+
+<p>This specifies the path to the terminal emulator command.</p>
+
+<p>If omitted, the value 'xterm' is used.
+Ninf-G Executable searches terminal emulator command in
+PATH that is set in the Ninf-G operating environment
+on the server machine is used.</p>
+
+<li>debug_debugger(path to the debugger)
+
+<p>This specifies the path to the debugger command.</p>
+
+<p>If omitted, the value  'gdb' is used.
+Ninf-G Executable searches debugger command in PATH
+that is set in the Ninf-G operating environment on
+the server machine is used.</p>
+
+<li> debug_busyLoop(wait attach from debugger)
+
+<p>This specifies whether the Ninf-G Executable perform waiting attach
+from debugger or not.</p>
+
+<p>If 'true' is specified, the Ninf-G Executable waits
+attaching from debugger, just after its invocation.</p>
+
+<p>The user need to invoke debugger and attach that Ninf-G Executable.
+Then user must change variable for attach waiting (debugBusyLoop),
+and continue execution.
+(When user uses gdb, try "set var debugBusyLoop=0", "continue".)</p>
+
+<p>If omitted, the default 'false' value is used.</p>
+
+<p>Note: It's very helpful to specify this attribute with
+"environment NG_LOG_LEVEL=4" in the SERVER section. which displays
+which process id must be attached.</p>
+
+<li>environment(environment variable)
+
+<p>The environment variable specifies the environment variable
+that is passed to Ninf-G Executable.
+It can be written as 'variable name' only or
+'variable name = value'.</p>
+
+<p>If omitted, the environment variable is not used.</p>
+
+</ul>
+
+<h4><a name="SERVER_DEFAULT">
+4.3.10 SERVER_DEFAULT section</a></h4>
+
+<p>The SERVER_DEFAULT section does not allow multiple definitions.
+This section may be omitted.</p>
+
+<p>The SERVER_DEFAULT section defines the default values for
+attributes which are used when attributes are omitted
+in the SERVER section.</p>
+
+<p>The description of the SERVER_DEFAULT section is the same as
+the SERVER section,
+except that the attribute "hostname" is not described.</p>
+
+<p>The SERVER_DEFAULT section may also be described in the
+configuration file or other such place. (*)</p>
+
+<p>(*) For example, even if the SERVER_DEFAULT section is written
+later than the SERVER section,
+if attributes are omitted in the previously described SERVER
+section, the attributes defined in the SERVER_DEFAULT section are used.</p>
+
+
+<h3><a name="Running_the_Ninf-G_Client_program">
+4.4 Running the Ninf-G Client program</a></h3>
+
+<ul>
+<li>Generating the Globus proxy certificate
+
+<p><code> % grid-proxy-init</code></p>
+
+<li>Running the Ninf-G Client Program</li>
+
+<p><code> ./test_client [args ...]</code></p>
+</ul>
+
+<h3><a name="Creating_application_programs">
+4.5 Creating application programs</a></h3>
+
+<p>Ninf-G supports the GridRPC API for C and Java.</p>
+
+<p>In this section, the flow of an application program
+(written in C) for using GridRPC is described and
+a few typical GridRPC API functions are introduced.</p>
+
+<p>Of the functions described here,
+those that contain *_np are not included in
+the GridRPC API standard (i.e., they are specific to Ninf-G).</p>
+
+<p>A full list of the GridRPC APIs and detailed explanation of each API
+can be found in chapter 7,
+<a href="grpc-api/grpc_api.html">"API Reference"</a>.</p>
+
+<ul>
+<li>Flow of an application program for using GridRPC
+
+<p>The typical flow of an application program for using GridRPC is as
+follows.</p>
+
+<ol>
+<li>Initialization
+<li>Creation of handles
+<li>Calling and synchronizing remote functions and remote methods
+<li>Destruct handles
+<li>End processing
+</ol>
+</ul>
+
+<p>The functions used in the above processes are described below.</p>
+
+<ol>
+<li>Initialization
+
+<p>The following function is used for initialization.</p>
+
+<p><code>grpc_error_t grpc_initialize(char *configFile)</code></p>
+
+<p>This function accepts the name of the configuration file as an
+argument, reads the file named by the argument, analyzes the content,
+and saves the values.</p>
+
+<p>If the argument value is NULL, the file specified by
+the NG_CONFIG_FILE environment variable is taken to be
+the configuration file.</p>
+
+<p>As the return value, an error status code is returned to
+inform of failure to read the configuration file or failure to
+save the values that were read.</p>
+
+<p>An example of using grpc_initialize() is given below.
+(In this example, the configuration file name is taken from the command line
+argument and that value is used as the argument.)</p>
+
+<p>
+<center>
+<table border>
+<tr><td>
+<pre>
+<code>
+main (int argc, char *argv[]) {
+       grpc_error_t result;
+       char *configFile = argv[1];
+
+       result = grpc_initialize(configFile);
+       ...
+</code>
+</pre>
+</td></tr>
+</table>
+</center>
+</p>
+
+<li>Creation of handles
+
+<p>In GridRPC, "handles" are used when performing operations
+such as executing remote functions and remote methods.
+A handle must be created before executing a remote function
+or remote method, but the type of handle to create differs
+with the type of Ninf-G Executable used.</p>
+
+<p>If only one remote function is defined for the Ninf-G Executable
+used, a "function handle" is used; if multiple remote methods are
+defined, an "object handle" is used.</p>
+
+<p>Functions for creating both kinds of handles are shown below.</p>
+
+<ul>
+<li>function handle
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_function_handle_init(grpc_function_handle_t *handle,
+                                  char *server_name,
+                                  char *func_name)
+</code>
+</pre>
+</p>
+
+<li> object handle
+<p>
+<pre>
+<code>
+grpc_error_t grpc_object_handle_init_np(grpc_object_handle_t_np *handle,
+                                   char *server_name,
+                                   char *class_name)
+</code>
+</pre>
+</p>
+</ul>
+
+<p>These functions accept a 'server name' and
+'function or class name', and creates a handle
+for operating the specified Ninf-G Executable on
+the specified server.</p>
+
+<p>As the return value, an error code is returned to inform of
+failure to create the handle.</p>
+
+<p>For example, a function handle is created as follows.</p>
+
+<center>
+<table border>
+<tr><td>
+<pre>
+<code>
+    grpc_function_handle_t *handle;
+    grpc_function_handle_init(&amp;handle, "server.example.org", "lib/mmul");
+</code>
+</pre>
+</td></tr>
+</table>
+</center>
+
+<p>The following functions for creating multiple handles at one time
+are also provided by Ninf-G.
+(See <a href="grpc-api/grpc_api.html">Section 7</a> for details)</p>
+
+<p>
+<ul>
+<li><code> grpc_function_handle_array_init_np() </code>
+<li><code> grpc_object_handle_array_init_np() </code>
+</ul>
+</p>
+
+<li>Calling and synchronizing remote functions and remote methods
+
+<p>The handle just created can be used to call the specified remote
+function or remote method on the server.
+When the call is made, the value of the argument defined by
+the Ninf-G IDL must be passed.</p>
+
+<p>The functions for calling a function differ for a function handle
+and an object handle.
+When calling a remote method with an object handle, the name of the
+remote method must be specified.</p>
+
+<p>Remote functions and remote methods can be called in two ways, with
+a 'synchronous call' and with an 'asynchronous call'.</p>
+
+<p>The synchronous call does not return until the execution
+of the remote function or remote method is completed.</p>
+
+<p>The asynchronous call returns either at the beginning or
+at the completion of sending the arguments to the remote function
+or remote method; it then waits for the completion of
+the remote function or remote method to obtain the result.
+(The return timing of the function that makes the asynchronous call
+can be specified in the configuration file.)</p>
+
+<ul>
+<li>Synchronous calling functions
+
+<p>Functions for making remote functions and remote methods calls of the
+synchronous type are shown below.</p>
+
+<ul>
+<li> function handle
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_call(grpc_function_handle_t *handle, ...)
+</code>
+</pre>
+</p>
+
+<li> object handle
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_invoke_np(grpc_object_handle_t_np *handle, 
+                         char *method_name, ...)
+</code>
+</pre>
+</p>
+</ul>
+
+<p>These functions accept the handle and the parameter values to be
+passed to the remote function or remote method
+(the remote method name also,
+in the case of the grpc_invoke_np() function),
+execute the computation by the specified remote function or remote method,
+and return as soon as the computation is completed.</p>
+
+<p>As the return value, an error status code is returned to inform when
+the execution of the remote function or remote method fails.</p>
+
+<p>For example, a call to a remote function or remote method defined in
+the IDL below is made in the form of grpc_call() below.
+
+<p>
+<center>
+<table border>
+<caption align=top> Definition in the IDL file </caption>
+<tr><td>
+<pre>
+<code>
+      ...
+      mmul(double *A, double *B, double *C)
+      ...
+</code>
+</pre>
+</td></tr>
+</table>
+</center>
+</p>
+
+<p>
+<center>
+<table border>
+<caption align=top> Ninf-G Client application program </caption>
+<tr><td>
+<pre>
+<code>
+    ...
+    double A[10], B[10], C[10];
+
+    /* A, B, and C are replaced by values */
+    ...
+    grpc_function_handle_t *handle;
+    result = grpc_function_handle_init(&amp;handle,
+        "server.example.org", "lib/mmul");
+    ...
+    result = grpc_call(&amp;handle, A, B, C);
+    ...
+</code>
+</pre>
+</td></tr>
+</table>
+</center>
+</p>
+
+<li>Asynchronous calling functions
+
+<p>Functions for making remote functions and remote methods calls of the
+asynchronous type are shown below.</p>
+
+<ul>
+<li> function handle
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_call_async(grpc_function_handle_t *handle, 
+                             grpc_sessionid_t *session_id, ...)
+</code>
+</pre>
+</p>
+
+<li> object handle
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_invoke_async_np(grpc_object_handle_t_np *handle,
+                         char *method_name,
+                         grpc_sessionid_t *session_id, ...)
+</code>
+</pre>
+</p>
+</ul>
+
+<p>These functions accept the handle and the parameter values to be
+passed to the remote function or remote method
+(remote method name also, in the case of the grpc_invoke_np() function),
+issue a request for computation to the specified
+remote function or remote method, and return when the transmission of
+arguments begins or when it ends
+(which can be set in the configuration file).</p>
+
+<p>If successful, GRPC_NO_ERROR is returned.
+In the case of an error, Error code is returned.</p>
+
+<p>The returned session ID is used when waiting for the execution
+results or for other such purposes.</p>
+
+<p>Functions for waiting for the completion of the computation for an
+asynchronous call are shown below.
+All of these functions return an error status code to
+inform of cases in which execution of the session fails.</p>
+
+<dl>
+<dt><code> grpc_error_t grpc_wait(grpc_sessionid_t session_id) </code>
+<dd>
+<p>This waits for completion of the session specified by the session ID
+passed in the argument and returns when the session ends.</p>
+
+<dt><code> grpc_error_t grpc_wait_any(grpc_sessionid_t *id) </code>
+<dd>
+<p>This waits for completion of any of the current sessions
+and returns when the session ends.</p>
+
+<dt><code> grpc_error_t grpc_wait_and(
+    grpc_sessionid_t *sessions, size_t length) </code>
+<dd>
+<p>Waits for completion of all of the sessions specified
+by the array of session IDs and returns when they end.</p>
+
+<dt><code> grpc_error_t grpc_wait_or(
+    grpc_sessionid_t *sessions, size_t length, grpc_sessionid_t *id) </code>
+<dd>
+<p>Waits for completion of any of the sessions specified
+by the array of session IDs and returns when one of them ends.</p>
+
+<dt><code> grpc_error_t grpc_wait_all() </code>
+<dd>
+<p>This waits for completion of all of the current sessions
+and returns when they all have ended.</p>
+</dl>
+
+</ul>
+
+<li>Destruct handles
+
+<p>For releasing resources, the unnecessary "handles"
+must be destructed.
+The function for destructing differs with the type of "handles".</p>
+
+<p>Functions for destructing handles are shown below.</p>
+
+<ul>
+<li> function handle
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_function_handle_destruct(
+    grpc_function_handle_t *handle)
+</code>
+</pre>
+</p>
+
+<li> object handle
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_object_handle_destruct_np(
+    grpc_object_handle_t_np *handle)
+</code>
+</pre>
+</p>
+</ul>
+
+<p>These functions destruct the specified handle.</p>
+
+<p>As the return value, an error status code is returned to
+inform of failure to destruct the handle.</p>
+
+<p>If two or more handles were created at once,
+then the following functions for destructing multiple handles
+at one time must be used.</p>
+
+<p>
+<ul>
+<li><code> grpc_function_handle_array_destruct_np() </code>
+<li><code> grpc_object_handle_array_destruct_np() </code>
+</ul>
+</p>
+
+<li>Termination processing
+
+<p>The following function is used to perform the termination
+processing.</p>
+
+<p>
+<code> grpc_error_t grpc_finalize()</code>
+</p>
+
+<p>This function executes the processing for
+when Ninf-G is terminated.</p>
+
+<p>The return value is an error status code to inform when the
+termination processing fails.</p>
+
+</ol>
+
+<ul>
+<li>Other functions
+
+<p>The API that provides capabilities that have been added
+in Ninf-G v2 is described below.</p>
+
+<ul>
+<li>Callback
+
+<p>When callback is used, "a function that has both the same name
+as the name of the callback type argument described
+in the Ninf-G IDL and the same arguments" must be defined
+and implemented in the application program.</p>
+
+<p>Below is an application program that corresponds to the callback
+example that appears in chapter 3,
+<a href="server-side.html">
+"Creating and setting up server-side programs"(section 3.1)</a>.
+(Ninf-G Executable and Ninf-G Client exchange status values)</p>
+
+<p>Note: The maximum number of the parameter
+which can be defined as callback function is 6.</p>
+
+<p>
+<center>
+<table border>
+<tr><td>
+<pre>
+<code>
+/* global */
+int executableStatus;
+int clientStatus;
+
+void callback_func(int c[], int d[])
+{
+    executableStatus = c[0];
+    d[0] = clientStatus;
+}
+
+main()
+{
+    grpc_function_handle_t handle;
+    grpc_error_t result;
+    int b;
+    ...
+    result = grpc_function_handle_init(&amp;handle,
+        "server.example.org", "test/callback_test");
+    result = grpc_call(&amp;handle, 100, &amp;b, callback_func);
+    ...
+}
+</code>
+</pre>
+</td></tr>
+</table>
+</center>
+</p>
+
+<li>Checking the session status
+
+<p>A function for checking the status of a session is shown below.</p>
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_get_info_np(grpc_sessionid_t session_id,
+    grpc_exec_info_t_np *info, int *status)
+</code>
+</pre>
+</p>
+
+<p>This checks the status of the session that corresponds to the
+session ID specified in the argument.</p>
+
+<p>When the heartbeat is not obtained normally, GRPC_SESSION_DOWN is
+returned as the 3rd argument of this function. If an error has occurred,
+the error code is returned.</p>
+
+<li>Canceling a session
+
+<p>A function for canceling a session is shown below.</p>
+
+<p>
+<pre>
+<code>
+grpc_error_t grpc_cancel(grpc_sessionid_t session_id)
+</code>
+</pre>
+</p>
+
+<p>This checks the status of the session that corresponds to the
+session ID specified in the argument.</p>
+
+<p>An error code is returned as the return value to inform that
+an error has occurred.</p>
+
+</ul>
+</ul>
+
+<hr>
+last update : $Date: 2005/08/04 09:32:49 $
+</body>
+</html>
+

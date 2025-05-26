@@ -1,0 +1,7 @@
+#freeze
+#norelated
+-2007-10-12 (金) 12:38:44 - [[VMware Migrationもどき]]
+-2006-08-28 (月) 19:06:10 - [[ModifiyingVMnetConfigFromHostOS]]
+-2006-08-25 (金) 00:33:17 - [[Targetへのコマンド]]
+-2006-07-05 (水) 17:37:19 - [[test]]
+-2006-06-30 (金) 18:39:36 - [[FrontPage]]

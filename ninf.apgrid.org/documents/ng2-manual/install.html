@@ -1,0 +1,531 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=us-ascii">
+<title>Installation manual</title>
+</head>
+<body bgcolor=white>
+
+<h2><a name="Installation_manual">2 Installation manual</a></h2>
+
+<h3>Prerequisite for installing Ninf-G</h3>
+
+<ul>
+<li> All SDK bundles of the Globus Toolkit
+(resource, data, and information) must be built from source bundles.
+<li> All SDK bundles of the Globus Toolkit
+(resource, data, and information) must have a common flavor by
+which those bundles are built.
+The flavor should be specified as Globus flavor when installing
+(configuring) Ninf-G except the flavor is gcc32dbg.
+</ul>
+
+<p>Note: <strong>We recommend you to use *pthr flavor.</strong>
+Some features don't work with non-*pthr flavor. 
+</p>
+
+<h3><a name="Downloading_the_Ninf-G_package">
+2.1 Downloading the Ninf-G package</a></h3>
+
+<p>Download the Ninf-G package from the download Web page</p>
+(<a href="http://ninf.apgrid.org/packages/welcome.html">
+http://ninf.apgrid.org/packages/welcome.html</a>).
+
+<h3><a name="Creating_user_ninf">2.2 Creating user "ninf" </a></h3>
+
+<p>It is recommended to create a "ninf" user
+on the installation system.</p>
+
+<p>It is also possible, however, to install Ninf-G in
+a location where the user has read and write
+privileges under general user privileges
+(that user's home directory, for example).</p>
+
+<h3><a name="Installation">2.3 Installation</a></h3>
+
+<table border>
+<tr>
+<td>
+<ul>
+<li>Globus libraries built from all SDK source bundles must be
+installed on all nodes on which Ninf-G Clients and Executables
+may run.  The libraries may be installed in a shared directory.
+<br>
+<li>Ninf-G libraries must be installed on the nodes on which Ninf-G
+Clients and Executables will be compiled.  The libraries may be
+installed in a shared directory.<br>
+<li>server_install command for registering the host information
+needs to be executed only on a front-end node on which the
+Globus gatekeeper is running.<br>
+</ul>
+</td>
+</tr>
+</table>
+
+<ul>
+<li>Expanding the source files
+
+<p>Move the files of the downloaded package to the directory
+in which the source files are to be expanded and then
+use the following command to expand the Ninf-G package files.
+(The 2.x.x in the command is the version number.)</p>
+
+<pre>% gunzip -c ng-2.x.x.tgz | tar xvf -</pre>
+
+<p>Executing the above command will create a "ng-2.x.x" directory
+and expand the Ninf-G source files in that directory.</p>
+
+<p>Note: Ninf-G package is created by GNU tar, so it requires you
+to use GNU tar to expand package.</p>
+
+<li>Running the configure script
+
+<p>(move to the directory in which the source files are expanded)</p>
+<pre>% cd ng-2.x.x </pre>
+<pre>% ./configure </pre>
+
+<p>Executing the above command,
+the host software environment is examined,
+and the execution environment for the tools used by compile
+is prepared
+(create Makefile, etc.).</p>
+
+
+<p>Parameters such as for specifying a particular Ninf-G
+installation directory can be included as shown below.</p>
+
+<p>
+<pre>
+% ./configure --prefix=/usr/local/ng --with-globusFlavor=gcc32dbgpthr
+</pre>
+</p>
+
+<p>In this example, the following parameters are specified.</p>
+
+<ul>
+<li>The path to the Ninf-G installation directory
+<li>The flavor of Globus Toolkit to use
+</ul>
+
+<p>Other options are described in section 2.4.
+The options that can be used with the configure command can be
+viewed with the following command.</p>
+
+<p>
+<pre>% ./configure --help</pre>
+</p>
+
+<li>Executing the make command
+
+<p>Execute the following command in the directory
+for expanding the source files.</p>
+
+<pre>% make</pre>
+
+<p>Executing make generates the libraries needed by
+Ninf-G as well as an executable binary file.</p>
+
+<p>In Ninf-G, the Makefile is created by using
+the GNU autoconf configure script.
+If there is code in the Makefile written with
+the POSIX make program that cannot be executed,
+try using the GNU make program.</p>
+
+<p>To configure either the server environment only or
+the client environment only, run the following make.</p>
+
+<ul>
+<li>Configure the server environment only
+
+<p>The following command can be used to configure the
+server environment only.</p>
+
+<p>
+<pre>% make server</pre>
+</p>
+
+<li>Configure the client environment only
+<p>The following command can be used to configure the
+client environment only.</p>
+
+<p>
+<pre>% make client</pre>
+</p>
+</ul>
+
+<li>Installing the compiled files, etc.
+
+<p>With owner privileges for the directory in which the files
+are to be installed
+(specified by the --prefix at the time of configure;
+the default is "/usr/local"),
+execute the following command from the directory in which
+the source files were expanded.</p>
+
+<p>If you want to specify a number of CPUs for MPI for LocalLDIF(*.ngdef),
+you have to modify &lt package_dir &gt /etc/server.conf and change
+variable of MPIRUN_NO_OF_CPUS.</p>
+
+<pre>% make install</pre>
+
+<p>Executing the above command copies the libraries and
+executable binaries created by executing the make
+command and the commands needed to run Ninf-G to the
+specified directory.</p>
+
+<p>To install either the server environment only or the
+client environment only, execute the make command as described
+below.</p>
+
+<ul>
+<li>To install the server environment only
+
+<p>It is possible to install only the server environment by executing the
+following command.</p>
+
+<p>
+<pre>% make install_server</pre>
+</p>
+
+<li>To install the client environment only
+
+<p>It is possible to install only the client environment by executing the
+following command.</p>
+
+<p>
+<pre>% make install_client</pre>
+</p>
+</ul>
+
+<p>(The following are executed only on the server machine
+(where Ninf-G Executable is run).<br>
+If MDS is not being used, the following tasks are not necessary.
+In that case, owner user privileges for $GLOBUS_LOCATION are
+also not needed.)</p>
+
+<li>Registering the host information </li>
+
+<p><b>This is required only on gatekeeper nodes.</b></p>
+<p>Execute the following command with owner user privileges
+for $GLOBUS_LOCATION ("globus", for example).<br>
+If you want to specify a number of CPUs for MPI, you have to edit
+server_install and change variable of MPIRUN_NO_OF_CPUS.</p>
+
+<p>
+<pre>% cd ng-2.x.x/utility/script</pre>
+<pre>% ./server_install</pre>
+</p>
+
+<li>Settings for provision of Ninf-G Executable information by MDS
+
+<p><b>This is required only on gatekeeper nodes.</b></p>
+
+<ul>
+<li>Add the following line to ${GLOBUS_LOCATION}/etc/grid-info-slapd.conf.
+
+<p>
+<pre>"include ${GLOBUS_LOCATION}/etc/grid-info-resource.schema"</pre>
+</p>
+
+<p>Below that line, add the following line.</p>
+
+<p>
+<pre>"include ${GLOBUS_LOCATION}/etc/grpc.schema"</pre>
+</p>
+
+<li>Restarting MDS </li>
+
+<p>
+<pre> % ${GLOBUS_LOCATION}/sbin/globus-mds stop</pre>
+<pre> % ${GLOBUS_LOCATION}/sbin/globus-mds start</pre>
+</p>
+</ul>
+</ul>
+
+<h3><a name="Configure_options">2.4 Configure options</a></h3>
+
+<p>The available options can be displayed with the following
+command.</p>
+
+<p>
+<pre>% ./configure --help</pre>
+</p>
+
+<p>The options than can be used with the configure script are
+described below.</p>
+
+<ul type=disc>
+<li>General configure options
+
+<p>The general configure options have no effect
+on the Ninf-G functions.</p>
+
+<center>
+<table border>
+<caption align=top> General configure options </caption>
+<tr>
+<th> option </th>
+<th> description </th>
+</tr>
+
+<tr>
+<td> --cache-file=FILE </td>
+<td> cache test results in FILE </td>
+</tr>
+
+<tr>
+<td> --help </td>
+<td> print help message </td>
+</tr>
+
+<tr>
+<td> --no-create </td>
+<td> do not create output files </td>
+</tr>
+
+<tr>
+<td> --quiet, --silent </td>
+<td> do not print `checking...' messages </td>
+</tr>
+
+<tr>
+<td> --version </td>
+<td> print the version of autoconf that created configure </td>
+</tr>
+</table>
+</center>
+
+<br>
+
+<li> Directory and file names
+
+<p>Specify the location for installing Ninf-G.</p>
+<p>Specify the installation path for the targets listed below.</p>
+<p>The default values are shown.</p>
+
+<center>
+<table border>
+<caption align=top> Directory and file names </caption>
+<tr>
+<th> option </th>
+<th> default </th>
+<th> description </th>
+</tr>
+
+<tr>
+<td> --prefix=PREFIX </td>
+<td> /usr/local </td>
+<td> install architecture-independent files in PREFIX </td>
+</tr>
+
+<tr>
+<td> --exec-prefix=EPREFIX </td>
+<td> same as prefix </td>
+<td> install architecture-dependent files in EPREFIX </td>
+</tr>
+
+<tr>
+<td> --bindir=DIR </td>
+<td> EPREFIX/bin </td>
+<td> user executables in DIR </td>
+</tr>
+
+<tr>
+<td> --sbindir=DIR </td>
+<td> EPREFIX/sbin </td>
+<td> system admin executables in DIR </td>
+</tr>
+
+<tr>
+<td> --libexecdir=DIR </td>
+<td> EPREFIX/libexec </td>
+<td> program executables in DIR </td>
+</tr>
+
+<tr>
+<td> --datadir=DIR </td>
+<td> EPREFIX/share </td>
+<td> read-only architecture-independent data in DIR </td>
+</tr>
+
+<tr>
+<td> --sysconfdir=DIR </td>
+<td> EPREFIX/etc </td>
+<td> read-only single-machine data in DIR </td>
+</tr>
+
+<tr>
+<td> --sharedstatedir=DIR </td>
+<td> EPREFIX/com </td>
+<td> modifiable architecture-independent data in DIR </td>
+</tr>
+
+<tr>
+<td> --localstate=DIR </td>
+<td> EPREFIX/var </td>
+<td> modifiable single-machine data in DIR </td>
+</tr>
+
+<tr>
+<td> --lib-dir=DIR </td>
+<td> EPREFIX/lib </td>
+<td> object code libraries in DIR </td>
+</tr>
+
+<tr>
+<td> --includedir=DIR </td>
+<td> EPREFIX/include </td>
+<td> C header files in DIR </td>
+</tr>
+
+<tr>
+<td> --oldincludedir=DIR </td>
+<td> /usr/include </td>
+<td> C header files for non-gcc in DIR </td>
+</tr>
+
+<tr>
+<td> --infodir=DIR </td>
+<td> EPREFIX/info </td>
+<td> info documentation in DIR </td>
+</tr>
+
+<tr>
+<td> --mandir=DIR </td>
+<td> EPREFIX/man </td>
+<td> man documentation in DIR </td>
+</tr>
+
+<tr>
+<td> --srcdir </td>
+<td> configure dir or ... </td>
+<td> find the sources in DIR </td>
+</tr>
+
+<tr>
+<td> --program-prefix=PREFIX </td>
+<td>  </td>
+<td> prepend PREFIX to installed program names </td>
+</tr>
+
+<tr>
+<td> --program-suffix=SUFFIX </td>
+<td>  </td>
+<td> append SUFFIX to installed program names </td>
+</tr>
+
+<tr>
+<td> --program-transform-name=PROGRAM </td>
+<td>  </td>
+<td> run sed PROGRAM on installed program names </td>
+</tr>
+</table>
+</center>
+
+<br>
+
+<li> Features and packages
+
+<center>
+<table border>
+<caption align=top> Features and packages </caption>
+<tr>
+<th> option </th>
+<th> default </th>
+<th> description </th>
+</tr>
+
+<tr>
+<td> --disable-FEATURE </td>
+<td>  </td>
+<td> do not include FEATURE (same as --enable-FEATURE=no) </td>
+</tr>
+
+<tr>
+<td> --enable-FEATURE[=ARG] </td>
+<td> ARG=yes </td>
+<td> include FEATURE </td>
+</tr>
+
+<tr>
+<td> --with-PACKAGE[=ARG] </td>
+<td> ARG=yes </td>
+<td> use PACKAGE </td>
+</tr>
+
+<tr>
+<td> --without-PACKAGE </td>
+<td>  </td>
+<td> do not use PACKAGE (same as --with-PACKAGE=no) </td>
+</tr>
+
+<tr>
+<td> --with-globusFlavor=FLAVOR </td>
+<td> gcc32dbg </td>
+<td> specify Globus runtime library flavor </td>
+</tr>
+
+<tr>
+<td> --with-mds </td>
+<td> yes </td>
+<td> include functions for getting information of servers and
+functions from MDS </td>
+</tr>
+
+<tr>
+<td> --with-zlib </td>
+<td> yes if available </td>
+<td> use zlib for compression </td>
+</tr>
+
+<tr>
+<td> --with-largefile </td>
+<td> yes </td>
+<td> support largefile </td>
+</tr>
+
+<tr>
+<td> --with-cc=CC </td>
+<td> cc </td>
+<td> specify C compiler to use </td>
+</tr>
+
+<tr>
+<td> --with-opt=OPT </td>
+<td>  </td>
+<td> specify C compiler options for optimization </td>
+</tr>
+
+<tr>
+<td> --with-debug=OPT </td>
+<td>  </td>
+<td> specify C compiler options for debuggable executable file creation </td>
+</tr>
+
+<tr>
+<td> --with-cppflag=OPT </td>
+<td>  </td>
+<td> specify C preprocessor options </td>
+</tr>
+
+<tr>
+<td> --enable-gcc </td>
+<td>  </td>
+<td> allow use of gcc if available </td>
+</tr>
+
+<tr>
+<td> --enable-debug </td>
+<td> no </td>
+<td> enable generate executable with debug symbol </td>
+</tr>
+</table>
+</center>
+
+</ul>
+
+<hr>
+last update : $Date: 2005/04/01 06:57:05 $
+</body>
+</html>
+

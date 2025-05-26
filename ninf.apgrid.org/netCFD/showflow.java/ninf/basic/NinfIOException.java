@@ -1,0 +1,26 @@
+package ninf.basic;
+import java.io.IOException;
+import java.io.PrintStream;
+
+public class NinfIOException extends NinfException {
+  IOException e;
+  public NinfIOException() {
+    super();
+  }
+  public NinfIOException(IOException e) {
+    super();
+    this.e = e;
+  }
+  public NinfIOException(String s) {
+    super(s);
+  }
+  public void printStackTrace(PrintStream ps){
+    if (e != null){
+      ps.println("NinfIOException: original exception follows");
+      e.printStackTrace(ps);
+    } else 
+      super.printStackTrace(ps);
+  }
+}
+
+// end of NinfIOException.java

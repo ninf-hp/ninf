@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+<TITLE> Performance for Multi-Clients </TITLE>
+</HEAD>
+<body bgcolor="FFFFFF">
+<BASEFONT SIZE=3>
+<H1 align=center> SMP </H1>
+
+<HR SIZE="3">
+<H2 align=center> Measurement Results </H2>
+
+<table border="3">
+<tr>
+<th align=center>n</th>
+<th align=center>c</th>
+<th align=center>Performance[Mflops]<br>max/min/mean</th>
+<th align=center>T<sub>response</sub>[sec]<br>max/min/mean</th>
+<th align=center>T<sub>wait</sub>[sec]<br>max/min/mean</th>
+<th align=center>Throughput[MB/s]<br>max/min/mean</th>
+<th align=center>CPU<br>Utilization</br></th>
+<th align=center>Load<br>Average</br></th>
+<th align=center>Times</th>
+</tr>
+<tr>
+<th rowspan="3" align=center>600</th>
+<td align=center>4</td>
+<td align=center>4.35/3.17/3.79</td>
+<td align=center>1.36/1.09/1.20</td>
+<td align=center>0.21/0.13/0.16</td>
+<td align=center>1.03/0.21/0.42</td>
+<td align=center>49.92</td>
+<td align=center>6.08</td>
+<td align=center>60</td>
+</tr><tr>
+<td align=center>8</td>
+<td align=center>4.25/2.73/3.53</td>
+<td align=center>1.97/1.19/1.31</td>
+<td align=center>0.24/0.13/0.16</td>
+<td align=center>1.05/0.14/0.38</td>
+<td align=center>62.95</td>
+<td align=center>8.85</td>
+<td align=center>100</td>
+</tr><tr>
+<td align=center>16</td>
+<td align=center>3.77/2.09/2.84</td>
+<td align=center>5.54/0.00/0.36</td>
+<td align=center>1.23/0.14/0.20</td>
+<td align=center>1.40/0.11/0.35</td>
+<td align=center>89.89</td>
+<td align=center>15.37</td>
+<td align=center>180</td>
+</tr>
+</table>
+<p>
+
+<H2 align=center> Server's Load </H2>
+
+<font color="#00ff00">- Clients' Ninf_call</font><br>
+<font color="#0000ff">- CPU Utilization [%]</font><br>
+<font color="#ff0000">- Load Average<br>
+ ( ordinate: 20->10, 40->20, 60->30, 80->40, 100->50 )</font>
+
+<p>
+<table border="3">
+<tr>
+<td align=center>n\c</td>
+<td align=center>4</td>
+<td align=center>8</td>
+<td align=center>16</td>
+</tr>
+<tr>
+<td align=center>600</td>
+<td align=center><a href = "serv600_s_4_1.gif">
+<img src = "serv600_s_4_1.gif" width="100">
+</td>
+<td align=center><a href = "serv600_s_8_1.gif">
+<img src = "serv600_s_8_1.gif" width="100">
+</td>
+<td align=center><a href = "serv600_s_16_1.gif">
+<img src = "serv600_s_16_1.gif" width="100">
+</td>
+</tr>
+</table>
+
+<p>
+<HR SIZE="3">
+
+<font size=2>
+Atsuko Takefusa<BR>
+<ADDRESS>E-mail <A HREF="mailto:takefusa@.is.ocha.ac.jp">
+takefusa@is.ocha.ac.jp</A></ADDRESS><BR>
+</FONT>
+</FONT>
+</BODY>
+</HTML>

@@ -1,0 +1,1741 @@
+>>>>>>>>>> 1149379005
+#norelated
+* FrontPage [#qb249ac2]
+
+このページは、ページを指定しない時に表示されます。
+
+あなたのサイトに合わせ、自由に編集してください :) ((安易なSPAMやいたずらを防止するため、テーマや目的などの説明を加えた後、忘れずに凍結して下さい。パスワードの変更もお忘れなく!))
+
+
+** 練習ページ [#if72ced0]
+- [[SandBox]] -- 編集をお試しください
+- [[InterWikiSandBox]] -- [[InterWiki]]を試してみてください
+
+
+** PukiWikiについて [#c2af49f4]
+
+- [[PukiWiki]] -- PukiWikiのご紹介
+
+*** ドキュメント [#o366701b]
+- [[ヘルプ]] -- PukiWikiで編集するには？
+- [[テキスト整形のルール(詳細版)>整形ルール]]
+- [[プラグインマニュアル>PukiWiki/1.4/Manual/Plugin]]
+>>>>>>>>>> 1149379379
+#norelated
+* Grid SOA [#qb249ac2]
+SOA 関連の情報共有のためのページです．
+なぜか nakada の下にありますが，気にしないでください．
+そのうちどこか適切なところに移します．
+
+* Middleware [#i9a43747]
+- Xen
+- Rocks
+- [[Xen ネットワーク測定]]
+- [[VMWare Roll]]
+
+* DB [#v48593fb]
+
+
+** 練習ページ [#if72ced0]
+- [[SandBox]] -- 編集をお試しください
+- [[InterWikiSandBox]] -- [[InterWiki]]を試してみてください
+
+
+** PukiWikiについて [#c2af49f4]
+
+- [[PukiWiki]] -- PukiWikiのご紹介
+
+*** ドキュメント [#o366701b]
+- [[ヘルプ]] -- PukiWikiで編集するには？
+- [[テキスト整形のルール(詳細版)>整形ルール]]
+- [[プラグインマニュアル>PukiWiki/1.4/Manual/Plugin]]
+>>>>>>>>>> 1149591572
+#norelated
+* Grid SOA [#qb249ac2]
+SOA 関連(グリッド側)の情報共有のためのページです．
+なぜか ninf の下にありますが，気にしないでください．
+そのうちどこか適切なところに移します．
+
+* Middleware [#i9a43747]
+- Xen
+- Rocks
+- [[Xen ネットワーク測定]]
+- [[VMWare Roll]]
+
+* DB関連 [#v48593fb]
+- 小島さんよろしくおねがいします．
+
+* ミーティング資料 [#m464a231]
+- [[2006-6-2]]
+
+** 練習ページ [#if72ced0]
+- [[SandBox]] -- 編集をお試しください
+- [[InterWikiSandBox]] -- [[InterWiki]]を試してみてください
+
+
+** PukiWikiについて [#c2af49f4]
+
+- [[PukiWiki]] -- PukiWikiのご紹介
+
+*** ドキュメント [#o366701b]
+- [[ヘルプ]] -- PukiWikiで編集するには？
+- [[テキスト整形のルール(詳細版)>整形ルール]]
+- [[プラグインマニュアル>PukiWiki/1.4/Manual/Plugin]]
+>>>>>>>>>> 1151011896
+#norelated
+* Grid SOA [#qb249ac2]
+SOA 関連(グリッド側)の情報共有のためのページです．
+なぜか ninf の下にありますが，気にしないでください．
+そのうちどこか適切なところに移します．
+
+* Middleware [#i9a43747]
+- Xen
+- Rocks
+- [[Xen ネットワーク測定]]
+- [[VMWare Roll]]
+
+* DB関連 [#v48593fb]
+- 小島さんよろしくおねがいします．
+
+* ミーティング資料 [#m464a231]
+- [[2006-6-2]]
+- [[2006-6-23]]
+
+
+** 練習ページ [#if72ced0]
+- [[SandBox]] -- 編集をお試しください
+- [[InterWikiSandBox]] -- [[InterWiki]]を試してみてください
+
+
+** PukiWikiについて [#c2af49f4]
+
+- [[PukiWiki]] -- PukiWikiのご紹介
+
+*** ドキュメント [#o366701b]
+- [[ヘルプ]] -- PukiWikiで編集するには？
+- [[テキスト整形のルール(詳細版)>整形ルール]]
+- [[プラグインマニュアル>PukiWiki/1.4/Manual/Plugin]]
+>>>>>>>>>> 1151627980
+>>>>>>>>>> 1152056675
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+>>>>>>>>>> 1152114980
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1152810418
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1153811595
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[tag vlan + VMWare]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1153950817
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1153960673
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1153975801
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1154042749
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1154055655
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1155571540
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156097193
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156298706
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[VMWareWithVLANTrunking]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156401103
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[VMWareWithVLANTrunking]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156713266
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156727195
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156798730
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156818685
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156871218
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1156983975
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1157068607
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1157492004
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1157649974
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1158200765
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1158556715
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1159513304
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+- [[性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1165781899
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1165794140
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[調査項目]]
+- [[iSCSI セキュリティ]]
+- [[VS サーバへのコマンド]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1166558871
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1166558871
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1173831211
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1175031705
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1176676040
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1176850771
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1187821435
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+- [[VPN管理プログラム]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1188762800
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+- [[仮想クラスタ予約 XML インターフェース]]
+
+- [[マルチサイト対応検討]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+- [[VPN管理プログラム]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1192130071
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+- [[VMwareMigrationもどき]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+- [[仮想クラスタ予約 XML インターフェース]]
+
+- [[マルチサイト対応検討]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+- [[VPN管理プログラム]]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1194373623
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+- [[VMwareMigrationもどき]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+- [[仮想クラスタ予約 XML インターフェース]]
+
+- [[マルチサイト対応検討]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+- [[VPN管理プログラム]]
+
+* [[SC07準備]] [#xbbe80e5]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1205079454
+* [[Demo@わくわくIT]] [#fdcf3333]
+
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+- [[VMwareMigrationもどき]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+- [[仮想クラスタ予約 XML インターフェース]]
+
+- [[マルチサイト対応検討]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+- [[VPN管理プログラム]]
+
+* [[SC07準備]] [#xbbe80e5]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1244068063
+* [[Demo@わくわくIT]] [#fdcf3333]
+
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+- [[VMwareMigrationもどき]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+- [[仮想クラスタ予約 XML インターフェース]]
+
+- [[マルチサイト対応検討]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+- [[VPN管理プログラム]]
+
+* [[SC08デモ]] [#ic16f5c7]
+
+* [[SC07準備]] [#xbbe80e5]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+>>>>>>>>>> 1257789761
+* [[Demo@わくわくIT]] [#fdcf3333]
+
+* Rocks with VM [#d62d7a4d]
+
+- [[VMplayer作業記録]] [#se9950d0]
+- [[VMWare Roll]]
+- [[Tagging VLAN+ VMWare]]
+- [[VMware Server作業記録]]
+- [[VMwareMigrationもどき]]
+
+- [[仮想クラスタ予約]]
+- [[仮想クラスタ予約テーブル]]
+- [[仮想クラスタ予約 XML インターフェース]]
+
+- [[マルチサイト対応検討]]
+
+** VLAN-related materials for VMware Server + Rocks [#d2ec0fc7]
+
+- [[VMWareWithVLANTrunking]]
+- [[VLAN_ID Numbering]]
+- [[ModifyingVMnetConfig]]
+- [[AutomatedVLANConfigForVMware]]
+- [[VMwareGriVonScript]]
+- [[VMnetChangeScript]]
+- [[InterVLANConnection]]
+- [[GrivonServerVLANScript]]
+- [[GrivonDellPowerConnect5224]]
+
+- [[VMwareTips]] (おまけ)
+
+* Monitoring [#d1165b15]
+
+- [[CustomizingGanglia]]
+
+* Virtual Storage [#o1405cff]
+
+- [[クライアントの設定]]
+- [[サーバの設定]]
+- [[VS サーバへのコマンド]]
+- [[調査項目]]
+-- [[Rocks Tips]]
+- [[iSCSI セキュリティ]]
+- [[共有ファイルシステムの比較]]
+-- [[Gfarm Roll]]
+- [[試験用サーバ]]
+- [[iSCSIの性能評価：パラメータチューニング]]
+- [[VMwareが利用するストレージの性能評価]]
+
+* Network [#j5a7e504]
+
+- [[Xen ネットワーク測定]]
+- [[VLAN I/F をもつVMの設定]]
+- [[ネットワークスイッチ設定]]
+- [[ノード上VM間のトラフィック制御]]
+- [[マルチDCを想定したRocksインストールテスト（OpenVPN)]]
+- [[VPN管理プログラム]]
+
+
+* [[SC09デモ]] [#ic16f5d9]
+
+* [[SC08デモ]] [#ic16f5c7]
+
+* [[SC07準備]] [#xbbe80e5]
+
+* ミーティング資料 [#a569e1a5]
+
+- [[2006-7-14]]
+- [[2006-6-23]]
+- [[2006-6-2]]
+

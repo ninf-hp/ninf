@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> おわりに</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" おわりに">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html192 HREF="node17.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html190 HREF="main.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html184 HREF="node15.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html193 HREF="node17.html"> 謝辞</A>
+<B>Up:</B> <A NAME=tex2html191 HREF="main.html">無題</A>
+<B> Previous:</B> <A NAME=tex2html185 HREF="node15.html"> Ninf IDL の構文</A>
+<BR> <HR> <P>
+<H1><A NAME=SECTION00070000000000000000> おわりに</A></H1>
+<P>
+本稿では、Ninf RPC  システムの設計とTCP/IP上の実装についてのべた。
+Ninf RPC  は、動的にインターフェイス情報を転送し、
+転送量を動的に算出する枠組を与える。
+これにより従来のRPCを用いては不可能であった計算を
+分散化することが可能になった。
+<P>
+今後の課題としては、以下のことが考えられる。
+<UL><LI> クライアント・サーバ間通信のUDP化<BR> 
+UDP で実装することにより、再送のメカニズムを最適化することが
+可能となり、通信性能の向上が見込める。
+現在の実装ではクライアント・サーバ間の通信はTCP/IP上ではあるが、
+仮想的にはパケットを用いており、容易にUDP化することが
+可能だと思われる。
+<P>
+<LI> ハート・ビートの実現<BR> 
+分散計算の一つの問題として、接続の切断の検出がある。
+UNIX RPC ではタイムアウトをもちいて、
+再実行を行なっている。
+Ninf の主な対象である数値演算においては、計算に非常に時間がかかり、
+しかも計算時間が予見できないことが多いため、
+単純なタイムアウトを用いることはできない。
+このための手法として、ハート・ビートという手法がある。
+これは、計算ルーチンが一定時間ごとに特殊なパケットをクライアントに
+送る方法である。クライアントは一定時間以上パケットが来なければ、
+接続が切断されたと判断することができる
+現在はこの手法はインプリメントされていない。
+<P>
+
+<P>
+</UL><BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

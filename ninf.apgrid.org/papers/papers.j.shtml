@@ -1,0 +1,5 @@
+<!--#set var="CONTENT_FILENAME" value="ninf.ja.html"-->
+<!--#set var="CONTENT_OLD_FILENAME" value="link_to_old.html"-->
+<!--#set var="SUBTITLE" value ="Ninf Papers (2003 -)"-->
+
+<!--#include file="masterframe-papers.shtml" -->

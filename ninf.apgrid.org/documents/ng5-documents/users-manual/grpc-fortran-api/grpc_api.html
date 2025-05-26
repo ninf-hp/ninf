@@ -1,0 +1,503 @@
+<!--
+  $URL$ $Rev$ $Date$
+  $AIST_Release: 5.1.0 $
+  $AIST_Copyright:
+   Copyright 2003, 2004, 2005, 2006 Grid Technology Research Center,
+   National Institute of Advanced Industrial Science and Technology
+   Copyright 2003, 2004, 2005, 2006 National Institute of Informatics
+   
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+   
+       http://www.apache.org/licenses/LICENSE-2.0
+   
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   $
+ -->
+
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=us-ascii">
+<title>GridRPC Fortran Client API Reference Manual</title>
+</head>
+<body bgcolor=white>
+
+<h2><a name="api_reference"> 12. GridRPC Fortran Client API Reference Manual </a></h2>
+
+<p>
+This section lists and gives you information about all Ninf-G Fortran Client API.
+</p>
+
+<hr>
+
+API Index
+<ul>
+<li> <a href="#activation"> Initialization and finalization </a>
+<li> <a href="#handle"> Handle </a>
+<li> <a href="#handle_attr"> Handle Attribute </a>
+<li> <a href="#invoke"> Session Invocation </a>
+<li> <a href="#session_attr"> Session Attribute </a>
+<li> <a href="#wait"> Session Wait </a>
+<li> <a href="#session"> Session Control </a>
+<li> <a href="#errors"> Errors </a>
+<li> <a href="#other"> Others </a>
+<li> <a href="#server"> Server side </a>
+</ul>
+
+<hr>
+
+<h3>
+<a name="activation"> Ninf-G Client initialization and finalization API </a>
+</h3>
+<ul>
+<li><a href="grpc_initialize.html">GRPC_INITIALIZE()</a>
+<li><a href="grpc_finalize.html">GRPC_FINALIZE()</a>
+<li><a href="grpc_config_file_read_np.html">GRPC_CONFIG_FILE_READ_NP()</a>
+</ul>
+
+<h3>
+<a name="handle"> Ninf-G Handle API </a>
+</h3>
+
+<table border>
+<tr>
+<th>type</th><th>operation</th>
+    <th>array</th><th>default</th><th>attr</th><th>API</th>
+</tr>
+
+<tr>
+<td>function</td><td>initialize</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_init.html">
+    GRPC_FUNCTION_HANDLE_INIT()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>initialize</td><td></td><td></td><td>attr</td>
+<td>
+<a href="grpc_function_handle_init_with_attr_np.html">
+    GRPC_FUNCTION_HANDLE_INIT_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>initialize</td><td></td><td>default</td><td></td>
+<td>
+<a href="grpc_function_handle_default.html">
+    GRPC_FUNCTION_HANDLE_DEFAULT()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>destruct</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_destruct.html">
+    GRPC_FUNCTION_HANDLE_DESTRUCT()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>initialize</td><td>array</td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_array_init_np.html">
+    GRPC_FUNCTION_HANDLE_ARRAY_INIT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>initialize</td><td>array</td><td></td><td>attr</td>
+<td>
+<a href="grpc_function_handle_array_init_with_attr_np.html">
+    GRPC_FUNCTION_HANDLE_ARRAY_INIT_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>initialize</td><td>array</td><td>default</td><td></td>
+<td>
+<a href="grpc_function_handle_array_default_np.html">
+    GRPC_FUNCTION_HANDLE_ARRAY_DEFAULT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>destruct</td><td>array</td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_array_destruct_np.html">
+    GRPC_FUNCTION_HANDLE_ARRAY_DESTRUCT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>get_attr</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_get_attr_np.html">
+    GRPC_FUNCTION_HANDLE_GET_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>get_handle</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_get_from_session_np.html">
+    GRPC_FUNCTION_HANDLE_GET_FROM_SESSION_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>get_handle</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_get_handle.html">GRPC_GET_HANDLE()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>perror</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_perror_np.html">
+    GRPC_FUNCTION_HANDLE_PERROR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>get_error</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_get_error_np.html">
+    GRPC_FUNCTION_HANDLE_GET_ERROR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>is_ready</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_function_handle_is_ready_np.html">
+    GRPC_FUNCTION_HANDLE_IS_READY_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>initialize</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_init_np.html">
+    GRPC_OBJECT_HANDLE_INIT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>initialize</td><td></td><td></td><td>attr</td>
+<td>
+<a href="grpc_object_handle_init_with_attr_np.html">
+    GRPC_OBJECT_HANDLE_INIT_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>initialize</td><td></td><td>default</td><td></td>
+<td>
+<a href="grpc_object_handle_default_np.html">
+    GRPC_OBJECT_HANDLE_DEFAULT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>destruct</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_destruct_np.html">
+    GRPC_OBJECT_HANDLE_DESTRUCT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>initialize</td><td>array</td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_array_init_np.html">
+    GRPC_OBJECT_HANDLE_ARRAY_INIT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>initialize</td><td>array</td><td></td><td>attr</td>
+<td>
+<a href="grpc_object_handle_array_init_with_attr_np.html">
+    GRPC_OBJECT_HANDLE_ARRAY_INIT_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>initialize</td><td>array</td><td>default</td><td></td>
+<td>
+<a href="grpc_object_handle_array_default_np.html">
+    GRPC_OBJECT_HANDLE_ARRAY_DEFAULT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>destruct</td><td>array</td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_array_destruct_np.html">
+    GRPC_OBJECT_HANDLE_ARRAY_DESTRUCT_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>get_attr</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_get_attr_np.html">
+    GRPC_OBJECT_HANDLE_GET_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>get_handle</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_get_from_session_np.html">
+    GRPC_OBJECT_HANDLE_GET_FROM_SESSION_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>perror</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_perror_np.html">
+    GRPC_OBJECT_HANDLE_PERROR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>get_error</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_get_error_np.html">
+    GRPC_OBJECT_HANDLE_GET_ERROR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>is_ready</td><td></td><td></td><td></td>
+<td>
+<a href="grpc_object_handle_is_ready_np.html">
+    GRPC_OBJECT_HANDLE_IS_READY_NP()</a>
+</td>
+</tr>
+</table>
+
+<h3>
+<a name="handle_attr"> Ninf-G Handle Attribute API </a>
+</h3>
+
+<ul>
+<li><a href="grpc_handle_attr_initialize_np.html"> GRPC_HANDLE_ATTR_INITIALIZE_NP()</a>
+<li><a href="grpc_handle_attr_destruct_np.html">GRPC_HANDLE_ATTR_DESTRUCT_NP()</a>
+<li><a href="grpc_handle_attr_get_funcname_np.html">GRPC_HANDLE_ATTR_GET_FUNCNAME_NP()</a>
+<li><a href="grpc_handle_attr_set_funcname_np.html">GRPC_HANDLE_ATTR_SET_FUNCNAME_NP()</a>
+<li><a href="grpc_handle_attr_get_hostname_np.html">GRPC_HANDLE_ATTR_GET_HOSTNAME_NP()</a>
+<li><a href="grpc_handle_attr_set_hostname_np.html">GRPC_HANDLE_ATTR_SET_HOSTNAME_NP()</a>
+<li><a href="grpc_handle_attr_get_job_start_timeout_np.html">GRPC_HANDLE_ATTR_GET_JOB_START_TIMEOUT_NP()</a>
+<li><a href="grpc_handle_attr_set_job_start_timeout_np.html">GRPC_HANDLE_ATTR_SET_JOB_START_TIMEOUT_NP()</a>
+<li><a href="grpc_handle_attr_get_job_stop_timeout_np.html">GRPC_HANDLE_ATTR_GET_JOB_STOP_TIMEOUT_NP()</a>
+<li><a href="grpc_handle_attr_set_job_stop_timeout_np.html">GRPC_HANDLE_ATTR_SET_JOB_STOP_TIMEOUT_NP()</a>
+<li><a href="grpc_handle_attr_get_wait_arg_transfer_np.html">GRPC_HANDLE_ATTR_GET_WAIT_ARG_TRANSFER_NP()</a>
+<li><a href="grpc_handle_attr_set_wait_arg_transfer_np.html">GRPC_HANDLE_ATTR_SET_WAIT_ARG_TRANSFER_NP()</a>
+<li><a href="grpc_handle_attr_get_jobmanager_np.html">GRPC_HANDLE_ATTR_GET_JOBMANAGER_NP()</a>
+<li><a href="grpc_handle_attr_set_jobmanager_np.html">GRPC_HANDLE_ATTR_SET_JOBMANAGER_NP()</a>
+<li><a href="grpc_handle_attr_get_mpi_ncpus_np.html">GRPC_HANDLE_ATTR_GET_MPI_NCPUS_NP()</a>
+<li><a href="grpc_handle_attr_set_mpi_ncpus_np.html">GRPC_HANDLE_ATTR_SET_MPI_NCPUS_NP()</a>
+<li><a href="grpc_handle_attr_get_port_np.html">GRPC_HANDLE_ATTR_GET_PORT_NP()</a>
+<li><a href="grpc_handle_attr_set_port_np.html">GRPC_HANDLE_ATTR_SET_PORT_NP()</a>
+<li><a href="grpc_handle_attr_get_queue_name_np.html">GRPC_HANDLE_ATTR_GET_QUEUE_NAME_NP()</a>
+<li><a href="grpc_handle_attr_set_queue_name_np.html">GRPC_HANDLE_ATTR_SET_QUEUE_NAME_NP()</a>
+<li><a href="grpc_handle_attr_get_subject_np.html">GRPC_HANDLE_ATTR_GET_SUBJECT_NP()</a>
+<li><a href="grpc_handle_attr_set_subject_np.html">GRPC_HANDLE_ATTR_SET_SUBJECT_NP()</a>
+</ul>
+
+<h3>
+<a name="invoke"> Ninf-G Session Invocation API </a>
+</h3>
+
+<table border>
+<tr>
+<th>type</th><th>attr</th><th>async</th><th>API</th>
+</tr>
+
+<tr>
+<td>function</td><td></td><td></td>
+<td>
+<a href="grpc_call.html">
+    GRPC_CALL()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td></td><td>async</td>
+<td>
+<a href="grpc_call_async.html">
+    GRPC_CALL_ASYNC()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>attr</td><td></td>
+<td>
+<a href="grpc_call_with_attr_np.html">
+    GRPC_CALL_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>function</td><td>attr</td><td>async</td>
+<td>
+<a href="grpc_call_async_with_attr_np.html">
+    GRPC_CALL_ASYNC_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td></td><td></td>
+<td>
+<a href="grpc_invoke_np.html">
+    GRPC_INVOKE_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td></td><td>async</td>
+<td>
+<a href="grpc_invoke_async_np.html">
+    GRPC_INVOKE_ASYNC_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>attr</td><td></td>
+<td>
+<a href="grpc_invoke_with_attr_np.html">
+    GRPC_INVOKE_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+<tr>
+<td>object</td><td>attr</td><td>async</td>
+<td>
+<a href="grpc_invoke_async_with_attr_np.html">
+    GRPC_INVOKE_ASYNC_WITH_ATTR_NP()</a>
+</td>
+</tr>
+
+</table>
+
+<li> <a name="session_attr"> Ninf-G Session Attribute API </a>
+
+<ul> 
+<li> <a href="grpc_session_attr_initialize_np.html"> GRPC_SESSION_ATTR_INITIALIZE_NP()</a>
+<li> <a href="grpc_session_attr_initialize_with_object_handle_np.html">GRPC_SESSION_ATTR_INITIALIZE_WITH_OBJECT_HANDLE_NP()</a>
+<li> <a href="grpc_session_attr_destruct_np.html"> GRPC_SESSION_ATTR_DESTRUCT_NP()</a>
+<li> <a href="grpc_session_attr_get_wait_arg_transfer_np.html">GRPC_SESSION_ATTR_GET_WAIT_ARG_TRANSFER_NP</a>
+<li> <a href="grpc_session_attr_set_wait_arg_transfer_np.html">GRPC_SESSION_ATTR_SET_WAIT_ARG_TRANSFER_NP</a>
+<li> <a href="grpc_session_attr_get_session_timeout_np.html">GRPC_SESSION_ATTR_GET_SESSION_TIMEOUT_NP</a>
+<li> <a href="grpc_session_attr_set_session_timeout_np.html">GRPC_SESSION_ATTR_SET_SESSION_TIMEOUT_NP</a>
+<li> <a href="grpc_session_attr_get_transfer_timeout_argument_np.html">GRPC_SESSION_ATTR_GET_TRANSFER_TIMEOUT_ARGUMENT_NP</a>
+<li> <a href="grpc_session_attr_set_transfer_timeout_argument_np.html">GRPC_SESSION_ATTR_SET_TRANSFER_TIMEOUT_ARGUMENT_NP</a>
+<li> <a href="grpc_session_attr_get_transfer_timeout_result_np.html">GRPC_SESSION_ATTR_GET_TRANSFER_TIMEOUT_RESULT_NP</a>
+<li> <a href="grpc_session_attr_set_transfer_timeout_result_np.html">GRPC_SESSION_ATTR_SET_TRANSFER_TIMEOUT_RESULT_NP</a>
+<li> <a href="grpc_session_attr_get_transfer_timeout_cargument_np.html">GRPC_SESSION_ATTR_GET_TRANSFER_TIMEOUT_CARGUMENT_NP</a>
+<li> <a href="grpc_session_attr_set_transfer_timeout_cargument_np.html">GRPC_SESSION_ATTR_SET_TRANSFER_TIMEOUT_CARGUMENT_NP</a>
+<li> <a href="grpc_session_attr_get_transfer_timeout_cresult_np.html">GRPC_SESSION_ATTR_GET_TRANSFER_TIMEOUT_CRESULT_NP</a>
+<li> <a href="grpc_session_attr_set_transfer_timeout_cresult_np.html">GRPC_SESSION_ATTR_SET_TRANSFER_TIMEOUT_CRESULT_NP</a>
+</ul>
+
+<h3>
+<a name="wait"> Ninf-G Session Wait API </a>
+</h3>
+
+<ul>
+<li><a href="grpc_wait.html">GRPC_WAIT()</a>
+<li><a href="grpc_wait_all.html">GRPC_WAIT_ALL()</a>
+<li><a href="grpc_wait_any.html">GRPC_WAIT_ANY()</a>
+<li><a href="grpc_wait_and.html">GRPC_WAIT_AND()</a>
+<li><a href="grpc_wait_or.html">GRPC_WAIT_OR()</a>
+</ul>
+
+<h3>
+<a name="session"> Ninf-G Session Control API </a>
+</h3>
+
+<ul>
+<li><a href="grpc_cancel.html">GRPC_CANCEL()</a>
+<li><a href="grpc_cancel_all.html">GRPC_CANCEL_ALL()</a>
+<li><a href="grpc_probe.html">GRPC_PROBE()</a>
+<li><a href="grpc_probe_or.html">GRPC_PROBE_OR()</a>
+<li><a href="grpc_session_info_get_np.html">GRPC_SESSION_INFO_GET_NP()</a>
+<li><a href="grpc_session_info_release_np.html"> GRPC_SESSION_INFO_RELEASE_NP()</a>
+<li><a href="grpc_sinfo_get_ncallbacks_np.html">GRPC_SINFO_GET_NCALLBACKS_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_arg_real_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_ARG_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_arg_cpu_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_ARG_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_calculation_real_time_np.html">GRPC_SINFO_GET_EXECUTABLE_CALCULATION_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_calculation_cpu_time_np.html">GRPC_SINFO_GET_EXECUTABLE_CALCULATION_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_result_real_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_RESULT_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_result_cpu_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_RESULT_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_carg_real_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_CARG_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_carg_cpu_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_CARG_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_ccalculation_real_time_np.html">GRPC_SINFO_GET_EXECUTABLE_CCALCULATION_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_cresult_real_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_CRESULT_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_executable_transfer_cresult_cpu_time_np.html">GRPC_SINFO_GET_EXECUTABLE_TRANSFER_CRESULT_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_rpc_info_reqest_real_time_np.html">GRPC_SINFO_GET_CLIENT_RPC_INFO_REQEST_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_executable_invoke_real_time_np.html">GRPC_SINFO_GET_CLIENT_EXECUTABLE_INVOKE_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_arg_real_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_ARG_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_arg_cpu_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_ARG_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_calculation_real_time_np.html">GRPC_SINFO_GET_CLIENT_CALCULATION_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_result_real_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_RESULT_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_result_cpu_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_RESULT_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_carg_real_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_CARG_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_carg_cpu_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_CARG_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_ccalculatioin_real_time_np.html">GRPC_SINFO_GET_CLIENT_CCALCULATIOIN_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_ccalculatioin_cpu_time_np.html">GRPC_SINFO_GET_CLIENT_CCALCULATIOIN_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_cresult_real_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_CRESULT_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_client_transfer_cresult_cpu_time_np.html">GRPC_SINFO_GET_CLIENT_TRANSFER_CRESULT_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_narguments_np.html">GRPC_SINFO_GET_NARGUMENTS_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_remote_is_valid_np.html">GRPC_SINFO_GET_COMP_TO_REMOTE_IS_VALID_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_remote_original_nbytes_np.html">GRPC_SINFO_GET_COMP_TO_REMOTE_ORIGINAL_NBYTES_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_remote_compression_nbytes_np.html">GRPC_SINFO_GET_COMP_TO_REMOTE_COMPRESSION_NBYTES_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_remote_compression_real_time_np.html">GRPC_SINFO_GET_COMP_TO_REMOTE_COMPRESSION_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_remote_compression_cpu_time_np.html">GRPC_SINFO_GET_COMP_TO_REMOTE_COMPRESSION_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_remote_decompression_real_time_np.html">GRPC_SINFO_GET_COMP_TO_REMOTE_DECOMPRESSION_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_remote_decompression_cpu_time_np.html">GRPC_SINFO_GET_COMP_TO_REMOTE_DECOMPRESSION_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_client_is_vaild_np.html">GRPC_SINFO_GET_COMP_TO_CLIENT_IS_VAILD_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_client_original_nbytes_np.html">GRPC_SINFO_GET_COMP_TO_CLIENT_ORIGINAL_NBYTES_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_client_compression_nbytes_np.html">GRPC_SINFO_GET_COMP_TO_CLIENT_COMPRESSION_NBYTES_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_client_compression_real_time_np.html">GRPC_SINFO_GET_COMP_TO_CLIENT_COMPRESSION_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_client_compression_cpu_time_np.html">GRPC_SINFO_GET_COMP_TO_CLIENT_COMPRESSION_CPU_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_client_decompression_real_time_np.html">GRPC_SINFO_GET_COMP_TO_CLIENT_DECOMPRESSION_REAL_TIME_NP()</a>
+<li><a href="grpc_sinfo_get_comp_to_client_decompression_cpu_time_np.html">GRPC_SINFO_GET_COMP_TO_CLIENT_DECOMPRESSION_CPU_TIME_NP()</a>
+<li><a href="grpc_session_info_set_threshold_np.html"> GRPC_SESSION_INFO_SET_THRESHOLD_NP()</a>
+<li><a href="grpc_session_info_remove_np.html"> GRPC_SESSION_INFO_REMOVE_NP()</a>
+<li><a href="grpc_get_error.html">GRPC_GET_ERROR()</a>
+</ul>
+
+<h3>
+<a name="errors"> Ninf-G Errors API </a>
+</h3>
+
+<ul>
+<li><a href="grpc_error_string.html">GRPC_ERROR_STRING()</a>
+<li><a href="grpc_get_failed_sessionid.html">GRPC_GET_FAILED_SESSIONID()</a>
+</ul>
+
+<h3>
+<a name="other"> Ninf-G Others API </a>
+</h3>
+
+<ul>
+<li><a href="grpc_signal_handler_set_np.html">GRPC_SIGNAL_HANDLER_SET_NP()</a>
+</ul>
+
+<hr>
+last update : $Date$
+
+</body>
+</html>
+

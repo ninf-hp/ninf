@@ -1,0 +1,361 @@
+<div class="section"><font color="red">Ninf-G Version 2.3.0 is now available! (Dec. 21, 2004)</font></div>
+<div class="section"><font color="red">Ninf-G Version 3.0.0a is now available! (Nov. 9, 2004)</font></div>
+
+<div class="subtitle">Download Ninf-G Ver. 2.3.0</div>
+<div class="section">About Ninf-G 2.3.0</div>
+
+<div class="abstract">
+Ninf-G version 2 is a full re-implementation version of Ninf-G version 1.  Ninf-G version 2 provides drastic better performance as well as some new features with detailed documents.  Details are described in <a href="../documents/ng2-manual/overview.html">Overview section</a> in the <a href="../documents/ng2-manual/user-manual.html">Ninf-G version 2 users' manual</a>.  Installation instruction is described in the <a href="../documents/ng2-manual/install.html">Installation section</a> in the manual.
+<br>
+Ninf-G Version 2.3.0 is the latest version of Ninf-G Version 2.  This release includes the following new features and bug fixes:
+
+<ul>
+  <li> <font color="darkslateblue">New features</font> <br>
+    <ul>
+    <li> New platforms (HP Alpha/Tru64 UNIX, IBM Power4/AIX) have been supported
+    <li> Attributes can be specified for each session (grpc_{call,invoke}*_with_attr_np(), grpc_[gs]et_session_attr_np())
+    <li> TCP_NODELAY can be turning on/off in configuration file
+    <li> The number of MPI processes can be specified by a handle attribute
+    <li> The name of a target queue as defined by the scheduler can be specified by a handle attribute
+    <li> new APIs
+      <ul>
+      <li> grpc_function_handle_is_ready_np()
+      <li> grpc_object_handle_is_ready_np()
+      </ul>
+    <li> The following attributes have been added to client configuration file
+      <ul>
+      <li> job_maxTime
+      <li> job_maxWallTime
+      <li> job_maxCpuTime
+      </ul>
+    </ul>
+
+  <li> <font color="darkslateblue">Changes</font> <br>
+    <ul>
+    <li> modified interface of the following APIs
+      <ul>
+      <li> grpc_get_handle_np()
+      <li> grpc_function_handle_get_from_session_np()
+      <li> grpc_object_handle_get_from_session_np()
+      </ul>
+    <li> disable TCP_NODELAY by default
+    <li> array of filename type parameter has been supported
+    <li> enable to call multiple grpc_call_async()/grpc_invoke_async() without interleaving grpc_wait_*().
+    <li> The performance of the Java client has been improved
+    <li> changed the name of API for canceling sessions (ngexIsCanceled() -> grpc_is_canceled_np()) <br> ngexIsCanceled() is still available for backward compatibility
+    </ul>
+
+  <li> <font color="darkslateblue">Fixed BUGs</font> <br>
+    <ul>
+    <li> samples/pi program fails to execute between LINUX/AMD64 and LINUX(IA32) system<br>
+         (Programs using long type variables failed to execute)
+    <li> Ninf-G Executables linked with non-thread Globus libraries cause errors if heartbeat feature is enabled
+    </ul>
+</ul>
+See <a href="http://ninf.apgrid.org/documents/welcome.shtml">Ninf-G users' manual</a> for more details.
+</div>
+
+<div class="section"><font color="red">
+Download Packages of Ninf-G Ver. 2.3.0
+</font></div>
+<div class="section_contents">
+If you download Ninf-G, please subscribe to Ninf users' mailing list (ninf-users@apgrid.org) so that you can receive the latest information from the Ninf team.  The mailing list will be used for announcements of bug fixes and release of new versions as well as for information exchange between users.
+
+<form action="/cgi-bin/download.cgi" method="post">
+
+<center>
+<table>
+  <tr>
+    <td>
+      <b>Your mail address</b>
+    </td>
+    <td>
+      <input type="text" size="30" name="e-mail">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Subscribe to Ninf users' mailing list?</b>
+    </td>
+    <td>
+    <input type="radio" name="ml" value="join" checked>yes
+    <input type="radio" name="ml" value="no">no
+    </td>
+  </tr>
+</table>
+</center>  
+</div>
+
+<ul>
+<li>Ninf-G Version 2.3.0 Package <input type="submit" name="ninfg-ver2" value="Download"></li>
+</ul>
+
+<!--
+<div class="subtitle">Download Ninf-G Ver. 2.2.0</div>
+<div class="section">About Ninf-G 2.2.0</div>
+
+<div class="abstract">
+Ninf-G version 2 is a full re-implementation version of Ninf-G version 1.  Ninf-G version 2 provides drastic better performance as well as some new features with detailed documents.  Details are described in <a href="../documents/ng2-manual/overview.html">Overview section</a> in the <a href="../documents/ng2-manual/user-manual.html">Ninf-G version 2 users' manual</a>.  Installation instruction is described in the <a href="../documents/ng2-manual/install.html">Installation section</a> in the manual.
+<br>
+Ninf-G Version 2.2.0 is the latest version of Ninf-G Version 2.  This release includes the following new features and bug fixes:
+
+<ul>
+  <li> <font color="darkslateblue">New features</font> <br>
+    <ul>
+    <li> Conformity to the GridRPC End-User API specification
+    <li> Timeout for sessions
+    <li> Compression of transferred arguments and results
+    <li> Performance measurements for file transfers
+    <li> Support of new platforms (Opteron/Linux, IA64/Linux)
+    </ul>
+
+  <li> <font color="darkslateblue">Changes</font> <br>
+    <ul>
+    <li> A canceled session is considered as an error session, i.e. grpc_wait_*() returns an error if canceled sessions are detected.
+    <li> An array with zero elements can be accepted as an argument.
+    <li> Enable to define more than 30 remote function in one IDL file.
+    <li> Change the default value of "gass_scheme" (in <SERVER> section of configuration file) from "https" to "http".
+    <li> Change the default value of "refresh_credential" (in <CLIENT> section of configuration file) from 42300 to 0.
+    <li> Use the capability of GRAM "(jobtype=mpi)" for launching an MPI program on a server.
+    </ul>
+
+  <li> <font color="darkslateblue">Fixed BUGs</font> <br>
+    <ul>
+    <li> --with-cc option for configure command was not available
+    <li> Client program was aborted if information query to the MDS was failed.
+    <li> Shrinking was not available for object handles
+    <li> An error occurred if both filename type arguments and other types of arguments are specified with OUT mode in a remote function or method.
+    </ul>
+</ul>
+See Ninf-G users' manual for more details.
+</div>
+
+<div class="section"><font color="red">
+Download Packages of Ninf-G Ver. 2.2.0
+</font></div>
+<div class="section_contents">
+If you download Ninf-G, please subscribe to Ninf users' mailing list (ninf-users@apgrid.org) so that you can receive the latest information from the Ninf team.  The mailing list will be used for announcements of bug fixes and release of new versions as well as for information exchange between users.
+
+<form action="/cgi-bin/download.cgi" method="post">
+
+<center>
+<table>
+  <tr>
+    <td>
+      <b>Your mail address</b>
+    </td>
+    <td>
+      <input type="text" size="30" name="e-mail">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Subscribe to Ninf users' mailing list?</b>
+    </td>
+    <td>
+    <input type="radio" name="ml" value="join" checked>yes
+    <input type="radio" name="ml" value="no">no
+    </td>
+  </tr>
+</table>
+</center>  
+</div>
+
+<ul>
+<li>Ninf-G Version 2.2.0 Package <input type="submit" name="ninfg-ver2" value="Download"></li>
+</ul>
+-->
+
+<!--
+<div class="subtitle">Download Ninf-G Ver. 2.1.0</div>
+<div class="section">About Ninf-G 2.1.0</div>
+
+<div class="abstract">
+Ninf-G Version 2.1.0 is the previous version of Ninf-G Version 2.  This release includes the following new features and bug fixes:
+
+<ul>
+  <li> <font color="darkslateblue">New features</font> <br>
+    <ul>
+    <li> shrink arguments/results
+    <li> get information of RemoteFunction from Ninf-G Executables
+    <li> stage Ninf-G Executables (This is not available for use of MPI as backend)
+    <li> add the following attributes to client configuration file
+      <ul>
+      <li> "job_queue"
+      <li> "job_project"
+      <li> "job_hostCount"
+      <li> "job_minMemory"
+      <li> "job_maxMemory"
+      </ul>
+    <li> refresh proxy credentials
+    <li> rotate log files
+    <li> add new APIs: grpc_{function,object}_handle_get_error_np()
+    </ul>
+
+  <li> <font color="darkslateblue">Changes</font> <br>
+    <ul>
+    <li> change the default value of "crypt" (in <SERVER> section of configuration file) from "SSL" to "false".
+    <li> change the output of grpc_perror() from specified file (in <CLIENT> section of configurationfile) to stderr.
+    </ul>
+
+  <li> <font color="darkslateblue">Fixed BUGs</font> <br>
+    <ul>
+    <li> grpc_call_async() after grpc_wait_any() fails
+    <li> "make server" & "make client" fails
+    <li> '\n' cannot be used in IDL
+    <li> GIIS cannot be used as an information server
+    <li> grpc_function_handle_init() with NULL arguments causes Segmentation fault
+    <li> other small bugs
+    </ul>
+</ul>
+See Ninf-G users' manual for more details.
+</div>
+
+<div class="section"><font color="red">
+Download Packages of Ninf-G Ver. 2.1.0
+</font></div>
+<div class="section_contents">
+If you download Ninf-G, please subscribe to Ninf users' mailing list (ninf-users@apgrid.org) so that you can receive the latest information from the Ninf team.  The mailing list will be used for announcements of bug fixes and release of new versions as well as for information exchange between users.
+
+<form action="/cgi-bin/download.cgi" method="post">
+
+<center>
+<table>
+  <tr>
+    <td>
+      <b>Your mail address</b>
+    </td>
+    <td>
+      <input type="text" size="30" name="e-mail2">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Subscribe to Ninf users' mailing list?</b>
+    </td>
+    <td>
+    <input type="radio" name="ml" value="join" checked>yes
+    <input type="radio" name="ml" value="no">no
+    </td>
+  </tr>
+</table>
+</center>  
+</div>
+
+<ul>
+<li>Ninf-G Version 2.1.0 Package <input type="submit" name="ninfg-ver2.1" value="Download"></li>
+</ul>
+-->
+<br>
+
+<div class="subtitle">Download Ninf-G Ver. 3.0.0a</div>
+<div class="section">About Ninf-G 3.0.0a</div>
+<div class="abstract">
+Ninf-G Version 3.0.0a is the alpha version of Ninf-G Version 3 (Ninf-G3).  Utilizing WS GRAM, Ninf-G3 is buit on the Globus Toolkit Version 3.  It should be noted that in order to use Ninf-G3, you need to apply a patch to the Globus Toolkit Version 3.2.1.   The patch file is also <a href="#here">available for downloading</a>.
+
+</div>
+<div class="section"><font color="red">
+Download Packages of Ninf-G Ver. 3.0.0a
+</font></div>
+<div class="section_contents">
+If you download Ninf-G, please subscribe to Ninf users' mailing list (ninf-users@apgrid.org) so that you can receive the latest information from the Ninf team.  The mailing list will be used for announcements of bug fixes and release of new versions as well as for information exchange between users.
+
+<form action="/cgi-bin/download.cgi" method="post">
+
+<center>
+<table>
+  <tr>
+    <td>
+      <b>Your mail address</b>
+    </td>
+    <td>
+      <input type="text" size="30" name="e-mail3">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Subscribe to Ninf users' mailing list?</b>
+    </td>
+    <td>
+    <input type="radio" name="ml" value="join" checked>yes
+    <input type="radio" name="ml" value="no">no
+    </td>
+  </tr>
+</table>
+</center>  
+</div>
+
+
+<ul>
+<li>Ninf-G Version 3.0.0a Package <input type="submit" name="ninfg-ver3.0.0a" value="Download"></li>
+
+<li>A patch file for the Globus Toolkit Version 3.2.1 and installation manuals is available for <a href="ng3-20041109-gt3-patch.tgz">downloading</a>.</li>
+</ul>
+
+<br>
+
+<div class="subtitle">
+Download Packages of Ninf-G Ver. 1.1.1
+</div>
+
+Ninf-G is a new implementation of Ninf system using the <a href="http://www.globus.org">Globus
+Toolkit</a>.  The Ninf-G package contains the source code required for
+building the user commands and libraries for both the client and
+server<br>
+<br>
+
+<ul>
+<li><p>Ninf-G Version 1.1.1 Package <input type="submit" name="ninfg-ver1" value="Download"></li>
+</ul>
+
+</form>
+
+<br>
+
+<div class="subtitle">
+Download Packages of Ninf Ver.1.1.1
+</div>
+
+<ul>
+<li><p>	Client Package [<a href="ninfClient.tar.Z">Download</a>/<a href="README_Client.html">Documentation</a>] (12/10/2002)</p>
+<li><p> Server Package [<a href="ninf.tar.Z">Download</a>/<a href="README_Server.html">Documentation</a>] (12/10/2001)</p>
+</ul>
+
+<p>
+<hr>
+
+<ul>
+<li><p>	MetaServer Package [<a href="ninfjava.tar.gz">Download</a>] (12/10/2002)<p>
+Alpha release. Subject to change. Written in Java.<br>
+This package includes Ninf Java Client, Ninf - NetSolve Bridge, 
+NetSolve- Ninf Bridge.
+
+</ul>
+</p>
+
+<hr>
+
+<ul>
+<li><p>	Windows Clients for Excel Sample<p>
+<ul>
+<li><p>	For Ninf ver.1 [<a href="exceltestv1.dll">DLL file</a>,
+                       <a href="jacobiv1.xls"> excel sample </a>]<p>
+<li><p>	For Ninf ver.2 beta [<a href="exceltestv2.dll">DLL file</a>,
+                       <a href="jacobiv2.xls"> excel sample </a>]<p>
+</ul>
+</ul>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

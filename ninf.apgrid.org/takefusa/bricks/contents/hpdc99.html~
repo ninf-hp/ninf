@@ -1,0 +1,1007 @@
+<HTML>
+<HEAD>
+<TITLE>
+Overview of The Bricks System
+</TITLE>
+</HEAD>
+
+<BODY bgcolor="FFFFFF">
+
+<H1>Overview of a Performance Evaluation System for Global 
+Computing Scheduling Algorithms</H1>
+
+<P>
+<ADDRESS>
+<STRONG>Atsuko Takefusa</STRONG><BR>
+Ochanomizu University<BR>
+Tokyo 112-8610, Japan<BR>
+</ADDRESS>
+<CODE><A HREF="mailto:takefusa@hn.is.ocha.ac.jp">takefusa@hn.is.ocha.ac.jp
+</A><BR></CODE>
+<CODE><A HREF="http://www.sap.is.ocha.ac.jp/~takefusa/">
+http://www.sap.is.ocha.ac.jp/~takefusa/
+</A><BR></CODE>
+</P>
+
+<P>
+<ADDRESS>
+<STRONG>Satoshi Matsuoka</STRONG><BR>
+Tokyo Institute of Technology/JST<BR>
+Tokyo 152-8552, Japan<BR>
+</ADDRESS>
+<CODE><A HREF="mailto:matsu@is.titech.ac.jp">matsu@is.titech.ac.jp
+</A><BR></CODE>
+<CODE><A HREF="http://matsu-www.is.titech.ac.jp/~matsu/">
+http://matsu-www.is.titech.ac.jp/~matsu/
+</A><BR></CODE>
+</P>
+
+<P>
+<ADDRESS>
+<STRONG>Hidemoto Nakada</STRONG><BR>
+Electrotechnical Laboratory<BR>
+Ibaraki 305-8568, Japan<BR>
+</ADDRESS>
+<CODE><A HREF="mailto:nakada@etl.go.jp">nakada@etl.go.jp
+</A><BR></CODE>
+<CODE><A HREF="http://ninf.etl.go.jp/~nakada/">
+http://ninf.etl.go.jp/~nakada/
+</A><BR></CODE>
+</P>
+
+<P>
+<ADDRESS>
+<STRONG>Kento Aida</STRONG><BR>
+Tokyo Institute of Technology<BR>
+Kanagawa 226-8502, Japan<BR>
+</ADDRESS>
+<CODE><A HREF="mailto:aida@cs.dis.titech.ac.jp">aida@cs.dis.titech.ac.jp
+</A><BR></CODE>
+<CODE><A HREF="http://www.noc.titech.ac.jp/~aida/">
+http://www.noc.titech.ac.jp/~aida/
+</A><BR></CODE>
+</P>
+
+<P>
+<ADDRESS>
+<STRONG>Umpei Nagashima</STRONG><BR>
+National Institute for Advanced Interdisciplinary Research<BR>
+Ibaraki 305-8562, Japan<BR>
+</ADDRESS>
+<CODE><A HREF="mailto:umpei@nair.go.jp">umpei@nair.go.jp
+</A><BR></CODE>
+</P>
+
+
+<H2><A NAME="abstract">Abstract</A></H2>
+
+<P>
+While there have been several proposals of high performance global
+computing systems, scheduling schemes for the systems have not
+been well investigated.  The reason is difficulties of evaluation by
+large-scale benchmarks with reproducible results. 
+Our Bricks performance evaluation
+system would allow analysis and comparison of various scheduling
+schemes on a typical high-performance global computing setting. Bricks
+can simulate various behaviors of global computing systems, especially
+the behavior of networks and resource scheduling algorithms.
+Moreover, Bricks is componentalized such that not only its
+constituents could be replaced to simulate various different system
+algorithms, but also allows incorporation of existing global computing
+components via its foreign interface.
+To test the validity of the latter characteristics, we incorporated
+the NWS system, which monitors and forecasts global computing systems
+behavior.  Experiments were conducted by running NWS under a real
+environment versus the simulated environment given the observed
+parameters of the real environment.  We observed that Bricks behaved 
+in the same manner as the real environment, and NWS also behaved
+similarly, making quite comparative forecasts under both environments.
+</P>
+
+<H2><A NAME="introduction">1. Introduction</A></H2>
+
+<P>
+High performance global computing systems fueled by the rapid progress
+of high-speed networks and computing resources are now regarded as the
+computing platform of the future[<A HREF=#grid98>1</A>]. 
+In order to effectively
+employ computing resources therein, most proposed global computing
+systems embody a resource scheduling framework whose components
+monitor the global computing environment and predict availability of
+the resources. For effective investigation and objective comparison of
+scheduling algorithms and the implementation of the scheduling
+frameworks, large-scale benchmarks with reproducible results under
+various environments parameterized by the following constituents over
+time are required:
+</P>
+
+<P><UL>
+<LI> networks --- topology, bandwidth, congestion, variance, and
+<LI> servers --- architecture, performance, load and variance.
+</UL></P>
+
+<P>
+However, reproducibility over a wide-area network is extremely costly
+to achieve, if not impossible. Thus, currently it is unrealistic to
+compare the different scheduling algorithms proposed by other
+researchers, let alone compare the systems themselves. Cost and scale
+of possible benchmarks are also extremely limited.  The resulting lack
+of impartial comparative approaches is a great hindrance to global
+computing research and deployment.
+</P>
+
+<P>
+In order to resolve this situation, we are building a performance
+evaluation system that would allow analysis and comparison of various
+global computing systems under reproducible, controlled environments,
+called <EM>Bricks</EM>[<A HREF="#bricks">2</A>].
+The current version of Bricks mainly focuses on the evaluation of 
+different scheduling algorithms and schemes based on a canonical model 
+of high-performance global computing system we proposed in 
+[<A HREF="#hpdc98-aida">3</A>, <A HREF="#ijhpc98-aida">4</A>],
+simulating the behaviors of networks and resource scheduling
+algorithms.  Moreover, as Bricks is constructed in a componentalized
+fashion, such that not only its constituents could be replaced to
+simulate various different system algorithms, but also allows
+incorporation of existing global computing components via its foreign
+interface.
+</P>
+
+<P>
+To test the validity of the latter characteristics, we incorporated
+the NWS (Network Weather Service) system[<A HREF="#NWS">16</A>, <A
+HREF="#NWS97">17</A>, <A HREF="#NWS98">18</A>], which physically
+monitors and forecasts the behavior of global computing systems in an
+actual environment. Experiments were conducted by running NWS under a
+real environment versus the Bricks simulated environment given the
+observed parameters of the real environment, without essential changes
+to the NWS itself, and we observed the following results: 
+</P>
+
+<P><UL>
+<LI> Simulated Bricks global computing environment behaved in the
+same manner as the real environment.
+<LI> Under both environments, NWS behaved similarly, making quite
+comparative forecasts.
+</UL></P>
+
+<H2><A NAME="overview">2. Overview of the Bricks System</A></H2>
+
+<P>
+Bricks is a performance evaluation system for scheduling algorithms
+and frameworks of high performance global computing systems.
+It is written in Java, and embodies the following characteristics:
+</P>
+
+<P><UL>
+<LI> Bricks consists of the simulated <B>Global Computing Environment</B> 
+and the <B>Scheduling Unit</B> (Figure 1), 
+allowing simulation of various behaviors of 
+  <UL>
+  <LI> resource scheduling algorithms,
+  <LI> programming modules for scheduling,
+  <LI> network topology of clients and servers in global computing 
+systems, and
+  <LI> processing schemes for networks and servers.
+  </UL>
+The configuration and parameters of the Global Computing Environment
+can be easily described with the <EM>Bricks script</EM>. Users can
+construct and alter the script in a composible way, using the building
+`bricks' within the script, to test and evaluate a variety of
+simulations in a reproducible manner<A HREF="#f1"><SUP>1</SUP></A>.
+
+<LI> To systematically obtain information on global computing
+resources for resource scheduling algorithms, Bricks embodies a
+framework and constituent components which monitors and predicts the
+resources in the global computing environment.  Bricks provides
+several default components for monitoring, predicting, and scheduling
+the jobs in the simulated network. Because the components are designed
+to be orthogonal with carefully-defined component APIs, they could
+easily be replaced by other Java-written components; for example, one
+could describe a new scheduling algorithm in Java according to the
+Bricks Scheduling Unit SPI (Service Provider Interface), and test it
+under a variety of situations using Bricks.  Moreover, the components
+could be external, in particular real global computing scheduling
+components. Bricks can supply simulated time as well as various
+monitored simulated information to the external resource-related
+systems, and receive the results of scheduling decisions made, which
+is fed back into the simulation.  Although it is still too early to
+claim that Bricks could easily integrate every possible global
+computing components, we have been successful in integrating the NWS
+system, which had been developed earlier at UCSD, by defining a 
+Java API for the NWS.
+</UL></P>
+
+<P ALIGN="CENTER"><IMG SRC="fig/sim_arch.gif"></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>Figure 1: The Bricks Architecture.</B>
+</FONT>
+
+<P>
+Underneath, Bricks employs a queuing network model in which servers
+and networks are modeled as queuing systems in the Global Computing
+Environment.  In Figure 2, the network from the client to the server,
+the network from the server to the client, and the server are
+represented by queues, Q<SUB>ns</SUB>, Q<SUB>nr</SUB> and
+Q<SUB>s</SUB>, respectively.  Service rates on Q<SUB>ns</SUB>,
+Q<SUB>nr</SUB> and Q<SUB>s</SUB> indicate the bandwidth of each of the
+networks, the processing power of the server, respectively (A and A'
+denote the same client, but distinguished for notational convenience). 
+Details of the model could be found in 
+[<A HREF="#hpdc98-aida">3</A>, <A HREF="#ijhpc98-aida">4</A>].
+</P>
+
+<P ALIGN="CENTER"><IMG SRC="fig/queue_model.gif"></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 2: An example of the Global Computing Environment Model.
+</B></P></FONT>
+
+<H2><A NAME="architecture">3. The Bricks Architecture</A></H2>
+
+<P>
+We now give more detailed descriptions of Bricks.
+In Bricks, the Global Computing Environment and the Scheduling Unit
+coordinate to simulate the behavior of global 
+computing systems. Overall, Bricks operates as a discrete event
+simulator of a queuing system in virtual time. 
+An overview of the steps of the Bricks simulation is illustrated in 
+Figure 1.
+</P>
+
+<H3><A NAME="architecture:gce">
+3.1. The Global Computing Environment Simulation Part
+</A></H3>
+
+<P>
+The Global Computing Environment represents the global computing
+simulation environment, and consists of the following modules:
+</P>
+
+<P><DL>
+<DT>Client: </DT><DD>
+represents the user machine, upon which global computing tasks are 
+initiated by the user program.
+</DD>
+<DT>Network: </DT><DD>
+represents the (wide-area) network interconnecting the Client and Server, 
+and is parameterized by e.g., bandwidth, congestion, and their variance 
+over time. 
+</DD>
+<DT>Server: </DT><DD>
+denotes the computational resources of the given global computing system, 
+and is parameterized by e.g., performance, load, and their variance over 
+time.
+</DD>
+</DL></P>
+
+<P>
+Both Network and Server are modeled as queues, whose processing
+schemes can be replaced. The model of a task invoked by a client
+machine (Client), communication models of Network and server models of
+Server are given next.
+</P>
+
+<H4><A NAME="architecture:gce:tm">3.1.1. Task Model</A></H4>
+
+<P>
+It is important for the simulator to manage and discover 
+the time duration of communication and computation for
+a given task. In the current Bricks implementation, 
+a task is represented by:
+</P>
+
+<P><UL>
+<LI> the amount of data transmitted to/from a server with the task as
+an input/output of the computation and
+<LI>the number of executed instructions (operations) in the task.
+</UL></P>
+
+<H4><A NAME="architecture:gce:cm">3.1.2. Communication Models</A></H4>
+
+<P>
+With Bricks, one can flexibly simulate various communication models of
+the network with simple specifications of the Bricks
+script. Currently, there are two major model families supported by
+Bricks: The first family assumes that the congestion of a network is
+represented by adjusting the amount of arrival data from extraneous
+traffic generated by other nodes in the system
+(Figure 2)[<A HREF="#hpdc98-aida">3</A>, <A HREF="#ijhpc98-aida">4</A>].
+Here, one needs to specify ideal bandwidth, the average of actual
+bandwidth, the average size of extraneous data from other nodes, and
+their variance.  Specifying smaller packets will result in greater
+accuracy at the expense of larger simulation cost.
+</P>
+
+<P>
+In the second family, the variation of the Network bandwidth at each
+time-step is determined by the observed parameters of the real
+networking environment. Although one needs to accumulate the
+measurements prior to the simulation, the Network behaves as if it
+were real network.  Furthermore, the cost of simulation is much
+smaller than that of the first.  Because the actual measurements are
+discrete, we specify an interpolation method, including linear or
+curve fitting methods.
+</P>
+
+<P>
+The two families already serve to generate a rich set of models for
+network behavior of global computing systems, due to the various
+parameters that can be specified (such as various probablistic
+functions of the arrival rate). Furthermore, we are working to
+extend Bricks to accommodate more families, for increased accuracy,
+better execution speed, user convenience, etc.
+</P>
+
+<H4><A NAME="architecture:gce:sm">3.1.3. Server Models</A></H4>
+
+<P>
+The current Bricks models the computing servers in the following
+way. A server machine processes tasks in a FCFS manner, and is modeled
+as a queue as is with the networks. Its load can be specified and
+simulated not only by the arrival rate of tasks from other users
+(i.e., extraneous tasks), but also could be specified by the
+observed parameters of the real environment.
+</P>
+
+<H3><A NAME="architecture:su">3.2. Scheduling Unit</A></H3>
+
+<P>
+The other major portion of Bricks is the Scheduling Unit that models a
+canonical scheduling framework for global computing systems. The
+constituent modules of the Scheduling Unit represent common features
+found in global computing systems as follows:
+</P>
+
+<P><DL>
+<DT>NetworkMonitor: </DT><DD>
+measures network bandwidth and latency in global
+computing environments. The measured values are
+stored into the	ResourceDB module.
+</DD>
+
+<DT>ServerMonitor: </DT><DD>
+measures performance, load, and availability of server machines.
+The measured values are also stored into ResourceDB.
+</DD>
+
+<DT>ResourceDB: </DT><DD>
+serves as a scheduling-specific database, storing the values of
+various measurements.  The measured values are accessed by the
+Predictor and the Scheduler in order to make forecasts and scheduling
+decisions.
+</DD>
+
+<DT>Predictor: </DT><DD>
+reads the measured resource information of certain time duration from
+the ResourceDB, and predicts the availability of resources. The
+predicted information is typically used for scheduling of a new global
+computing task.
+</DD>
+
+<DT>Scheduler: </DT><DD>
+allocates a new task invoked by a client on a suitable server
+machine(s), making scheduling decisions based on the resource
+information provided from ResourceDB and Predictor.  
+</DD>
+</DL></P>
+
+<P>
+As is with the Global Computing Environment, the components of the
+Scheduling Unit are written in Java, which facilitates APIs called
+SPIs.  The SPIs allow replacement of the components with alternative,
+user-supplied modules. For example it would be possible to replace the
+Scheduler to accommodate new scheduling algorithms, or replace the
+Predictor to incorporate external predictors such as the NWS. 
+</P>
+
+<H3><A NAME="architecture:sim">
+3.3. Overview of Global Computing Simulation with Bricks
+</A></H3>
+
+<P>
+In Bricks, the Global Computing Environment and the Scheduling Unit
+coordinate to simulate the behavior of global computing
+systems. Overall, Bricks operates as a discrete event simulator of a
+queuing system in virtual time. Here we give an overview of the steps
+of simulation that the Bricks system goes through, as illustrated in
+Figure 1:
+</P>
+
+<P><DL COMPACT>
+<DT>(0a)</DT><DD>
+The NetworkMonitor probes the Networks regularly and periodically,
+measuring their bandwidth and latency, and stores the measurements
+into the ResourceDB.
+</DD>
+
+<DT>(0b)</DT><DD>
+The ServerMonitor periodically queries the Servers regarding their
+status, and also stores the results into the ResourceDB.  
+</DD>
+
+<DT>(1)</DT><DD>
+When the Client invokes a global computing task, it inquires the
+Scheduler as to which Server is suitable to issue the task by
+providing information on the characteristics of the task.  
+</DD>
+
+<DT>(2)</DT><DD>
+The Scheduler queries the ResourceDB for available Servers within the
+given global computing system. 
+</DD>
+
+<DT>(3)</DT><DD>
+The Scheduler queries the Predictor for information on the
+availability of the Servers queried on step (2), as well as the status
+of the Networks connected to the Servers. 
+</DD>
+
+<DT>(4)</DT><DD>
+The Predictor inquires the ResourceDB for measured values of the
+Servers and the Networks, and predicts the (future) availability of
+the respective resources. 
+</DD>
+
+<DT>(5)</DT><DD>
+The Predictor performs some proper prediction, and sends the resulting
+values to the Scheduler. 
+</DD>
+
+<DT>(6)</DT><DD>
+Using the obtained information, the Scheduler in turn allocates the
+task to a suitable Server, and passes on the scheduling information
+including the id of the allocated Server to the Client.
+</DD>
+
+<DT>(7)</DT><DD>
+The Client decomposes the (argument) data of the task into logical
+packets, and injects the packets into the Network with the Server
+being the destination.
+</DD>
+
+<DT>(8)</DT><DD>
+The data packets injected by the Client are processed on the queue of
+the Network for the (virtual) time duration of:
+<CENTER><B>
+[size of sent packet] / [the Network bandwidth]
+</B></CENTER>
+and it reaches the Server.
+</DD>
+
+<DT>(9)</DT><DD>
+When all the packets reach the Server, the task is placed in the
+Server queue and the Server executes the task.  After processing the
+task for the (virtual) time duration of:
+<CENTER><B>
+[the number of instructions for the task] / [the Server performance]
+</B></CENTER>
+the Server places the `result' data, which is also decomposed into
+packets, and injected into the Network with the destination being the
+Client which invoked the task.  
+</DD>
+
+<DT>(10)</DT><DD>
+Packets from the Server are processed for the (virtual) time duration:
+<CENTER><B>
+[size of received packet] / [the Network bandwidth]
+</B></CENTER>
+and then sent to the Client.  When all the packets reach the Client,
+the execution of the invoked global computing task is regarded as
+being terminated.  
+</DD>
+</DL></P>
+
+<H2><A NAME="incorporating">
+4. Incorporating Existing Global Computing Components
+</A></H2>
+
+<P>
+As mentioned above, Bricks allows incorporation of external components
+including existing global computing components allowing their
+validation and benchmarking under simulated and reproducible
+environments. This is mainly achieved by replacing the modules of the
+Scheduling Unit, and exploiting the foreign module SPIs to pass on and
+receive various information on scheduling, such as those measured by
+the monitors, etc.
+</P>
+
+<H3><A NAME="incorpolating:spi">
+4.1. Overview of the Scheduling Unit SPI
+</A></H3>
+
+<P>
+Each component of the Scheduling Unit is replaceable by any
+Java-written component implementing the SPIs in Figure 3.  NetworkInfo
+represents information of Network status such as bandwidth, latency,
+etc. and ServerInfo represents Server information such as load
+average, CPU utilization, etc.  Initialization routines for user
+defined components are automatically invoked by the Bricks via Java
+reflective API.
+</P>
+
+<P ALIGN="CENTER"><CENTER>
+<TABLE BORDER><TR><TD>
+<BROCKQUOTE><KBD>
+<PRE>
+interface ResourceDB {
+  // stores networkInfo
+  void putNetworkInfo(NetworkInfo networkInfo);
+  // stores serverInfo
+  void putServerInfo(ServerInfo serverInfo);
+  // provides NetworkInfo between sourceNode and destinationNode
+  NetworkInfo getNetworkInfo(Node sourceNode, Node destinationNode);
+  // provides ServerInfo of serverNode
+  ServerInfo getServerInfo(ServerNode serverNode);
+  // implements process when a simulation finishes
+  void finish();
+}
+
+interface NetworkPredictor {
+  // returns Prediction of the Network between sourceNode
+  // and destinationNode
+  NetworkInfo getNetworkInfo(
+    double currentTime,   Node sourceNode, 
+    Node destinationNode, NetworkInfo networkInfo
+  );
+}
+
+interface ServerPredictor {
+  // returns Prediction of serverNode
+  ServerInfo getServerInfo(
+    double currentTime, ServerNode serverNode, ServerInfo serverInfo
+  );
+}
+
+interface Scheduler {
+  // returns serverNodes for the request
+  ServerAggregate selectServers(
+    double currentTime, ClientNode clientNode, RequestedData data
+  );
+}
+</PRE></BROCKQUOTE></KBD></TD></TR></TABLE></CENTER></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 3: Overview of the Scheduling Unit SPI.
+</B></P></FONT></P>
+
+<P>
+The Interrelationship between the Bricks SPI and the NWS API is shown in
+Figure 4.
+</P>
+
+<P ALIGN="CENTER"><IMG SRC="fig/layer.gif"></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 4: The Interrelationship between the Bricks SPI and the NWS API.
+</B></P></FONT>
+
+<H3><A NAME="incorpolating:nws">4.2. Incorporating the NWS system</A></H3>
+
+<P>
+Although we are still at an experimental stage, as a first step we
+have chosen to incorporate the NWS system, which monitors and
+forecasts the behavior of global computing systems based on past
+observations. NWS was developed at UCSD prior to Bricks, so there were
+no special provisions to run NWS under a simulated environment.
+</P>
+
+<P>
+Although there have been several works in integrating NWS into
+existing global computing systems by the use of its C-based API, such
+as AppLeS[<A HREF="#apples">5</A>, <A HREF="#apples96">6</A>], 
+Legion[<A HREF="#legion">7</A>, <A HREF="#legion97">8</A>],
+Globus[<A HREF="#globus">9</A>, <A HREF="#globus97">10</A>], 
+and our Ninf system[<A HREF="#ninf">11</A>, <A HREF="#HPCN97">12</A>], 
+all the systems executed under a <EM>real</EM> environment,
+and as such NWS required little or no change despite that parts of its
+modules had been written with assumptions about its underlying
+execution environment. This is because the systems were orthogonal to
+NWS, and assumed an identical or similar execution environment.
+</P>
+
+<P>
+For incorporation of NWS into Bricks, the situation is somewhat
+different. In this case, NWS must be made to work in simulated virtual
+time, and that the observed measurements will be fed from Bricks.
+</P>
+
+<P>
+In order to incorporate NWS, we developed the NWS Java API[<A
+HREF="#nws-java">13</A>], which largely offers the same feature as the
+C-based NWS API. Most of the work in incorporation had been done using
+the Java API, removing some of the underlying dependencies when
+necessary, so that NWS could be managed to work under virtual time.
+</P>
+
+<P>
+NWS consists of the following modules:
+</P>
+
+<DL>
+<DT><I>Persistent State</I>: </DT><DD>
+is storage for measurements.
+It is similar to the Bricks ResourceDB.
+</DD>
+
+<DT><I>Name Server</I>: </DT><DD>
+manages the correspondence between the IP address
+and the domain address for each independently-running
+modules of NWS.
+</DD>
+
+<DT><I>Sensor</I>: </DT><DD>
+monitors the states of networks and server machines in global
+computing systems.  <I>Sensor</I> works in a similar manner to the 
+NetworkMonitor and the ServerMonitor in Bricks.
+</DD>
+
+<DT><I>Forecaster</I>: </DT><DD>
+ predicts availability of the resources.
+Again, this is similar in behavior to the Predictor in Bricks.
+</DD>
+</DL>
+
+<P>
+We substituted the default Bricks ResourceDB and the Predictor with
+the NWS <I>Persistent State</I> and the <I>Forecaster</I> in Bricks,
+respectively. The Monitors store their measurements into the
+<I>Persistent State</I>, and the Scheduler allocates a task using
+resource availability predicted by the <I>Forecaster</I>.  The
+NWSResourceDB, the NWSNetworkPredictor and the NWSServerPredictor
+implement the SPIs; finally the NWSAdapter, which converts the data
+formats between Bricks and the NWS Java API, mainly serves to
+interface NWS and Bricks.
+</P>
+
+<P>
+Figure 4, 5 illustrate the incorporation of the NWS modules into
+Bricks. Measurements made by the NetworkMonitor and the ServerMonitor
+are handed off to the NWSResourceDB with request for storing the
+measurements; The NWSResourceDB in turn converts and stores the
+measurements into the <I>Persistent State</I> via the NWSAdapter and
+the Java API.  The NWSNetworkPredictor and the NWSServerPredictor also
+retrieve the predicted values from the <I>Forecaster</I> via the
+adapter and the API in a similar manner.
+</P>
+
+<P ALIGN="CENTER"><IMG SRC="fig/bricks-nws.gif"></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 5: Incorporating the NWS modules into Bricks.
+</B></P></FONT>
+
+<H2><A NAME="evaluation">5. Bricks Experiments</A></H2>
+
+<P>
+We now describe the experiments conducted by running NWS under a real
+environment versus the Bricks simulated Global Computing Environment.
+The experiments show that NWS behaved similarly under both
+environments, serving as strong supportive evidence that Bricks can
+provide a simulation environment for global computing with
+reproducible results.
+</P>
+
+<H3><A NAME="evaluation:set">5.1. Experiment Procedure</A></H3>
+
+<P>
+The overall experiment procedure is as follows. Initially, we set up
+the NWS modules in a real wide-area environment to measure real-life
+parameters such as network bandwidth. Then, we have the NWS
+<I>Forecaster</I> predict the parameters. At the same time, we drive
+Bricks under the observed measurements, and have the <I>Forecaster</I>
+make a prediction under the simulated environment.  Finally we compare
+the results of predictions for the real environment versus Bricks.
+</P>
+
+<P>
+First, we prepare the NWS <I>Sensor</I>s on two different nodes
+located at different sites, namely, Tokyo Institute of technology
+(TITECH) and Electrotechnical Laboratory (ETL) in Tsukuba, situated
+about 80kms away. The <I>Sensor</I>s measure the network bandwidth and
+latency between the nodes, and CPU availability on each.  The NWS
+<I>Forecaster</I> predicts the availability of resources for each
+time-step of the measurements. Table 1 shows the parameters of the
+<I>Sensor</I>s.
+</P>
+
+<P ALIGN="CENTER"><CENTER><TABLE BORDER>
+<TR><TD ALIGN="CENTER">Parameter</TD><TD ALIGN="CENTER">Value</TD></TR>
+<TR><TD>the interval of server monitoring</TD>
+	<TD ALIGN="CENTER">10[sec]</TD></TR>
+<TR><TD>the interval of network monitoring</TD>
+	<TD ALIGN="CENTER">60[sec]</TD></TR>
+<TR><TD>probed data size</TD>
+	<TD ALIGN="CENTER">300[kbytes]</TD></TR>
+</TABLE></CENTER></P>
+<P ALIGN="CENTER"><B>
+Table 1: The parameters of the Sensors.
+</B></P></FONT>
+
+<P>
+Next, we define a Bricks simulation under the second family of models
+mentioned earlier, employing the observed parameters of the real
+environment measured by <I>Sensor</I>s, with cubic spline parameter
+interpolation, chosen because the interpolated value only depends on
+the local past (three time-steps). We incorporate the NWS
+<I>Persistent State</I> and <I>Forecaster</I> into Bricks and set the
+parameters identically as shown in Table 1.
+</P>
+
+<H3><A NAME="evaluation:res">5.2. Experimental Results</A></H3>
+
+<P>
+Figure 6 shows one day's worth of bandwidth measured between TITECH
+and ETL under the real environment on Feb. 1, 1999, versus that
+simulated with Bricks. The horizontal axis indicates real elapsed time
+or virtual elapsed time in the Bricks simulation in hours, while the
+vertical axis indicates the bandwidth in kbytes per second.  These
+graphs show the bandwidth measured under Bricks is quite similar to
+that for the real environment.  Figure 7 magnifies the time axis to
+two hours for direct comparison of the real versus simulated
+environments.  Here, we can confirm that the bandwidth measured under
+the real environment and Bricks coincide quite well. Although there
+have been proposals of communication models for TCP/IP transmissions
+and simulations using the model, such models have been limited to
+describing the behavior of particular packets types, such as WWW, FTP
+or Telnet, due to their complexity. Bricks can adopt such models, as
+well as real-world measurements in cases where analytical modeling of
+network characteristics is difficult.
+</P>
+
+<P ALIGN="CENTER"><IMG SRC="fig/measure.gif"></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 6: One day's worth of bandwidth measured between TITECH and ETL
+under the real environment in the figure above versus Bricks in the
+figure below.
+</B></P></FONT>
+
+<!--P ALIGN="CENTER"><IMG SRC="fig/ns0_sm16.gif"></P-->
+<P ALIGN="CENTER"><A HREF="figure7_9.html">Figure 7</A></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 7: The comparison of bandwidth measured under the real
+environment versus Bricks for two hours.
+</B></P></FONT>
+
+<P>
+Figure 8 shows one day's worth of bandwidth predicted by the NWS
+<I>Forecaster</I> under the real environment versus Bricks. Figure 9
+magnifies the graph and shows the comparison of the prediction for two
+hours. Here, we again confirm that both predictions are very similar,
+serving as supporting evidence that the NWS <I>Forecaster</I>
+functions and behaves normally under the Bricks simulation<A
+HREF="#f2"><SUP>2</SUP></A>.
+</P>
+
+<P ALIGN="CENTER"><IMG SRC="fig/forecast.gif"></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 8: One day's worth of bandwidth predicted by the NWS Forecaster
+under the real environment in the graph above versus Bricks in the
+graph below.
+</B></P></FONT>
+
+<!--P ALIGN="CENTER"><IMG SRC="fig/ns0_sf16.gif"></P-->
+<P ALIGN="CENTER"><A HREF="figure7_9.html">Figure 9</A></P>
+<FONT SIZE=+0.5>
+<P ALIGN="CENTER"><B>
+Figure 9: The comparison of the behavior of the NWS Forecaster under 
+the real environment versus Bricks for two hours.
+</B></P></FONT>
+
+<H2><A NAME="related_work">6. Related Work</A></H2>
+
+<P>
+While there have been abundant research on scheduling algorithms, many
+of them have not been implemented or well investigated. In fact there
+have been very little study of application of resource scheduling
+algorithms for global computing.  The primary reason is that, for
+realistic environments, conducting controlled experiments for
+objective comparisons against other proposed algorithms and their
+implementations is quite difficult. The approach we have taken in
+Bricks is to simulate a global computing environment, and allow
+integration of various algorithms as well as modules from real global
+computing systems. In this regard, there are a couple of projects that
+are following a similar approach.
+</P>
+
+<P>
+Osculant[<A HREF="#osculant">14</A>] from University of Florida is a
+bottom-up task scheduler for heterogeneous computing environment.  To
+evaluate their scheduling algorithms, there is an Osculant Simulator
+which can also represent various network topologies and node
+configurations. Compared to Bricks, Osculant Simulator was not
+designed to be a performance evaluation environment that can integrate
+various components.
+</P>
+
+<P>
+WARMstones being proposed by the Legion group at University of
+Virginia is conceptually similar to Bricks, although it seems to not
+have been implemented yet.  WARMstones is based on the MESSIAHS[<A
+HREF="#messiahs">15</A>] system, which consists of the system
+description vector to represent the capabilities of a server machine,
+the task description vector which denotes the requirement for the
+task, and MIL (MESSIAHS Interface Language) and Libraries to represent
+different scheduling algorithms in an easy and flexible manner.
+Instead, we choose to provide an object-oriented framework, namely the
+Scheduling Unit SPI as Java interfaces for implementing various
+scheduling algorithms, as well as foreign components.  Although there
+are several ambitious technical aspects of WARMstones, it remains to
+be seen whether WARMstones, when implemented, will offer easy
+extensibility or allow integration of modules from existing global
+computing systems.
+</P>
+
+<H2><A NAME="conclusion">7. Conclusions and Future Work</A></H2>
+
+<P>
+We proposed the Bricks performance evaluation system that allows
+objective and reproducible evaluation of high-performance global
+computing systems with queuing theory-based simulation, especially the
+behavior of network and resource scheduling algorithms.  The users of
+the Bricks system can specify network topologies, server machine
+architectures, communication models and scheduling framework
+components using the Bricks script, allowing easy construction of a
+particular global computing system configuration.  Moreover, Bricks is
+componentalized such that not only its constituents could be replaced
+to simulate various different system algorithms, but also allows
+incorporation of existing global computing components via its foreign
+interface. Experiments conducted with NWS serve as a supportive
+evidence that Bricks is effective in this regard.
+</P>
+
+<P>
+As a future work, we plan to extend Bricks in several ways. First, the
+current representations of task, communication and server models need
+to become more sophisticated, requiring extensions to represent wider
+class of global computing system configurations. Task models have to
+be extended to allow representation of parallel application tasks, and
+server models should represent various server machine architectures,
+such as SMPs and MPPs, as well as scheduling schemes of realistic
+machine-specific resource schedulers such as LSF (Load Sharing
+Facility). Moreover, aggregate constraints on resource scheduling,
+such as co-scheduling requirements, should be representable.  As a
+system configuration language, we plan to substitute XML with the
+Bricks script for wider usage. Finally, we plan to investigate
+suitable scheduling algorithms themselves for global computing
+systems, in particular our Ninf system, using Bricks. We plan on
+running Bricks on a dedicated parallel NT cluster of 33 nodes to
+conduct various parameter studies.
+</P>
+
+<H2><A NAME="acknowledgments">Acknowledgments</A></H2>
+<P>
+We would like to thank Rich Wolski at UTK and Jim Hayes at UCSD of the 
+NWS team for their precious advice. We also thank the contributions
+of the Ninf project members, in particular, Satoshi Sekiguchi,
+Hiromitsu Takagi and Osamu Tatebe at ETL, Mitsuhisa Sato at RWCP,
+Hirotaka Ogawa at TITECH and Haruo Hosoya at Ochanomizu University.
+This research is being conducted with grants from the JST PRESTO
+program and the Software Engineering Foundation.
+</P>
+
+<H2><A NAME="footnote">Footnotes</A></H2>
+
+<DL COMPACT>
+<P><DT><A NAME="f1"><SUP>1</SUP></A></DT><DD>
+As one might expect, this is how the simulator had been named so.
+</DD></P>
+
+<P><DT><A NAME="f2"><SUP>2</SUP></A></DT><DD>
+To be more precise, we did experience a small discrepancy between
+Bricks and the real measurements. Currently, we are conjecturing that 
+this is due to missing measurements due to lost packets in the real
+environment (i.e., for Bricks-driven simulation, NetworkMonitor is
+always successful at making a measurement, whereas in the real
+environment a measurement might not be made due to packet being lost
+in the network). When we compensated for the dropped packets, the
+measurements matched quite well. We are still conducting research to
+investigate this phenomenon.
+</DD></P>
+</DL>
+
+<H2><A NAME="references">References</A></H2>
+
+<DL COMPACT>
+<P><DT><A NAME="grid98">[1]</A></DT><DD>
+I. Foster and C. Kesselman, editors.
+<EM>The Grid: Blueprint for a New Computing Infrastructure</EM>.
+Morgan Kaufmann, 1998.</DD></P>
+
+<P><DT><A NAME="bricks">[2]</A></DT><DD>
+Bricks. 
+<A HREF="http://ninf.is.titech.ac.jp/bricks/">
+http://ninf.is.titech.ac.jp/bricks/</A>.</DD></P>
+
+<P><DT><A NAME="hpdc98-aida">[3]</A></DT><DD>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, and U. Nagashima.
+Performance evaluation model for job scheduling in a global computing system.
+In <EM>Proc. 7<SUP>th</SUP> IEEE International Symposium on High 
+Performance Distributed Computing</EM>, pp. 352-353, 1998.</DD></P>
+
+<P><DT><A NAME="ijhpc98-aida">[4]</A></DT><DD>
+K. Aida, A. Takefusa, H. Nakada, S. Matsuoka, S. Sekiguchi, and U. Nagashima.
+Performance evaluation model for scheduling in a global computing system.
+<EM>International Journal of High-Performance Computing (submitted)</EM>.
+</DD></P>
+
+<P><DT><A NAME="apples">[5]</A></DT><DD>
+AppLeS.
+<A HREF="http://www-cse.ucsd.edu/groups/hpcl/apples/apples.html">
+http://www-cse.ucsd.edu/groups/hpcl/apples/apples.html
+</A>.</DD></P>
+
+<P><DT><A NAME="apples96">[6]</A></DT><DD>
+F. Berman, R. Wolski, S. Figueira, J. Schopf, and G. Shao.
+Application-level scheduling on distributed heterogeneous networks.
+In <EM>Proc. the 1996 ACM/IEEE Supercomputing Conference</EM>, 1996.</DD></P>
+
+<P><DT><A NAME="legion">[7]</A></DT><DD>
+Legion.
+<A HREF="http://www.cs.virginia.edu/~legion/">
+http://www.cs.virginia.edu/~legion/
+</A>.</DD></P>
+
+<P><DT><A NAME="legion97">[8]</A></DT><DD>
+A. Grimshaw, W. A. Wulf, and the Legion team.
+The legion vision of a worldwide virtual computer.
+<EM>Comm. ACM</EM>, 40(1):39-45, 1997.</DD></P>
+
+<P><DT><A NAME="globus">[9]</A></DT><DD>
+Globus.
+<A HREF="http://www.globus.org/">http://www.globus.org/</A>.</DD></P>
+
+<P><DT><A NAME="globus97">[10]</A></DT><DD>
+I. Foster and C. Kesselman.
+Globus: A metacomputing infrastructure toolkit.
+<EM>International Journal of Supercomputer Applications</EM>, 1997.</DD></P>
+
+<P><DT><A NAME="ninf">[11]</DT><DD>
+Ninf.
+<A HREF="http://ninf.etl.go.jp/">http://ninf.etl.go.jp/</A>.</DD></P>
+
+<P><DT><A NAME="HPCN97">[12]</DT><DD>
+M. Sato, H. Nakada, S. Sekiguchi, S. Matsuoka, U. Nagashima, and H. Takagi.
+Ninf: A network based information library for a global world-wide
+computing infrastracture.
+In <EM>Proc. HPCN'97 (LNCS-1225)</EM>, pp. 491-502, 1997.</DD></P>
+
+<P><DT><A NAME="nws-java">[13]</DT><DD>
+NWS Java API.
+<A HREF="http://ninf.etl.go.jp/~nakada/nwsjava/">
+http://ninf.etl.go.jp/~nakada/nwsjava/
+</A>.</DD></P>
+
+<P><DT><A NAME="osculant">[14]</DT><DD>
+Osculant.
+<A HREF="http://beta.ee.ufl.edu/Projects/Osculant/">
+http://beta.ee.ufl.edu/Projects/Osculant/
+</A>.</DD></P>
+
+<P><DT><A NAME="messiahs">[15]</DT><DD>
+S. J. Chapin and E. H. Spafford.
+Support for implementing scheduling algorithms using messiahs.
+<EM>Scientific Programming</EM>, 3:325-340, 1994.</DD></P>
+
+<P><DT><A NAME="NWS">[16]</DT><DD>
+NWS.
+<A HREF="http://nws.npaci.edu/NWS/">http://nws.npaci.edu/NWS/</A>.</DD></P>
+
+<P><DT><A NAME="NWS97">[17]</DT><DD>
+R. Wolski, N. Spring, and C. Peterson.
+Implementing a performance forecasting system for metacomputing: 
+The network weather service.
+In <EM>Proc. the 1997 ACM/IEEE Supercomputing Conference</EM>, 1997.</DD></P>
+
+<P><DT><A NAME="NWS98">[18]</DT><DD>
+R. Wolski, N. T. Spring, and J. Hayes.
+The network weather service: A distributed resource performance
+ forecasting service for metacomputing.
+Technical Report TR-CS98-599, UCSD, 1998.</DD></P>
+</DL>
+
+</BODY>
+</HTML>

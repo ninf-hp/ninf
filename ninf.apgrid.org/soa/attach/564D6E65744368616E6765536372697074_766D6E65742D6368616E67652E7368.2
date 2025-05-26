@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if [ $# -lt 2 ]; then
+    echo Usage: $0 vm-path vmnet-num
+    exit 1
+fi
+
+VMPATH="$1"
+VMNET=vmnet$2
+
+cp -p "${VMPATH}" "${VMPATH}.bak"
+cat "${VMPATH}.bak" | \
+    sed 's/^ethernet0\.connectionType.*$/ethernet0.connectionType = "custom"/' | \
+    sed 's/^ethernet0\.vnet.*$/ethernet0.vnet = "'${VMNET}'"/' \
+    > "${VMPATH}"
+
+(/usr/bin/vmware-cmd "${VMPATH}" getstate | grep -q on) || {
+    echo "VM (${VMPATH}) is not running."
+    exit 1
+}
+
+/usr/bin/vmware-cmd "${VMPATH}" setconfig ethernet0.connectionType custom
+/usr/bin/vmware-cmd "${VMPATH}" setconfig ethernet0.vnet ${VMNET}
+/usr/bin/vmware-cmd "${VMPATH}" disconnectdevice Ethernet0
+/usr/bin/vmware-cmd "${VMPATH}" connectdevice Ethernet0
+
+exit 0

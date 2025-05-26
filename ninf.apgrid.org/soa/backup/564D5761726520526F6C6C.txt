@@ -1,0 +1,46 @@
+>>>>>>>>>> 1149379302
+[[FrontPage]]
+
+横井さんおねがいします．
+>>>>>>>>>> 1151628026
+[[VMware Player Rollの使用方法]]
+
+VMware Player Rollの使用方法（Version0.1）
+-既存FrontendにVMware Player Rollを追加する
+
+
+ Step 0: mount -o loop vmplayer-4.1-0.i386.disk1.iso /mnt/cdrom
+         (CD mediaの場合はmount /mnt/cdrom)
+
+ Step 1:  rocks-dist --install copyroll
+
+ Step 2: cd /home/install && rocks-dist dist
+
+-VMware Playerのpatch, disk-image, BIOSを用意
+
+ Step 3: cd /export/apps  
+
+ Step 4:tar xvfz vmware-any-any-update99-tyokoi.tar.gz
+
+ Step 5: mkdir /export/apps/vmware-config
+
+ Step 6: cp rocks_client_pxe.nvram rocks_client_pxe.nvram \
+          /export/apps/vmware-config
+
+-HostOSをinstallする
+
+ Step 7: "insert-ethers"を実行し、”Vmplayer”を選択する
+
+ Step 8: Boot CDでclient nodeを起動させる
+
+-GuestOSをinstallする
+ Step 9: ssh vmplayer-0-0
+
+ Step 10: vncserver
+
+ Step 11: 他のマシンからvncviewer vmplayer-0-0:1
+
+ Step 12: Frontend node上でinsert-ethersを実行し、"Compute"を選択
+
+ Step 13: (vmplayer-0-０上)  vmplayer /state/partition1/vmware/guestos00/rocks_client_pxe.vmx
+

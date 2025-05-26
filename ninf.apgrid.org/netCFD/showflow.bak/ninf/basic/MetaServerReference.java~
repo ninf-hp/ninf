@@ -1,0 +1,22 @@
+package ninf.basic;
+
+public class MetaServerReference {
+  String host;
+  int port;
+  public MetaServerReference(String host, int port){
+    this.host = host;
+    this.port = port;
+  }
+  public MetaServerReference(String host, String port){
+    this.host = host;
+    this.port = (new Integer(port)).intValue();
+  }
+
+  public MetaServerConnection connect() throws NinfIOException{
+    return new MetaServerConnection(this);
+  }
+
+  public String toString(){
+    return host + ":" + port;
+  }
+}

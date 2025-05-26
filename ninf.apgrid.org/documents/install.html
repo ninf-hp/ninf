@@ -1,0 +1,446 @@
+<html>
+<head>
+<title>Installing Ninf-G</title>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h2>Installing Ninf-G</h2>
+
+The Ninf-G software is available for UNIX/UNIX-like operating
+systems and bundled into one tar-gzipped file except for the Globus
+toolkit. This section attemppts to explain the steps to build and
+install Ninf-G at your site. It is recommended that you read completely through these instructions
+before beginning the installation. 
+<!-- Read this entire section before starting installation. -->
+
+<!-- cut
+We assume that all of the Globus components work properly
+beforehand. 
+The Globus toolkit is available from the Globus project. The latest version of the Ninf-G distribution tar file is available
+on the Ninf home page (http://ninf.apgrid.org/).
+
+<pre>
+<a href="http://ninf.apgrid.org/download/Ninf-G.tar.gz">http://ninf.apgrid.org/download/Ninf-G.tar.gz</a>
+</pre>
+<br>
+Once the file has been downloaded, the following UNIX commands will create the 
+Ninf-G directory:<font size="+3"><br>
+</font> 
+-->
+
+<!-- 
+     *****************************
+      Getting Started 
+     *****************************
+-->
+<h3><a name="start">Getting Started </a> </h3>
+  To get started installing the Ninf-G system, you first should make sure the Globus toolkit 
+  is installed properly and available on your host. When install the Globus Toolkit Ver.2, 
+  <strong> all bundles must be installed from source bundles </strong>.  Required libraries 
+  are not built from binary bundles.
+  If you do not have Globus installed, 
+  you must perform the installation and deployment of the Globus toolkit prior 
+  to installing Ninf-G. The Globus Toolkit as well as the installation
+  instruction is available from the Globus Project <a href="http://www.globus.org/"> Web 
+  site </a>.   Both Globus Ver.2 (2.0 and 2.2) and Globus Ver.1 (1.1.3 and 1.1.4) could be used as a base system 
+  of the Ninf-G.  Be sure that the installation instructions differs according to the version
+  of the Globus Toolkit.</p>
+
+<!-- 
+     *****************************
+      System Requirements
+     *****************************
+-->
+<h3><a name="requirement"> System Requirements </a> </h3>
+
+The Ninf-G depends on the Globus toolkit and its related software such
+as SSLeay and OpenLDAP. The platform you intend to install must be 
+"Globus-enabled" at least. 
+The Ninf Team installs the Ninf-G system on the following platforms
+prior to each software release and runs tests to ensure basic
+functionality. Bug reports are accepted from a wide range of hardware
+and software platforms, but problems with the platforms listed here
+are the easiest for the team to reproduce the test. 
+
+<ul>
+<li> Red Hat Linux 6.1, 6.2, 7.1, 7.2, 7.3
+<li> Solaris 7, 8
+<li> IRIX 6.5
+</ul>
+
+<!-- 
+     *****************************
+      Download
+     *****************************
+-->
+<h3><a name="download"> Download </a> </h3>
+  <br>
+  The latest release of the Ninf-G software is available from the Ninf Project's <a
+  href="http://ninf.apgrid.org/download/ng.tgz"> Download page </a>. 
+  Ninf-G is provided as a single compressed tar file. The tar file contains:
+  <ul>  
+    <li> A "configure" script
+    <li> all source code
+    <li> C-based XML parsing library 
+    <li> header files
+    <li> makefiles required to build and install Ninf-G 
+    <li> sample numerical libraries and client applications 
+    <li> manual documents
+  </ul>
+</p>
+
+<!-- 
+     *****************************
+      user ninf
+     *****************************
+-->
+<h3><a name="download"> create user <i>ninf</i> </a> </h3>
+  <br>
+  We recommend to create user <i>ninf</i> and install the Ninf-G by the user <i>ninf</i>.
+</p>
+
+<!-- 
+     *****************************
+     Installation
+     *****************************
+-->
+<h3>
+<a name="install"> Installation </a></h3>
+<p>
+
+After downloading the Ninf-G software and ensuring the above
+requirements, perform the following steps. 
+
+<!-- 
+it'd be better off to specify who will perform the instructions such
+as root or globus. 
+-->
+
+  The Ninf-G software is available for UNIX/UNIX-like operating systems. All 
+  of the client and server software except the Globus toolkit is bundled into 
+  one tar-gzipped file. <br>
+  We assume that all of the Globus components work properly beforehand. The Globus 
+  toolkit is available from the Globus project. The Ninf-G distribution 
+  tar file is available from the <a href="http://ninf.apgrid.org/download/ng-latest.tgz">Ninf
+  homepage</a>.
+  Instruction steps are as below:
+
+<ul>
+ <li> <strong>Environment variable <i>GLOBUS_LOCATION</i> (for GT2) or <i>GLOBUS_INSTALL_PATH</i> (for Globus Ver.1) must be defined to specify the installation directory of the Globus Toolkit.</strong>
+ <li> Place the tar file (e.g. <i>ng-latest.tgz</i>) on the system where you would like to
+      maintain the source. 
+ <li> Uncompress and untar the file
+     <pre>% gunzip -c ng-latest.tgz | tar xvf -</pre>
+        This creates a directory called  <b><i> ng </i></b>, which makes
+        up the source tree along with its subdirectories. 
+ <li> Change directories into the <b><i> ng </b> </i> directory, and type
+   in the top diretory,  
+   <pre>
+% cd ng/
+%./configure
+</pre>
+
+  This aids in the build process by providing host-specific software 
+  information to identify compilers and other tools to be used during compilation, 
+  and allows you to deploy  the system in an easy way. <br>
+
+  If you would rather specify the installation directory explicitely
+  or other site-specific parameters, you could add some arguments after the command
+  like the following, 
+
+   <pre> 
+% ./configure --prefix=/usr/local/ng 
+              --with-globus=/usr/local/globus
+              --with-globusVersion=1
+   </pre>
+
+   This example defines the following required arguments:
+   <ul>
+    <li> Path to the Ninf-G installation directory
+    <li> Path to the Globus Toolkit directory 
+    <li> Use Globus Ver.1 as a base toolkit
+   </ul> 
+
+  All options to configure are documented in the below section or can
+  be seen by running 
+  <pre> % ./configure --help </pre>
+  When using Globus Ver.1, <i>--with-globusVersion=1</i> option must be specified.
+  Version 2 is used as a default value of Globus Version.S
+
+ <li> Compile all components of the Ninf-G software by typing  
+<pre> % make </pre>
+
+ Ninf-G uses a configure script generated by GNU autoconf to produce
+ makefiles. If you have POSIX make program then the makefiles generated
+ by configure will try to take advantage of POSIX make features. If
+ your make is unable to process the makefiles while building you may
+ have a broken make. Should make file during the build, try using GNU
+ make. 
+
+ <li> Install compiled files and the LDIF files onto the proper
+ directory by  executing as root or appropriate privileges. 
+ <pre> % make install </pre>
+
+ <li> Register the host information by running the following command
+ as user <i>root</i> (for Globus Ver.2) or user <i>globus</i> (for Globus
+ Ver.1).
+<pre>
+% cd ng/bin
+% ./server_install
+</pre>
+
+ <li> Add the information provider to the GRIS.
+   <ul>
+   <li> For Globus Ver.1:<br>
+      Add the following line to ${GLOBUS_DEPLOY_PATH}/etc/grid-info-resource.conf. 
+      This file maintains local resource information services provided by the GRIS
+      which generate data based on information within the file.  
+      <pre> 0 cat ${GLOBUS_DEPLOY_PATH}/var/gridrpc/*.ldif </pre>
+   <li> For GT2:<br>
+      <ul>
+        <li> Add the following line to ${GLOBUS_LOCATION}/etc/grid-info-slapd.conf.
+          <pre> include  ${GLOBUS_LOCATION}/etc/grpc.schema </pre>
+          The line should be put just below the following line.
+          <pre> include  ${GLOBUS_LOCATION}/etc/grid-info-resource.schema </pre>
+        <li> Type the following command for restarting GRIS.
+          <pre> % ${GLOBUS_LOCATION}/sbin/SXXGris restart </pre>
+      </ul>
+   </ul>
+
+ <li><strong><h3>NOTES for dynamic linkage of the Globus shared libraries:</h3><br>
+The Globus dynamic linking libraries (shared libraries) must be linked
+with the Ninf-G stub executables.  In order to enable this, set the
+shared library linkage path appropriately according to the system on
+which the Ninf-G stubs are installed.
+For example, this is done by adding the location of Globus libraries
+(${GLOBUS_LOCATION}/lib) to the environment variable
+${LD_LIBRARY_PATH} of the Globus Gatekeeper spawning via inetd, or on
+Linux, add (${GLOBUS_LOCATION}/lib) in /etc/ld.so.conf.
+</strong>
+</ul>
+
+<p> 
+<a name="option"></a>
+<h3> Configure Options </h3>
+</p>
+<p>Available options to be used for configuration can be listed by typing <br>
+  <br>
+  <pre> % ./configure --help </pre>
+<p>The following is detailed information on the options to the configure script. 
+</p>
+<h4>Generic Configure Options </h4>
+  The following are generic configure options that do not affect the functionality 
+    of Ninf-G. </p>
+<table width="100%" border="1">
+  <tr>
+    <td>Option</td>
+    <td>Description</td>
+  </tr>
+  <tr>
+    <td>--cache-file=FILE </td>
+    <td>cache test results in FILE</td>
+  </tr>
+  <tr>
+    <td>--help </td>
+    <td>print this message</td>
+  </tr>
+  <tr>
+    <td>--no-create</td>
+    <td>do not create output files</td>
+  </tr>
+  <tr>
+    <td>--quiet, --silent </td>
+    <td>do not print `checking...' messages</td>
+  </tr>
+  <tr>
+    <td>--version</td>
+    <td>print the version of autoconf that created configure</td>
+  </tr>
+</table>
+<h4>Directory and file names</h4>
+</p>
+<p>These options specify where Ninf-G objects will be placed. </p>
+<table width="100%" border="1">
+  <tr>
+    <td>Option</td>
+    <td>Description</td>
+  </tr>
+  <tr>
+    <td>--prefix=PREFIX </td>
+    <td>install architecture-independent files in PREFIX [/usr/local]</td>
+  </tr>
+  <tr>
+    <td>--exec-prefix=EPREFIX </td>
+    <td>install architecture-dependent files in EPREFIX [same as prefix]</td>
+  </tr>
+  <tr>
+    <td>--bindir=DIR </td>
+    <td>user executables in DIR [EPREFIX/bin]</td>
+  </tr>
+  <tr>
+    <td>--sbindir=DIR </td>
+    <td>system admin executables in DIR [EPREFIX/sbin]</td>
+  </tr>
+  <tr>
+    <td>--libexecdir=DIR </td>
+    <td>program executables in DIR [EPREFIX/libexec]</td>
+  </tr>
+  <tr>
+    <td>--datadir=DIR </td>
+    <td>read-only architecture-independent data in DIR [PREFIX/share]</td>
+  </tr>
+  <tr>
+    <td>--sysconfdir=DIR </td>
+    <td>read-only single-machine data in DIR [PREFIX/etc]</td>
+  </tr>
+  <tr>
+    <td height="18">--sharedstatedir=DIR </td>
+    <td height="18">modifiable architecture-independent data in DIR [PREFIX/com]</td>
+  </tr>
+  <tr>
+    <td>--localstatedir=DIR </td>
+    <td>modifiable single-machine data in DIR [PREFIX/var]</td>
+  </tr>
+  <tr>
+    <td>--libdir=DIR </td>
+    <td>object code libraries in DIR [EPREFIX/lib]</td>
+  </tr>
+  <tr>
+    <td>--includedir=DIR </td>
+    <td>C header files in DIR [PREFIX/include]</td>
+  </tr>
+  <tr>
+    <td>--oldincludedir=DIR </td>
+    <td>C header files for non-gcc in DIR [/usr/include]</td>
+  </tr>
+  <tr>
+    <td>--infodir=DIR</td>
+    <td>info documentation in DIR [PREFIX/info]</td>
+  </tr>
+  <tr>
+    <td>--mandir=DIR</td>
+    <td>man documentation in DIR [PREFIX/man]</td>
+  </tr>
+  <tr>
+    <td>--srcdir=DIR </td>
+    <td>find the sources in DIR [configure dir or ..]</td>
+  </tr>
+  <tr>
+    <td>--program-prefix=PREFIX</td>
+    <td>prepend PREFIX to installed program names</td>
+  </tr>
+  <tr>
+    <td>--program-suffix=SUFFIX</td>
+    <td>append SUFFIX to installed program names</td>
+  </tr>
+  <tr>
+    <td>--program-transform-name=PROGRAM</td>
+    <td>run sed PROGRAM on installed program names</td>
+  </tr>
+</table>
+<h4>Host type:</h4>
+<table width="100%" border="1">
+  <tr> 
+    <td>Option</td>
+    <td>Description</td>
+  </tr>
+  <tr> 
+    <td>--build=BUILD</td>
+    <td>configure for building on BUILD [BUILD=HOST]</td>
+  </tr>
+  <tr> 
+    <td>--host=HOST</td>
+    <td>configure for HOST [guessed]</td>
+  </tr>
+  <tr> 
+    <td>--target=TARGET</td>
+    <td>configure for TARGET [TARGET=HOST] </td>
+  </tr>
+</table>
+<h4>Features and packages:</h4>
+</p>
+<p>In general, these options take the following forms. <br>
+</p>
+<table width="100%" border="1">
+  <tr> 
+    <td>Option</td>
+    <td>Description</td>
+  </tr>
+  <tr> 
+    <td>--disable-FEATURE </td>
+    <td>do not include FEATURE (same as --enable-FEATURE=no)</td>
+  </tr>
+  <tr> 
+    <td>--enable-FEATURE[=ARG]</td>
+    <td>include FEATURE [ARG=yes]</td>
+  </tr>
+  <tr> 
+    <td>--with-PACKAGE[=ARG]</td>
+    <td>use PACKAGE [ARG=yes]</td>
+  </tr>
+  <tr> 
+    <td>--without-PACKAGE</td>
+    <td>do not use PACKAGE (same as --with-PACKAGE=no)</td>
+  </tr>
+  <tr> 
+    <td>--x-includes=DIR</td>
+    <td>X include files are in DIR</td>
+  </tr>
+  <tr> 
+    <td>--x-libraries=DIR </td>
+    <td>X library files are in DIR</td>
+  </tr>
+  <tr> 
+    <td>--enable and --with</td>
+    <td>options recognized:</td>
+  </tr>
+  <tr> 
+    <td>--with-globusDir=DIR </td>
+    <td>specify where Globus is installed (<i>GLOBUS_LOCATION</i> (for GT2) or <i>GLOBUS_INSTALL_PATH</i> (for Globus Ver.1) environmental variable 
+      default)</td>
+  </tr>
+  <tr> 
+    <td>--with-globusFlavor=FLAVOR </td>
+    <td>specify Globus runtime library flavor.</td>
+  </tr>
+  <tr>
+    <td>--with-globusVersion=VERSION(1 or 2)</td>
+    <td>specify the version of the Globus Toolkit (2 is default).</td>
+  <tr> 
+    <td>--with-cc=CC </td>
+    <td>specify C compiler to use (cc default)</td>
+  </tr>
+  <tr> 
+    <td>--with-opt=OPT</td>
+    <td>specify C compiler options for optimization</td>
+  </tr>
+  <tr> 
+    <td>--with-debug=OPT </td>
+    <td>specify C compiler options for debuggable executaable file creation</td>
+  </tr>
+  <tr> 
+    <td>--with-cppflag=OPT</td>
+    <td>specify C preprocessor options</td>
+  </tr>
+  <tr> 
+    <td height="19">--enable-gcc </td>
+    <td height="19">allow use of gcc if available</td>
+  </tr>
+  <tr> 
+    <td>--enable-debug </td>
+    <td>enable generate executable with debug symbol (false default).</td>
+  </tr>
+</table>
+<p>Å@
+<p><br>
+  <br>
+  <br>
+
+<hr> 
+<a href="admin.html"> Next </a>
+
+
+</body>
+</html>

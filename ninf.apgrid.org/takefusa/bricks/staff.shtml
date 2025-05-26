@@ -1,0 +1,19 @@
+<!--#include file="frame_head.shtml"-->
+
+<H2>Research Staff</H2>
+
+<UL>
+<LI CLASS=red>
+<P><A HREF="http://www.is.ocha.ac.jp/~takefusa/">Atsuko Takefusa</A> [AIST]</P>
+
+<LI CLASS=blue>
+<P><A HREF="http://matsu-www.is.titech.ac.jp/~matsu/">Satoshi Matsuoka</A> [TITECH]</P>
+
+<LI CLASS=green>
+<P><A HREF="http://ninf.apgrid.org/">Ninf Team</A></P>
+
+<LI CLASS=yellow>
+<P><A HREF="http://datafarm.apgrid.org/index.en.html">Grid Datafarm Team</A></P>
+</UL>
+
+<!--#include file="frame_tail.shtml"-->

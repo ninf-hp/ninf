@@ -1,0 +1,181 @@
+<head>
+<link rel="stylesheet" href="main.css" media="all" type="text/css">
+<title> Grid RPC API for Java </title>
+</head>
+
+<body style="background:rgb(220,255,220)">
+<h1> GridRPC API for Java </h1>
+<div class=author>2003/6/3 Hidemoto Nakada</div>
+
+<h2> 1. Introduction </h2>
+GridRPC API for C language is now under the standardization process.
+This document describes Java language binding for the GridRPC API.
+
+<h2> 2. Design </h2>
+
+While the design of the Java API conforms the C API,
+there are few difference.
+
+<ul>
+<li> Factory Class <br>
+Java has dynamic class loading facility.
+Using factory pattern, we can completely isolate the interface definition
+and system dependent implementation.
+
+<li> No async and wait methods <br>
+Java has integrated thread support.
+Using the thread facility, we can safely remove the complicated 
+async and wait methods.
+</ul>
+
+<h2> 3. API </h2>
+
+<h3> 3.1 API Overview </h3>
+
+Java GridRPC API consists of 3 classes and 2 interfaces
+in  <code>org.gridforum.gridrpc</code> package.
+
+<table border=1>
+<tr><th align=center> Class Name </th><th> Implementation Type </th> <th> Description </th></tr>
+<tr><th align=left> GrpcClient </th>
+    <td>interface</td>
+    <td> represents client itself</td></tr>
+<tr><th align=left> GrpcHandle </th>
+    <td>abstract class</td>
+    <td>represents function handle</td></tr>
+<tr><th align=left> GrpcException </th>
+    <td>class</td>
+    <td>represents exceptions for grpc</td></tr>
+<tr><th align=left> GrpcExecInfo </th>
+    <td>interface</td>
+    <td>interface to get log information for grpc invocation</td></tr>
+<tr><th align=left> GrpcClientFactory </th>
+    <td>class</td>
+    <td>Factory class for grpc client</td></tr>
+</table>
+
+
+Usage for the GRPC API is as follows.
+<ol>
+<li> Create an GrpcClient instance using GrpcClientFactory.
+<li> Get a GrpcHandle instance using the GrpcClient instance.
+<li> Invoke a RPC call Using the GrpcHandle.
+The call will returns GrpcExecInfo if succeeds.
+Otherwise, it will throws GrpcException.
+</ol>
+
+<h3> 3.2 GrpcClient  </h3>
+
+<pre>
+public interface GrpcClient{
+  /** initializes a Grpc Client */
+  void activate(String propertiesFilename) throws GrpcException;
+
+  /** initializes a Grpc Client */
+  void activate(Properties prop) throws GrpcException;
+
+  /** Create a GrpcHandler instance using specified properties
+    and returns it. */
+  GrpcHandle getHandle(String functionName, Properties prop) 
+       throws GrpcException;
+       
+  /** Create a default GrpcHandler and returns */
+  GrpcHandle getHandle(String functionName)       throws GrpcException;
+       
+  /** finalize a Client */
+  void deactivate() throws GrpcException;
+}
+</pre>
+
+
+<h3> 3.3 GrpcHandle  </h3>
+<pre>
+public abstract class GrpcHandle{
+    /** invoke a function with argument list "List" */
+    public abstract GrpcExecInfo call(List args) throws GrpcException;
+
+    /** cancels execution */
+    public abstract void cancel() throws GrpcException;
+
+    /** dispose the handle */
+    public abstract void dispose() throws GrpcException;
+
+    public GrpcExecInfo callWith(Object a1) 
+	throws GrpcException;
+    public GrpcExecInfo callWith(Object a1, Object a2) 
+	throws GrpcException;
+    public GrpcExecInfo callWith(Object a1, Object a2, Object a3)	
+        throws GrpcException;
+    ...
+</pre>
+
+<h3> 3.4 GrpcException </h3>
+<pre>
+public class GrpcException extends Exception{
+  public String str;
+  public Exception innerException;
+
+  public GrpcException();
+  public GrpcException(String str);
+  public GrpcException(Exception e);
+}
+</pre>
+
+<h3> 3.5 GrpcExecInfo </h3>
+<pre>
+public interface GrpcExecInfo {
+  public double getLookupTime();
+  public double getInvokeTime();
+  public double getForeTime();
+  public double getExecTime();
+  public double getBackTime();
+}
+</pre>
+
+<h3> 3.6 GrpcClientFactory </h3>
+<pre>
+public class GrpcClientFactory{
+  static public GrpcClient getClient(String classname) throws GrpcException;
+}
+</pre>
+
+<h2> 4. Program sample </h2>
+
+Here is a sample program for the API, which actually uses Ninf-1 system.
+Note that the Ninf-1 specific portion is restricted in just one String
+instance.
+Users can write their code in independent from any specific GridRPC system.
+
+<pre>
+    try {
+      // Get an GrpcClient instance specifing the actual Class name
+      GrpcClient client =
+	GrpcClientFactory.getClient("ninf.client.NinfGrpcClient");
+
+      // initialize the client using a property file
+      client.activate(config);
+
+      // get a function handle for "test/matmul"
+      GrpcHandle handle = client.getHandle("test/matmul");
+
+      // invoke a function using the handle
+      GrpcExecInfo info = handle.callWith(new Integer(matsize), a, b, c);
+
+      // dispose the handle
+      handle.dispose();
+
+      // deactivate the client
+      client.deactivate();
+
+    } catch (GrpcException e){
+      System.out.println(" failed");
+    }
+</pre>
+
+
+<h2> 5. Current status </h2>
+Currently, we have implemented Ninf-G client and Ninf-1 client
+conforming this API.
+We are planning to implement a demo-gridRPC system using OGSI.
+
+</body>

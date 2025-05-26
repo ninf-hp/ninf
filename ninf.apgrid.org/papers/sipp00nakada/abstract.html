@@ -1,0 +1,38 @@
+<h1> Abstract </h1>
+
+<hr>
+ネットワーク技術の発展にともない、グローバルコンピューティングシステムが
+いくつか提案されているが、
+その計算/通信リソースを十分活用するための手法はいまだ確立されていない。
+リソースを有効に活用するためには、
+グローバルコンピューティング に特有なリソースの変動と不安定さを考慮し、
+関連する複数のタスクに対して一括して
+適切にリソースを割り当てるスケジューリング手法が必要である。
+
+本稿では、グローバルコンピューティング環境において
+個々のアプリケーションの性能とシステム全体のスループットを
+両立させるための、
+階層化されたスケジューリングフレームワークを提案する。
+さらに、このフレームワークに準拠したNinfシステムの
+メタサーバスケジューリングフレームワークの実装について述べ、
+試験的に複数のスケジューリング手法をメタサーバ上に実装し
+その動作を確認する。
+この結果、本フレームワークが充分にフレキシブルであることが示された。
+<hr>
+Rapid progress in networking technology is now making global computing
+systems feasible. Although there have been proposals of global
+computing systems, it is still a research issue as to how to achieve
+efficient usage of computing resources in global computing. In
+particular, we need to devise appropriate scheduling
+strategies/algorithms of computing resources over wide-area networks,
+which are often dynamic and unstable in nature.
+This paper presents our
+preliminary scheduling framework for unifying application and job
+scheduling in global computing. The proposed framework establishes a
+layer of scheduling and resource allocation subframeworks.
+We show our software framework Ninf metaserver which provides low-level
+scheduler and resource monitor. 
+We also evaluate some scheduling strategies using the framework.
+The evaluation results prove that the framework is flexible enough
+to implement plural scheduling algorithms on top of it.
+

@@ -1,0 +1,16 @@
+While there have been several proposals of high performance global
+computing systems, scheduling schemes for the systems have not
+been well investigated.  The reason is difficulties of evaluation by
+large-scale benchmarks with reproducible results. 
+This paper describes design and implementation of the simulator that
+evaluates scheduling schemes on a typical high-performance global
+computing system. 
+The simulator can simulate various features of global computing
+systems by adopting a queueing model. 
+Effectiveness of the simulator was verified by the simulation results,
+which showed very similar results to the experimental results on a real
+global computing system. 
+This paper also shows simulation results of simple scheduling schemes
+by the simulator.
+Results show it is important to consider resource conditions
+appropriately for overall system performance.

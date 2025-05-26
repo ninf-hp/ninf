@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> メタサーバ
+  間の通信</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" メタサーバ
+  間の通信">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html136 HREF="node10.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html134 HREF="node5.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html128 HREF="node8.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html137 HREF="node10.html"> メタサーバ
+  による分散並列実行</A>
+<B>Up:</B> <A NAME=tex2html135 HREF="node5.html">  メタサーバ
+  </A>
+<B> Previous:</B> <A NAME=tex2html129 HREF="node8.html"> Ninf サーバ
+  の選択</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00034000000000000000> メタサーバ
+  間の通信</A></H2>
+<P>
+メタサーバ
+  は、最低でも一つの自分以外のメタサーバ
+  を知っている。
+メタサーバ
+  間での情報の共有のための通信は、
+On demand で行なう。
+すなわち、メタサーバ
+  がリクエストを受けとった際に、そのリクエストを
+処理することができる Ninf サーバ
+  を知らなかった場合に、
+他のメタサーバ
+  に対して問い合わせを行なう。
+<P>
+この問い合わせを受けとった、メタサーバ
+  が適切なNinf サーバ
+  を
+知らない場合には、さらに他のメタサーバ
+  へ問い合わせを forward する。
+このようにすることで、Ninf サーバ
+  は、
+最寄りのメタサーバ
+  に対して登録するだけで、
+他のメタサーバ
+  からも参照されることができる。
+<P>
+ここで問題になるのは、メタサーバ
+  が編目状のネットワークを
+構成することから、問い合わせが重複してしまったり、いつまでも
+ネットワークの中を回り続けたりする可能性があることである。
+これに対応するために、問い合わせには、ユニークなIDとカウンタを
+設定した。
+メタサーバ
+  は、問い合わせの履歴を保持し、かつて処理したIDをもつ
+問い合わせは無視する。
+また、問い合わせを forward する際には、カウンタをデクリメントし、
+カウンタが0になった場合には、それ以上の forward を行なわない。
+これによって、問い合わせは失効するため、無限ループを構成することは
+ない。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

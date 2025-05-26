@@ -1,0 +1,37 @@
+ <center> <H1>  データフローグラフの作成  </H1> </center> <hr noshade width = 80% algn = "center"> <H2>
+
+データフローグラフは、クライアントで作成する。
+<p>
+<ol>
+<LI> <code>Ninf_check_in()</code> が実行されるとトランザクション
+の中にはいる<p>
+<LI> トランザクションの中で<code>Ninf_call()</code> が実行されると、
+メタサーバにコネクトし、インターフェイス情報を取得する<p>
+<LI> インターフェイス情報の中のモード情報と、
+引数の共有状態から各<code>Ninf_call</code>間の依存関係を導き、
+データフローとして蓄積する<p>
+
+<LI> <code>Ninf_check_in()</code> が実行されるとトランザクション
+の終了とみなす。この時点でできているデータフローがトランザクションの
+データフローである
+</ol>
+<center>
+<table>
+<td>
+<font size=4>
+<PRE>
+Ninf_check_in();
+Ninf_call(&quot;mmul&quot;,N,A,B,E);
+Ninf_call(&quot;mmul&quot;,N,C,D,F);
+Ninf_call(&quot;mmul&quot;,N,E,F,G);
+Ninf_check_out();
+</PRE>
+</font>
+</td>
+<td>
+<IMG ALIGN=top SRC="dataflow.gif" hspace=100>
+</td>
+</table>
+</center>
+ <hr> <center><table><td><h2>　　　　　　　　　　　　　　　</td><td></td><td></td><td><h2><em>　　　　　　　HOKKE' 96 </td></table></center>
+

@@ -1,0 +1,19 @@
+<!--#include file="frame_head.shtml"-->
+
+<H2>Collaborators</H2>
+
+<UL>
+<LI CLASS=red>
+<P><A HREF="http://ninf.apgrid.org/">
+Ninf</A> [AIST, TITECH].</P>
+
+<LI CLASS=blue>
+<P><A HREF="http://datafarm.apgrid.org/index.en.html">
+Grid Datafarm</A> [AIST, KEK, TITECH, U. of Tokyo].</P>
+
+<LI CLASS=green>
+<P><A HREF="http://nws.npaci.edu/NWS/">
+NWS (Network Weather Service)</A> [UCSD].</P>
+</UL>
+
+<!--#include file="frame_tail.shtml"-->

@@ -1,0 +1,1 @@
+package ninf.MetaServer;import ninf.client.*;import ninf.basic.*;public class FunctionStructFactory {  public NinfFunctionStruct make(NinfServerStruct srv, NinfStub stub, int index) throws NinfException{    System.out.println("making NinfFunctionStruct");    return new NinfFunctionStruct(srv, stub, index);  }}

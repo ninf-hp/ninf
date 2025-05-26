@@ -1,0 +1,29 @@
+Recent developments of global computing systems such as Ninf, NetSolve,
+and Globus have opened up the opportunites for providing
+high-performance computing services over wide-area networks.
+However, most research focused on the individual architectural aspects
+of the system, or application deployment examples, instead of critical
+issues regarding system performance characteristics in global computing.
+Further, no step-by-step analysis or impartial comparison of various
+scheduling schemes has been conducted, though the performance and
+feasibility of a global computing system, which employs a large number
+of computational resources, highly depends on its scheduling scheme.
+Evaluation is made difficult by large-scale benchmarks and the need for
+reproducible results.
+Our comparative study performs deployment of example applications of
+network-based libraries using Ninf, NetSolve, and CORBA systems.
+There, we discover that dedicated systems for global computing such as
+Ninf and NetSolve have in some cases performance advantages over more
+generic distributed computing capabilities provided by CORBA. 
+Also, we proposed the Bricks performance evaluation system, which would
+allow analysis and comparison of various scheduling schemes on a typical
+high-performance global computing setting. Bricks can simulate various
+behaviors of global computing systems, especially the behavior of
+networks and resource scheduling algorithms.
+Moreover, Bricks is componentalized such that not only its constituents
+could be replaced to simulate various different system algorithms, but
+also allows incorporation of existing global computing components via
+its foreign interface.
+To test the validity of the latter characteristics, we incorporated the
+NWS system, which monitors and forecasts global computing systems
+behavior.

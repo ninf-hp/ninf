@@ -1,0 +1,250 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../jspp99-2000.htm">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Utilizing the Metaserver Architecture in the Ninf Global Computing
+System</title>
+<meta name=Description content="99/07/09: ジョブ / アプリケーション スケジューリング">
+<link rel=next href="v3_slide0038.htm">
+<![if !ppt]>
+<script>
+<!--
+function Update()
+{
+  if( window.name == "PPTSld" )
+    parent.SlideUpdated('v3_slide0037.htm');   
+  else
+    parent.location.href = "v3_document.htm";
+}
+
+function NoHref() {}
+//-->
+</script>
+<![endif]>
+</head>
+
+<body background="v3_slide0037_background.gif" bgcolor=white alink="#cc0000"
+link="#99ccff" vlink="#0066ff" text="#000066" topmargin=0 leftmargin=0
+onload="Update()">
+
+<table border=0 valign=top width=475 height=356 cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=40 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=36 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=38 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=99 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=68 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=110 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=4 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=34 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=21 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+ </tr>
+ <tr>
+  <td width=475 height=13 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=77 height=68 colspan=3></td>
+  <td width=322 height=68 colspan=7>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=48 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=226 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=322 height=33 colspan=3 align=center><font face="ＭＳ Ｐゴシック"
+    color="#003300" size=5>ジョブ</font><font face=Helvetica color="#003300"
+    size=5> / </font><font face="ＭＳ Ｐゴシック" color="#003300" size=5>アプリケーション</font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=322 height=5 colspan=3></td>
+   </tr>
+   <tr>
+    <td width=48 height=30></td>
+    <td width=226 height=30 align=center><font face="ＭＳ Ｐゴシック" color="#003300"
+    size=5>スケジューリング</font><br>
+    </td>
+    <td width=48 height=30></td>
+   </tr>
+  </table>
+  </td>
+  <td width=76 height=68 colspan=4></td>
+ </tr>
+ <tr>
+  <td width=475 height=12 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=40 height=190></td>
+  <td width=393 height=190 colspan=10>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=15 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=119 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=43 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=48 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=36 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=18 height=19><font face="Monotype Sorts" color="#0066ff" size=2>n</font></td>
+    <td width=184 height=19 colspan=6><font face="ＭＳ Ｐゴシック" size=3><b>ジョブスケジューリング</b></font><br>
+    </td>
+    <td width=192 height=19 colspan=4></td>
+   </tr>
+   <tr>
+    <td width=394 height=6 colspan=11></td>
+   </tr>
+   <tr>
+    <td width=24 height=17 colspan=3></td>
+    <td width=15 height=17><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=120 height=17 colspan=2><font face="ＭＳ Ｐゴシック" size=2>スループット重視</font><br>
+    </td>
+    <td width=235 height=17 colspan=5></td>
+   </tr>
+   <tr>
+    <td width=394 height=4 colspan=11></td>
+   </tr>
+   <tr>
+    <td width=24 height=18 colspan=3></td>
+    <td width=15 height=18><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=355 height=18 colspan=7><font face="ＭＳ Ｐゴシック" size=2>複数ユーザの</font><font
+    face=Helvetica size=2>Request</font><font face="ＭＳ Ｐゴシック" size=2>の総所要時間を最短にする</font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=394 height=61 colspan=11></td>
+   </tr>
+   <tr>
+    <td width=18 height=19><font face="Monotype Sorts" color="#0066ff" size=2>n</font></td>
+    <td width=270 height=19 colspan=9><font face="ＭＳ Ｐゴシック" size=3><b>アプリケーションスケジューリング</b></font><br>
+    </td>
+    <td width=106 height=19></td>
+   </tr>
+   <tr>
+    <td width=394 height=6 colspan=11></td>
+   </tr>
+   <tr>
+    <td width=24 height=17 colspan=3></td>
+    <td width=15 height=17><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=211 height=17 colspan=4><font face="ＭＳ Ｐゴシック" size=2>アプリケーションを適切に分割</font><br>
+    </td>
+    <td width=144 height=17 colspan=3></td>
+   </tr>
+   <tr>
+    <td width=394 height=6 colspan=11></td>
+   </tr>
+   <tr>
+    <td width=24 height=17 colspan=3></td>
+    <td width=15 height=17><font color="#0066ff" size=2>&#8226;</font></td>
+    <td width=213 height=17 colspan=5><font face="ＭＳ Ｐゴシック" size=2>各タスクの応答時間を短くする</font><br>
+    </td>
+    <td width=142 height=17 colspan=2></td>
+   </tr>
+  </table>
+  </td>
+  <td width=42 height=190 colspan=3></td>
+ </tr>
+ <tr>
+  <td width=475 height=11 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=117 height=13 colspan=5></td>
+  <td width=99 height=47 rowspan=8><img src="v3_slide0037_image004.gif"
+  border=0 width=99 height=47></td>
+  <td width=259 height=13 colspan=8></td>
+ </tr>
+ <tr>
+  <td width=117 height=3 colspan=5></td>
+  <td width=182 height=3 colspan=3></td>
+  <td width=56 height=16 colspan=3 rowspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=56 height=16><font face=Helvetica size=1><b><i>Server 2</i></b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=21 height=3 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=117 height=1 colspan=5></td>
+  <td width=68 height=16 rowspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=68 height=16><font face=Helvetica size=1><b>Scheduler</b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=114 height=1 colspan=2></td>
+  <td width=21 height=1 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=76 height=12 colspan=2></td>
+  <td width=39 height=16 colspan=2 rowspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=39 height=16><font face=Helvetica size=1><b>Client</b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=2 height=12></td>
+  <td width=114 height=12 colspan=2></td>
+  <td width=21 height=12 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=76 height=3 colspan=2></td>
+  <td width=2 height=3></td>
+  <td width=191 height=3 colspan=7></td>
+ </tr>
+ <tr>
+  <td width=76 height=1 colspan=2></td>
+  <td width=2 height=1></td>
+  <td width=259 height=1 colspan=8></td>
+ </tr>
+ <tr>
+  <td width=117 height=6 colspan=5></td>
+  <td width=259 height=6 colspan=8></td>
+ </tr>
+ <tr>
+  <td width=117 height=8 colspan=5></td>
+  <td width=178 height=8 colspan=2></td>
+  <td width=65 height=24 colspan=5 rowspan=3><img
+  src="v3_slide0037_image005.gif" border=0 width=65 height=24></td>
+  <td width=16 height=8></td>
+ </tr>
+ <tr>
+  <td width=394 height=15 colspan=8></td>
+  <td width=16 height=15></td>
+ </tr>
+ <tr>
+  <td width=394 height=1 colspan=8></td>
+  <td width=16 height=1></td>
+ </tr>
+</table>
+
+</body>
+
+</html>

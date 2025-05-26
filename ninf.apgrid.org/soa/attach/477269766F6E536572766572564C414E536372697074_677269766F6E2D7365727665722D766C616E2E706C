@@ -1,0 +1,195 @@
+#!/usr/bin/perl
+use strict;
+use Getopt::Long;
+
+our $DB_FILE = '/etc/vmware-grivon/grivon-server-vlan.db';
+our $DEVICE = 'eth0';
+
+my %opt = ( add => [] );
+GetOptions(\%opt, 'db-file=s', 'device=s', 'debug',
+	   'add=s{2}', 'del=s', 'delete-all',
+	   'start', 'stop', 'status');
+
+my $vlan = VlanDb->new($opt{'db-file'} || $DB_FILE);
+my $device = $opt{'device'} || $DEVICE;
+
+my @cmds;
+
+if ($opt{add}[0] && $opt{add}[1]) {
+  my ($ip, $vid) = @{$opt{add}};
+  die "Bad IP address ($ip)" if $ip !~ /^\d+\.\d+.\d+\.\d+$/;
+  die "Bad VLAN ID ($vid)" if $vid !~ /^\d+$/ || $vid < 1;
+
+  # backup old VLAN ID
+  my $ovid = $vlan->getVlanId($ip);
+
+  # delete route-to-VM anyway
+  push @cmds, "(/sbin/route | grep -q $ip) && /sbin/route del -host $ip"
+    if $ovid;
+
+  # create vlan interface, if it doesn't exist
+  my $dev = "$device.$vid";
+  push @cmds, "/sbin/vconfig add $device $vid"
+    unless -e "/proc/net/vlan/$dev";
+  push @cmds, "/sbin/ifconfig $dev 0.0.0.0 up";
+
+  # update db
+  $vlan->add($opt{add}[0], $opt{add}[1]);
+
+  # drop vlan interface, if no VMs will use old VLAN
+  if ($ovid && !$vlan->getAllIpAddressesFromVlanId($ovid)) {
+    my $odev = "$device.$ovid";
+    if (-e "/proc/net/vlan/$odev") {
+      push @cmds, "/sbin/ifconfig $odev down";
+      push @cmds, "/sbin/vconfig rem $odev";
+    }
+  }
+
+  # add route-to-VM
+  push @cmds, "/sbin/route add -host $ip dev $dev";
+} elsif ($opt{del}) {
+  my $ip = $opt{del};
+  die "Bad IP address ($ip)" if $ip !~ /^\d+\.\d+.\d+\.\d+$/;
+
+  # backup old VLAN ID
+  my $ovid = $vlan->getVlanId($ip);
+
+  # delete route-to-VM anyway
+  push @cmds, "(/sbin/route | grep -q $ip) && /sbin/route del -host $ip";
+
+  # update db
+  $vlan->delete($ip);
+
+  # drop vlan interface, if no VMs will use this VLAN
+  if ($ovid && !$vlan->getAllIpAddressesFromVlanId($ovid)) {
+    my $odev = "$device.$ovid";
+    if (-e "/proc/net/vlan/$odev") {
+      push @cmds, "/sbin/ifconfig $odev down";
+      push @cmds, "/sbin/vconfig rem $odev";
+    }
+  }
+} elsif ($opt{'delete-all'}) {
+  # delete all VM-routes
+  foreach my $ip ($vlan->getAllIpAddresses()) {
+    push @cmds, "(/sbin/route | grep -q $ip) && /sbin/route del -host $ip";
+  }
+
+  # drop all VLAN interfaces
+  foreach my $vid ($vlan->getAllVlanIds()) {
+    my $dev = "$device.$vid";
+    if (-e "/proc/net/vlan/$dev") {
+      push @cmds, "/sbin/ifconfig $dev down";
+      push @cmds, "/sbin/vconfig rem $dev";
+    }
+  }
+
+  # update db
+  $vlan->deleteAll();
+} elsif ($opt{start}) {
+  foreach my $vid ($vlan->getAllVlanIds()) {
+    my $dev = "$device.$vid";
+    push @cmds, "/sbin/vconfig add $device $vid"
+      unless -e "/proc/net/vlan/$dev";
+    push @cmds, "/sbin/ifconfig $dev 0.0.0.0 up";
+    foreach my $ip ($vlan->getAllIpAddressesFromVlanId($vid)) {
+      push @cmds, "(/sbin/route | grep -q $ip) || /sbin/route add -host $ip dev $dev";
+    }
+  }
+} elsif ($opt{stop}) {
+  foreach my $vid ($vlan->getAllVlanIds()) {
+    my $dev = "$device.$vid";
+    foreach my $ip ($vlan->getAllIpAddressesFromVlanId($vid)) {
+      push @cmds, "(/sbin/route | grep -q $ip) && /sbin/route del -host $ip dev $dev";
+    }
+    if (-e "/proc/net/vlan/$dev") {
+      push @cmds, "/sbin/ifconfig $dev down";
+      push @cmds, "/sbin/vconfig rem $dev";
+    }
+  }
+} elsif ($opt{status}) {
+  my $db = $vlan->getHash();
+  foreach my $ip (keys %$db) {
+    print "IP addrress: $ip -> VLAN ID: " . $db->{$ip} . "\n";
+  }
+}
+
+if ($opt{debug}) {
+  print "$_\n" foreach @cmds;
+} else {
+  foreach (@cmds) {
+    print "$_\n";
+    system($_);
+  }
+}
+
+1;
+
+# abstraction for VLAN database
+package VlanDb;
+
+use strict;
+use DB_File;
+
+sub new {
+  my ($class, $dbfile) = @_;
+  my %db;
+  tie %db, 'DB_File', $dbfile;
+  my $param = { dbfile => $dbfile, db => \%db };
+  bless $param, $class;
+}
+
+sub DESTROY {
+  untie $_[0]->{db};
+}
+
+sub add {
+  my $this = shift;
+  my ($ip, $vid) = @_;
+  $this->{db}->{$ip} = $vid;
+}
+
+sub delete {
+  my $this = shift;
+  my ($ip) = @_;
+  delete $this->{db}->{$ip};
+  1;
+}
+
+sub deleteAll {
+  my $this = shift;
+  foreach my $ip (keys %{$this->{db}}) {
+    delete $this->{db}->{$ip};
+  }
+  1;
+}
+
+sub getAllIpAddresses { keys %{$_[0]->{db}} }
+
+sub getAllIpAddressesFromVlanId {
+  my $this = shift;
+  my ($vid) = @_;
+  my @ips;
+  foreach my $ip (keys %{$this->{db}}) {
+    push @ips, $ip if $this->{db}->{$ip} == $vid;
+  }
+  @ips;
+}
+
+sub getHash { $_[0]->{db} }
+
+sub getVlanId {
+  my $this = shift;
+  my ($ip) = @_;
+  return $this->{db}->{$ip} if $ip;
+}
+
+sub getAllVlanIds {
+  my $this = shift;
+  my %ids;
+  foreach my $ip (keys %{$this->{db}}) {
+    $ids{$this->{db}->{$ip}} = 1;
+  }
+  keys %ids;
+}
+
+1;

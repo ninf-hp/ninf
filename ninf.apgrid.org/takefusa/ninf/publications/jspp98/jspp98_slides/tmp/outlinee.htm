@@ -1,0 +1,511 @@
+<HTML>
+<BODY >
+
+<P></P><A HREF="JavaScript:parent.ItemClicked(1, 0)"> 広域計算システムのシミュレーションによる評価ー Ninf システムの広域分散環境でのジョブスケジューリング実現に向けて ー </A><br><UL>
+竹房あつ子，合田憲人，小川宏高，中田秀基，松岡聡，佐藤三久，関口智嗣，長嶋雲兵
+</UL><UL>
+
+</UL><UL>
+http://ninf.etl.go.jp</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(2, 0)"> PPT Slide </A><br><UL>
+高性能広域計算</UL></P>
+<P><UL>
+<LI>ネットワーク技術の発展
+<UL>
+計算・情報資源を利用した超広域並列分散計算 
+<BR><BR>? 高性能広域計算 (Global Computing)
+<UL>
+Ninf, Globus, NetSolve, Legion etc.<BR></UL></UL></UL></P>
+<P><UL>
+Internet</UL></P>
+<P><UL>
+Global Computing Infrastructure</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(3, 0)"> 高性能広域計算のためのスケジューリング </A><br><UL>
+<LI>不均質かつ変動する環境下で，ユーザの要求性能を満たす
+<UL>
+<LI>計算サーバの性能 / 負荷
+<LI>ネットワークのトポロジ / バンド幅 / 混雑度
+</UL></UL><UL>
+?  高性能広域システムのためのスケジューリング
+</UL><UL>
+<LI>既存のスケジューリングシステム
+<UL>
+MetaServer (Ninf), Agent (NetSolve), AppLeS, Prophet<BR></UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(4, 0)"> 研究の目的と発表内容 </A><br><UL>
+<LI>高性能広域計算のシミュレーションモデルの設計 ・ シミュレーション環境の構築
+<UL>
+<LI>様々な環境設定，大規模評価実験
+<LI>再現性がある評価実験
+<LI>
+</UL></UL><UL>
+<LI>発表内容
+<UL>
+<LI>高性能広域計算の概要
+<LI>高性能広域計算システムシミュレータの概要
+<LI>シミュレーションモデルの有効性の評価
+<LI>スケジューリング手法の評価</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(5, 0)"> 高性能広域計算システムの概要 </A><br><UL>
+<LI>クライアント
+</UL><UL>
+<LI>計算サーバ
+</UL><UL>
+<LI>スケジューリングユニット
+<UL>
+<LI>スケジューラ (ex. AppLeS, Prophet)
+<UL>
+<LI>各システムのポリシーに従ったスケジューリングを行う
+</UL><LI>ディレクトリサービス (ex. Globus-MDS)
+<UL>
+<LI>資源情報の集中型データベース
+</UL><LI>モニタ (ex. NWS)
+<UL>
+<LI>計算サーバ / ネットワークのモニタリングと予測</UL></UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(6, 0)"> 高性能広域計算の実行プロセス </A><br><UL>
+Client A</UL></P>
+<P><UL>
+Client B</UL></P>
+<P><UL>
+Server A</UL></P>
+<P><UL>
+Server B</UL></P>
+<P><UL>
+Server C</UL></P>
+<P><UL>
+Internet</UL></P>
+<P><UL>
+Client C</UL></P>
+<P><UL>
+Site1</UL></P>
+<P><UL>
+Site2</UL></P>
+<P><UL>
+Scheduling Unit</UL></P>
+<P><UL>
+Scheduler</UL></P>
+<P><UL>
+Monitor</UL></P>
+<P><UL>
+Directory
+</UL><UL>
+Service</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(7, 0)"> シミュレーションモデル </A><br><UL>
+<LI>シミュレーションモデルの条件
+<UL>
+<LI>多様なクライアント，サーバのネットワークトポロジ
+<LI>サーバ : 性能，負荷，変動
+<LI>ネットワーク : バンド幅，スループット(混雑度)，変動
+<BR>が表現可能であること
+</UL></UL><UL>
+? 待ち行列モデルを採用
+</UL><UL>
+<LI>本シミュレーションモデルの特徴
+<UL>
+<LI>様々な実行環境を想定した大規模評価実験
+<LI>再現性のある公平な評価
+<BR>が可能となる</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(8, 0)"> 待ち行列による高性能広域計算シミュレーションモデル </A><br><UL>
+Client A</UL></P>
+<P><UL>
+Server A
+</UL><UL>
+
+</UL></P>
+<P><UL>
+Server B
+</UL><UL>
+
+</UL></P>
+<P><UL>
+Server C
+</UL><UL>
+
+</UL></P>
+<P><UL>
+Client B</UL></P>
+<P><UL>
+Client C</UL></P>
+<P><UL>
+Client B’</UL></P>
+<P><UL>
+Client C’</UL></P>
+<P><UL>
+Client A’</UL></P>
+<P><UL>
+Qns1</UL></P>
+<P><UL>
+Qs1</UL></P>
+<P><UL>
+Site1</UL></P>
+<P><UL>
+Site2</UL></P>
+<P><UL>
+Site2’</UL></P>
+<P><UL>
+Site1’</UL></P>
+<P><UL>
+Qns2</UL></P>
+<P><UL>
+Qns3</UL></P>
+<P><UL>
+Qns4</UL></P>
+<P><UL>
+Qnr1</UL></P>
+<P><UL>
+Qnr2</UL></P>
+<P><UL>
+Qnr3</UL></P>
+<P><UL>
+Qnr4</UL></P>
+<P><UL>
+Qs2</UL></P>
+<P><UL>
+Qs3</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(9, 0)"> 待ち行列モデル </A><br><UL>
+<LI>Qns へのデータの到着率: ?ns = ?ns_request + ?ns_others
+<UL>
+?ns_request : Requestのパケット，?ns_others : 外乱のデータ
+<BR><BR>
+</UL></UL><UL>
+<LI>Qs へのジョブの到着率: ?s = ?s_request + ?s_others
+<UL>
+?s_request : Requestのジョブ，?n_others : 外乱のジョブ<BR></UL></UL></P>
+<P><UL>
+?ns_others</UL></P>
+<P><UL>
+?ns_request</UL></P>
+<P><UL>
+?s_others</UL></P>
+<P><UL>
+?s_request</UL></P>
+<P><UL>
+?ns</UL></P>
+<P><UL>
+?s</UL></P>
+<P><UL>
+?s</UL></P>
+<P><UL>
+?ns</UL></P>
+<P><UL>
+Client    </UL></P>
+<P><UL>
+Qns</UL></P>
+<P><UL>
+Server
+</UL></P>
+<P><UL>
+Qs</UL></P>
+<P><UL>
+Network</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(10, 0)"> クライアントでの処理 </A><br><UL>
+<LI>?request  の確率でRequest を発行
+</UL><UL>
+<LI>スケジューラにサーバを問い合わせる
+<UL>
+<LI>Request に関する情報を提供
+<UL>
+<LI>演算数，転送データ量(往路 / 復路)
+</UL></UL></UL><UL>
+スケジューラは適切なサーバを割り当てる
+</UL><UL>
+<LI>Request を割り当てられたサーバに発行
+<UL>
+<LI>転送データを論理パケットサイズに分割
+<BR>  サーバで処理が終了
+</UL></UL><UL>
+<LI>Qnr からデータを受け取る</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(11, 0)"> クライアントに関するパラメータ </A><br><UL>
+<LI>Qns に論理パケットを投入する確率
+<UL>
+          ?packet = Tnet / Wpacket     
+<BR><BR>			Tnet : ネットワークのバンド幅
+<BR>			Wpacket : 論理パケットサイズ
+<BR>
+</UL></UL><UL>
+<LI>パラメータの設定例
+<UL>
+Tnet=1.0[MB/s], Wpacket=0.01[MB]である場合
+<BR><BR>?packet = 1.0/0.01 = 100</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(12, 0)"> ネットワークでの処理 </A><br><UL>
+<LI>?ns_others で通信スループットを表現
+</UL><UL>
+? Qns に M/M/1/N待ち行列を採用
+</UL><UL>
+<LI>Qns には論理パケットと外乱のデータが到着
+<UL>
+<LI>バッファが一杯のとき，各データは再送 される
+</UL></UL><UL>
+<LI>各データはQns のサーバ上で [サイズ/バンド幅] 時間処理され， Qns から出る</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(13, 0)"> ネットワークに関するパラメータ </A><br><UL>
+<LI>外乱データの到着率－スループットを決定
+</UL><UL>
+?packet / (?ns_others + ?packet) = Tact / Tnet
+</UL><UL>
+? ?ns_others = (Tnet / Tact - 1) ? ?packet
+</UL><UL>
+
+</UL><UL>
+<LI>Qns のバッファ長－レイテンシを決定
+</UL><UL>
+Wpacket ? N / Tnet ? Tlatency
+</UL><UL>
+? N ? Tlatency ? Tnet / Wpacket
+</UL><UL>
+ただし N ? 2
+</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(14, 0)"> ネットワークに関するパラメータの設定例 </A><br><UL>
+<LI>Tnet=1.0[MB/s], Wpacket=0.01[MB](?packet=100)の条件で，通信スループット Tact=0.1[MB/s], レイテンシ Tlatency=0.1を再現する場合
+<UL>
+<LI>
+<LI>外乱のデータの到着率
+<BR>?ns_others= (Tnet/Tact-1)??packet
+<BR>                   = (1.0/0.1-1)?100 = 900
+<LI>バッファ長  
+<BR>N ? Tlatency?Tnet/Wpacket = 0.1?1.0/0.01 = 10</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(15, 0)"> サーバでの処理 </A><br><UL>
+<LI>処理の応答時間を表す
+</UL><UL>
+? Qs に M/M/1待ち行列を採用
+</UL><UL>
+<LI>Requestの受付
+<UL>
+<LI>すべての論理パケットがQns から出た時点でQsに投入される
+</UL></UL><UL>
+<LI>Qsのサーバ上で各ジョブは
+</UL><UL>
+     [演算数 / サーバの性能] 時間処理
+</UL><UL>
+<LI>Request の処理結果をクライアントに送信
+<UL>
+<LI>転送データを論理パケットサイズに分割
+<LI>? packet の確率で Qnr に論理パケットを投入</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(16, 0)"> サーバに関するパラメータ </A><br><UL>
+<LI>外乱のジョブの到着率－サーバの稼働率を決定
+</UL><UL>
+?s_others = Tser / Ws_others ? U
+<UL>
+			Tser : サーバの性能
+<BR><BR>			Ws_others : 外乱のジョブの平均演算数
+<BR>			U : サーバの稼働率
+</UL></UL><UL>
+<LI>パラメータの設定例
+<UL>
+<LI>Tser=100[Mflops], Ws_others=0.01 [MB] のとき，U=0.1を再現する場合
+<BR>?s_others = 100/0.01?0.1 = 1000</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(17, 0)"> シミュレータの特徴 </A><br><UL>
+<LI>シミュレーション設定が pluggable
+<UL>
+<LI>クライアント，サーバ，ネットワークの構成
+<LI>スケジューリングモデル
+<LI>ネットワーク / サーバでの処理方法
+<LI>乱数分布
+<BR>(Abstract Factory パターンを用いた)
+</UL></UL><UL>
+<LI>各オブジェクトに対して独立の乱数系列が指定可能
+<UL>
+    ? 柔軟なシミュレーション設定が可能
+<BR></UL></UL><UL>
+<LI>Java で実装</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(18, 0)"> シミュレーションモデルの有効性の評価 </A><br><UL>
+<LI>実測(Ninfシステム)とシミュレーションの比較 
+<UL>
+<LI>Linpack 
+<BR>   演算数: 2/3n3 + 2n2 [flops], 通信量: 8n2 + 20n[bytes]
+</UL></UL><UL>
+<LI>評価環境
+<UL>
+<LI>サーバ : クライアント = 1 : 1, 1 : 4</UL></UL></P>
+<P><UL>
+    ETL
+</UL><UL>
+ [J90, 4PE]</UL></P>
+<P><UL>
+U-Tokyo [Ultra1] (0.35MB/s, 20ms)</UL></P>
+<P><UL>
+Ocha-U [SS10] (0.16MB/s, 32ms)</UL></P>
+<P><UL>
+NITech [Ultra2] (0.15MB/s, 41ms)</UL></P>
+<P><UL>
+TITech [Ultra1] (0.036MB/s, 18ms)</UL></P>
+<P><UL>
+Server </UL></P>
+<P><UL>
+Clients </UL></P>
+<P><UL>
+Internet</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(19, 0)"> モデルの評価での設定パラメータ </A><br><UL>
+<LI>クライアント
+<UL>
+<LI>?request = 1 / [Requestの所要時間 + interval]
+<LI>Wpacket = 10, 50, 100 [KB] (固定)
+</UL></UL><UL>
+<LI>ネットワーク (FCFS)
+<UL>
+<LI>バンド幅 Tnet = 1.5 [MB/s]
+<LI>外乱のデータ : 平均サイズ = Wpacket (指数分布)
+<BR>                           ?ns_others, ?nr_others はポアソン到着
+</UL></UL><UL>
+<LI>サーバ (FCFS) ー 実測から得られたパラメータを適用
+<UL>
+<LI>性能 Tser = 500 [Mflops]
+<LI>外乱のジョブ : 平均演算数 = 10 [Mflops] (指数分布)
+<BR>				稼働率 4 [%] ，ポアソン到着</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(20, 0)"> シミュレーションモデルの有効性の評価結果(1 : 1) </A><br><UL>
+<LI>論理パケットサイズが異なる場合も実測と同程度の性能
+</UL><UL>
+? シミュレーション
+</UL><UL>
+    コストが削減可能
+</UL><UL>
+<LI>問題サイズが変化しても実測と同程度</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(21, 0)"> PPT Slide </A><br><UL>
+600</UL></P>
+<P><UL>
+1400</UL></P>
+<P><UL>
+1000</UL></P>
+<P><UL>
+シミュレーションモデルの有効性の評価結果(1 : 4)</UL></P>
+<P><UL>
+<LI>異なるスループットを設定した場合も実測と同程度の性能
+</UL><UL>
+? シミュレーションで実測同様の挙動を再現</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(22, 0)"> シミュレーションによるスケジューリング手法の評価 </A><br><UL>
+<LI>3種類の基本的なスケジューリング手法の評価
+<UL>
+<LI>LRR : 各クライアントでRound-Robin
+<LI>GRR : 広域スケジューラでRound-Robin
+<LI>LOAD : 広域スケジューラで負荷 + 計算性能
+</UL></UL><UL>
+<LI>均質・不均質な環境で Linpack / EP による評価</UL></P>
+<P><UL>
+Server A</UL></P>
+<P><UL>
+400 Mops</UL></P>
+<P><UL>
+Server B</UL></P>
+<P><UL>
+100 Mops</UL></P>
+<P><UL>
+50 KB/s</UL></P>
+<P><UL>
+200 KB/s</UL></P>
+<P><UL>
+Client 1</UL></P>
+<P><UL>
+Client 2</UL></P>
+<P><UL>
+Client 3</UL></P>
+<P><UL>
+Client 4</UL></P>
+<P><UL>
+Server A</UL></P>
+<P><UL>
+160 Mops</UL></P>
+<P><UL>
+Server B</UL></P>
+<P><UL>
+160 Mops</UL></P>
+<P><UL>
+80 KB/s</UL></P>
+<P><UL>
+80 KB/s</UL></P>
+<P><UL>
+Client 1</UL></P>
+<P><UL>
+Client 2</UL></P>
+<P><UL>
+Client 3</UL></P>
+<P><UL>
+Client 4</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(23, 0)"> スケジューリング手法の評価の設定パラメータ </A><br><UL>
+<LI>クライアント
+<UL>
+<LI>問題サイズ ： Linpack - 600，EP - 221
+<LI>?request = 1 / (最悪のRequest所要時間 + interval)
+<BR>   (interval : Linpack 5 [sec], EP 20 [sec]), ポアソン到着
+<LI>論理パケット Wpacket = 100 [KB] (固定)，ポアソン到着
+</UL></UL><UL>
+<LI>ネットワーク (FCFS)
+<UL>
+<LI>Tnet = 1.5 [MB/s]
+<LI>外乱のデータ : 平均サイズ = Wpacket (指数分布)
+<BR>    ?ns_others, ?nr_others はポアソン到着
+</UL></UL><UL>
+<LI>サーバ (FCFS)
+<UL>
+<LI>外乱のジョブ : 平均演算数 = 10 [Mflops] (指数分布)
+<BR>				稼働率 10 [%] ，ポアソン到着</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(24, 0)"> 均質な環境でのスケジューリング手法の評価結果 </A><br><UL>
+<LI>Linpackではスケジューラの差がない
+</UL><UL>
+<LI>EPではGRR，LRR，LOADの順に良い性能
+<UL>
+<LI>均質な環境であるため，GRRで適切に負荷分散できた</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(25, 0)"> 不均質な環境でのスケジューリング手法の評価結果 </A><br><UL>
+<LI>Linpack ではLOADの性能が悪い
+<UL>
+<LI>通信主体の問題なので，ネットワークがボトルネックとなってサーバの負荷が上がらない [SC97]
+</UL></UL><UL>
+<LI>EP では LOAD で効率の良いスケジューリング</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(26, 0)"> 不均質な環境でのスケジューリング手法の評価結果 </A><br><UL>
+Linpack</UL></P>
+<P><UL>
+EP</UL></P>
+<P><UL>
+<LI>Linpack ではLOADの性能が悪い
+</UL><UL>
+<LI>EP では LOAD で効率の良いスケジューリング
+<UL>
+<LI>LRR，GRR はRequestの所要時間が長くなっていく</UL></UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(27, 0)"> まとめ </A><br><UL>
+<LI>高性能広域計算システムのシミュレーションモデルの設計･シミュレーション環境の構築を行った
+</UL><UL>
+<LI>
+</UL><UL>
+<LI>実測値とほぼ等しい結果が得られ，シミュレーションモデルが有効であることを確認した
+</UL><UL>
+<LI>
+</UL><UL>
+<LI>基本的なスケジューリング手法の評価では，実測における考察を反映した結果が得られた</UL></P>
+<P>
+<P></P><A HREF="JavaScript:parent.ItemClicked(28, 0)"> 今後の課題 </A><br><UL>
+<LI>シミュレーションモデルの有効性の向上
+<UL>
+<LI>実際のネットワークにおける変動を考慮
+<LI>計算サーバでのジョブの処理方式の多様化
+<UL>
+<LI>Round-Robin など
+</UL><LI>シミュレーションコストの削減
+</UL></UL><UL>
+<LI>高性能広域計算システムにおける他のスケジューリング手法の評価
+</UL><UL>
+<LI>より適切なスケジューリング手法の提案</UL></P>
+<P>
+</BODY>
+</HTML>

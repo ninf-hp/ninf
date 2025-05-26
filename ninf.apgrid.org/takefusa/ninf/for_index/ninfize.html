@@ -1,0 +1,260 @@
+<HTML>
+<HEAD>
+<TITLE>Ninf (Network based Information Library for High Performance
+computing)</TITLE>
+</HEAD>
+
+<BODY>
+<BASEFONT SIZE = 4>
+<H2>Ninf 化の方法と Ninf システムの使い方</H2>
+
+<OL>
+<LI> ninf server のコンパイル
+<LI> idl ファイルを作る
+<LI> stub プログラムのコンパイル
+<LI> client プログラムのコンパイル
+<LI> ninf server を立ちあげる
+<LI> 関数の登録
+<LI> クライアントプログラムを動かす。
+</OL>
+<P>
+<HR SIZE="3">
+<P>
+<OL>
+<LI> ninf server のコンパイル
+ <OL>
+ <LI> source をとってくる。<BR>
+    http://phase.etl.go.jp/~nakada/ninf/server.tar.gz<BR>
+	% gunzip server.tar.gz<BR>
+	% tar -xvf server.tar<BR>
+	--> ディレクトリ server ができる<BR>
+
+ <LI> リンクを張って、make する。<BR>
+    サーバを立てるマシン用の make ファイルの名前を変更し、
+    リンクを張る。<BR>
+	% cd  $(NINF_SERVER_DIRECTORY)<BR>
+	% mv  Makefile.solaris  Makefile<BR>
+	% make  links<BR>
+	% make<BR>
+ </OL>
+<P>
+
+<LI> idl ファイルを作る<BR>
+   idl ファイルは ninf_gen によって、_stub_foo プログラムと
+   その make ファイル foo.mak を作る際に参照される。<BR>
+<OL>
+ <LI> 準備<BR>
+   stub プログラム用のディレクトリを作り、$(STUB_DIRECTORY) に
+   用いるプログラムのファイルを置く。<BR>
+	% mkdir  $(STUB_DIRECTORY)<BR>
+	% cd  $(STUB_DIRECTORY)<BR>
+
+ <LI> idl ファイルの書き方<BR>
+  ex) linpack program の場合<BR>
+<PRE>
+----------------------------------------------------------------
+Module linpack;
+
+CompileOptions "CC=cc -O3";
+Library "linpack_lib.a -L/opt/SUNWspro/SC3.0.1/lib -lF77 -lM77 -lsunmath -lm";
+FortranFormat "%l_";
+
+Define linpack(
+	IN double a[lda:n][n],
+	IN int lda,
+	IN int n,
+	OUT int ipiv[n],
+	INOUT double b[n],
+	OUT int *info)
+Calls "Fortran" linpack(a, lda, n, ipiv, b, info);
+----------------------------------------------------------------
+</PRE>
+Module        <--- 呼び出す関数が記述されているファイル名<BR>
+CompileOptions<--- stub プログラムをコンパイルする際のオプション<BR>
+Library       <--- リンクするライブラリ<BR>
+FortranFormat <--- fortran で書かれたプログラムの場合のみ、記述する<BR>
+Define        <--- 引数の定義<BR>
+IN            <--- クライアントから転送する引数<BR>
+OUT           <--- サーバから返す引数<BR>
+Calls         <--- 呼びだし方法 ("Fortran"はfortranの場合のみ記述)<BR>
+ </OL>
+<P>
+
+<LI> stub プログラムのコンパイル<BR>
+<OL>
+ <LI> make ファイルを作る<BR>
+   登録するプログラムのコンパイルのための make ファイルを作り、
+   それに以下のようなものを追加する。<BR>
+
+  ex) linpack program の場合<BR>
+<PRE>
+----------------------------------------------------------------
+#  Ninf Makefile (Linpack)
+
+RANLIB = touch
+
+NINF_DIR = $(NINF_SERVER_DIRECTORY)  # server のディレクトリ
+NINF_LIB_DIR = $(NINF_DIR)/NinfLib
+NINF_INC_DIR = $(NINF_DIR)/include
+NINF_BIN_DIR = $(NINF_DIR)/bin
+
+IDL = linpack.idl                    # idl ファイルの指定
+
+OBJS = 	linpack.o \                  # program に必要な object
+	dgefa.o \
+	dgesl.o
+
+.c.o:
+	$(CC) -c $(CFLAGS) $*.c -O3
+.f.o:
+	$(F77) -c $(FFLAGS) $*.f -O3
+
+all:	linpack_lib.a
+###	idl ファイルから、_stub_linpack.c, linpack.mak を生成
+	$(NINF_BIN_DIR)/ninf_gen $(IDL)
+###	ninf_call に必要なライブラリとヘッダファイルをコピー
+	cp $(NINF_LIB_DIR)/ninf_stub_lib.a $(NINF_INC_DIR)/ninf_stub.h .
+###	生成された _stub_linpack.c をコンパイル
+	make -f linpack.mak
+
+linpack_lib.a:	$(OBJS)
+	$(RM) -f $@
+	$(AR) rcv $@  $(OBJS)
+	$(RANLIB) $@
+
+register:          # ninf server へ登録
+	$(NINF_BIN_DIR)/ninf_register -port $< _stub_linpack
+
+clean:
+	rm -f *.a *.mak *.o _stub_* 
+----------------------------------------------------------------
+</PRE>
+ </OL>
+<P>
+
+<LI> client プログラムのコンパイル<BR>
+ <OL>
+ <LI> client プログラムをつくる<BR>
+	Ninf_call() : 遠隔サーバに ninf_call をする<BR>
+	Ninf_local_exec() : クライアントマシンで ninf_call をする<BR>
+
+  ex) linpack program の場合<BR>
+<PRE>
+----------------------------------------------------------------
+/*   LINPACK test program  */
+
+#ifdef NINF
+#define linpack(a, lda, n, ipiv, b, info) \
+Ninf_call("linpack",a, lda, n, ipiv, b, &info)  
+#endif
+
+#ifdef REMOTE
+#define linpack(a, lda, n, ipiv, b, info) \
+Ninf_local_exec("$(STUB_DIRECTORY)/_stub_linpack",a, lda, n, ipiv, b, &info)
+#endif
+
+#ifdef LOCAL
+#define linpack(a, lda, n, ipiv, b, info) \
+linpack_(a, &lda, &n, ipiv, b, &info)
+#endif
+
+..........
+
+main(argc, argv)
+int  argc;
+char *argv[];
+{
+   ..........
+   linpack(a, lda, n, ipiv, b, info); 
+   ..........
+}
+----------------------------------------------------------------
+</PRE>
+
+ <LI> コンパイル<BR>
+  make ファイルを作って make する。<BR>
+  ex) linpack program の場合<BR>
+<PRE>
+----------------------------------------------------------------
+#  Ninf Makefile (Linpack)
+
+RANLIB = touch
+AR = ar
+CC = cc
+#F77 = fort77
+#RM = 
+
+NINF_DIR = /usr/users/atakefu/ninf/solaris
+NINF_LIB_DIR = $(NINF_DIR)/NinfLib
+NINF_INC_DIR = $(NINF_DIR)/include
+NINF_BIN_DIR = $(NINF_DIR)/bin
+
+# クライアント側には、このライブラリが必要
+NINF_LIBS = $(NINF_DIR)/NinfClient/ninf_client_lib.a  $(NINF_LIB_DIR)/ninf_lib.a
+
+CFLAGS = -O3 -I$(NINF_INC_DIR)
+LDFLAGS = -O3 
+UCBLIB = -lsocket -lnsl
+
+# local で実行するために必要なオブジェクトファイル
+OBJS = 	linpack.o \
+	dgefa.o \
+	dgesl.o
+
+.c.o:
+	$(CC) -c $(CFLAGS) $*.c
+.f.o:
+	$(F77) -c $(FFLAGS) $*.f
+
+all:	linpack_flib.a linpackf-local linpackf-remote linpackf-ninf
+
+linpackf-local: linpack-main.o $(OBJS)
+	$(CC) $(LDFLAGS) -o linpackf-local -DLOCAL linpack-main.c linpack_flib.a -lm
+
+linpackf-remote: linpack-main.c $(OBJS)
+	$(CC) $(CFLAGS) -o linpackf-remote -DREMOTE linpack-main.c \
+	$(LDFLAGS) $(NINF_LIBS) $(UCBLIB) -lm
+
+linpackf-ninf: linpack-main.c $(OBJS)
+	$(CC) $(CFLAGS) -o linpackf-ninf -DNINF linpack-main.c \
+	$(LDFLAGS) $(NINF_LIBS) $(UCBLIB) -lm
+
+# local で実行するために必要なライブラリ
+linpack_flib.a:	$(OBJS)
+	$(RM) -f $@
+	$(AR) rcv $@  $(OBJS)
+	$(RANLIB) $@
+
+clean:
+	rm -f *.a *.o *-local *-remote *-ninf core
+----------------------------------------------------------------
+</PRE>
+ </OL>
+<P>
+
+<LI> ninf server を立ちあげる<BR>
+ <OL>
+ <LI> 環境変数の設定<BR>
+	% setenv NINF_SERVER (server_machine_name) <BR>
+	% setenv NINF_SERVER_PORT (portnum)   <-- default 3000<BR>
+
+ <LI> ninf server を立ちあげる<BR>
+	% $(NINF_DIR)/bin/ninf_serv_tcp &<BR>
+ </OL>
+<P>
+<LI> 関数の登録<BR>
+   登録したい ninf server のポート番号 (default 3000) を引数に与えて、
+   その後ろに登録する _stub プログラムを記述する。<BR>
+	% $(NINF_DIR)/bin/ninf_register -port (port number) _stub_linpack _stub_foo<BR>
+
+<P>
+<LI> クライアントプログラムを動かす。<BR>
+   クライアントのマシンで、5.1 と同様に環境変数を設定してから、
+   クライアントプログラムを実行する。<BR>
+</OL>
+<P>
+<HR SIZE="3">
+<!--font size=2><A HREF="../index.html">http://www.is.ocha.ac.jp/~takefusa</A>
+</font-->
+</BODY>
+</HTML>

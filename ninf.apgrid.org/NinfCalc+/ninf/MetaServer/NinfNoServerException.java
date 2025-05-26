@@ -1,0 +1,1 @@
+package ninf.MetaServer;import ninf.basic.NinfException;public class NinfNoServerException extends NinfException {  public NinfNoServerException() {    super();  }}// end of NinfIOException.java

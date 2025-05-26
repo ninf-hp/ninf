@@ -1,0 +1,317 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../jspp99-2000.htm">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Utilizing the Metaserver Architecture in the Ninf Global Computing
+System</title>
+<meta name=Description content="99/07/09: Ninfでのネットワークタスクの表現">
+<link rel=next href="v3_slide0031.htm">
+<![if !ppt]>
+<script>
+<!--
+function Update()
+{
+  if( window.name == "PPTSld" )
+    parent.SlideUpdated('v3_slide0008.htm');   
+  else
+    parent.location.href = "v3_document.htm";
+}
+
+function NoHref() {}
+//-->
+</script>
+<![endif]>
+</head>
+
+<body background="v3_slide0008_background.gif" bgcolor=white alink="#cc0000"
+link="#99ccff" vlink="#0066ff" text="#000066" topmargin=0 leftmargin=0
+onload="Update()">
+
+<table border=0 valign=top width=475 height=356 cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=29 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=3 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=25 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=189 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=36 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=10 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=28 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=10 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=4 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=11 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=4 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=4 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=21 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=10 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=6 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=32 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=9 height=0 nowrap><img src="v3_space.gif" border=0></td>
+ </tr>
+ <tr>
+  <td width=475 height=51 colspan=25></td>
+ </tr>
+ <tr>
+  <td width=32 height=30 colspan=2></td>
+  <td width=413 height=30 colspan=21>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=413 height=30 align=center><font face=Helvetica color="#003300"
+    size=5>Ninf</font><font face="ＭＳ Ｐゴシック" color="#003300" size=5>でのネットワークタスクの表現</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=30 height=30 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=475 height=32 colspan=25></td>
+ </tr>
+ <tr>
+  <td width=29 height=71></td>
+  <td width=425 height=71 colspan=23>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=17 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=4 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=15 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=123 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=25 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=17 height=22><font face="Monotype Sorts" color="#0066ff" size=2>n</font></td>
+    <td width=145 height=22 colspan=5><font face="ＭＳ Ｐゴシック" size=4>トランザクション</font><br>
+    </td>
+    <td width=262 height=22 colspan=2></td>
+   </tr>
+   <tr>
+    <td width=424 height=7 colspan=8></td>
+   </tr>
+   <tr>
+    <td width=23 height=19 colspan=3></td>
+    <td width=15 height=19><font color="#0066ff" size=3>&#8226;</font></td>
+    <td width=386 height=19 colspan=4><font face="ＭＳ Ｐゴシック" size=3>ルーチンの入出力モードを用いて自動的にデー</font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=424 height=3 colspan=8></td>
+   </tr>
+   <tr>
+    <td width=38 height=19 colspan=4></td>
+    <td width=149 height=19 colspan=3><font face="ＭＳ Ｐゴシック" size=3>タ依存関係を抽出</font><br>
+    </td>
+    <td width=237 height=19></td>
+   </tr>
+  </table>
+  </td>
+  <td width=21 height=71></td>
+ </tr>
+ <tr>
+  <td width=475 height=13 colspan=25></td>
+ </tr>
+ <tr>
+  <td width=283 height=8 colspan=6></td>
+  <td width=10 height=14 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=10 height=14 align=center><font face=Helvetica size=1>A</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=29 height=8 colspan=2></td>
+  <td width=10 height=14 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=10 height=14 align=center><font face=Helvetica size=1>B</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=25 height=8 colspan=4></td>
+  <td width=10 height=14 colspan=3 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=10 height=14 align=center><font face=Helvetica size=1>C</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=30 height=8 colspan=3></td>
+  <td width=10 height=14 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=10 height=14 align=center><font face=Helvetica size=1>D</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=68 height=8 colspan=4></td>
+ </tr>
+ <tr>
+  <td width=57 height=6 colspan=3></td>
+  <td width=189 height=79 rowspan=8>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=156 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=6 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=25 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=162 height=16 colspan=2><font face=Arial color="#cc0000" size=1><b>Ninf_transaction_start();</b></font><br>
+    </td>
+    <td width=27 height=16 colspan=3></td>
+   </tr>
+   <tr>
+    <td width=189 height=16 colspan=5><font face=Arial size=1><b><span
+    style="mso-spacerun: yes">　</span>Ninf_call(“dmmul”,n,A,B,C);</b></font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=187 height=16 colspan=3><font face=Arial size=1><b><span
+    style="mso-spacerun: yes">　</span>Ninf_call(“dmmul”,n,D,E,F);</b></font><br>
+    </td>
+    <td width=2 height=16 colspan=2></td>
+   </tr>
+   <tr>
+    <td width=188 height=16 colspan=4><font face=Arial size=1><b><span
+    style="mso-spacerun: yes">　</span>Ninf_call(“dmmul”,n,C,F,G);</b></font><br>
+    </td>
+    <td width=1 height=16></td>
+   </tr>
+   <tr>
+    <td width=156 height=16><font face=Arial color="#cc0000" size=1><b>Ninf_transaction_end();</b></font><br>
+    </td>
+    <td width=33 height=16 colspan=4></td>
+   </tr>
+  </table>
+  </td>
+  <td width=37 height=6 colspan=2></td>
+  <td width=29 height=6 colspan=2></td>
+  <td width=25 height=6 colspan=4></td>
+  <td width=30 height=6 colspan=3></td>
+  <td width=68 height=6 colspan=4></td>
+ </tr>
+ <tr>
+  <td width=57 height=21 colspan=3></td>
+  <td width=229 height=21 colspan=21></td>
+ </tr>
+ <tr>
+  <td width=57 height=1 colspan=3></td>
+  <td width=112 height=1 colspan=11></td>
+  <td width=55 height=19 colspan=7 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=55 height=19><font face=Helvetica size=2><b>dmmul</b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=62 height=1 colspan=3></td>
+ </tr>
+ <tr>
+  <td width=57 height=18 colspan=3></td>
+  <td width=36 height=18></td>
+  <td width=55 height=19 colspan=6 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=55 height=19><font face=Helvetica size=2><b>dmmul</b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=21 height=18 colspan=4></td>
+  <td width=62 height=18 colspan=3></td>
+ </tr>
+ <tr>
+  <td width=57 height=1 colspan=3></td>
+  <td width=36 height=1></td>
+  <td width=138 height=1 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=57 height=5 colspan=3></td>
+  <td width=229 height=5 colspan=21></td>
+ </tr>
+ <tr>
+  <td width=57 height=14 colspan=3></td>
+  <td width=76 height=14 colspan=5></td>
+  <td width=10 height=14>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=10 height=14 align=center><font face=Helvetica size=1>E</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=30 height=14 colspan=6></td>
+  <td width=9 height=14 colspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=9 height=14 align=center><font face=Helvetica size=1>F</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=104 height=14 colspan=7></td>
+ </tr>
+ <tr>
+  <td width=57 height=13 colspan=3></td>
+  <td width=229 height=13 colspan=21></td>
+ </tr>
+ <tr>
+  <td width=321 height=19 colspan=8></td>
+  <td width=55 height=19 colspan=11>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=55 height=19><font face=Helvetica size=2><b>dmmul</b></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=99 height=19 colspan=6></td>
+ </tr>
+ <tr>
+  <td width=475 height=25 colspan=25></td>
+ </tr>
+ <tr>
+  <td width=341 height=14 colspan=12></td>
+  <td width=11 height=14>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=11 height=14 align=center><font face=Helvetica size=1>G</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=123 height=14 colspan=12></td>
+ </tr>
+ <tr>
+  <td width=475 height=14 colspan=25></td>
+ </tr>
+</table>
+
+</body>
+
+</html>

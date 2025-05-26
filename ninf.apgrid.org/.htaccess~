@@ -1,0 +1,5 @@
+AddType text/html .shtml
+AddHandler server-parsed .shtml
+Redirect /nakada http://ninf.etl.go.jp/~nakada
+
+

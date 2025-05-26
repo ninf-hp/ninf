@@ -1,0 +1,455 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0041)http://ninf.apgrid.org/documents/idl.html -->
+<HTML><HEAD>
+<META http-equiv=Content-Type content="text/html; charset=us-ascii">
+<META content="MSHTML 6.00.2600.0" name=GENERATOR>
+<title>Ninf-G Interface Description Language</title>
+</HEAD>
+<link rel="stylesheet" href="style.css" type="text/css">
+<BODY bgcolor="#FFFFFF" text="#000000">
+
+<h2>Ninf-G Interface Description Language</h2>
+
+The following statements can be used in the NINF-G IDL 
+files. 
+<UL>
+  <LI><CODE>Module</CODE> module_name <CODE>;</CODE><BR>This statement specifies 
+  the module name. ns_gen will generate a Makefile named <MODULE_NAME>.mak. 
+  <P></P>
+  <LI><CODE>CompileOptions "</CODE> .... <CODE>";</CODE><BR>This statement 
+  specifies some definition whish should be used in the resulting makefile. 
+  <P></P>
+  <LI><CODE>FortranFormat "</CODE>....<CODE>";</CODE><BR>Some fortran compiler 
+  have strange convention for generating labels from function name. For example 
+  a compiler compiles function named 'FFT' into '_FFT_'. Our stub routine uses 
+  C, not FORTRAN, so we have to handle these conventions in someway. 
+  <P>This statement provides translation format. It is similar to the printf 
+  format string. You can use following two special characters in the string. 
+  <UL>
+    <LI><CODE>%s</CODE> : original function name 
+    <LI><CODE>%l</CODE> : capitalized original function name </LI></UL>We can cope 
+  with almost all strange conventions using these two. 
+  <P>For example, consider to put under score before and after the function 
+  name. <PRE>FortranFormat "_%s_";
+</PRE>With this statement, <PRE>Calls "Fortran" FFT(n,x,y);
+</PRE>will generate function call in C, <CODE>_FFT_(n, x, y)</CODE> . 
+  <P></P>
+  <LI><CODE>Library "</CODE>....<CODE>";</CODE><BR>This statement specifies 
+  object files and libraries for each functions. 
+  <P></P>
+  <LI><CODE>Globals { </CODE>... C descriptions ... <CODE>}</CODE><BR>This 
+  statement declares global variables shared by all routines. 
+  <P></P>
+  <LI><CODE>Define </CODE>ninf-name <CODE>(</CODE> paramter1, paramter2, 
+  ....<CODE> )</CODE><BR>[<CODE>"</CODE>description<CODE>"</CODE> ] 
+  <BR>[<CODE>Required</CODE> <CODE>"</CODE>files-or-libs<CODE>"</CODE>]<BR>{ 
+  <CODE>{</CODE> C descriptions <CODE>}</CODE> | <CODE>Calls</CODE> lang-spec 
+  function-name <CODE>(</CODE> arg1,arg2, ...<CODE> );</CODE>}<BR>This statement 
+  declares function interface and libraries needed by the function. 
+  <P>For 'lang-spec', you specify the language you implement your numerical 
+  library. Currently, you can use 'fortran' of 'C'. 'C' is default. Using this 
+  information, the stub generator changes function call sequence. For fortran 
+  libraries, the format string specified in FortranFormat statement will be 
+  used. 
+  <P>Each parameter must follow the following syntax. 
+  <CENTER>[mode-spec] [type-spec] param-name [ <CODE>[</CODE> dimension [<CODE> 
+  :</CODE> range] <CODE>]</CODE>]+ </CENTER>For 'type-spec', you specify data 
+  type for the parameter. You can use, float, double, signed/unsigned char, 
+  short, int, long, longlong. NOTE: sizes of these data-types do not depend on 
+  platforms. The sizes is specified by XDR, char 1 byte, short 2 byte, int 4 
+  byte, long 4byte, longlong 8byte, float 4byte, double 8byte . 
+  <P>For 'mode-spec', you specify input/output mode: IN, OUT, INOUT, WORK. 'IN' 
+  means that the parameter will be transferred from client to server. 'OUT' 
+  means the opposite. 'INOUT' means that the parameter will be transferred from 
+  client to server firstly, and after the calculation, it will go back to the 
+  client. Parameter marked as 'WORK' will not be transferred. Specified memory 
+  area will be just allocated on the server side. You can not use 'OUT' for 
+  scalar types. 
+  <P>For arrays, you can specify, size, upper-limit, lower-limit, stride. These 
+  can be omitted, except for size. For these values, you can use some 
+  expressions. 
+  <P>Expression can include constants, other IN-moded scalar parameter in the 
+  function definition, and some operators. We provide just 5 operators: 
+  +,-,*,/,%. Priority among these operators is same as ANSI C. You can also use 
+  parentheses in expressions. </P></LI></UL>
+<H2>Ninf-G IDL syntax </H2><PRE>/* program toplevel */
+program:  /* empty */
+      | declaration_list
+    ;
+
+declaration_list: 
+      declaration
+    | declaration_list declaration
+    ;
+
+declaration:
+      ``Module'' IDENTIFIER ';'
+    | ``FortranFormat'' STRING ';'
+    | ``CompileOptions'' STRING ';'
+    | ``Globals'' globals_body
+    | ``Define'' interface_definition opt_string required interface_body
+    ;
+
+interface_definition: 
+        IDENTIFIER '(' parameter_list ')'
+    ;
+
+parameter_list:
+       parameter
+    | parameter_list ',' parameter
+    ;
+
+parameter: 
+       decl_specifier declarator
+    ;
+
+decl_specifier: 
+    type_specifier
+    | MODE
+    | MODE type_specifier
+    | type_specifier MODE
+    | type_specifier MODE type_specifier
+    ;
+
+type_specifier:
+      TYPE
+    | TYPE TYPE
+    | TYPE TYPE TYPE    /* ex. unsigned long int */
+    ;
+
+declarator:
+      IDENTIFIER
+    | '(' declarator ')'
+    | declarator '['expr_or_null ']'
+    | declarator '['expr ':' range_exprs ']'
+    | '*' declarator
+    ;
+
+range_exprs:
+       expr     /* upper limit */
+     | expr ',' expr    /* lower limit and upper limit */
+     | expr ',' expr ',' expr /* lower, upper and step */
+
+opt_string: 
+    /* empty */ 
+    | STRING 
+    ;
+
+language_spec: 
+    /* empty */ 
+    | ``fortran''
+    | ``C''
+    ;
+
+required:
+    /* empty */ 
+    | ``Required'' STRING
+    ;
+
+interface_body:
+    '{' /* C statements */ '}'
+    | ``Calls'' opt_string IDENTIFIER '(' id_list ')' ';'
+    ;
+
+globals_body:
+    '{'/* C statements */ '}'
+    ;
+
+id_list: IDENTIFIER
+    | id_list ',' IDENTIFIER
+    ;
+
+/* index description */
+expr_or_null: 
+       expr 
+    | /* null */
+    ;
+
+expr:     
+      unary_expr
+    | expr '/' expr
+    | expr '%' expr
+    | expr '+' expr
+    | expr '-' expr
+    | expr '*' expr
+    ;
+
+unary_expr:  
+      primary_expr
+    | '*' expr
+    | '-' expr
+    ;
+
+primary_expr:
+     primary_expr '[' expr ']'
+    | IDENTIFIER
+    | CONSTANT
+    | '('  expr  ')'
+    ;
+
+/* TYPE = int, unsigned, char, short, long, long float, double */
+/* MODE = mode_in, mode_out, mode_inout, mode_work, IN, OUT, INOUT, WORK*/
+/* IDENTIFIER = name */
+/* CONSTANT = integer literals ÅAfloating point literals */
+/* STRING = "..." */
+</PRE>
+<H2>IDL Sample </H2>
+<P>sample.idl: <PRE>Module sample;
+Library "-lm";
+
+Globals { int x,y,z; }
+
+Define sin(IN double d, OUT double result[])
+" This is test ..."
+{    
+    double sin();
+    *result = sin(d);
+}
+
+Define mmul(long mode_in int n, mode_in double A[n][n], 
+    mode_in double B[n][n],
+    mode_out double C[n][n])
+Required "sample.o"
+Calls "C" mmul(n,A,B,C);
+
+Define mmul2(long mode_in int n, mode_in double A[n*n+1-1], 
+        mode_in double B[n*n+2-3+1],
+        mode_out double C[n*n])
+Required "sample.o"
+Calls "C" mmul(n,A,B,C);
+
+
+Define FFT(IN int n,IN int m, OUT float x[n][m], float INOUT y[m][n])
+Required "sample.o"
+Calls "Fortran" FFT(n,x,y);
+</PRE>
+<H2>stub generator output</H2>
+
+<PRE>
+# This file 'pi.mak' was created by ns_gen. Don't edit
+
+CC = cc
+include $(NS_DIR)/lib/template
+
+# CompileOptions:
+
+
+#  Just a hack for compatibility
+#  Define NS_COMPILER & NS_LINKER as $(CC) if it is not defined.
+
+# Sorry, it may be necessary to edit this part by hand
+NS_COMPILER = $(CC)
+NS_LINKER = $(CC)
+
+# stub sources
+
+NS_STUB_SRC = _stub_pi_trial.c 
+
+# stub programs
+
+NS_STUB_PROGRAM = _stub_pi_trial
+
+# stub inf files
+NS_INF_FILES = _stub_pi_trial.inf
+
+# LDAP dif file
+LDAP_DIF = root.ldif
+
+all: $(NS_STUB_PROGRAM) $(NS_INF_FILES) $(LDAP_DIF)
+
+_stub_pi_trial.o: _stub_pi_trial.c
+	$(NS_COMPILER) $(CFLAGS) $(NS_CFLAGS) -c _stub_pi_trial.c
+_stub_pi_trial: _stub_pi_trial.o pi_trial.o
+	$(NS_LINKER) $(CFLAGS) -o _stub_pi_trial _stub_pi_trial.o $(LDFLAGS) $(NS_STUB_LDFLAGS) pi_trial.o $(LIBS)
+_inf_pi_trial: _inf_pi_trial.c
+	$(NS_COMPILER) $(CFLAGS) $(NS_CFLAGS)  -o _inf_pi_trial  _inf_pi_trial.c $(NS_STUB_LDFLAGS)
+_stub_pi_trial.inf: _inf_pi_trial
+	 ./_inf_pi_trial _stub_pi_trial.inf
+
+
+
+$(LDAP_DIF): $(NS_INF_FILES)
+	$(NS_DIR)/bin/ns_gen_dif $(NS_STUB_PROGRAM)
+
+install: $(LDAP_DIF)
+	$(INSTALL) *.ldif $(LDIF_INSTALL_DIR)
+
+clean:
+	rm -f _stub_pi_trial.o _stub_pi_trial.c
+	rm -f _inf_pi_trial.c _inf_pi_trial
+
+veryclean: clean
+	rm -f $(NS_STUB_PROGRAM) $(NS_INF_FILES) $(LDAP_DIF)
+	rm -f pi_trial.o
+
+
+# END OF Makefile
+</PRE>
+
+<P>_stub_pi_trial.c
+<P><PRE>
+/*=============================================================================
+Module          :ns_gen
+Filename        :_stub_pi_trial.c
+RCS             :
+        $Source:
+        $Revision:
+        $Author:
+        $Data:Wed Feb 27 16:09:22 2002
+        $Locker:
+        $state:
+=============================================================================*/
+#include "nsstb_stub_lib.h"
+
+/* DESCRIPTION:
+monte carlo pi computation
+*/
+
+static char stub_description[] = "monte carlo pi computation";
+
+struct nslib_expression size20[] = {
+	  {
+		{
+		  {VALUE_CONST, 1} ,{VALUE_END_OF_OP, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		}
+	  }
+};
+
+struct nslib_expression start20[] = {
+	  {
+		{
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		}
+	  }
+};
+
+struct nslib_expression end20[] = {
+	  {
+		{
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		}
+	  }
+};
+
+struct nslib_expression step20[] = {
+	  {
+		{
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		}
+	  }
+};
+
+
+
+struct nslib_param_subscript dims2[] = {
+	{ size20, start20, end20, step20 },
+};
+
+
+struct nslib_func_param params[] = {
+	{ DT_INT, MODE_IN, 0, NULL, NULL },
+	{ DT_LONG, MODE_IN, 0, NULL, NULL },
+	{ DT_LONG, MODE_OUT, 1, dims2, NULL },
+};
+
+
+nslib_func_info_t nslib_func_info = {
+	221,
+	{
+	  "pi",
+	  "pi_trial" 
+	},
+	3,
+	params, 
+	{
+	  {
+		{
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		  {VALUE_NONE, 0} ,{VALUE_NONE, 0} ,{VALUE_NONE, 0} ,
+		}
+	  },
+	  (nslib_backend_t)0, /* backend */
+	  (ns_bool)0, /* ns_bool: specify server side shrink */
+	  stub_description, 
+	  0  /* information type :fortran or c */
+	}
+};
+
+/* Globals */
+
+/* Callback proxy */
+
+/* Stub Main program */
+main(int argc, char ** argv){
+	int seed;
+	long times;
+	long *count;
+
+	int tmp;
+
+	nsstb_INIT(argc,argv);
+	while(1){
+		tmp = nsstb_REQ();
+		if (!tmp){
+		    break;
+		}
+		nsstb_SET_ARG(&seed,0);
+		nsstb_SET_ARG(&times,1);
+		nsstb_SET_ARG(&count,2);
+		nsstb_BEGIN();
+{
+  long counter;
+  counter = pi_trial(seed, times);
+  *count = counter;
+}
+		tmp = nsstb_END();
+		if (!tmp) break;
+	}
+	nsstb_EXIT();
+}
+/*                     */
+</PRE></BODY></HTML>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE>  並列実行制御 </TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value="  並列実行制御 ">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html251 HREF="node21.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html249 HREF="node16.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html245 HREF="node19.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html252 HREF="node21.html"> 評価</A>
+<B>Up:</B> <A NAME=tex2html250 HREF="node16.html"> 分散並列実行の実装</A>
+<B> Previous:</B> <A NAME=tex2html246 HREF="node19.html"> 疑似インターフェイス情報の実装</A>
+<BR> <HR> <P>
+<H3><A NAME=SECTION00043400000000000000>  並列実行制御 </A></H3>
+<P>
+メタサーバ
+  からは、並列にディスパッチをかけるので、ディスパッチ間の
+同期をとる機構が必要である。
+この機構を Java のthread を用いて実現した。各関数実行に対して、
+それぞれthreadを割り当てる。また、データ依存関係に応じて
+各関数実行間に依存関係をつけ、それぞれ上流のthreadがすべて
+終了するのをまって実行が開始されるようにした。
+<P>
+具体的には各thread は上流のthread の数をカウンタとして持つ。
+各threadは、自身が終了した時点で下流のthreadにシグナルを送る。
+シグナルを受けとったthreadはカウンタをデクリメントし、
+カウンタが0になった時点で実行を開始する。
+<P>
+すべての ninf call が終了した後、結果をクライアントへ書き戻す
+必要がある。このために書き戻し専用のthread を作成する。
+このthread はすべての ninf call を行なう thread の終了を
+待って実行される。
+<P>
+図<A HREF="node20.html#threads">6</A>に上記の例の場合のthread の依存関係を示す。
+<P>
+<P><A NAME=180>&#160;</A><A NAME=threads>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="img7.gif">
+<BR><STRONG>図:</STRONG> Thread の依存関係<BR>
+<P>
+<P>
+
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<TITLE>program</TITLE>
+</HEAD>
+
+<BODY>
+<BASEFONT SIZE = 4>
+
+<H2>program</H2>
+
+<HR SIZE="3">
+<P>
+<PRE>
+client					server  [Cray]
+-------------------------------------------------------------
+
+matgen()
+
+gettimeofday()
+linpack()	--------------------->  
+		double a[lda:n][n]
+		int lda
+		int n
+		double b[n]
+					dgefa() [sgefa()]
+					dgesl() [sgesl()]
+		<---------------------
+		int ipiv[n]
+		double b[n]
+		int *info
+gettimeofday()
+
+</PRE>
+</BODY>
+</HTML>
+
+
+
+

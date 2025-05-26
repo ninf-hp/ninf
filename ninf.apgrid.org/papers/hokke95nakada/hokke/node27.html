@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> 他の研究と比較</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" 他の研究と比較">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html322 HREF="node28.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html320 HREF="node25.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html316 HREF="node26.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html323 HREF="node28.html"> おわりに</A>
+<B>Up:</B> <A NAME=tex2html321 HREF="node25.html"> 議論</A>
+<B> Previous:</B> <A NAME=tex2html317 HREF="node26.html"> 情報の共有手法</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00062000000000000000> 他の研究と比較</A></H2>
+<P>
+動的にデータフローを形成して並列実行を行なう分散処理系の
+例として、Mentat[<A HREF="node29.html#mentat">4</A>]がある。
+MentatではMPLなるC++の拡張言語を用いる。
+この言語では特定のクラスのメソッドが自動的に
+分散処理の対象になるので、ユーザはこれを用いて分散処理部分を
+指定する。
+<P>
+この手法に比較して、現在のNinf の分散実行方式は以下の特徴を持つ。
+<UL><LI> 言語を新たに設定せずに、C言語の範囲内でほぼ当価な
+計算構造を提供している。ユーザにとっては、言語を新たに
+習得する必要がなく連続性がよい。
+<P>
+<LI> C言語の範疇で行なっているため、以下のような問題がある。
+  <UL><LI> トランザクション内での、ninf call は実際にはその場で実行されない。
+    したがってトランザクション内で先行するninf call の結果を参照しようとしても
+    当然ながら、おかしな値しか得られない。
+    これは、ninf call 以外の通常の計算に関する依存関係を検出する方法が
+    ないためである。
+  <LI> 構造データの共有をポインタの一致で検出する。
+    ほとんどのケースでこれで十分であると思われるが、これでは不十分
+    な場合も存在する。
+  </UL>
+  これらの問題点を解決するためには、コンパイラ自身に手を入れる必要が
+  あるが、実行すれば移植性の低下は避けられないと思われる。
+</UL>
+<P>
+
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

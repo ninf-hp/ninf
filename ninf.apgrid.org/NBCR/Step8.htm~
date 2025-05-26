@@ -1,0 +1,2352 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=us-ascii">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 11">
+<meta name=Originator content="Microsoft Word 11">
+<link rel=File-List href="Step8.files/filelist.xml">
+<link rel=Edit-Time-Data href="Step8.files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Step 8</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Yoshio</o:Author>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>Yoshio</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>6</o:TotalTime>
+  <o:Created>2005-07-21T09:59:00Z</o:Created>
+  <o:LastSaved>2005-07-21T09:59:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>158</o:Words>
+  <o:Characters>903</o:Characters>
+  <o:Company>&#29987;&#26989;&#25216;&#34899;&#32207;&#21512;&#30740;&#31350;&#25152;</o:Company>
+  <o:Lines>7</o:Lines>
+  <o:Paragraphs>2</o:Paragraphs>
+  <o:CharactersWithSpaces>1059</o:CharactersWithSpaces>
+  <o:Version>11.5703</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:PunctuationKerning/>
+  <w:DrawingGridHorizontalSpacing>5.25 pt</w:DrawingGridHorizontalSpacing>
+  <w:DrawingGridVerticalSpacing>7.15 pt</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-alt:"MS Mincho";
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
+@font-face
+	{font-family:Century;
+	panose-1:2 4 6 4 5 5 5 2 3 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+@font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1610612033 1757936891 16 0 131231 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:none;
+	font-size:10.5pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:Century;
+	mso-fareast-font-family:"MS Mincho";
+	mso-bidi-font-family:"Times New Roman";
+	mso-font-kerning:1.0pt;}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+ /* Page Definitions */
+ @page
+	{mso-page-border-surround-header:no;
+	mso-page-border-surround-footer:no;}
+@page Section1
+	{size:210.0mm 842.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;
+	mso-header-margin:36.0pt;
+	mso-footer-margin:36.0pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:25908824;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1810819410 -1370820002 -1418451116 290880120 -1327882626 605850388 -131555524 707399922 -1912599236 48134026;}
+@list l0:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l1
+	{mso-list-id:67194843;
+	mso-list-type:hybrid;
+	mso-list-template-ids:2145172516 -2086889644 67698699 -1775851168 1037872078 -2146950028 -657284112 -669861894 -1826423704 -654518078;}
+@list l1:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:75.0pt;
+	mso-level-number-position:left;
+	margin-left:75.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:84694967;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1019985076 797110742 651972608 -2081888360 985680210 1110099162 -1874135598 764977556 1172851412 75264638;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l2:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l2:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l2:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l3
+	{mso-list-id:89282632;
+	mso-list-template-ids:-1791731462;}
+@list l3:level1
+	{mso-level-start-at:8;
+	mso-level-tab-stop:21.25pt;
+	mso-level-number-position:left;
+	margin-left:21.25pt;
+	text-indent:-21.25pt;}
+@list l3:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:10.0mm;
+	mso-level-number-position:left;
+	margin-left:10.0mm;
+	text-indent:-10.0mm;}
+@list l3:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:35.45pt;
+	mso-level-number-position:left;
+	margin-left:35.45pt;
+	text-indent:-35.45pt;}
+@list l3:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:42.55pt;
+	mso-level-number-position:left;
+	margin-left:42.55pt;
+	text-indent:-42.55pt;}
+@list l3:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:49.6pt;
+	mso-level-number-position:left;
+	margin-left:49.6pt;
+	text-indent:-49.6pt;}
+@list l3:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:20.0mm;
+	mso-level-number-position:left;
+	margin-left:20.0mm;
+	text-indent:-20.0mm;}
+@list l3:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:63.8pt;
+	mso-level-number-position:left;
+	margin-left:63.8pt;
+	text-indent:-63.8pt;}
+@list l3:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:70.9pt;
+	mso-level-number-position:left;
+	margin-left:70.9pt;
+	text-indent:-70.9pt;}
+@list l3:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:77.95pt;
+	mso-level-number-position:left;
+	margin-left:77.95pt;
+	text-indent:-77.95pt;}
+@list l4
+	{mso-list-id:120420621;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1913997718 797110742 -1418451116 290880120 -1327882626 605850388 -131555524 707399922 -1912599236 48134026;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:141511567;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-774456012 797110742 -476293874 -1877443394 686819794 -55832684 395730130 1910506046 1160962458 -1983984402;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l5:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l6
+	{mso-list-id:246310432;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1072094804 797110742 -388710986 -1775851168 1037872078 -2146950028 -657284112 -669861894 -1826423704 -654518078;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l6:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l7
+	{mso-list-id:262997832;
+	mso-list-type:hybrid;
+	mso-list-template-ids:758799202 1116498888 1630286748 1463852696 -704469434 951760476 -2099770418 401509340 -332991610 119588022;}
+@list l7:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8
+	{mso-list-id:278295806;
+	mso-list-template-ids:1810819410;}
+@list l8:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l8:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9
+	{mso-list-id:293489658;
+	mso-list-template-ids:-1778078830;}
+@list l9:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l9:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10
+	{mso-list-id:314072868;
+	mso-list-template-ids:-321110604;}
+@list l10:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l10:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l11
+	{mso-list-id:334771284;
+	mso-list-template-ids:-231063734;}
+@list l11:level1
+	{mso-level-start-at:7;
+	mso-level-tab-stop:21.25pt;
+	mso-level-number-position:left;
+	margin-left:21.25pt;
+	text-indent:-21.25pt;}
+@list l11:level2
+	{mso-level-start-at:2;
+	mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:10.0mm;
+	mso-level-number-position:left;
+	margin-left:10.0mm;
+	text-indent:-10.0mm;}
+@list l11:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:35.45pt;
+	mso-level-number-position:left;
+	margin-left:35.45pt;
+	text-indent:-35.45pt;}
+@list l11:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:42.55pt;
+	mso-level-number-position:left;
+	margin-left:42.55pt;
+	text-indent:-42.55pt;}
+@list l11:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:49.6pt;
+	mso-level-number-position:left;
+	margin-left:49.6pt;
+	text-indent:-49.6pt;}
+@list l11:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:20.0mm;
+	mso-level-number-position:left;
+	margin-left:20.0mm;
+	text-indent:-20.0mm;}
+@list l11:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:63.8pt;
+	mso-level-number-position:left;
+	margin-left:63.8pt;
+	text-indent:-63.8pt;}
+@list l11:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:70.9pt;
+	mso-level-number-position:left;
+	margin-left:70.9pt;
+	text-indent:-70.9pt;}
+@list l11:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:77.95pt;
+	mso-level-number-position:left;
+	margin-left:77.95pt;
+	text-indent:-77.95pt;}
+@list l12
+	{mso-list-id:411395405;
+	mso-list-template-ids:2005712064;}
+@list l12:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l12:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13
+	{mso-list-id:471992076;
+	mso-list-template-ids:-382705040;}
+@list l13:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l13:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l14
+	{mso-list-id:501241210;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-844697366 -24240814 651972608 -2081888360 985680210 1110099162 -1874135598 764977556 1172851412 75264638;}
+@list l14:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l14:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l14:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l14:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15
+	{mso-list-id:512695691;
+	mso-list-template-ids:-844697366;}
+@list l15:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l15:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16
+	{mso-list-id:532571774;
+	mso-list-template-ids:2005712064;}
+@list l16:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l16:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17
+	{mso-list-id:542867397;
+	mso-list-template-ids:2005712064;}
+@list l17:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l17:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18
+	{mso-list-id:614681023;
+	mso-list-template-ids:-844697366;}
+@list l18:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l18:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19
+	{mso-list-id:616642741;
+	mso-list-template-ids:-382705040;}
+@list l19:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l19:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l20
+	{mso-list-id:741755326;
+	mso-list-type:hybrid;
+	mso-list-template-ids:2005712064 -2086889644 -388710986 -1775851168 1037872078 -2146950028 -657284112 -669861894 -1826423704 -654518078;}
+@list l20:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l20:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l21
+	{mso-list-id:757096186;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-985611976 797110742 -388710986 -1775851168 1037872078 -2146950028 -657284112 -669861894 -1826423704 -654518078;}
+@list l21:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l21:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l22
+	{mso-list-id:795104639;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1381524198 -1114971880 67698699 -1877443394 686819794 -55832684 395730130 1910506046 1160962458 -1983984402;}
+@list l22:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l22:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:75.0pt;
+	mso-level-number-position:left;
+	margin-left:75.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l23
+	{mso-list-id:972716051;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1528008942 -1444517876 67698699 -1686338994 -2145105308 803750284 594068402 1001952400 -846151312 1505796720;}
+@list l23:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l23:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:75.0pt;
+	mso-level-number-position:left;
+	margin-left:75.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l24
+	{mso-list-id:987319639;
+	mso-list-template-ids:-844697366;}
+@list l24:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l24:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l25
+	{mso-list-id:1014377163;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-321110604 -2130539716 154037406 1406956540 604789286 -423565146 -1307825796 -960321092 487913730 1379065562;}
+@list l25:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l25:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l26
+	{mso-list-id:1112826616;
+	mso-list-type:hybrid;
+	mso-list-template-ids:978736144 -2130539716 67698699 1406956540 604789286 -423565146 -1307825796 -960321092 487913730 1379065562;}
+@list l26:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l26:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:75.0pt;
+	mso-level-number-position:left;
+	margin-left:75.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l27
+	{mso-list-id:1151482564;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-2018060968 702681376 1666756126 884770788 -1588819148 -901497872 -404739850 -795046364 1555362048 805067488;}
+@list l27:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l28
+	{mso-list-id:1231234578;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1826629326 797110742 1666756126 884770788 -1588819148 -901497872 -404739850 -795046364 1555362048 805067488;}
+@list l28:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l29
+	{mso-list-id:1240939905;
+	mso-list-template-ids:-2018060968;}
+@list l29:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l29:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l30
+	{mso-list-id:1403795739;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1778078830 1494090228 949364024 1174545438 -651662428 -33492814 1788639552 61625100 1678158984 -1829344824;}
+@list l30:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l31
+	{mso-list-id:1460807488;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-51749480 -24240814 67698699 -2081888360 985680210 1110099162 -1874135598 764977556 1172851412 75264638;}
+@list l31:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l31:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0D8;
+	mso-level-tab-stop:75.0pt;
+	mso-level-number-position:left;
+	margin-left:75.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l31:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l31:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l32
+	{mso-list-id:1535458773;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1257342004 -1444517876 -178485190 -1686338994 -2145105308 803750284 594068402 1001952400 -846151312 1505796720;}
+@list l32:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l32:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l33
+	{mso-list-id:1537083508;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-306539312 797110742 1630286748 1463852696 -704469434 951760476 -2099770418 401509340 -332991610 119588022;}
+@list l33:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l34
+	{mso-list-id:1538278878;
+	mso-list-type:hybrid;
+	mso-list-template-ids:634919908 -24240814 651972608 -1224279184 985680210 1110099162 -1874135598 764977556 1172851412 75264638;}
+@list l34:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l34:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l34:level3
+	{mso-level-start-at:0;
+	mso-level-number-format:bullet;
+	mso-level-text:\30FB;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"MS Mincho";
+	mso-bidi-font-family:"Times New Roman";}
+@list l34:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l35
+	{mso-list-id:1812823811;
+	mso-list-template-ids:-791657506;}
+@list l35:level1
+	{mso-level-start-at:8;
+	mso-level-tab-stop:21.25pt;
+	mso-level-number-position:left;
+	margin-left:21.25pt;
+	text-indent:-21.25pt;}
+@list l35:level2
+	{mso-level-start-at:2;
+	mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:10.0mm;
+	mso-level-number-position:left;
+	margin-left:10.0mm;
+	text-indent:-10.0mm;}
+@list l35:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:35.45pt;
+	mso-level-number-position:left;
+	margin-left:35.45pt;
+	text-indent:-35.45pt;}
+@list l35:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:42.55pt;
+	mso-level-number-position:left;
+	margin-left:42.55pt;
+	text-indent:-42.55pt;}
+@list l35:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:49.6pt;
+	mso-level-number-position:left;
+	margin-left:49.6pt;
+	text-indent:-49.6pt;}
+@list l35:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:20.0mm;
+	mso-level-number-position:left;
+	margin-left:20.0mm;
+	text-indent:-20.0mm;}
+@list l35:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:63.8pt;
+	mso-level-number-position:left;
+	margin-left:63.8pt;
+	text-indent:-63.8pt;}
+@list l35:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:70.9pt;
+	mso-level-number-position:left;
+	margin-left:70.9pt;
+	text-indent:-70.9pt;}
+@list l35:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:77.95pt;
+	mso-level-number-position:left;
+	margin-left:77.95pt;
+	text-indent:-77.95pt;}
+@list l36
+	{mso-list-id:1840460973;
+	mso-list-type:hybrid;
+	mso-list-template-ids:86123336 797110742 949364024 1174545438 -651662428 -33492814 1788639552 61625100 1678158984 -1829344824;}
+@list l36:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l37
+	{mso-list-id:1844977596;
+	mso-list-template-ids:-1257342004;}
+@list l37:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l37:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38
+	{mso-list-id:1847478148;
+	mso-list-template-ids:758799202;}
+@list l38:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level2
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level3
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level4
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l38:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l39
+	{mso-list-id:1866944947;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-382705040 -1114971880 -476293874 -1877443394 686819794 -55832684 395730130 1910506046 1160962458 -1983984402;}
+@list l39:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l39:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l40
+	{mso-list-id:2001617003;
+	mso-list-type:hybrid;
+	mso-list-template-ids:811994086 -148732374 1623503790 -997266116 -1152884760 -1559221690 206998034 1261199650 -1149885794 -2005260750;}
+@list l40:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l40:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l40:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l41
+	{mso-list-id:2007588489;
+	mso-list-template-ids:-1329663386;}
+@list l41:level1
+	{mso-level-start-at:7;
+	mso-level-tab-stop:21.25pt;
+	mso-level-number-position:left;
+	margin-left:21.25pt;
+	text-indent:-21.25pt;}
+@list l41:level2
+	{mso-level-text:"%1\.%2\.";
+	mso-level-tab-stop:10.0mm;
+	mso-level-number-position:left;
+	margin-left:10.0mm;
+	text-indent:-10.0mm;}
+@list l41:level3
+	{mso-level-text:"%1\.%2\.%3\.";
+	mso-level-tab-stop:35.45pt;
+	mso-level-number-position:left;
+	margin-left:35.45pt;
+	text-indent:-35.45pt;}
+@list l41:level4
+	{mso-level-text:"%1\.%2\.%3\.%4\.";
+	mso-level-tab-stop:42.55pt;
+	mso-level-number-position:left;
+	margin-left:42.55pt;
+	text-indent:-42.55pt;}
+@list l41:level5
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.";
+	mso-level-tab-stop:49.6pt;
+	mso-level-number-position:left;
+	margin-left:49.6pt;
+	text-indent:-49.6pt;}
+@list l41:level6
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.";
+	mso-level-tab-stop:20.0mm;
+	mso-level-number-position:left;
+	margin-left:20.0mm;
+	text-indent:-20.0mm;}
+@list l41:level7
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.";
+	mso-level-tab-stop:63.8pt;
+	mso-level-number-position:left;
+	margin-left:63.8pt;
+	text-indent:-63.8pt;}
+@list l41:level8
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.";
+	mso-level-tab-stop:70.9pt;
+	mso-level-number-position:left;
+	margin-left:70.9pt;
+	text-indent:-70.9pt;}
+@list l41:level9
+	{mso-level-text:"%1\.%2\.%3\.%4\.%5\.%6\.%7\.%8\.%9\.";
+	mso-level-tab-stop:77.95pt;
+	mso-level-number-position:left;
+	margin-left:77.95pt;
+	text-indent:-77.95pt;}
+@list l42
+	{mso-list-id:2036423712;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-179418626 797110742 651972608 -2081888360 985680210 1110099162 -1874135598 764977556 1172851412 75264638;}
+@list l42:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0FC;
+	mso-level-tab-stop:39.0pt;
+	mso-level-number-position:left;
+	margin-left:39.0pt;
+	text-indent:-21.0pt;
+	font-family:Wingdings;}
+@list l42:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l42:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l42:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43
+	{mso-list-id:2084599164;
+	mso-list-template-ids:-844697366;}
+@list l43:level1
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level2
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image002.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level3
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image003.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level4
+	{mso-level-start-at:3332;
+	mso-level-number-format:image;
+	list-style-image:url("Step8.files/image004.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level5
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level6
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level7
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level8
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l43:level9
+	{mso-level-number-format:image;
+	list-style-image:url("Step8.files/image001.gif");
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+ol
+	{margin-bottom:0mm;}
+ul
+	{margin-bottom:0mm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:\6A19\6E96\306E\8868;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0mm 5.4pt 0mm 5.4pt;
+	mso-para-margin:0mm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:Century;
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050">
+  <v:textbox inset="5.85pt,.7pt,5.85pt,.7pt"/>
+ </o:shapedefaults></xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=JA style='tab-interval:42.0pt;text-justify-trim:punctuation'>
+
+<div class=Section1>
+
+<p class=MsoNormal style='margin-left:21.25pt;text-indent:-21.25pt;mso-list:
+l35 level1 lfo1;tab-stops:list 21.25pt'><![if !supportLists]><span lang=EN-US
+style='font-size:12.0pt;mso-fareast-font-family:Century;mso-bidi-font-family:
+Century'><span style='mso-list:Ignore'>8.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Use
+MPI as backend<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:10.0mm;text-indent:-10.0mm;mso-list:l3 level2 lfo2;
+tab-stops:list 10.0mm'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;mso-fareast-font-family:Century;mso-bidi-font-family:Century'><span
+style='mso-list:Ignore'>8.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Prepare
+server<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l33 level1 lfo16;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Login to a server node (yuki.nbcr.net)<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b
+style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>%<span
+class=SpellE><span class=GramE>ssh</span></span><span class=GramE> <span
+style='mso-spacerun:yes'>&nbsp;</span>yuki.nbcr.net</span><o:p></o:p></i></b></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l36 level1 lfo18;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Change directory to ngv2-practices/mpi<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b
+style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>yuki% <span
+class=SpellE><span class=GramE>cd</span></span><span class=GramE> <span
+style='mso-spacerun:yes'>&nbsp;</span></span>tutorial/mpi<o:p></o:p></i></b></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l6 level1 lfo20;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>See the IDL<br>
+<span style='mso-spacerun:yes'>&nbsp;</span><b><i style='mso-bidi-font-style:
+normal'>yuki% less <span class=SpellE>pi_mpi.idl</span></i></b><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l21 level1 lfo22;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Generate a server program<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:75.0pt;text-indent:-21.0pt;mso-list:l1 level2 lfo24;
+tab-stops:list 75.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings'><span style='mso-list:Ignore'>&Oslash;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>compile
+IDL file<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><b
+style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'><span
+lang=DE style='font-size:12.0pt;mso-ansi-language:DE'>yuki% ng_gen <span
+style='mso-spacerun:yes'>&nbsp;</span>pi_mpi.idl<o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal style='margin-left:75.0pt;text-indent:-21.0pt;mso-list:l26 level2 lfo26;
+tab-stops:list 75.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings'><span style='mso-list:Ignore'>&Oslash;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>generate
+a <span class=SpellE>Ninf</span>-G Executable<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b
+style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>yuki% <span
+class=GramE>make <span style='mso-spacerun:yes'>&nbsp;</span>-</span>f <span
+style='mso-spacerun:yes'>&nbsp;&nbsp;</span><span class=SpellE>pi_mpi.mak</span><o:p></o:p></i></b></span></p>
+
+<p class=MsoNormal style='margin-left:54.0pt'><span lang=EN-US
+style='font-size:12.0pt;mso-bidi-font-weight:bold'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.45pt;text-indent:-35.45pt;mso-list:
+l3 level3 lfo2;tab-stops:list 35.45pt'><![if !supportLists]><span lang=EN-US
+style='font-size:12.0pt;mso-fareast-font-family:Century;mso-bidi-font-family:
+Century'><span style='mso-list:Ignore'>8.1.1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Prepare
+client<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l4 level1 lfo28;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Login to a client node (mirume.nbcr.net)<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b
+style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>%<span
+class=SpellE><span class=GramE>ssh</span></span><span class=GramE> <span
+style='mso-spacerun:yes'>&nbsp;</span></span>mirume.nbcr.net<o:p></o:p></i></b></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l28 level1 lfo30;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Change directory to tutorial/mpi<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b
+style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>mirume% <span
+class=SpellE><span class=GramE>cd</span></span><span class=GramE> <span
+style='mso-spacerun:yes'>&nbsp;</span></span>tutorial/mpi</i></b><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l5 level1 lfo32;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Generate a client program<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:75.0pt;text-indent:-21.0pt;mso-list:l22 level2 lfo34;
+tab-stops:list 75.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings'><span style='mso-list:Ignore'>&Oslash;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>compile
+a client program<o:p></o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:
+normal'><span lang=EN-US style='font-size:12.0pt'><span style='mso-tab-count:
+2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>mirume%
+<span class=SpellE>ng_<span class=GramE>cc</span></span><span class=GramE> <span
+style='mso-spacerun:yes'>&nbsp;</span>&#8211;</span>o <span
+style='mso-spacerun:yes'>&nbsp;</span><span class=SpellE>pi_client_mpi</span> <span
+style='mso-spacerun:yes'>&nbsp;</span><span class=SpellE>pi_client_mpi.c</span><o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.45pt;text-indent:-35.45pt;mso-list:
+l3 level3 lfo2;tab-stops:list 35.45pt'><![if !supportLists]><span lang=EN-US
+style='font-size:12.0pt;mso-fareast-font-family:Century;mso-bidi-font-family:
+Century'><span style='mso-list:Ignore'>8.1.2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Copy
+Local LDIF file from the server<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><b style='mso-bidi-font-weight:
+normal'><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='mso-bidi-font-size:10.5pt'>mirume% <span class=SpellE><span class=GramE>scp</span></span><span
+class=GramE> <span style='mso-spacerun:yes'>&nbsp;</span>yuki.nbcr.net:</span>tutorial/mpi/pi_mpi.yuki.nbcr.net.ngdef<span
+style='mso-spacerun:yes'>&nbsp; </span>.<o:p></o:p></span></i></b></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:35.45pt;text-indent:-35.45pt;mso-list:
+l3 level3 lfo2;tab-stops:list 35.45pt'><![if !supportLists]><span lang=EN-US
+style='font-size:12.0pt;mso-fareast-font-family:Century;mso-bidi-font-family:
+Century'><span style='mso-list:Ignore'>8.1.3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Prepare
+configuration file and run<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l42 level1 lfo36;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Prepare client configuration file<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:75.0pt;text-indent:-21.0pt;mso-list:l31 level2 lfo38;
+tab-stops:list 75.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings'><span style='mso-list:Ignore'>&Oslash;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Edit <span
+class=SpellE>client.conf</span><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:108.0pt;text-indent:-18.0pt;mso-list:
+l34 level3 lfo40;tab-stops:list 108.0pt'><![if !supportLists]><span lang=EN-US
+style='font-size:12.0pt;font-family:"MS Mincho";mso-bidi-font-family:"MS Mincho"'><span
+style='mso-list:Ignore'>&#12539;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><!--[if gte vml 1]><v:line id="_x0000_s1056"
+ style='position:absolute;left:0;text-align:left;z-index:1' from="188.5pt,9.8pt"
+ to="204.25pt,9.8pt" strokeweight="1.5pt">
+ <v:stroke endarrow="block"/>
+</v:line><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:1;left:0px;margin-left:237px;margin-top:7px;width:24px;
+height:13px'><img width=24 height=13 src="Step8.files/image005.gif" v:shapes="_x0000_s1056"></span><![endif]><span
+lang=EN-US style='font-size:12.0pt'>example.org <span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>yuki.nbcr.net<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:108.0pt;text-indent:-18.0pt;mso-list:
+l34 level3 lfo40;tab-stops:list 108.0pt'><![if !supportLists]><span lang=EN-US
+style='font-size:12.0pt;font-family:"MS Mincho";mso-bidi-font-family:"MS Mincho"'><span
+style='mso-list:Ignore'>&#12539;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><!--[if gte vml 1]><v:line id="_x0000_s1057"
+ style='position:absolute;left:0;text-align:left;z-index:2' from="262.75pt,8.15pt"
+ to="282.5pt,8.15pt" strokeweight="1.5pt">
+ <v:stroke endarrow="block"/>
+</v:line><![endif]--><![if !vml]><span style='mso-ignore:vglayout;position:
+absolute;z-index:2;left:0px;margin-left:356px;margin-top:3px;width:24px;
+height:13px'><img width=24 height=13 src="Step8.files/image006.gif" v:shapes="_x0000_s1057"></span><![endif]><span
+class=SpellE><span lang=EN-US style='font-size:12.0pt'>pi_mpi.example.org.ngdef</span></span><span
+lang=EN-US style='font-size:12.0pt'> <span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;</span><span
+style='mso-spacerun:yes'>&nbsp;</span>pi_mpi.yuki.nbcr.net.ngdef<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:39.0pt;text-indent:-21.0pt;mso-list:l2 level1 lfo42;
+tab-stops:list 39.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings;mso-bidi-font-weight:bold'><span style='mso-list:Ignore'>&uuml;<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt;
+mso-bidi-font-weight:bold'>Run<o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-left:75.0pt;text-indent:-21.0pt;mso-list:l31 level2 lfo38;
+tab-stops:list 75.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings'><span style='mso-list:Ignore'>&Oslash;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Create
+your proxy certificate<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b
+style='mso-bidi-font-weight:normal'><i style='mso-bidi-font-style:normal'>mirume%
+grid-proxy-init<o:p></o:p></i></b></span></p>
+
+<p class=MsoNormal style='margin-left:75.0pt;text-indent:-21.0pt;mso-list:l23 level2 lfo44;
+tab-stops:list 75.0pt'><![if !supportLists]><span lang=EN-US style='font-size:
+12.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+Wingdings'><span style='mso-list:Ignore'>&Oslash;<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US style='font-size:12.0pt'>Run<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+class=GramE>mirume% ./</span><span class=SpellE>pi_client_mpi</span> <span
+style='mso-spacerun:yes'>&nbsp;</span>10000 <span
+style='mso-spacerun:yes'>&nbsp;</span>yuki.nbcr.net</span></p>
+
+</div>
+
+</body>
+
+</html>

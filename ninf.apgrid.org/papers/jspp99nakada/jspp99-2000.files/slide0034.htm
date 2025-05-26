@@ -1,0 +1,228 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:p="urn:schemas-microsoft-com:office:powerpoint"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../jspp99-2000.htm">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Utilizing the Metaserver Architecture in the Ninf Global Computing
+System</title>
+<meta name=Description content="99/07/09: スケジュールアルゴリズム">
+<link rel=Stylesheet href="master04_stylesheet.css">
+<![if !ppt]>
+<style media=print>
+<!--.sld
+	{left:0px !important;
+	width:6.0in !important;
+	height:4.5in !important;
+	font-size:107% !important;}
+-->
+</style>
+<script src=script.js></script><script><!--
+gId="slide0034.htm"
+if( !IsNts() ) Redirect( "PPTSld", gId );
+//-->
+</script><!--[if vml]><script>g_vml = 1;
+</script><![endif]--><script for=window event=onload><!--
+if( !IsSldOrNts() ) return;
+if( MakeNotesVis() ) return;
+LoadSld( gId );
+MakeSldVis(0);
+//-->
+</script><![endif]>
+</head>
+
+<body lang=JA style='margin:0px;background-color:black'
+onclick="DocumentOnClick()" onresize="_RSW()" onkeypress="_KPH()">
+
+<div id=SlideObj class=sld style='position:absolute;top:0px;left:0px;
+width:534px;height:400px;font-size:16px;background-color:white;clip:rect(0%, 101%, 101%, 0%);
+visibility:hidden'><p:slide coordsize="720,540"
+ colors="#FFFFFF,#000066,#000066,#003300,#FFFF66,#CC0000,#99CCFF,#0066FF"
+ masterhref="master04.xml" href="slide0034.xml">
+ <p:shaperange href="master04.xml#_x0000_s8193"/><![if !ppt]><p:shaperange
+  href="master04.xml#_x0000_s8196"/><p:shaperange
+  href="master04.xml#_x0000_s8197"/><p:shaperange
+  href="master04.xml#_x0000_s8199"/><![if !vml]><img border=0
+ v:shapes="_x0000_s8199" src="master04_image049.gif" style='position:absolute;
+ top:24.0%;left:0%;width:36.89%;height:2.25%'><![endif]><p:shaperange
+  href="master04.xml#_x0000_s8201"/><![if !vml]><img border=0
+ v:shapes="_x0000_s8201" src="master04_image050.gif" style='position:absolute;
+ top:0%;left:79.96%;width:20.03%;height:12.5%'><![endif]><![endif]><p:shaperange
+  href="master04.xml#_x0000_m8194"/><p:shaperange
+  href="master04.xml#_x0000_m8195"/><p:shaperange
+  href="slide0034.xml#_x0000_s151554"/>
+ <div v:shape="_x0000_s151554" class=T style='position:absolute;top:14.25%;
+ left:8.42%;width:83.14%;height:8.5%'>スケジュールアルゴリズム</div>
+ <div v:shape="_x0000_s151555">
+ <div class=B style='position:absolute;top:29.75%;left:4.3%;width:42.32%;
+ height:4.25%'><span style='position:absolute;top:0%;left:8.84%;width:91.15%'><span
+ style='font-size:63%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-9.7%;top:.3em;font-family:"Monotype Sorts";
+ font-size:75%'>n</span></span><span lang=EN-US style='font-family:Helvetica;
+ mso-ascii-font-family:Helvetica;font-size:63%;mso-fareast-language:JA'>SimpleScheduling&#13;</span></span></div>
+ <div class=B1><span style='position:absolute;top:35.5%;left:12.54%;width:38.57%'><span
+ style='font-size:64%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-8.25%'>&#8211;</span></span><span
+ style='font-size:64%'>個々の関数をその関数の実行</span></span><span style='position:absolute;
+ top:39.5%;left:12.54%;width:38.2%'><span style='font-size:64%'>時間が最短になるサーバへ個</span></span><span
+ style='position:absolute;top:43.5%;left:12.54%;width:34.26%'><span
+ style='font-size:64%'>別にスケジューリング&#13;</span></span></div>
+ <div class=B style='position:absolute;top:48.0%;left:4.3%;width:42.32%;
+ height:4.25%'><span style='position:absolute;top:0%;left:8.84%;width:91.15%'><span
+ style='font-size:63%'><span style='mso-special-format:bullet;color:#0066FF;
+ mso-color-index:7;position:absolute;left:-9.7%;top:.3em;font-family:"Monotype Sorts";
+ font-size:75%'>n</span></span><span lang=EN-US style='font-family:Helvetica;
+ mso-ascii-font-family:Helvetica;font-size:63%;mso-fareast-language:JA'>FlowScheduling&#13;</span></span></div>
+ <div class=B1><span style='position:absolute;top:53.25%;left:9.36%;width:43.44%'><span
+ style='mso-special-format:nobullet;display:none;color:#0066FF;mso-color-index:
+ 7'>&#8211;</span><span lang=EN-US style='font-family:Helvetica;mso-ascii-font-family:
+ Helvetica;font-size:64%;mso-fareast-language:JA'>1) </span><span
+ style='font-size:64%'>すべてのパスの中から計算コス</span></span><span style='position:absolute;
+ top:57.5%;left:12.54%;width:38.95%'><span style='font-size:64%'>トのもっとも高いものを選び「性</span></span><span
+ style='position:absolute;top:61.5%;left:12.54%;width:36.32%'><span
+ style='font-size:64%'>能のよいサーバ」に配置する&#13;</span></span></div>
+ <div class=B1><span style='position:absolute;top:66.0%;left:9.36%;width:44.38%'><span
+ style='mso-special-format:nobullet;display:none;color:#0066FF;mso-color-index:
+ 7'>&#8211;</span><span style='font-family:Helvetica;mso-ascii-font-family:Helvetica;
+ font-size:64%'>2) 1)</span><span style='font-size:64%'>で配置したパスをデータフロー</span></span><span
+ style='position:absolute;top:70.25%;left:12.54%;width:34.26%'><span
+ style='font-size:64%'>グラフから取り除く&#13;</span></span></div>
+ <div class=B1 style='position:absolute;top:74.75%;left:9.36%;width:37.26%;
+ height:4.0%'><span style='mso-special-format:nobullet;display:none;color:#0066FF;
+ mso-color-index:7'>&#8211;</span><span style='font-family:Helvetica;mso-ascii-font-family:
+ Helvetica;font-size:64%'>3) 1)-2)</span><span style='font-size:64%'>を繰り返す&#13;</span></div>
+ <div class=B1 style='position:absolute;top:80.0%;left:9.36%;width:37.26%;
+ height:3.5%'><span style='mso-special-format:nobullet;display:none;color:#0066FF;
+ mso-color-index:7'>&#8211;</span><span style='font-size:64%;display:none'>&#13;</span></div>
+ <div class=B style='position:absolute;top:85.0%;left:4.3%;width:44.94%;
+ height:4.0%'><span style='mso-special-format:nobullet;display:none;color:#0066FF;
+ mso-color-index:7;font-family:"Monotype Sorts";font-size:75%'>n</span><span
+ style='font-size:63%'>‐過度の集中は資源予想で回避</span></div>
+ </div>
+ <p:shaperange href="slide0034.xml#_x0000_s151588"/><![if !vml]><img border=0
+ v:shapes="_x0000_s151588,_x0000_s151558,_x0000_s151560,_x0000_s151562,_x0000_s151563,_x0000_s151565,_x0000_s151566,_x0000_s151567,_x0000_s151568,_x0000_s151571,_x0000_s151572,_x0000_s151573,_x0000_s151574,_x0000_s151575,_x0000_s151576,_x0000_s151577,_x0000_s151578,_x0000_s151579,_x0000_s151580,_x0000_s151581,_x0000_s151582,_x0000_s151583,_x0000_s151584,_x0000_s151585,_x0000_s151586,_x0000_s151587,_x0000_s151589,_x0000_s151590,_x0000_s151591,_x0000_s151592,_x0000_s151593,_x0000_s151594,_x0000_s151595,_x0000_s151596,_x0000_s151597,_x0000_s151598,_x0000_s151599,_x0000_s151600,_x0000_s151601,_x0000_s151602,_x0000_s151603,_x0000_s151604,_x0000_s151605,_x0000_s151606,_x0000_s151607,_x0000_s151608,_x0000_s151609,_x0000_s151610,_x0000_s151611,_x0000_s151612,_x0000_s151613,_x0000_s151614,_x0000_s151616,_x0000_s151617,_x0000_s151618,_x0000_s151619,_x0000_s151620,_x0000_s151621,_x0000_s151622,_x0000_s151623,_x0000_s151624,_x0000_s151625,_x0000_s151626,_x0000_s151627,_x0000_s151628,_x0000_s151629,_x0000_s151630,_x0000_s151631,_x0000_s151632,_x0000_s151633,_x0000_s151634,_x0000_s151635,_x0000_s151636,_x0000_s151637,_x0000_s151638,_x0000_s151639,_x0000_s151640,_x0000_s151642,_x0000_s151643,_x0000_s151644,_x0000_s151645,_x0000_s151646,_x0000_s151647,_x0000_s151648,_x0000_s151649,_x0000_s151650,_x0000_s151651,_x0000_s151652,_x0000_s151653,_x0000_s151654,_x0000_s151655,_x0000_s151656,_x0000_s151657,_x0000_s151658,_x0000_s151659,_x0000_s151660,_x0000_s151661,_x0000_s151662,_x0000_s151663,_x0000_s151664,_x0000_s151665,_x0000_s151666"
+ src="slide0034_image103.gif" style='position:absolute;top:25.5%;left:47.37%;
+ width:47.0%;height:62.75%'><![endif]>
+ <div v:shape="_x0000_s151558" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:26.5%;left:53.55%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151566" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:29.75%;
+ left:68.53%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151571" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:26.5%;left:83.52%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151576" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:33.25%;
+ left:53.55%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151581" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:33.25%;
+ left:83.52%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151590" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:43.25%;
+ left:53.55%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151595" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:46.5%;left:68.53%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151598" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:43.25%;
+ left:83.52%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151603" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:49.75%;
+ left:53.55%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151608" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:49.75%;
+ left:83.52%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151616" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:59.75%;
+ left:53.55%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151621" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:63.25%;
+ left:68.53%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151624" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:59.75%;
+ left:83.52%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151629" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:66.5%;left:53.55%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151634" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:66.5%;left:83.52%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151642" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:77.5%;left:53.55%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151647" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:81.0%;left:68.53%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151650" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:77.5%;left:83.52%;
+ width:4.68%'><span style='mso-ascii-font-family:Helvetica;mso-hansi-font-family:
+ Helvetica;font-size:67%;layout-flow:horizontal;mso-special-format:lastCR;
+ display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151655" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:84.25%;
+ left:53.55%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <div v:shape="_x0000_s151660" class=O style='text-align:center;mso-char-wrap:
+ 1;mso-kinsoku-overflow:1'><span style='position:absolute;top:84.25%;
+ left:83.52%;width:4.68%'><span style='mso-ascii-font-family:Helvetica;
+ mso-hansi-font-family:Helvetica;font-size:67%;layout-flow:horizontal;
+ mso-special-format:lastCR;display:none'>&#13;</span></span></div>
+ <p:shaperange href="slide0034.xml#_x0000_s151670"/><![if !vml]><img border=0
+ v:shapes="_x0000_s151670,_x0000_s151671,_x0000_s151672,_x0000_s151673"
+ src="slide0034_image104.gif" style='position:absolute;top:37.25%;left:46.25%;
+ width:48.12%;height:40.5%'><![endif]></p:slide>
+</div>
+
+</body>
+
+</html>

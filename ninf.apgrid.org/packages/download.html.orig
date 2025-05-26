@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+      <LINK href="/styles/top.css" rel="stylesheet" type="text/css">
+      <LINK href="/styles/papers.css" rel="stylesheet" type="text/css">
+      <TITLE> Ninf Project Home Page </TITLE>
+</HEAD>
+<Link rev="made" href="mailto:EMAIL">
+<BODY bgcolor="#ffffff">
+
+<center>
+<h3><font color="red">Ninf-G Version 2.0.0a is now available!</font><br></h3>
+<h3><font color="red">(Nov. 17, 2003)</font><br></h3>
+</center>
+
+If you download Ninf-G, please subscribe to Ninf users' mailing list (ninf-users@apgrid.org) so that you can receive the latest information from the Ninf team.  The mailing list will be used for announcements for bug fixes and release of new versions as well as for information exchange between users.
+
+<center>
+<table>
+  <tr>
+    <td>
+      <b>Your mail address</b>
+    </td>
+    <td>
+      <input type="text" size="30">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Subscribe to Ninf users' mailing list?</b>
+    </td>
+    <td>
+    <input type="radio" name="subscribe" value="yes" checked>yes
+    <input type="radio" name="subscribe" value="no">no
+    </td>
+  </tr>
+</table>
+</center>  
+
+<div class="subtitle">
+Download Packages of Ninf-G Ver. 2
+</div>
+
+Ninf-G version 2 is a full re-implementation version of Ninf-G version 1.  Ninf-G version 2 provides drastic better performance as well as some new features with detailed documents.  Details are described in <a href="../documents/ng2-manual/user-manual.html">Ninf-G version 2 users' manual</a>.<br>
+<br>
+
+<ul>
+<li>Ninf-G Version 2 Package <input type="submit" name="ninfg-ver2" value="Download"></li>
+</ul>
+
+<br>
+
+<div class="subtitle">
+Download Packages of Ninf-G Ver. 1.1.1
+</div>
+
+Ninf-G is a new implementation of Ninf system using the <a href="http://www.globus.org">Globus
+Toolkit</a>.  The Ninf-G package contains the source code required for
+building the user commands and libraries for both the client and
+server<br>
+<br>
+
+<ul>
+<li><p>Ninf-G Version 1.1.1 Package <input type="submit" name="ninfg-ver1" value="Download"></li>
+</ul>
+
+<br>
+
+<div class="subtitle">
+Download Packages of Ninf Ver.1.1.1
+</div>
+
+<ul>
+<li><p>	Client Package [<a href="ninfClient.tar.Z">Download</a>/<a href="README_Client.html">Documentation</a>] (12/10/2002)</p>
+<li><p> Server Package [<a href="ninf.tar.Z">Download</a>/<a href="README_Server.html">Documentation</a>] (12/10/2001)</p>
+</ul>
+
+<p>
+<hr>
+
+<ul>
+<li><p>	MetaServer Package [<a href="ninfjava.tar.gz">Download</a>] (12/10/2002)<p>
+Alpha release. Subject to change. Written in Java.<br>
+This package includes Ninf Java Client, Ninf - NetSolve Bridge, 
+NetSolve- Ninf Bridge.
+
+</ul>
+</p>
+
+<hr>
+
+<ul>
+<li><p>	Windows Clients for Excel Sample<p>
+<ul>
+<li><p>	For Ninf ver.1 [<a href="exceltestv1.dll">DLL file</a>,
+                       <a href="jacobiv1.xls"> excel sample </a>]<p>
+<li><p>	For Ninf ver.2 beta [<a href="exceltestv2.dll">DLL file</a>,
+                       <a href="jacobiv2.xls"> excel sample </a>]<p>
+</ul>
+</ul>
+
+</body>
+</html>

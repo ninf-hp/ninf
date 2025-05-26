@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> はじめに</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" はじめに">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html49 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html47 HREF="hokke.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html41 HREF="hokke.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html50 HREF="node2.html"> Ninfシステムの概要</A>
+<B>Up:</B> <A NAME=tex2html48 HREF="hokke.html">ネットワーク数値ライブラリ Ninf におけるメタサーバ  アーキテクチャ</A>
+<B> Previous:</B> <A NAME=tex2html42 HREF="hokke.html">ネットワーク数値ライブラリ Ninf におけるメタサーバ  アーキテクチャ</A>
+<BR> <HR> <P>
+<H1><A NAME=SECTION00010000000000000000> はじめに</A></H1>
+<P>
+コンピュータネットワークの発展にともない、ネットワークを利用した
+情報提供サービスが盛んに行なわれている。
+これらのサービスの特徴は、情報の実際に存在する位置の透明性であり、
+情報資源の仮想的共有化であると考えることができる。
+計算科学技術、数値解析技術領域における情報資源の共有化の手法として、
+このような情報資源の共有のための枠組として、
+われわれはNinf
+(<b> N</b>etwork based <b> Inf</b>omation library for High Performance Computing)
+を提唱してきた[<A HREF="node29.html#ninfsekiguchi94">1</A>]。
+<P>
+Ninf は基本的にはサーバ・クライアントモデルのシステムである。
+ネットワーク上に数値情報や計算自身を提供するサーバを設け、
+ユーザにはサーバに接続するクライアント機能を持つライブラリを提供する。
+ユーザはこのライブラリを自分のプログラムにリンクすることで、
+ほとんど、ネットワークの存在を意識することなく、数値情報や
+計算の提供を受けることができる。
+<P>
+単純なサーバクライアントモデルでは、クライアントは
+何らかの方法でサーバを知る必要がある。
+しかし、Ninf のサーバの数が増加すると、
+サーバのアドレスやそれぞれが提供する計算を
+ユーザが管理することは容易ではない。
+<P>
+このため、Ninf システムの一部を担うものとして、
+メタサーバと呼ぶものを導入した。
+メタサーバは、Ninf のサーバとクライアントの中間に存在し、
+ユーザに対して実際に計算が行なわれる場所を隠蔽する役割をになう。
+さらに、分散環境での並列計算を実現する機能を持つ。
+<P>
+本稿では、このメタサーバのアーキテクチャについて述べ、
+予備的な性能評価を行なう。
+<P>
+2章でNinf システムを概説し、
+3章でNinf Meta Server の設計方針を述べ、
+4章で実装について述べる。
+5章で性能の予備評価を行ない、
+6章で考察を行なう。
+<P>
+
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

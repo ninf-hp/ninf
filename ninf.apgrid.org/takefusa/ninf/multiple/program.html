@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+<TITLE>Program</TITLE>
+</HEAD>
+
+<BODY bgcolor="FFFFFF">
+<BASEFONT SIZE = 4>
+<H1 align=center>Program</H1>
+<HR SIZE="3">
+Linpack, Double precision
+<ul>
+<li>Floating Operations: 2/3 n<sup>3</sup> + 2 n<sup>2</sup></li>
+<li>Transmission Fee: 8 n<sup>2</sup> + 20 n + <I>O</I>(1) [byte]</li>
+<li>data flow
+<P>
+<PRE>
+client					server  [Cray J90]
+-------------------------------------------------------------
+
+matgen()
+
+gettimeofday()
+linpack()	--------------------->  
+		double a[lda:n][n]
+		int lda
+		int n
+		double b[n]
+					dgefa() [sgetrf()]
+					dgesl() [sgetrs()]
+		<---------------------
+		int ipiv[n]
+		double b[n]
+		int *info
+gettimeofday()
+
+</PRE>
+</li></ul>
+</BODY>
+</HTML>

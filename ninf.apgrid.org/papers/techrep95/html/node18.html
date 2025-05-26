@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Appendix A: Ninf IDL Syntax</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Appendix A: Ninf IDL Syntax">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html212 HREF="node19.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html210 HREF="main.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html204 HREF="node17.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html213 HREF="node19.html"> Appendix B: Ninf </A>
+<B>Up:</B> <A NAME=tex2html211 HREF="main.html">無題</A>
+<B> Previous:</B> <A NAME=tex2html205 HREF="node17.html"> 謝辞</A>
+<BR> <HR> <P>
+<H1><A NAME=SECTION00090000000000000000> Appendix A: Ninf IDL Syntax</A></H1>
+<P>
+
+<P>
+
+<PRE>/* program toplevel */
+program:  /* empty */
+      | declaration_list
+    ;
+
+declaration_list: 
+      declaration
+    | declaration_list declaration
+    ;
+
+declaration:
+      ``Module'' IDENTIFIER ';'
+    | ``FortranFormat'' STRING ';'
+    | ``CompileOptions'' STRING ';'
+    | ``Globals'' globals_body
+    | ``Define'' interface_definition opt_string required interface_body
+    ;
+
+interface_definition: 
+        IDENTIFIER '(' parameter_list ')'
+    ;
+
+parameter_list:
+       parameter
+    | parameter_list ',' parameter
+    ;
+
+parameter: 
+       decl_specifier declarator
+    ;
+
+decl_specifier: 
+    type_specifier
+    | MODE
+    | MODE type_specifier
+    | type_specifier MODE
+    | type_specifier MODE type_specifier
+    ;
+
+type_specifier:
+      TYPE
+    | TYPE TYPE
+    | TYPE TYPE TYPE    /* ex. unsigned long int */
+      | TYPENAME
+    ;
+
+declarator:
+      IDENTIFIER
+    | '(' declarator ')'
+    | declarator '['expr_or_null ']'
+    | declarator '['expr ':' range_exprs ']'
+    | '*' declarator
+    ;
+
+range_exprs:
+       expr     /* upper limit */
+     | expr ',' expr    /* lower limit and upper limit */
+     | expr ',' expr ',' expr /* lower, upper and step */
+
+opt_string: 
+    /* empty */ 
+    | STRING 
+    ;
+
+required:
+    /* empty */ 
+    | ``Required'' STRING
+    ;
+
+interface_body:
+    '{' /* C statements */ '}'
+    | ``Calls'' opt_string IDENTIFIER '(' id_list ')' ';'
+    ;
+
+globals_body:
+    '{'/* C statements */ '}'
+    ;
+
+id_list: IDENTIFIER
+    | id_list ',' IDENTIFIER
+    ;
+
+/* index descrition */
+expr_or_null: 
+       expr 
+    | /* null */
+    ;
+
+expr:     
+      unary_expr
+    | expr '/' expr
+    | expr '%' expr
+    | expr '+' expr
+    | expr '-' expr
+    | expr '*' expr
+    ;
+
+unary_expr:  
+      primary_expr
+    | '*' expr
+    | '-' expr
+    ;
+
+primary_expr:
+     primary_expr '[' expr ']'
+    | IDENTIFIER
+    | CONSTANT
+    | '('  expr  ')'
+    ;
+
+/* TYPE = int, unsigned, char, short, long, float, double */
+/* MODE = mode_in, mode_out, mode_inout, mode_work, IN, OUT, INOUT, WORK*/
+/* TYPENAME はまだサポートされていない */
+/* IDENTIFER = 名前 */
+/* CONSTANT = 整数、浮動小数点数 */
+/* STRING = &quot;...&quot; */
+</PRE>
+
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

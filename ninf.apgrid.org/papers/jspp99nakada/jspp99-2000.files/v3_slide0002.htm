@@ -1,0 +1,552 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=shift_jis">
+<meta name=ProgId content=PowerPoint.Slide>
+<meta name=Generator content="Microsoft PowerPoint 9">
+<link id=Main-File rel=Main-File href="../jspp99-2000.htm">
+<link rel=Preview href=preview.wmf>
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+p\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+v\:textbox {display:none;}
+</style>
+<![endif]-->
+<title>Utilizing the Metaserver Architecture in the Ninf Global Computing
+System</title>
+<meta name=Description content="99/07/09: メタサーバアーキテクチャ">
+<link rel=next href="v3_slide0019.htm">
+<![if !ppt]>
+<script>
+<!--
+function Update()
+{
+  if( window.name == "PPTSld" )
+    parent.SlideUpdated('v3_slide0002.htm');   
+  else
+    parent.location.href = "v3_document.htm";
+}
+
+function NoHref() {}
+//-->
+</script>
+<![endif]>
+</head>
+
+<body background="v3_slide0002_background.gif" bgcolor=white alink="#cc0000"
+link="#99ccff" vlink="#0066ff" text="#000066" topmargin=0 leftmargin=0
+onload="Update()">
+
+<table border=0 valign=top width=475 height=356 cellpadding=0 cellspacing=0>
+ <tr>
+  <td width=9 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=58 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=63 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=38 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=3 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=17 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=4 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=4 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=14 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=15 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=7 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=16 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=12 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=10 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=16 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=24 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=1 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=6 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=12 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=6 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=15 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=22 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=3 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=7 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=11 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=7 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=20 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=18 height=0 nowrap><img src="v3_space.gif" border=0></td>
+  <td width=3 height=0 nowrap><img src="v3_space.gif" border=0></td>
+ </tr>
+ <tr>
+  <td width=476 height=51 colspan=39></td>
+ </tr>
+ <tr>
+  <td width=67 height=30 colspan=2></td>
+  <td width=342 height=30 colspan=30>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=342 height=30 align=center><font face="ＭＳ Ｐゴシック" color="#003300"
+    size=5>メタサーバアーキテクチャ</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=67 height=30 colspan=7></td>
+ </tr>
+ <tr>
+  <td width=476 height=10 colspan=39></td>
+ </tr>
+ <tr>
+  <td width=245 height=15 colspan=15></td>
+  <td width=139 height=31 colspan=15 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=124 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=139 height=16 colspan=3 align=center><font face=Arial size=1><i>Resource
+    Information</i></font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=8 height=15></td>
+    <td width=124 height=15 align=center><font face=Arial size=1><i>Database
+    Manager</i></font><br>
+    </td>
+    <td width=7 height=15></td>
+   </tr>
+  </table>
+  </td>
+  <td width=92 height=15 colspan=9></td>
+ </tr>
+ <tr>
+  <td width=9 height=16></td>
+  <td width=196 height=111 colspan=9 rowspan=14>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=91 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=7 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=36 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=5 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=8 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=91 height=16><font face=Helvetica size=1><b>(1) </b></font><font
+    face="ＭＳ Ｐゴシック" size=1><b>情報の収集</b></font><br>
+    </td>
+    <td width=105 height=16 colspan=5></td>
+   </tr>
+   <tr>
+    <td width=196 height=3 colspan=6></td>
+   </tr>
+   <tr>
+    <td width=134 height=16 colspan=3><font face=Helvetica size=1><b>(2) </b></font><font
+    face="ＭＳ Ｐゴシック" size=1><b>スループットの測定</b></font><br>
+    </td>
+    <td width=62 height=16 colspan=3></td>
+   </tr>
+   <tr>
+    <td width=196 height=3 colspan=6></td>
+   </tr>
+   <tr>
+    <td width=139 height=16 colspan=4><font face=Helvetica size=1><b>(3) </b></font><font
+    face="ＭＳ Ｐゴシック" size=1><b>タスク実行リクエスト</b></font><br>
+    </td>
+    <td width=57 height=16 colspan=2></td>
+   </tr>
+   <tr>
+    <td width=196 height=3 colspan=6></td>
+   </tr>
+   <tr>
+    <td width=147 height=16 colspan=5><font face=Helvetica size=1><b>(4) </b></font><font
+    face="ＭＳ Ｐゴシック" size=1><b>スケジューリング依頼</b></font><br>
+    </td>
+    <td width=49 height=16></td>
+   </tr>
+   <tr>
+    <td width=196 height=3 colspan=6></td>
+   </tr>
+   <tr>
+    <td width=196 height=16 colspan=6><font face=Helvetica size=1><b>(5) </b></font><font
+    face="ＭＳ Ｐゴシック" size=1><b>情報を取得、リソース割り当て</b></font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=196 height=3 colspan=6></td>
+   </tr>
+   <tr>
+    <td width=98 height=16 colspan=2><font face=Helvetica size=1><b>(6) </b></font><font
+    face="ＭＳ Ｐゴシック" size=1><b>タスクの実行</b></font><br>
+    </td>
+    <td width=98 height=16 colspan=4></td>
+   </tr>
+  </table>
+  </td>
+  <td width=40 height=16 colspan=5></td>
+  <td width=92 height=16 colspan=9></td>
+ </tr>
+ <tr>
+  <td width=9 height=7></td>
+  <td width=271 height=7 colspan=29></td>
+ </tr>
+ <tr>
+  <td width=9 height=2></td>
+  <td width=51 height=2 colspan=8></td>
+  <td width=18 height=16 colspan=2 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(5)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=202 height=2 colspan=19></td>
+ </tr>
+ <tr>
+  <td width=9 height=14></td>
+  <td width=51 height=14 colspan=8></td>
+  <td width=77 height=14 colspan=7></td>
+  <td width=18 height=16 colspan=2 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(1)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=107 height=14 colspan=10></td>
+ </tr>
+ <tr>
+  <td width=9 height=2></td>
+  <td width=146 height=2 colspan=17></td>
+  <td width=107 height=2 colspan=10></td>
+ </tr>
+ <tr>
+  <td width=9 height=3></td>
+  <td width=271 height=3 colspan=29></td>
+ </tr>
+ <tr>
+  <td width=9 height=16></td>
+  <td width=15 height=16 colspan=2></td>
+  <td width=66 height=16 colspan=9>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=66 height=16 align=center><font face=Arial size=1>Scheduler</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=34 height=16 colspan=3></td>
+  <td width=86 height=16 colspan=7>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=86 height=16 align=center><font face=Arial size=1><i>Load Monitor</i></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=70 height=16 colspan=8></td>
+ </tr>
+ <tr>
+  <td width=9 height=11></td>
+  <td width=271 height=11 colspan=29></td>
+ </tr>
+ <tr>
+  <td width=9 height=16></td>
+  <td width=204 height=16 colspan=22></td>
+  <td width=18 height=16 colspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(1)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=49 height=16 colspan=5></td>
+ </tr>
+ <tr>
+  <td width=9 height=6></td>
+  <td width=14 height=6></td>
+  <td width=18 height=16 colspan=3 rowspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(4)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=239 height=6 colspan=25></td>
+ </tr>
+ <tr>
+  <td width=9 height=2></td>
+  <td width=14 height=2></td>
+  <td width=57 height=2 colspan=8></td>
+  <td width=50 height=16 colspan=3 rowspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=50 height=16 align=center><font face=Arial size=1>Internet</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=132 height=2 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=9 height=8></td>
+  <td width=14 height=8></td>
+  <td width=17 height=8 colspan=3></td>
+  <td width=18 height=16 colspan=2 rowspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(5)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=22 height=8 colspan=3></td>
+  <td width=132 height=8 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=9 height=6></td>
+  <td width=49 height=6 colspan=7></td>
+  <td width=22 height=6 colspan=3></td>
+  <td width=132 height=6 colspan=14></td>
+ </tr>
+ <tr>
+  <td width=9 height=2></td>
+  <td width=49 height=2 colspan=7></td>
+  <td width=204 height=2 colspan=20></td>
+ </tr>
+ <tr>
+  <td width=476 height=6 colspan=39></td>
+ </tr>
+ <tr>
+  <td width=427 height=2 colspan=34></td>
+  <td width=49 height=25 colspan=5 rowspan=4><img
+  src="v3_slide0002_image017.gif" border=0 width=49 height=25></td>
+ </tr>
+ <tr>
+  <td width=286 height=16 colspan=21></td>
+  <td width=18 height=16 colspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(2)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=123 height=16 colspan=11></td>
+ </tr>
+ <tr>
+  <td width=427 height=4 colspan=34></td>
+ </tr>
+ <tr>
+  <td width=345 height=3 colspan=26></td>
+  <td width=18 height=16 colspan=2 rowspan=5>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(2)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=64 height=3 colspan=6></td>
+ </tr>
+ <tr>
+  <td width=345 height=5 colspan=26></td>
+  <td width=113 height=5 colspan=11></td>
+ </tr>
+ <tr>
+  <td width=197 height=3 colspan=9></td>
+  <td width=38 height=31 colspan=4 rowspan=10>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=38 height=16 align=center><font face=Arial size=1><i>Client</i></font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=38 height=16 align=center><font face=Arial size=1><i>Proxy</i></font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=110 height=3 colspan=13></td>
+  <td width=113 height=3 colspan=11></td>
+ </tr>
+ <tr>
+  <td width=197 height=4 colspan=9></td>
+  <td width=110 height=4 colspan=13></td>
+  <td width=53 height=4 colspan=5></td>
+  <td width=18 height=16 colspan=2 rowspan=5>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(1)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=42 height=4 colspan=4></td>
+ </tr>
+ <tr>
+  <td width=197 height=1 colspan=9></td>
+  <td width=51 height=1 colspan=8></td>
+  <td width=18 height=16 colspan=2 rowspan=5>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(6)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=41 height=1 colspan=3></td>
+  <td width=53 height=1 colspan=5></td>
+  <td width=42 height=1 colspan=4></td>
+ </tr>
+ <tr>
+  <td width=130 height=2 colspan=3></td>
+  <td width=38 height=16 rowspan=5>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=38 height=16 align=center><font face=Arial size=1>Client</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=29 height=2 colspan=5></td>
+  <td width=51 height=2 colspan=8></td>
+  <td width=112 height=2 colspan=10></td>
+  <td width=42 height=2 colspan=4></td>
+ </tr>
+ <tr>
+  <td width=130 height=5 colspan=3></td>
+  <td width=29 height=5 colspan=5></td>
+  <td width=51 height=5 colspan=8></td>
+  <td width=112 height=5 colspan=10></td>
+  <td width=20 height=5></td>
+  <td width=18 height=16 rowspan=5>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(1)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=4 height=5 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=130 height=4 colspan=3></td>
+  <td width=3 height=4></td>
+  <td width=18 height=16 colspan=2 rowspan=5>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(3)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=8 height=4 colspan=2></td>
+  <td width=51 height=4 colspan=8></td>
+  <td width=112 height=4 colspan=10></td>
+  <td width=20 height=4></td>
+  <td width=4 height=4 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=130 height=4 colspan=3></td>
+  <td width=3 height=4></td>
+  <td width=8 height=4 colspan=2></td>
+  <td width=51 height=4 colspan=8></td>
+  <td width=150 height=4 colspan=13></td>
+  <td width=4 height=4 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=130 height=1 colspan=3></td>
+  <td width=3 height=1></td>
+  <td width=8 height=1 colspan=2></td>
+  <td width=219 height=1 colspan=23></td>
+  <td width=4 height=1 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=171 height=2 colspan=5></td>
+  <td width=8 height=2 colspan=2></td>
+  <td width=219 height=2 colspan=23></td>
+  <td width=4 height=2 colspan=2></td>
+ </tr>
+ <tr>
+  <td width=171 height=5 colspan=5></td>
+  <td width=8 height=5 colspan=2></td>
+  <td width=241 height=5 colspan=26></td>
+ </tr>
+ <tr>
+  <td width=476 height=12 colspan=39></td>
+ </tr>
+ <tr>
+  <td width=193 height=4 colspan=8></td>
+  <td width=54 height=31 colspan=8 rowspan=4>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=2 height=0 nowrap><img src="v3_space.gif" border=0></td>
+    <td width=49 height=0 nowrap><img src="v3_space.gif" border=0></td>
+   </tr>
+   <tr>
+    <td width=54 height=16 colspan=3 align=center><font face=Arial size=1><i>Network</i></font><br>
+    </td>
+   </tr>
+   <tr>
+    <td width=2 height=16></td>
+    <td width=49 height=16 align=center><font face=Arial size=1><i>Monitor</i></font><br>
+    </td>
+    <td width=3 height=16></td>
+   </tr>
+  </table>
+  </td>
+  <td width=229 height=4 colspan=23></td>
+ </tr>
+ <tr>
+  <td width=130 height=12 colspan=3></td>
+  <td width=42 height=16 colspan=3 rowspan=2>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=42 height=16 align=center><font face=Arial size=1>Client</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=21 height=12 colspan=2></td>
+  <td width=229 height=12 colspan=23></td>
+ </tr>
+ <tr>
+  <td width=130 height=4 colspan=3></td>
+  <td width=21 height=4 colspan=2></td>
+  <td width=98 height=4 colspan=10></td>
+  <td width=18 height=16 colspan=2 rowspan=3>
+  <table border=0 valign=top cellpadding=0 cellspacing=0>
+   <tr>
+    <td width=18 height=16><font face=Arial size=1>(2)</font><br>
+    </td>
+   </tr>
+  </table>
+  </td>
+  <td width=113 height=4 colspan=11></td>
+ </tr>
+ <tr>
+  <td width=193 height=11 colspan=8></td>
+  <td width=98 height=11 colspan=10></td>
+  <td width=113 height=11 colspan=11></td>
+ </tr>
+ <tr>
+  <td width=345 height=1 colspan=26></td>
+  <td width=113 height=1 colspan=11></td>
+ </tr>
+ <tr>
+  <td width=476 height=28 colspan=39></td>
+ </tr>
+</table>
+
+</body>
+
+</html>

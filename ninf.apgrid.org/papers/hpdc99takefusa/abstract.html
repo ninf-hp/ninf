@@ -1,0 +1,22 @@
+<h1> Abstract </h1>
+<hr>
+While there have been several proposals of high performance global
+computing systems, scheduling schemes for the systems have not
+been well investigated.  The reason is difficulties of evaluation by
+large-scale benchmarks with reproducible results. 
+Our Bricks performance evaluation
+system would allow analysis and comparison of various scheduling
+schemes on a typical high-performance global computing setting. Bricks
+can simulate various behaviors of global computing systems, especially
+the behavior of networks and resource scheduling algorithms.
+Moreover, Bricks is componentalized such that not only its
+constituents could be replaced to simulate various different system
+algorithms, but also allows incorporation of existing global computing
+components via its foreign interface.
+To test the validity of the latter characteristics, we incorporated
+the NWS system, which monitors and forecasts global computing systems
+behavior.  Experiments were conducted by running NWS under a real
+environment versus the simulated environment given the observed
+parameters of the real environment.  We observed that Bricks behaved 
+in the same manner as the real environment, and NWS also behaved
+similarly, making quite comparative forecasts under both environments.

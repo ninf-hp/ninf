@@ -1,0 +1,62 @@
+<HTML>
+<HEAD><TITLE>Matrix Workshop</TITLE>
+</HEAD>
+
+<body  bgcolor="#ffffff">
+
+<!-- <h1><img src="../IMAGE/MOVE/ring.gif"><img src="../IMAGE/MOVE/ring.gif"><img src="../IMAGE/MOVE/ring.gif"> Matrix Workshop <img src="../IMAGE/MOVE/ring.gif"><img src="../IMAGE/MOVE/ring.gif"><img src="../IMAGE/MOVE/ring.gif"></h1>
+-->
+<!-- <img src="../IMAGE/LINE/line.gif"><p> -->
+<!-- <center><img src="../IMAGE/SAMPLE/kaz93.gif"><br>
+<font size=8 color="green"><b> Matrix Workshop</b></font><br></center>
+<!-- <img src="../IMAGE/LINE/bara.gif"><br> -->
+<!-- <p align="right"><img src="../IMAGE/LINE/line.gif"><p>-->
+<center>  <h3>Browse Matrices </h3></center>
+
+<hr size=3>
+<h2>Table of  Contents</h2>
+<img src="../IMAGE/BALL/l_cyan.gif">
+<a href="#Text">A Collection of Matrices for Testing Computational Algorithms</a><br>
+<img src="../IMAGE/BALL/l_cyan.gif">
+<a href="#murata">Murata Matrix Sets</a>  
+<p><hr><p>
+<br><a name="Text"><a href="book.html">
+<h2>A Collection of Matrices for Testing Computational Algorithms</h2></a></a>
+</center><p> 
+<table>
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_6/Example3_6.html"> Example3_6</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Pascal/Pascal.html"> Pascal</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_8/Example3_8.html"> Example3_8</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_9/Example3_9.html"> Example3_9</a> <td> Dense , <td> Unsymmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_10/Example3_10.html"> Example3_10</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_11/Example3_11.html"> Example3_11</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_12/Example3_12.html"> Example3_12</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_13/Example3_13.html"> Example3_13</a> <td> Desne , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_15/Example3_15.html"> Example3_15</a> <td> LowerTriangle , <td> Unsymmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_16/Example3_16.html"> Example3_16</a> <td> Others , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_17/Example3_17.html"> Example3_17</a> <td> Tridiagonal , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_19/Example3_19.html"> Example3_19</a> <td> Tridiagonal , <td> Unsymmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_20/Example3_20.html"> Example3_20</a> <td> Tridiagonal , <td> Symmetyric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_23/Example3_23.html"> Example3_23</a> <td> Others , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example3_24/Example3_24.html"> Example3_24</a> <td> Dense , <td> Unsymmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Combinatorial/Combinatorial.html"> Combinatorial</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Cauchy/Cauchy.html"> Cauchy</a> <td> Dense , <td> Unsymmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example4_16/Example4_16.html"> Example4_16</a> <td> Banded , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example4_17/Example4_17.html"> Example4_17</a> <td> Banded , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example4_18/Example4_18.html"> Example4_18</a> <td> Banded , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example4_19/Example4_19.html"> Example4_19</a> <td> Bnaded , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example4_20/Example4_20.html"> Example4_20</a> <td> Banded , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example4_23/Example4_23.html"> Example4_23</a> <td> Dense , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example5_21/Example5_21.html"> Example5_21</a> <td> Others , <td> Unsymmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example7_4/Example7_4.html"> Example7_4</a> <td> Tridiagonal , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example7_5/Example7_5.html"> Example7_5</a> <td> Tridiagonal , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example7_6/Example7_6.html"> Example7_6</a> <td> Tridiagonal , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example7_7/Example7_7.html"> Example7_7</a> <td> Tridiagonal , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example7_8/Example7_8.html"> Example7_8</a> <td> Tridiagonal , <td> Symmetric
+<tr><td><img src="../IMAGE/BALL/cyan.gif"><a href="./Example7_9/Example7_9.html"> Example7_9</a> <td> Tridiagonal , <td> Symmetric
+</table>
+<!-- Murata Matrix -->
+<h2>Murata Matrix Sets</h2>
+<img src="../IMAGE/BALL/cyan.gif"><a href= "./MurataMatrix/info_murata.html">Teijou</a>
+</body>
+</html>

@@ -1,0 +1,7 @@
+URI: redirect.cgi?ja
+Content-Type: text/html
+Content-Language: ja
+
+URI: redirect.cgi?en
+Content-Type: text/html
+Content-Language: en

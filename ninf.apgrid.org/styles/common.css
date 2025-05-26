@@ -1,0 +1,55 @@
+img.logo {
+  float:      right;
+  background: white;
+}
+
+DIV.title {
+  text-align: center;
+  font-family: Helvetica;
+  font-size:  200%;
+  font-weight: bold;	
+  background: darkgreen; 
+  color:      white;
+  border: solid;	
+  margin:  10 10 10 10;
+  padding: 0 0 0 0;
+}
+
+h2 {
+  text-align: left;  
+  font-size: 120%;
+  font-weight: bold;	
+  text-decoration: underline;
+  margin:  10 10 10 10;
+}
+
+h3 {
+  text-align: left;  
+  font-size: 110%;
+  font-weight: bold;	
+  text-decoration: underline;
+  margin:  10 10 10 10;
+}
+
+ul, ol {
+  margin-top:    0;
+  margin-bottom: 0;
+}
+
+
+DIV.section{
+  text-align: left;
+  text-decoration: underline;
+  font-size: 120%;
+  font-weight: bold;	
+  font-family: helvetica;
+  margin:  10 10 1 10;
+}
+
+
+BODY {
+  background-image: url(Ninf-bg.jpg);
+  background-color: white;
+  background-position: right center;
+  background-repeat: no-repeat;
+}

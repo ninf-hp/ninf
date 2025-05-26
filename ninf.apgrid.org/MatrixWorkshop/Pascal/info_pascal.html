@@ -1,0 +1,47 @@
+<HTML>
+<HEAD><TITLE>The Matrix Workshop</TITLE>
+</HEAD>
+
+<body bgcolor="white">
+<center>
+<font size=5>
+ Matrix Information
+</font>
+</center>
+<pre>
+	Let A = a[i][j] be the n*n matrix defined by
+
+		a[1][j] = a[j][1] = k != 0 ,   j = 1,2,...,n,
+					       (!= is not =.)
+		a[i][j] = a[i-1][j]+a[i][j-1], i,j = 2,3,...,n.
+
+	Equivalently, we have, for i,j = 1,2,...,n,
+
+		a[i][j] = k*(i+j-2)! / ( (i-1)! * (j-1)! ).
+
+	This is called Pascal's matrix because the coefficients of
+        k are obtained from the Psacal triangle of binomial coefficients.
+	If k is the reciprocal of an integer, the elements of A**-1 are integers. 
+        In addition, det(A) = k**n.
+
+	For example, when n = 4 and k = 1/7,
+	            -                   -
+                    | 1/7 1/7  1/7  1/7 |
+	 	A = | 1/7 2/7  3/7  4/7 | 
+                    | 1/7 3/7  6/7 10/7 |
+                    | 1/7 4/7 10/7 20/7 |
+	            -                   - 
+                    -                -
+                    |  28 -42  28 -7 |
+            A**-1 = | -42  98 -77 21 |
+                    |  28  98 -77 21 |
+                    |  -7  21 -21  7 |
+                    -                -
+
+		det(A) = 1/(7**4) = 1/2401.
+
+</pre>
+<font size=4> Structure:</font><font size=3> Dense, Symmetric<br></font>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+/* test. geom example */
+14	/* num_xcell, MAX_XCELL 16 (24) as default */
+24	/* num_ycell, dynamic  */
+7	/* num_zcell, MAX_ZCELL 8  as default*/
+27	/* bc_cnt  */
+ /* repeat bc_cnt (= bc_cnt + 9) times */
+7 12 4	/* cx, cy, cz */
+-0.866025 -0.500001 0.000000 11.062186 0.000000 1.000000 
+	/* bc_A, bc_B, bc_C, bc_D, bc_temp, bc_coef */

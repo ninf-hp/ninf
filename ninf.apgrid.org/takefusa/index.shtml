@@ -1,0 +1,633 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Atsuko Takefusa</title>
+<META content="text/css" http-equiv="Content-Style-Type">
+<link href="style.css" rel="stylesheet" type="text/css">
+<link href="papers.css" rel="stylesheet" type="text/css">
+<script>
+<!--
+    function toggle_disp(itemId) {
+	var disp = document.all(itemId).style.display;
+	if(disp == "block") {
+		disp = "none";
+	} else {
+		disp = "block";
+	}
+	document.all(itemId).style.display = disp;
+   }
+   
+   --></script>
+</head>
+
+<body>
+<p align=right><a href="index_j.html">JAPANESE page is here.</a></p>
+
+<h1>Atsuko Takefusa's Homepage</h1>
+
+Atsuko Takefusa, Ph. D.<br>
+Research Scientist<br>
+<A HREF="http://itri.aist-go.jp/en/index.html">Information Technology Research Institute</a><br>
+<A HREF="http://www.aist.go.jp/index_en.html">National Institute of Advanced Industrial Science and Technology (AIST)</a><br>
+
+1-1-1 Umezono, Tsukuba-shi,Ibaraki<br>
+305-8568, Japan<br>
+atsuko.takefusa ( at ) aist.go.jp<br>
+
+<h2>Research</h2>
+	<UL>
+	<LI><A HREF="http://www.g-lambda.net/"> G-lambda</A>
+	<LI><A HREF="http://www.g-lambda.net/gridars/"> GridARS (Grid Advanced Resource management System framework)</A>
+	<LI><A HREF="http://www.g-lambda.net/plus/"> PluS (Plug-in reServation System)</A>
+	<LI><A HREF="http://ninf.apgrid.org/"> Ninf: GridRPC System</A>
+        <LI><A HREF="bricks/index.shtml"> Brick: Grid Simulator</A>
+	</UL>
+
+
+<h2>Publications</h2>
+
+<ul>
+<li><a href="#journal">Journal Papers</a>
+<li><a href="#reviewed">Reviewed Conference Papers and Slides</a>
+<li><a href="#others">Conference Papers and Slides</a>
+</ul>
+<a name="journal"><h3>Journal Papers</h3>
+<div id="main">
+<div class="category">
+<div class="genre"></div>
+<dl>
+
+
+<dt>[ieice10g-lambda] 
+
+
+<a href="javascript:toggle_disp('ieice10g-lambda')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Yukio Tsukishima, Michiaki Hayashi, Tomohiro Kudoh, Akira Hirano, Takahiro Miyamoto, Atsuko Takefusa, Atsushi Taniguchi, Shuichi Okamoto, Hidemoto Nakada, Yasunori Sameshima, Hideaki Tanaka, Fumihiro Okazaki, Masahiko Jinno.
+</span>
+<span class="papertitle"> Grid Network Service - Web Services Interface Version 2, Achieving Scalable Reservation of Network Resources Across Multiple Network Domains .</span>
+<span class="bookname"> IEICE Transaction on Communications, vol. E93-B, no 10, pp. 2696-2705, 2010.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="ieice10g-lambda">
+Platforms of hosting services are expected to provide a virtual private computing infrastructure with a guaranteed level of performance according to each reservation request sent from a client. To expand the performance of the computing infrastructure for reservation requests, the platforms are required to reserve, coordinate, and control globally distributed computing and network resources across multiple domains. This paper proposes Grid Network Service - Web Services Interface version 2 (GNS-WSI2). GNS-WSI2 is a resource-reservation messaging protocol that establishes a client-server relationship. A server allocates available network resources over its own domain according to each reservation request from a client. GNS-WSI2 has the capability to reserve network resources rapidly and reliably over multiple network domains. This paper also presents demonstration results of the feasibility of GNS-WSI2 in terms of the scalable reservation of network resources over multiple network domains in a transpacific testbed. In the demonstration, two computing infrastructures over multiple network domains are dynamically provided for scientific computing and remotevisualization applications, respectively. On the provided infrastructures, these applications are executed. The feasibility is successfully shown through the demonstration. 
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[fgcs06takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/fgcs06takefusa.pdf"> [PDF] </a> 
+
+<a href="javascript:toggle_disp('fgcs06takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Michiaki Hayashi, Naohide Nagatsu, Hidemoto Nakada, Tomohiro Kudoh, Takahiro Miyamoto, Tomohiro Otani, Hideaki Tanaka, Masatoshi Suzuki, Yasunori Sameshima, Wataru Imajuku, Masahiko Jinno, Yoshihiro Takigawa, Shuichi Okamoto, Yoshio Tanaka, Satoshi Sekiguchi.
+</span>
+<span class="papertitle"> G-lambda: Coordination of a Grid Scheduler and Lambda Path Service over GMPLS.</span>
+<span class="bookname"> FUTURE GENERATION COMPUTER SYSTEMS 22-2006, pp. 868-875, 2006.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="fgcs06takefusa">
+At iGrid2005, we conducted a live demonstration where our Grid scheduling system co-allocated computing and network resources with advance reservation through Web services interfaces using the Grid Resource Scheduler (GRS), the Network Resource Management System (NRM), which is capable of GMPLS network resource management, and a GMPLS-based network test-bed, for the first time. The goal of the G-lambda project is to define a standard Web services interface (GNS-WSI) between GRS and NRM that is acceptable for both application service providers and commercial network operators, and which can be used as a tool for realizing new and emerging commercial services.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[ijhpc2000-aida] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/ijhpc2000-aida.pdf"> [PDF] </a> 
+
+<a href="javascript:toggle_disp('ijhpc2000-aida')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Kento Aida, Atsuko Takefusa, Hidemoto Nakada, Satoshi Matsuoka, Satoshi Sekiguchi, Umpei Nagashima.
+</span>
+<span class="papertitle"> Performance Evaluation Model for Scheduling in Global Computing Systems.</span>
+<span class="bookname"> International Journal of High-Performance Computing Applications, vol.20, Vol. 14, No. 3, pp. 268-279, 2000.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="ijhpc2000-aida">
+Striking progress of network technology is enabling high-performance global computing, in which computational and data resources in a wide area network (WAN) are transparently employed to solve large-scale problems. Several high-performance global computing systems, such as Ninf, NetSolve, RCS, Legion and Globus have already been proposed.  Each of these systems proposes to effectively achieve high-performance with some efficient scheduling scheme, whereby a scheduler selects a set of appropriate computing resources that solve the client's computational problem. This paper proposes a performance evaluation model for effective scheduling in global computing systems.  The proposed model represents a global computing system by a queueing network, in which servers and networks are represented by queueing systems. Verification of the proposed model and evaluation of scheduling schemes on the model showed that the model could simulate behavior of an actual global computing system and scheduling on the system effectively.
+</div>
+</blockquote>
+
+</dd>
+
+
+</dl>
+</div>
+</div>
+
+<a name="reviewed"><h3>Reviewed Conference Papers and Slides</h3>
+<div id="main">
+<div class="category">
+<div class="genre"></div>
+<dl>
+
+
+<dt>[jsspp10takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/jsspp10takefusa.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/jsspp10takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('jsspp10takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Hidemoto Nakada, Tomohiro Kudoh, Yoshio Tanaka.
+</span>
+<span class="papertitle"> An Advance Reservation-based Co-Allocation Algorithm for Distributed Computers and Network Bandwidth on QoS-guaranteed Grids.</span>
+<span class="bookname"> 15th Workshop on Job Scheduling Strategies for Parallel Processing, 2010.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="jsspp10takefusa">
+Co-allocation of performance-guaranteed computing and network re- sources provided by several administrative domains is one of the key issues for constructing a QoS-guaranteed Grid. We propose an advance reservation-based co-allocation algorithm for both computing and network resources on a QoS- guaranteed Grid, modeled as an integer programming (IP) problem. The goal of our algorithm is to create reservation plans satisfying user resource requirements as an on-line service. Also the algorithm takes co-allocation options for user and resource administrator issues into consideration. We evaluate the proposed al- gorithm with extensive simulation, in terms of both functionality and practicality. The results show: The algorithm enables efficient co-allocation of both computing and network resources provided by multiple domains, and can reflect reservation options for resource administrators issues as a first step. The calculation times needed for selecting resources using an IP solver are acceptable for an on-line service.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[hpcasia2009-takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpcasia2009-takefusa.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpcasia2009-takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('hpcasia2009-takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Hidemoto Nakada, Seiya Yanagita, Fumihiro Okazaki, Tomohiro Kudoh, Yoshio Tanaka.
+</span>
+<span class="papertitle"> Design of a Domain Authorization-based Hierarchical Distributed Resource Monitoring System in cooperation with Resource Reservation.</span>
+<span class="bookname"> Proc. HPC Asia 2009, pp. 77-84, 2009.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="hpcasia2009-takefusa">
+Grid and Network provisioning technology has enabled the construction of high-quality virtual computing infrastructures spanning several administrative organizations. However, it is still difficult for users to monitor the usage of distributed and various resources managed by multiple domains. We propose an authorization-based hierarchical distributed resource monitoring system called DMS that gathers information based on resource reservation, and filters information with the policies specified by the administrators using XACML, which is a standard authorization model and a policy description language. DMS co-works with the GridARS co-allocation framework to retrieve resource reservation information and adopts web services technologies and an extension of a standard data representation set. To confirm feasibility of the DMS system, we describe monitoring strategies for reserved computing and network resources in Collectors and we have developed a WSRF-based DMS prototype, which enables authorization by XACML. The experiments using the prototype system show: (1) Even when DMS employs a large number of policies, the overhead of the XACML authorization decision process is negligible, since that of WSRF/GSI is more dominant in the total processing time, and (2) the benefits of parallel information aggregation from multiple domains make the retrieval latency acceptable.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[jsspp2007-takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/jsspp2007-takefusa.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/jsspp2007-takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('jsspp2007-takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Hidemoto Nakada, Tomohiro Kudoh, Yoshio Tanaka, Satoshi Sekiguchi.
+</span>
+<span class="papertitle"> GridARS: An Advance Reservation-based Grid Co-allocation Framework for Distributed Computing and Network Resources.</span>
+<span class="bookname"> Proc. 13th Workshop on Job Scheduling Strategies for Parallel Processing (LNCS 4942), Seattle, pp. 152-168, 2007.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="jsspp2007-takefusa">
+For high performance parallel computing on actual Grids, one of the important issues is to co-allocate the distributed resources that are managed by various local schedulers with advance reservation. To address the issue, we proposed and developed the GridARS resource co-allocation framework, and a general advance reservation protocol that uses WSRF/GSI and a two-phased commit (2PC) protocol to enable a generic and secure advance reservation process based on distributed transactions, and provides the interface module for various existing resource schedulers. To confirm the effectiveness of GridARS, we describe the performance of a simultaneous reservation process and a case study of GridARS grid co-allocation over transpacific computing and network resources. Our experiments showed that: 1) the GridARS simultaneous 2PC reservation process is scalable and practical and 2) GridARS can co-allocate distributed resources managed by various local schedulers stably.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[gridnets07steve] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/gridnets07steve.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/gridnets07steve_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('gridnets07steve')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Steven R. Thorpe, Lina Battestilli, Gigi Karmous-Edwards, Andrei Hutanu, Jon MacLaren, Joe Mambretti, John H. Moore, Kamaraju Syam Sundar, Yufeng Xin, Atsuko Takefusa, Michiaki Hayashi, Akira Hirano, Shuichi Okamoto, Tomohiro Kudoh, Takahiro Miyamoto, Yukio Tsukishima, Tomohiro Otani, Hidemoto Nakada, Hideaki Tanaka, Atsushi Taniguchi, Yasunori Sameshima, Masahiko Jinno.
+</span>
+<span class="papertitle"> G-lambda and EnLIGHTened: Wrapped In Middleware Co-allocating Compute and Network Resources Across Japan and the US.</span>
+<span class="bookname"> Proc. First International Conference on Networks for Grid Applications (GridNets), pp. 8p, 2007.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="gridnets07steve">
+This paper describes innovative architectures and techniques for reserving and coordinating highly distributed resources, a capability required for many large scale applications. In the fall of 2006, Japan's G-lambda research team and the United States' EnLIGHTened Computing research team used these innovations to achieve the world's first inter-domain coordination of resource managers for in-advance reservation of network bandwidth and compute resources between and among both the US and Japan. The compute and network resource managers had different interfaces and were independently developed. Automated interoperability among the resources in both countries was enabled through various Grid middleware components. In this paper, we describe the middleware components, testbeds, results, and lessons learned.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[gca07nakada] 
+
+
+<a href="javascript:toggle_disp('gca07nakada')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Hidemoto Nakada, Atsuko Takefusa, Katsuhiko Ookubo, Tomohiro Kudoh, Yoshio Tanaka, Satoshi Sekiguchi.
+</span>
+<span class="papertitle"> An Advance Reservation-based Computation Resource Manager for Global Scheduling.</span>
+<span class="bookname"> GCA2007 Proceedings of the 3rd International Workshop on Grid Computing and Applications, pp. 3-14, 2007.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="gca07nakada">
+Advance Reservation is one possible way to enable resource co-allocation on the Grid. This method requires all the resources to have advance reservation capability as well as coordination protocol support. We employed 2-phased commit protocol as a coordination protocol, which is common in the distributed transaction area, and implemented an Advance Reservation Manager called {\bf PluS}. PluS works with existing local queuing managers, such as TORQUE or Grid Engine, and provides users advance reservation capability. To provide the capability, there are two implementation methods; 1) completely replaces the scheduling module of the queuing manger, 2) represents reservation as a queue and controls the queues using external interface. We designed and implemented a reservation manager with both way, and evaluated them. We found that the former has smaller overhead and allows arbitrary scheduling policy, while the latter is much easier to implement withacceptable response time.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[ofc2006-hayashi] 
+
+
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Michiaki Hayashi, Takahiro Miyamoto, Tomohiro Otani, Hideaki Tanaka, Atsuko Takefusa, Hidemoto Nakada, Tomohiro Kudoh, Naohide Nagatsu, Yasunori Sameshima, Shuichi Okamoto.
+</span>
+<span class="papertitle"> Managing and Controlling GMPLS Network Resources for Grid Applications.</span>
+<span class="bookname"> Proc. OFC 2006, 2006.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[cit06nakada] 
+
+
+<a href="javascript:toggle_disp('cit06nakada')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Hidemoto Nakada, Atsuko Takefusa, Katsuhiko Ookubo, Makoto Kishimoto, Tomohiro Kudoh, Yoshio Tanaka, Satoshi Sekiguchi.
+</span>
+<span class="papertitle"> Design and Implementation of a Local Scheduling System with Advance Reservation for Co-allocation on the Grid.</span>
+<span class="bookname"> Proc. of 2006 IEEE International Conference on Computer and Information Technology, pp. 6p, 2006.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="cit06nakada">
+While advance reservation is an essential capability for co-allocating several resources on Grid environments, it is not obvious how it can co-exist with priority-based First Come First Served scheduling, that is widely used as local scheduling policy today. To investigate this problem, we 1) developed a scheduling API in Java for TORQUE, a variant of OpenPBS, that enables users to implement their own schedulers and replace the original scheduling module with them, 2) implemented a prototype scheduler module that has advance reservation capability with the API. We also provide an external interface for the reservation capability based on WSRF to enable co-allocation of resources over the Grid. Using this interface with the job submission module from Globus toolkit 4, users can make reservation for resources and submit jobs over the Grid.
+
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[hpdc2003-takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpdc2003-takefusa.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpdc2003-takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('hpdc2003-takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Osamu Tatebe, Satoshi Matsuoka, Yohei Morita.
+</span>
+<span class="papertitle"> Performance Analysis of Scheduling and Replication Algorithms on Grid Datafarm Architecture for High Energy Physics Applications.</span>
+<span class="bookname"> Proc. the 12th IEEE International Symposium on High Performance Distributed Computing (HPDC-12), pp. 34-43, 2003.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="hpdc2003-takefusa">
+Data Grid is a Grid environment for ubiquitous access and analysis of large-scale data. Because Data Grid is in the early stages of development, the performance of its petabyte-scale models in a realistic data processing setting has not been well investigated. By enhancing our Bricks Grid simulator to accomodated Data Grid scenarios, we investigate and compare the performance of different Data Grid models. These are categorized mainly as either central or tier models; they employ various scheduling and replication strategies under realistic assumptions of job processing for CERN LHC experiments on the Grid Datafarm system. Our results show that the central model is efficient but that the tier model, with its greater resources and its speculative class of background replication policies, are quite effective and achieve higher performance, while each tier is smaller than the central model.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[hpdc10takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpdc10takefusa.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpdc10takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('hpdc10takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Henri Casanova, Satoshi Matsuoka, Fran Berman.
+</span>
+<span class="papertitle"> A Study of Deadline Scheduling for Client-Server Systems on the Computational Grid.</span>
+<span class="bookname"> Proceedings of 10th IEEE International Symposium on High Performance Distributed Computing (HPDC-10), pp. 406-415, 2001.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="hpdc10takefusa">
+The Computational Grid is a promising platform for the deployment of various high-performance computing applications. A number of projects have addressed the idea of software as a service on the network. These systems usually implement client-server architectures with many servers running on distributed Grid resources and have commonly been referred to as Network-enabled servers (NES). An important question is that of scheduling in this multi-client multi-server scenario. Note that in this context most requests are computationally intensive as they are generated by high-performance computing applications. The Bricks simulation framework has been developed and extensively used to evaluate scheduling strategies for NES systems. In this paper we first present recent developments and extensions to the Bricks simulation models. We discuss a deadline scheduling strategy that is appropriate for the multi-client multi-server case, and augment it with ``Load Correction'' and ``Fallback'' mechanisms which could improve the performance of the algorithm. We then give Bricks simulation results. The results show that future NES systems should use deadline-scheduling with multiple fallbacks and it is possible to allow users to make a trade-off between failure-rate and cost by adjusting the level of conservatism of deadline-scheduling algorithms. 
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[hpdc8takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpdc8takefusa.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpdc8takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('hpdc8takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Satoshi Matsuoka, Hidemoto Nakada, Kento Aida, Umpei Nagashima.
+</span>
+<span class="papertitle"> Overview of a Performance Evaluation System for Global Computing Scheduling Algorithms.</span>
+<span class="bookname"> 8th IEEE International Symposium on High Performance Distributed Computing (HPDC8), pp. 97-104, 1999.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="hpdc8takefusa">
+While there have been several proposals of high performance global computing systems, scheduling schemes for the systems have not been well investigated.  The reason is difficulties of evaluation by large-scale benchmarks with reproducible results. Our Bricks performance evaluation system would allow analysis and comparison of various scheduling schemes on a typical high-performance global computing setting. Bricks can simulate various behaviors of global computing systems, especially the behavior of networks and resource scheduling algorithms. Moreover, Bricks is componentalized such that not only its constituents could be replaced to simulate various different system algorithms, but also allows incorporation of existing global computing components via its foreign interface. To test the validity of the latter characteristics, we incorporated the NWS system, which monitors and forecasts global computing systems behavior.  Experiments were conducted by running NWS under a real environment versus the simulated environment given the observed parameters of the real environment.  We observed that Bricks behaved in the same manner as the real environment, and NWS also behaved similarly, making quite comparative forecasts under both environments.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[hpdc7aida] 
+
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/hpdc7aida_slide.pdf"> [Slides] </a> 
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Kento Aida, Atsuko Takefusa, Hidemoto Nakada, Satoshi Matsuoka, Umpei Nagashima.
+</span>
+<span class="papertitle"> A Performance Evaluation Model for Effective Job Scheduling in Global Computing Systems.</span>
+<span class="bookname"> 7th IEEE International Symposium on High Performance Distributed Computing (HPDC7) (poster), pp. 352-353, 1998.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[sc97takefusa] 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/sc97takefusa.pdf"> [PDF] </a> 
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/sc97takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('sc97takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Satoshi Matsuoka, Hirotaka Ogawa, Hidemoto Nakada, Hiromitsu Takagi, Mitsuhisa Sato, Satoshi Sekiguchi, Umpei Nagashima.
+</span>
+<span class="papertitle"> Multi-client LAN/WAN Performance Analysis of Ninf: a High-Performance Global Computing System.</span>
+<span class="bookname"> Supercomputing '97, 1997.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="sc97takefusa">
+Rapid increase in speed and availability of network of supercomputers is making high-performance global computing possible, including our Ninf system. However, critical issues regarding system performance characteristics in global computing have been little investigated, especially under multi-client, multi-site WAN settings. In order to investigate the feasibility of Ninf and similar systems, we conducted benchmarks under various LAN and WAN environments, and observed the following results: 1) Given sufficient communication bandwidth, Ninf performance quickly overtakes client local performance, 2) current supercomputers are sufficient platforms for supporting Ninf and similar systems in terms of performance and OS fault resiliency, 3) for a vector-parallel machine (Cray J90), employing optimized data-parallel library is a better choice compared to conventional task-parallel execution employed for non-numerical data servers, 4) computationally intensive tasks such as EP can readily be supported under the current Ninf infrastructure, and 5) for communication-intensive applications such as Linpack, server CPU utilization dominates LAN performance, while communication bandwidth dominates WAN performance, and furthermore, aggregate bandwidth could be sustained for multiple clients located at different Internet sites; as a result, distribution of multiple tasks to computing servers on different networks would be essential for achieving higher client-observed performance. Our results are not necessarily restricted to the Ninf system, but rather, would be applicable to other similar global computing systems.
+</div>
+</blockquote>
+
+</dd>
+
+
+</dl>
+</div>
+</div>
+
+<a name="others"><h3>Conference Papers and Slides</h3>
+<div id="main">
+<div class="category">
+<div class="genre"></div>
+<dl>
+
+
+<dt>[ogf19-takefusa] 
+
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/ogf19-takefusa_slide.pdf"> [Slides] </a> 
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Michiaki Hayashi, Akira Hirano, Shuichi Okamoto, Tomohiro Kudoh, Takahiro Miyamoto, Yukio Tsukishima, Tomohiro Otani, Hidemoto Nakada, Hideaki Tanaka, Atsushi Taniguchi, Yasunori Sameshima.
+</span>
+<span class="papertitle"> GNS-WSI2 Grid Network Service - Web Services Interface, version 2.</span>
+<span class="bookname"> OGF19 GHPN-RG, 2007.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[icnga2007-kudoh] 
+
+
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Tomohiro Kudoh, Michiaki Hayashi, Akira Hirano, Shuichi Okamoto, Atsuko Takefusa, Takahiro Miyamoto, Yukio Tsukishima, Tomohiro Otani, Hidemoto Nakada, Hideaki Tanaka, Atsushi Taniguchi, Yasunori Sameshima, Masahiko Jinno.
+</span>
+<span class="papertitle"> Network as a resource: G-lambda project and its architecture.</span>
+<span class="bookname"> First International Conference on Networks for Grid Applications, 2007.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[kj2006-takefusa] 
+
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/kj2006-takefusa_slide.pdf"> [Slides] </a> 
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa.
+</span>
+<span class="papertitle"> G- lambda: Coordination of Grid and GMPLS network.</span>
+<span class="bookname"> Korea-Japan Grid Symposium 2006, 2006.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[sc2002-poster-takefusa] 
+
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/sc2002-poster-takefusa_slide.pdf"> [Slides] </a> 
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Osamu Tatebe, Satoshi Matsuoka, Yohei Morita.
+</span>
+<span class="papertitle"> Performance Analysis of Scheduling and Replication Algorithms on Grid Datafarm Architecture for High Energy Physics Applications.</span>
+<span class="bookname"> Proc. the 2002 ACM/IEEE Supercomputing Conference (poster session), 2002.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[wgcc2000-takefusa] 
+
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/wgcc2000-takefusa_slide.pdf"> [Slides] </a> 
+<a href="javascript:toggle_disp('wgcc2000-takefusa')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Atsuko Takefusa, Satoshi Matsuoka.
+</span>
+<span class="papertitle"> Performance Issues in Client-Server Global Computing.</span>
+<span class="bookname"> International Workship on Global and Cluster Computing (WGCC'2000), Tsukuba (Japan), 2000.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="wgcc2000-takefusa">
+Recent developments of global computing systems such as Ninf, NetSolve, and Globus have opened up the opportunites for providing high-performance computing services over wide-area networks. However, most research focused on the individual architectural aspects of the system, or application deployment examples, instead of critical issues regarding system performance characteristics in global computing. Further, no step-by-step analysis or impartial comparison of various scheduling schemes has been conducted, though the performance and feasibility of a global computing system, which employs a large number of computational resources, highly depends on its scheduling scheme. Evaluation is made difficult by large-scale benchmarks and the need for reproducible results. Our comparative study performs deployment of example applications of network-based libraries using Ninf, NetSolve, and CORBA systems. There, we discover that dedicated systems for global computing such as Ninf and NetSolve have in some cases performance advantages over more generic distributed computing capabilities provided by CORBA. Also, we proposed the Bricks performance evaluation system, which would allow analysis and comparison of various scheduling schemes on a typical high-performance global computing setting. Bricks can simulate various behaviors of global computing systems, especially the behavior of networks and resource scheduling algorithms. Moreover, Bricks is componentalized such that not only its constituents could be replaced to simulate various different system algorithms, but also allows incorporation of existing global computing components via its foreign interface. To test the validity of the latter characteristics, we incorporated the NWS system, which monitors and forecasts global computing systems behavior.
+</div>
+</blockquote>
+
+</dd>
+
+
+
+<dt>[apan00aida] 
+
+
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Kento Aida, Atsuko Takefusa, Hirotaka Ogawa, Osamu Tatebe, Hidemoto Nakada, Hiromitsu Takagi, Yoshio Tanaka, Satoshi Matsuoka, Mitsuhisa Sato, Satoshi Sekiguchi, Umpei Nagashima.
+</span>
+<span class="papertitle"> Ninf Project.</span>
+<span class="bookname"> APAN Conference 2000, 2000.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[nasa98aida] 
+
+<a target="_top" href="http://www.g-lambda.net/gridars/dataDir/nasa98aida_slide.pdf"> [Slides] </a> 
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Kento Aida, Atsuko Takefusa, Hidemoto Nakada, Satoshi Matsuoka, Satoshi Sekiguchi, Umpei Nagashima.
+</span>
+<span class="papertitle"> A Performance Evaluation Model for Scheduling in Global Computing Systems.</span>
+<span class="bookname"> NASA Workshop on Performance-Engineered Information Systems, 1998.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[hpcn98nakada_oral] 
+
+
+
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Hidemoto Nakada, Atsuko Takefusa, Hirotaka Ogawa, Kento Aida, Hiromitsu Takagi, Satoshi Matsuoka, Umpei Nagashima, Mitsuhisa Sato, Satoshi Sekiguchi.
+</span>
+<span class="papertitle"> Ninf Global Computing System - Architecture, Features, and Performance.</span>
+<span class="bookname"> HPCN Workshop on Distributed Computing (Oral presentation), 1998.</span>
+</div>
+
+</dd>
+
+
+
+<dt>[iwia97matsuoka] 
+
+
+<a href="javascript:toggle_disp('iwia97matsuoka')">[Abstract]</a>
+</dt>
+
+<dd style="margin-bottom: 20px">
+<div>
+<span class="author"> 
+Satoshi Matsuoka, Hirotaka Ogawa, Atsuko Takefusa, Hidemoto Nakada, Kento Aida, Umpei Nagashima, Mitsuhisa Sato, Satoshi Sekiguchi.
+</span>
+<span class="papertitle"> Preliminary Evaluation of Scheduling in Ninf: a Global Computing System.</span>
+<span class="bookname"> International Workshop on Innovative Architectures '97, pp. 7p, 1997.</span>
+</div>
+
+<blockquote>
+<div style="text-align: justify; display:none" class="abstract" id="iwia97matsuoka">
+Rapid increase in speed and availability of global-network is opening up the possibilities of globally-distributed supercomputing, including our Ninf system. However, performance characteristics of these systems have been little investigated, especially under multi-clients, multi-sites situations. In order to establish methodology to schedule multiple job requests to multiple computational servers effectively and guarantee performance per each client, we conducted benchmarks under various WAN environments. There, we observed that communication bandwidth dominated performance for communication-intensive applications such as Linpack, and aggregate bandwidth could be sustained for multi-clients located at different internet sites. Based on these observations, we propose the need for a simulation model based on queuing theory. And we also performed preliminary benchmarks using our scheduling server, called the Ninf Metaserver. We also report on our collaborative efforts in bridging Ninf with NetSolve, a similar system being developed at Univ. of Tennessee/ORNL.
+</div>
+</blockquote>
+
+</dd>
+
+
+</dl>
+</div>
+</div>
+
+<hr>
+Atsuko Takefusa
+</body> </html>

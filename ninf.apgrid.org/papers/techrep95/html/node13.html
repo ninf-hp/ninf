@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> IDL ファイルの役割 と IDLの設計方針</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" IDL ファイルの役割 と IDLの設計方針">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html164 HREF="node14.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html162 HREF="node12.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html156 HREF="node12.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html165 HREF="node14.html"> IDL による記述の内容</A>
+<B>Up:</B> <A NAME=tex2html163 HREF="node12.html"> Ninf Interface Definition </A>
+<B> Previous:</B> <A NAME=tex2html157 HREF="node12.html"> Ninf Interface Definition </A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00061000000000000000> IDL ファイルの役割 と IDLの設計方針</A></H2>
+<P>
+Ninf では、数値演算ライブラリを開発者の実行環境でそのまま
+提供してもらうことを目標としている。
+このためには、ライブラリ提供者にとって、
+ライブラリをNinf化することが十分に容易でなければならない。
+IDL ファイルとstub generator はこの過程を支援するものである。
+数値演算ライブラリ作成者にライブラリのインターフェイスや、
+必要なオブジェクトファイル、ライブラリを記述してもらい、それから
+Ninf化したライブラリを構築するのに必要な スタブ  とそれを
+コンパイルするのに必要な メイクファイルを生成する。
+図<A HREF="node13.html#ninf_stub_gen">5</A>にNinf stub generator の動作の概要を示す。
+<P>
+<P><A NAME=201>&#160;</A><A NAME=ninf_stub_gen>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="Ninf_IDL_overview.gif">
+<BR><STRONG>図 5:</STRONG> NINF stub generator の動作<BR>
+<P>
+<P>
+IDL は、数値演算ライブラリ設計者に記述してもらう関係上なるべく
+多くのプログラマに親しみやすい構文を採用する必要がある。
+そこで Ninf IDL は ANSI C を基本にしたインターフェイス記述を
+採用した。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

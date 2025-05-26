@@ -1,0 +1,17 @@
+>>>>>>>>>> 1156097237
+[[VMware Server作業記録]]
+
+aaa
+>>>>>>>>>> 1156099729
+[[VMware Server作業記録]]
+
+21 Aug
+　VMware Serverの起動方法
+
+ Step0: vmware-cmd -s register /root/vmware/guestos00.vmx (<==vmware_control.shによって生成されたもの)
+
+ 
+ Step1: vmware-cmd /root/vmware/guestos00.vmx start  (guestos00.vmxまでの絶対パス指定が必要)
+
+ Step2: vmware-cmd -l
+

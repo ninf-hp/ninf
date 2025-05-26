@@ -1,0 +1,4 @@
+>>>>>>>>>> 1115417493
+#freeze
+// :RenameLog (rename plugin)
+

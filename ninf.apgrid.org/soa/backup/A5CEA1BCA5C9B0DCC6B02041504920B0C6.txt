@@ -1,0 +1,78 @@
+>>>>>>>>>> 1225398542
+[[FrontPage]]
+
+http://hostname/vc/cgi-bin/op.py へのアクセスによって
+仮想ノードの migration を指定可能とする。
+
+- PUT /vc/cgi-bin/op.py/~
+ノード移動操作の列を設定する。
+ <VcOp opid="1">
+   <Op opType="Migrate" order="1" regid="1" vnodeid="1">
+     <HostNode>vm-container-0-1</HostNode>
+   </Op>
+   <Op opType="Migrate" order="2" regid="1" vnodeid="2">
+     <HostNode>vm-container-0-1</HostNode>
+   </Op>
+ </VcOp>
+- GET /vc/cgi-bin/op.py/~
+ノード操作指定のリストと、その実行状態を返す。
+ <VcOpList lastOpid="4">
+   <VcOpEntry opid="1" status="ok" />
+   <VcOpEntry opid="2" status="ng">
+     <Error message="failed to migrate vn-1-1 to vm-container-0-2">
+       stack trace and so on.
+     </Error>
+   </VcOpEntry>
+   <VcOpEntry opid="3" status="queued" />
+   <VcOpEntry opid="4" status="queued" />
+ </VcOpList>
+-- status="ok" 全ての移動に成功した
+-- status="ng" いずれかの移動に失敗した
+-- status="queued" 実行待ち状態
+- DELETE /vc/cgi-bin/op.py/番号~
+指定された番号の操作指定を削除する。
+>>>>>>>>>> 1225405632
+[[FrontPage]]
+
+http://ai03.hpcc.jp/vc/cgi-bin/physical_cluster.py
+http://ai03.hpcc.jp/vc/cgi-bin/virtual_clusters.py/11
+
+http://hostname/vc/cgi-bin/op.py へのアクセスによって
+仮想ノードの migration を指定可能とする。
+
+- PUT /vc/cgi-bin/op.py/~
+ノード移動操作の列を設定する。
+ <VcOp opid="1">
+   <Op opType="Migrate" vcid="1" vnodeid="1">
+     <HostNode>vm-container-0-1</HostNode>
+   </Op>
+   <Op opType="Migrate" vcid="1" vnodeid="2">
+     <HostNode>vm-container-0-1</HostNode>
+   </Op>
+ </VcOp>
+-- opid="番号" は省略可
+-- 一つの <Op></Op> が一回の仮想ノードの移動に対応する。
+--- vcid="番号" は仮想クラスタ ID を示す。
+--- vnoeid="番号" は仮想ノード番号を示す。
+- GET /vc/cgi-bin/op.py/~
+ノード操作指定のリストと、その実行状態を返す。
+ <VcOpList lastOpid="4">
+   <VcOpEntry opid="1" status="ok" url="http://hostname/vc/cgi-bin/op.py/1"/>
+   <VcOpEntry opid="2" status="ng" url="http://hostname/vc/cgi-bin/op.py/2">
+     <Error message="failed to migrate vn-1-1 to vm-container-0-2">
+       stack trace and so on.
+     </Error>
+     <Error message="failed to migrate vn-1-2 to vm-container-0-2">
+       stack trace and so on.
+     </Error>
+   </VcOpEntry>
+   <VcOpEntry opid="3" status="queued" url="http://hostname/vc/cgi-bin/op.py/3" />
+   <VcOpEntry opid="4" status="queued" url="http://hostname/vc/cgi-bin/op.py/4" />
+ </VcOpList>
+-- status="ok" 全ての移動に成功した
+-- status="ng" いずれかの移動に失敗した。
+失敗の内容は実行コマンド単位で子ノード <Error></Error> によって示される。
+-- status="queued" 実行待ち状態
+- DELETE /vc/cgi-bin/op.py/番号~
+指定された番号の操作指定を削除する。
+

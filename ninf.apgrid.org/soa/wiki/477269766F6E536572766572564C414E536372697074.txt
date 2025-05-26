@@ -1,0 +1,105 @@
+[[FrontPage]]
+
+* 共有リソースであるサーバとGriVon VMのreachabilityを実現するスクリプト [#l7b4645c]
+
+[[InterVLANConnection]]で説明したように、共有サーバ上にVLAN interfaceを作り、適切なstatic routeを設定すれば、共有サーバとVLAN内のGriVon VMのreachabilityが実現できる。
+
+ただし、共有サーバが再起動などすることを考慮に入れれば、共有サーバ自体が状態を保持するか、あるいは共有サーバがとるべき状態を提示してくれるようなサービスを実現する必要がある。前者が妥当に思われる。
+
+ここでは、共有サーバ上での操作を支援するスクリプトについて説明する。
+
+** grivon-server-vlan.pl [#sfe76294]
+
+このスクリプトは、VLAN interfaceを作り、適切なstatic routeを設定したり、あるいはその逆の操作を行うものである。また、このスクリプトではBerkeleyDB上に必要なVLAN interfaceとroute情報を保存するため、設定情報の再現ができる。
+
+*** SYNOPSIS [#ra506a6b]
+
+ grivon-server-vlan.pl [--device=DEV] [--db-file=DB_FILE] [--debug] --add <IP address> <VLAN ID>
+ grivon-server-vlan.pl [--device=DEV] [--db-file=DB_FILE] [--debug] --del <IP address>
+ grivon-server-vlan.pl [--device=DEV] [--db-file=DB_FILE] [--debug] --delete-all
+ grivon-server-vlan.pl [--device=DEV] [--db-file=DB_FILE] [--debug] --start
+ grivon-server-vlan.pl [--device=DEV] [--db-file=DB_FILE] [--debug] --stop
+
+
+*** オプション [#wab5e2a6]
+
+共通のオプションは以下の通り。
+
+- --device=DEV
+. 利用するethXデバイス名を指定する(デフォルトはeth0)
+- --db-file=DB_FILE
+. 利用するDB_FILEをフルパスで指定する(デフォルトは/etc/vmware-grivon/grivon-server-vlan.db)
+- --debug
+. コマンドを実行せずに表示するだけ(デフォルトはオフ)
+
+以下はそれ以外のコマンドについて説明する。
+
+*** VM / VLANの追加・移動 [#s2259b76]
+
+ # /etc/vmware-grivon/grivon-server-vlan.pl --add <IP address> <VLAN ID>
+
+- <IP address>がすでに他のVLANに属している場合にはそのrouteを削除する。
+- その結果、そのVLANに属しているノードが存在しない場合にはVLAN interfaceも削除する。
+- <VLAN ID>で指定されたVLAN interfaceがなければ作る。
+- <IP address>への経路を<VLAN ID>で指定されたVLAN interfaceに向ける。
+- DBでは<IP address>と<VLAN ID>を対応付ける。
+
+*** VM / VLANの削除 [#a8d56684]
+
+ # /etc/vmware-grivon/grivon-server-vlan.pl --del <IP address>
+
+- <IP address>がすでにVLANに属している場合にはそのrouteを削除する。
+- その結果、そのVLANに属しているノードが存在しない場合にはVLAN interfaceも削除する。
+- DBでは<IP address>のエントリーを削除する。
+
+*** VM / VLANの全削除 [#la3307d6]
+
+ # /etc/vmware-grivon/grivon-server-vlan.pl --delete-all
+
+- すべての経路、VLAN interfaceを削除する。
+- DBの全エントリーを削除する。
+
+*** DBの内容のダンプ [#zbe1c201]
+
+ # /etc/vmware-grivon/grivon-server-vlan.pl --status
+
+*** DBの状態にしたがってVLAN interfaceと経路をactivate [#x2ed4bb4]
+
+ # /etc/vmware-grivon/grivon-server-vlan.pl --start
+
+- DBに格納されているすべてのVLAN interfaceを作る。
+- DBに格納されているすべての経路を追加する。
+- DBの内容は更新しない。
+
+*** DBの状態にしたがってVLAN interfaceと経路をdeactivate [#q1c8424e]
+
+ # /etc/vmware-grivon/grivon-server-vlan.pl --stop
+
+- DBに格納されているすべての経路を削除する。
+- DBに格納されているすべてのVLAN interfaceを削除する。
+- DBの内容は更新しない。
+
+** initスクリプト [#q5197588]
+
+内部的にはgrivon-server-vlan.plを起動しているだけである。
+
+まず、/etc/vmware-grivon/rc.d/grivon-server-vlanを/etc/init.dにコピーし、以下のように実行して正しくVLAN interfaceが作られ、経路が設定されることを確認する。
+
+ # /etc/init.d/grivon-server-vlan start
+
+ご破算にするには、
+
+ # /etc/init.d/grivon-server-vlan stop
+
+残りのオプションは、コマンドラインから実行してみれば分かる。
+
+ # /etc/init.d/grivon-server-vlan
+ Usage: /etc/init.d/grivon-server-vlan {start|stop|status|restart|condrestart}
+
+init scriptとして起動時に実行してもらうためには、以下のコマンドを実行する。
+
+ # /sbin/chkconfig -add grivon-server-vlan
+
+Run level 2,3,5では/etc/init.d/networkの後に実行され、Run level 0,1,4では前に実行されるようにしてある。
+
+以降は起動時に勝手にVirtual interfaceを作って、経路を追加してくれる。

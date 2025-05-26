@@ -1,0 +1,27 @@
+ [[FrontPage]]
+ 
+ * 指定したVMの利用するVMnetを切り替えるスクリプト [#l5df9e31]
+ 
++!!! grivon-vmnet-change.shにリネーム & vmnet番号ではなくVLAN IDを指定するように変更 !!!
++
+ 各VMのethernet0が接続するVirtual Switchをコマンドラインから切り替えるためのスクリプト。
+ 
+ VMが動作しているとき([[ModifyingVMnetConfig]])も、そうでないときも正常に動作する。
+ 
+ ** 使い方 [#tc649add]
+ 
+ /path/to/vm.vmxで示されるVMのethernet0が接続するVirtual Switchをvmnet1にする場合には以下のように実行する。
+ 
+  # /etc/vmware-grivon/vmnet-change.sh /path/to/vm.vmx 1
+ 
+ ** 動作原理 [#mc73b8af]
+ 
+ [[ModifyingVMnetConfig]]で述べた「vmware-cmdでVMのconfigurationを変更し、ethernet0をdetach & attachする」方法を採用している。
+ 
+ 具体的には、
+ 
+ + vmxファイルのethernet0.connectionType, ethernet0.vnetを変更する
+ + vmxファイルで指定されたVMが動作しているかどうか確認し、動作していなければexitする
+ + vmware-cmdでsetconfig, disconnectdevice, connectdeviceを順次実行する
+ 
+ という動作をする。各段階で必要なエラー処理を行っている。

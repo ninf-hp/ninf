@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf Register</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf Register">
+<meta name="keywords" value="main">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html100 HREF="node8.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html98 HREF="main.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html92 HREF="node6.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html101 HREF="node8.html"> Ninf RPC   のプロトコル</A>
+<B>Up:</B> <A NAME=tex2html99 HREF="main.html">無題</A>
+<B> Previous:</B> <A NAME=tex2html93 HREF="node6.html"> Ninf Server</A>
+<BR> <HR> <P>
+<H1><A NAME=SECTION00040000000000000000> Ninf Register</A></H1>
+<P>
+Ninf register は Ninf Server に対して Ninf Executable  を
+登録するためのユーティリティプログラムである。
+<P>
+<blockquote> <PRE>Usage:          ninf_register ファイル名
+</PRE></blockquote>
+<P>
+Ninf Server は 登録用に UNIX ドメインのソケットを一つつくる。
+Ninf register は、このソケットにアクセスして引数のファイル名を引き渡す。
+Ninf Server はファイル名を用いて、Ninf Executable  を一度起動し
+インターフェイス  を取り出し登録する。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Wed Dec 20 05:42:46 JST 1995</I>
+</ADDRESS>
+</BODY>

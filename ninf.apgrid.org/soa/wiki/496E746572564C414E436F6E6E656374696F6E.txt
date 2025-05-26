@@ -1,0 +1,59 @@
+[[FrontPage]]
+
+* VLAN間のルーティングについて [#w89b3332]
+
+** 課題 [#o0770fb1]
+
+- VMのセットアップ時:~
+VMはタグなしVLANのメンバーである。ホストノードと同じネットワーク(システムネットワーク)にあるので、システムネットワークの資源(ルータ、ファイルサーバなど)がtransparentに利用できる。
+- VLAN切り替え後:~
+[[VMnetChangeScript]]などを用いて、VMはタグ付きVLANのメンバーとなる。システムネットワークとは直接接続していないのでルータ、ファイルサーバなどへのreachabilityが損なわれる。
+
+→reachabilityを確保する必要があるけどどうすんの？ というのが課題。
+
+** 解決策(案) [#m2cdaeaf]
+
+Host1のVMware ServerでGuest1, Guest2が動作しているものとし、それぞれのIPアドレス、VLAN IDを下のように仮定する。
+
+- Guest1: 192.168.10.101, VLAN 101
+- Guest2: 192.168.10.102, VLAN 102
+
+ファイルサーバノードFS1では、下のように設定する。
+
+まず、必要なVLAN interfaceを全部作っておく。
+
+ # /sbin/vconfig add eth0 100
+ # /sbin/vconfig add eth0 101
+ # /sbin/vconfig add eth0 102
+ # /sbin/vconfig add eth0 103
+ (snipped)
+
+次にVLAN interfaceを全部upしておく。
+
+ # /sbin/ifconfig eth0.100 0.0.0.0 up
+ # /sbin/ifconfig eth0.101 0.0.0.0 up
+ # /sbin/ifconfig eth0.102 0.0.0.0 up
+ # /sbin/ifconfig eth0.103 0.0.0.0 up
+ (snipped)
+
+Guest1, Guest2がそれぞれVLAN 101, 102に接続していることを教えるために、static routeを設定する。
+
+ # /sbin/route add -host 192.168.10.101 dev eth0.101
+ # /sbin/route add -host 192.168.10.102 dev eth0.102
+
+すると、Guest1, Guest2とこのルートを追加したノード間の通信が可能になる(はず)。
+
+** 実際の処理手順 [#w9e123e3]
+
+- 前段階(起動時)
+-- Host1: eth0にブリッジ接続するvmnet0、さらには[[VMwareGriVonScript]]で必要なvmnet1, vmnet2, ...が作られているものとする。
+-- FS1: eth0, eth0.100, eth0.101, ...がすべて作られているものとする。
+- VMのセットアップ時
+-- Host1: vmnet0にブリッジ接続したVM(Guest1, Guest2)をセットアップする。
+-- FS1: VMがFS1上のリソースを必要とするならそのための設定を行う。
+- VMのVLAN切り替え時
+-- Host1: [[VMnetChangeScript]]でGuest1, Guest2の接続するVLANを切り替える。
+-- FS1: static routeを追加する。
+- VMの開放時
+-- Host1: よく分からないが、vmware-cmd stopすれば十分。
+-- FS1: 追加したstatic routeを削除する。

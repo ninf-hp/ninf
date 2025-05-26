@@ -1,0 +1,27 @@
+ [[FrontPage]]
+ 
+ * VMware Server, VMware&size(0){ };ToolsなどのTips [#y77c45e5]
+ 
+ #contents
+ 
+ ** VMware&size(0){ };Toolsをnon-interactiveにインストールする [#v0055473]
+ 
+ + GuestOS用のVMwareTools-XX.rpmを用意する。
+ + VMware&size(0){ };Toolsをインストールする。
+  # rpm -Uvh VMwareTools-XX.rpm
+ + vmware-config-tools.plを実行する。
+  # /usr/bin/vmware-config-tools.pl --prebuilt --default
+ 
+ この方法で/usr/sbin/vmware-guestdは間違いなく起動するはず。
+ 
+ 場合によっては、ethXが落ちた状態になっていることがあるので、以下のようにして再設定する必要があるかも。
+ 
+  # /etc/init.d/network restart
+ 
++** /dev/vmnetNNっていくつまで作れるの? [#fcbe2b2f]
++
++以下のようにmknodでいくらでも作れる。
++
++ mknod -m 600 /dev/vmnetNN c 119 NN
++
++が、vmnet-bridgeで利用できるのは、0〜255。

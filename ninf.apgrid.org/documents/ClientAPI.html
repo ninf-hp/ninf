@@ -1,0 +1,93 @@
+<h1> Ninf Client API </h1>
+
+This document gives Ninf Client API.
+
+<h2> Overview </h2>
+Our API provides following functions.
+
+<ul>
+<li> Ninf_call:       calls specified Ninf functions in a blocking fashion.
+<li> Ninf_call_async: nonblocking call.
+<li> Ninf_wait:       waits for termination of a specified nonblocking call.
+<li> Ninf_wait_all:   waits for termination of ALL nonblocking calls
+</ul>
+
+<ul>
+<li> Ninf_parse_arg:  parses argument list and get default host and port.
+<li> Ninf_perror:     prints error messages.
+</ul>
+
+<h2> Ninf_call </h2>
+This function calls Ninf function on a remote server.
+The first argument specifies server and function.
+
+Here is an example that calls "mmul" function on
+our server "etlninf.apgrid.org".
+<pre>
+     Ninf_call("ninf://etlninf.apgrid.org:3000/mmul", n, A, B, C);
+</pre>
+
+You can omit the server name and port.
+In such case, a default server will be used.
+Default server can be specified by environment variable "NINF_SERVER"
+and "NINF_SERVER_PORT", or Ninf_parse_arg.
+
+This function returns 0 if succeed, returns -1 if failed.
+
+<h2> Ninf_call_sync </h2>
+This function is almost same as Ninf_call, but it returns immediately.
+Using this function, you can invoke several sessions simultaneously.
+
+It returns non-negative ID if succeed, returns -1 if failed.
+
+<pre>
+     id = Ninf_call_async("ninf://ninf.apgrid.org:3030/mmul", n, A, B, C);
+</pre>
+
+<h2> Ninf_wait </h2>
+This function wait for termination of one session specified by id.
+
+It returns 0 if succeed, returns -1 if failed.
+
+<pre>
+     Ninf_wait(id);
+</pre>
+
+<h2> Ninf_wait_all </h2>
+This function wait for all sessions which invoked by Ninf_call_async.
+<pre>
+     Ninf_wait_all();
+</pre>
+
+
+<h2> Ninf_parse_arg </h2>
+
+This function parse argument list for your client program and
+get default hostname and port.
+
+It recognizes "-server SERVER" and "-port PORT", and remove these arguments
+from your list.
+It returns new argc value.
+Here is an example showing typical usage.
+<pre>
+main (int argc, char ** argv){
+	argc = Ninf_parse_arg(argc, argv);
+	...
+</pre>
+
+
+
+<h2> Ninf_perror </h2>
+This function produces an error massage on the standard error output,
+describing the last error encountered in Ninf_call.
+
+The argument string  is  printed first, then a colon and a blank, then
+the message and a newline. 
+
+Here is an example showing typical usage.
+<pre>
+   if (Ninf_call("mmul", n, A, B, C) < 0){
+	Ninf_perror("Failed in mmul");
+	exit();
+   }
+</pre>

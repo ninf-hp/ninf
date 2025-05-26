@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> メタサーバ
+  の実装</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" メタサーバ
+  の実装">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html201 HREF="node16.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html199 HREF="node13.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html193 HREF="node14.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html202 HREF="node16.html"> 分散並列実行の実装</A>
+<B>Up:</B> <A NAME=tex2html200 HREF="node13.html"> 実装</A>
+<B> Previous:</B> <A NAME=tex2html194 HREF="node14.html"> 実装言語</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00042000000000000000> メタサーバ
+  の実装</A></H2>
+<P>
+メタサーバ
+  は、ひとつのプロセスとして実装している。
+クライアントからリクエストを受けとると、新たにthread を作成して
+そのリクエストを処理する。
+他のメタサーバ
+  からの通信に対しても、同様にthread を作成して
+対応している。
+メタサーバ
+  間の通信では メタサーバ
+  内の情報が変化する場合があるが、
+メモリ空間を共有しているため、他の動作中のthread にも自動的に
+情報が伝搬するので、実装が容易である。
+<P>
+例として、クライアントから受けたリクエストを実行できるNinf サーバ
+  を
+知らなかった場合を考えてみる。この場合、このリクエストを処理する
+thread は、他のメタサーバ
+  に問い合わせを発行する。
+この問い合わせの返答は、他のthread が受けとるので、
+元のthread は、適当な間隔をあけてNinf サーバ
+  の入った構造体を
+polling するだけでよい。
+返答を受けとったthread は、構造体に書き込む処理だけを行なう。
+このように、構造体を経由したthread 間の通信が行なえるため
+実装が非常に容易である。
+<P>
+<BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

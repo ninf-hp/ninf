@@ -1,0 +1,119 @@
+* LVMの設定 [#zd23b552]
+
+lvm2パッケージがインストールされていなければインストールする．
+
+  # yum install lvm2
+
+ここでは，/dev/hdcとして認識されているATAのディスク（WDC WD2500JB-00REA0）にLinux LVMのパーティションを用意する．
+
+  # /sbin/fdisk -l /dev/hdc
+  
+  Disk /dev/hdc: 250.0 GB, 250059350016 bytes
+  255 heads, 63 sectors/track, 30401 cylinders
+  Units = cylinders of 16065 * 512 = 8225280 bytes
+  
+     Device Boot      Start         End      Blocks   Id  System
+  /dev/hdc1               1       30401   244196001   8e  Linux LVM
+
+１番最初はLVMの管理データベースを作成してから物理ボリュームを登録する．
+
+  # /usr/sbin/vgscan  
+  # /usr/sbin/pvcreate /dev/hdc1
+    Physical volume "/dev/hdc1" successfully created
+  # /usr/sbin/pvdisplay
+    --- NEW Physical volume ---
+    PV Name               /dev/hdc1
+    VG Name
+    PV Size               232.88 GB
+    Allocatable           NO
+    PE Size (KByte)       0
+    Total PE              0
+    Free PE               0
+    Allocated PE          0
+    PV UUID               TrEUga-yEWf-J3s8-bdus-XQdX-5H8D-c9RV5
+
+物理ボリューム/dev/hdc1をボリュームグループspに登録する．ボリュームグループには複数の物理ボリュームを登録することができる．物理エクステント（PE）サイズは論理ボリュームの割り当て単位であり，後で変更がきかない．サイズを32MBに変更したい場合は，登録時に「-s32m」オプションを付ける．
+
+  # /usr/sbin/vgcreate sp /dev/hdc1
+    Volume group "sp" successfully created
+  # /usr/sbin/vgdisplay
+    --- Volume group ---
+    VG Name               sp
+    System ID
+    Format                lvm2
+    Metadata Areas        1
+    Metadata Sequence No  1
+    VG Access             read/write
+    VG Status             resizable
+    MAX LV                0
+    Cur LV                0
+    Open LV               0
+    Max PV                0
+    Cur PV                1
+    Act PV                1
+    VG Size               232.88 GB
+    PE Size               4.00 MB
+    Total PE              59618
+    Alloc PE / Size       0 / 0
+    Free  PE / Size       59618 / 232.88 GB
+    VG UUID               2Q9xst-pUTU-4CAB-OtNr-A8Zm-EIz2-oxiN5W
+
+ボリュームグループspから40GBの論理ボリュームgridvon-expを切り出す．
+
+  # /usr/sbin/lvcreate -n gridvon-exp -L 40G sp
+    Logical volume "gridvon-exp" created
+  # /usr/sbin/lvdisplay
+    --- Logical volume ---
+    LV Name                /dev/sp/gridvon-exp
+    VG Name                sp
+    LV UUID                AOfHM9-fNRj-USsc-9xhp-T74I-hFOl-hPmp0O
+    LV Write Access        read/write
+    LV Status              available
+    # open                 0
+    LV Size                40.00 GB
+    Current LE             10240
+    Segments               1
+    Allocation             inherit
+    Read ahead sectors     0
+    Block device           253:2
+
+
+* iSCSI Targetの設定 [#j635cded]
+
+iSCSI Targetは[http://iscsitarget.sourceforge.net/ iSCSI Enterprise Target]を利用する．Webページには2.6のカーネルをサポートしていると書いてあったが，最新のiscsitargetは2.6.14からしか利用できない（すみません）．2.6.9で利用できるのはiscsitarget-0.4.0とかなり古いものになる．
+
+  For the time of writing, for the latest version of iscsitarget (0.4.13) you need kernel 2.6.14 or newer. 
+
+比較的新しいiscsitargetをRHEL 4やCentOS 4で利用するためには，BastiaanBakkerが用意している[http://www.cryptoforge.net/iscsi/RPMS/ RPM]が使えるかもしれない．0.4.13のSRPMをrpmbuildしようとしたところでエラーになった．
+
+以下は，FC5でカーネル2.6.17を利用した場合のインストール手順である．
+まず，最初にiscsitarget-0.4.13.tar.gzを入手する．次に，以下のようなコマンドを実行してiscsitargetをコンパイル，インストールする．FCの場合，コンパイルにはkernel-develパッケージが必要である．現在実行中のカーネルに対してiscsitarget（のカーネルモジュール）をコンパイルするのであれば，KERNELSRCの指定は不要である．
+
+  $ tar xvfz iscsitarget-0.4.13.tar.gz
+  $ cd iscsitarget-0.4.13
+  $ make KERNELSRC=/usr/src/kernels/<kernel-src>
+  $ make KERNELSRC=/usr/src/kernels/<kernel-src> install
+
+インストール後，以下のように/etc/ietd.confを編集してgridvon-exp用のTargetを設定する．ietd.confファイルは作成されていないので，自分で作成する必要がある．
+
+  Target iqn.2006.06.jp.hpcc.XGtestPC3:gridvon-exp.soa.aist
+          Lun 0 Path=/dev/sp/gridvon-exp,Type=fileio
+          Alias gridvon-exp
+
+ietd.confを編集後にietdを再起動する．これで，gridvon-expの論理ボリュームをInitiatorから利用できるようになる．
+
+  # /etc/init.d/iscsi-target restart
+  Stoping iSCSI target service:                              [  OK  ]
+  Starting iSCSI target service:                             [  OK  ]
+
+ietdを再起動せずにTargetを加えるには，`/usr/sbin/ietadm`コマンドを以下のオプションを与えて実行する．
+
+  --op new --tid=[id] --user --params=[user]=[name],Password=[pass]
+                        add a new account with [pass] for specific target.
+                        [user] could be [IncomingUser] or [OutgoingUser].
+                        If you don't specify a target (omit --tid option),
+                        you add a new account for discovery sessions.
+  --op update --tid=[id] --params=key1=value1,key2=value2,...
+                        change iSCSI IET target parameters of specific
+                        target with [id]. You can use parameters in ietd.conf
+                        as a key.

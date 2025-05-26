@@ -1,0 +1,27 @@
+package ninf.client;
+
+public class ServerIndex {
+  /** Ninf server */
+  public NinfServerStruct server;
+  /** index No. on NinfServer */
+  public int index;  
+
+  public ServerIndex(NinfServerStruct server, int index){
+    this.server = server;
+    this.index = index;
+  }
+
+  public boolean equals(Object o){
+    if (!(o instanceof ServerIndex))
+      return false;
+    if (((ServerIndex)o).server.equals(server) &&
+        ((ServerIndex)o).index == index)
+      return true;
+    return false;
+  }
+
+  public String toString(){
+    return server.toString() + ": " + index;
+  }
+}
+

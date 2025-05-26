@@ -1,0 +1,4 @@
+<!--#set var="CONTENT_FILENAME" value="ninf.en.html"-->
+<!--#set var="CONTENT_OLD_FILENAME" value="papers-2002.html"-->
+<!--#set var="SUBTITLE" value ="Ninf Papers in English"-->
+<!--#include file="masterframe.shtml"-->

@@ -1,0 +1,153 @@
+>>>>>>>>>> 1242593914
+[[FrontPage]]
+
+*ボリューム一覧 [#m3de5d2d]
+
+**内容 [#xc171cc3]
+vgdisplay コマンド相当の情報を取得する
+
+**要求 [#zc9efad7]
+GET /cgi-bin/Grivon_iSCSI.py/VolumeGroup
+
+**応答 [#u380a503]
+概要: vgdisplay コマンドの結果を返す。
+各ボリュームグループに関するプロパティ値を <vgparam/> の
+name/value として返す。
+ただし、"VG Name" は属性値 "vgname" に格納する。
+
+ <VolumeGroupList>
+  <VolumeGroup vgname="VolGroup00">
+    <VGParam name="VG Access" value="read/write" />
+    <VGParam name="VG Status" value="available/resizable" />
+    <VGParam name="VG #" value="0" />
+    <VGParam name="MAX LV" value="256" />
+    <VGParam name="Cur LV" value="0" />
+    <VGParam name="Open LV" value="0" />
+    <VGParam name="MAX LV Size" value="255.99 GB" />
+    <VGParam name="Max PV" value="256" />
+    <VGParam name="Cur PV" value="1" />
+    <VGParam name="Act PV" value="1" />
+    <VGParam name="VG Size" value="4 GB" />
+    <VGParam name="PE Size" value="4 MB" />
+    <VGParam name="Total PE" value="1024" />
+    <VGParam name="Alloc PE / Size" value="0 / 0" />
+    <VGParam name="Free  PE / Size" value="1024 / 4 GB" />
+    <VGParam name="VG UUID" value="VvS3G8-aC1t-BIUb-nFFM-Mec6-5UVT-zsS1hv" />
+  </VolumeGroup>
+ </VolumeGroupList>
+
+-------------------------------------------------------------------------------
+*論理ボリューム一覧 [#b58b5122]
+
+**内容 [#f519d458]
+lvdisplay コマンド相当の情報を取得する
+**要求 [#b77e16de]
+GET /cgi-bin/Grivon_iSCSI.py/VolumeGroup/[ボリュームグループ名]
+
+**応答 [#f8710a81]
+
+ <VolumeGroup vgname="VolGroup00">
+  <LogicalVolume lvname="/dev/VolGroup00/node-1-1">
+    <LVParam name="VG Name" value="VolGroup00" />
+    <LVParam name="LV Write Access" value="read/write" />
+    <LVParam name="LV Status" value="available" />
+    <LVParam name="# open" value="1" />
+    <LVParam name="LV Size" value="10.00 GB" />
+    <LVParam name="Current LE" value="320" />
+    <LVParam name="Segments" value="1" />
+    <LVParam name="Allocation" value="inherit" />
+    <LVParam name="Read ahead sectors" value="0" />
+    <LVParam name="Block device" value="253:2" />
+  </LogicalVolume>
+  <LogicalVolume lvname="/dev/VolGroup00/node-1-2">
+    <LVParam name="VG Name" value="VolGroup00" />
+    <LVParam name="LV Write Access" value="read/write" />
+    <LVParam name="LV Status" value="available" />
+    <LVParam name="# open" value="1" />
+    <LVParam name="LV Size" value="10.00 GB" />
+    <LVParam name="Current LE" value="320" />
+    <LVParam name="Segments" value="1" />
+    <LVParam name="Allocation" value="inherit" />
+    <LVParam name="Read ahead sectors" value="0" />
+    <LVParam name="Block device" value="253:2" />
+  </LogicalVolume>
+ </LogicalVolumeGroup>
+
+-------------------------------------------------------------------------------
+*iSCSI ターゲットの情報を返す [#h98a6f37]
+
+**内容 [#b9da9ef9]
+/proc/net/iet/volume 相当の情報を取得する
+
+**要求 [#gec31093]
+GET /cgi-bin/Grivon_iSCSI.py/Target
+
+**応答 [#a17afcdc]
+ <TargetList>
+  <Target tid="100" name="iqn.2007-02.jp.go.aist.girvon:VolGroup00.node-1-1">
+    <TGTParam name="lun" value="0" />
+    <TGTParam name="state" value="0" />
+    <TGTParam name="iotype" value="fileio" />
+    <TGTParam name="iomode" value="wt" />
+    <TGTParam name="path" value="/devVolGroup00/node-1-1" />
+  </Target>
+  <Target tid="101" name="iqn.2007-02.jp.go.aist.girvon:VolGroup00.node-1-2">
+    <TGTParam name="lun" value="0" />
+    <TGTParam name="state" value="0" />
+    <TGTParam name="iotype" value="fileio" />
+    <TGTParam name="iomode" value="wt" />
+    <TGTParam name="path" value="/devVolGroup00/node-1-2" />
+  </Target>
+ </TargetList>
+
+-------------------------------------------------------------------------------
+*仮想クラスタ用ボリュームを追加する [#n47526c2]
+
+**内容 [#vf08e42c]
+create-vs 相当の処理を行う
+
+**要求 [#t998500a]
+PUT /cgi-bin/Grivon_iSCSI.py/itarget/iqn.2007-02.jp.go.aist.girvon:VolGroup00.node-1-3
+
+ <Target size="[確保サイズ(GB)]" >
+  <TGTParam name="user" value="[ユーザ名]" />
+  <TGTParam name="password" value="[パスワード]" />
+ </Target>
+
+**応答(成功) [#sd501708]
+概要:
+create-vs を実行し、成功した場合はその結果を返す。
+実行成功を示すために、GET で応答する情報に加えて属性 "status" も付加する。
+  <Target tid="101" name="iqn.2007-02.jp.go.aist.girvon:VolGroup00.node-1-3"
+    status="allocated" >
+    <TGTParam name="lun" value="0" />
+    <TGTParam name="state" value="0" />
+    <TGTParam name="iotype" value="fileio" />
+    <TGTParam name="iomode" value="wt" />
+    <TGTParam name="path" value="/devVolGroup00/node-1-3" />
+  </Target>
+応答(エラー)
+  <VcError message="エラーメッセージ" isFatal="yes" status="エラーコード">
+    スタックトレースなど
+  </VcError>
+-------------------------------------------------------------------------------
+*仮想クラスタ用ボリュームを削除する [#c53325ac]
+
+**内容 [#q7382f4b]
+create-vs 相当の処理を行う
+
+**要求 [#fdf02630]
+DELETE /cgi-bin/Grivon_iSCSI.py/itarget/iqn.2007-02.jp.go.aist.girvon:VolGroup00.node-1-3
+
+**応答(成功) [#ne7a1207]
+概要:
+destroy-vs を実行し、成功した場合はその結果を返す。
+実行成功を属性 "status" で示す。
+  <Target name="iqn.2007-02.jp.go.aist.girvon:VolGroup00.node-1-3"
+    status="deleted"
+  />
+応答(エラー)
+  <VcError message="エラーメッセージ" isFatal="yes" status="エラーコード">
+    スタックトレースなど
+  </VcError>
+

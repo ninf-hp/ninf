@@ -1,0 +1,66 @@
+#! /bin/sh
+#
+addrbase="163.220.110."
+addrlast="108"
+vaddrbase="192.168."
+vaddrbase2="100"
+vaddrlast="108"
+vlanbase="900"
+
+hosts="0 1 2 3 4 5 6 7"
+#hosts="0 1"
+vlans="0 1 2 3"
+vlans="0"
+
+echo="echo"
+echo=""
+
+for v in $vlans
+do
+    vlan=`expr ${vlanbase} + $v`
+
+    ifs=""
+    for h in $hosts
+    do
+      ifs="${ifs} 1/`expr $h + 1`"
+    done
+
+    echo ./sw-vconfig add 163.220.110.241 $vlan $ifs
+    $echo ./sw-vconfig add 163.220.110.241 $vlan $ifs > /dev/null
+
+    for h in $hosts
+    do
+	address="${addrbase}`expr $addrlast + $h`"
+	vaddress="${vaddrbase}`expr $vaddrbase2 + $v`.`expr $vaddrlast + $h`"
+	#echo $address $vaddress $vlan
+
+	echo -n "$address:	" 
+	$echo ssh $address /sbin/vconfig add eth1 $vlan
+	$echo ssh $address /sbin/ifconfig eth1.$vlan $vaddress netmask 255.255.255.0
+    done
+
+    for h in $hosts
+    do
+	vaddress="${vaddrbase}`expr $vaddrbase2 + $v`.`expr $vaddrlast + $h`"
+	echo -n "ssh $vaddress date :"
+	#ssh $vaddress hostname
+	ssh $vaddress date
+    done
+
+    for h in $hosts
+    do
+	address="${addrbase}`expr $addrlast + $h`"
+	vaddress="${vaddrbase}`expr $vaddrbase2 + $v`.`expr $vaddrlast + $h`"
+	#echo $address $vaddress $vlan
+
+	echo -n "$address:	" 
+	$echo ssh $address /sbin/ifconfig eth1.$vlan down
+	$echo ssh $address /sbin/vconfig rem eth1.$vlan
+    done
+
+    echo ./sw-vconfig del 163.220.110.241 $vlan $ifs
+    $echo ./sw-vconfig del 163.220.110.241 $vlan $ifs > /dev/null
+done
+
+exit 0
+

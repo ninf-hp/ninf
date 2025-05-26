@@ -1,0 +1,8 @@
+AuthUserFile /usr/local/htdocs/ninf_htdocs/contents/NBCR/.htpasswd
+AuthGroupFile /dev/null
+AuthName "NBCR Summer Institute"
+AuthType Basic
+
+<Limit GET>
+require user ninf
+</Limit>

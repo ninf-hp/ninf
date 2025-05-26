@@ -1,0 +1,39 @@
+<HTML>
+<HEAD>
+      <LINK href="../styles/top.css" rel="stylesheet" type="text/css">
+      <LINK href="../styles/papers.css" rel="stylesheet" type="text/css">
+      <TITLE> Ninf Project Home Page </TITLE>
+</HEAD>
+<Link rev="made" href="mailto:EMAIL">
+<BODY bgcolor="#ffffff">
+
+<table border="0" width="100%">
+<tr><td colspan="2" > 
+<img class="logo" alt="Ninf LOGO" src="/image/Ninf-A.gif" width="110">
+
+<div class="title">
+Ninf: A Global Computing  Infrastructure
+</div>
+</td></tr>
+
+<tr> 
+<td valign="top" bgcolor="#e0ffe0" width="20%">
+
+<!--#include file="menu.html" -->
+
+</td>
+<td valign="top">
+<DIV class="contents">
+<DIV class="subtitle">
+<!--#echo var="SUBTITLE"-->
+</DIV>
+<!--#include file="${CONTENT_FILENAME}" -->
+<!--#include file="${CONTENT_OLD_FILENAME}" -->
+</DIV>
+</td>
+</tr>
+</table>
+
+</BODY>
+</html>
+

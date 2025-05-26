@@ -1,0 +1,52 @@
+<HTML>
+<HEAD><TITLE>The Matrix Workshop</TITLE>
+</HEAD>
+
+<body bgcolor="white">
+<center>
+<p>
+<font size=5>
+  Matrix Information
+</font>
+</center>
+<pre>
+		    -			                 -
+		    |(B+I)  16I  -I		         |
+		    | 16I    B   16I  -I	         |
+		    | -I    16I   B   16I  -I 	         |
+		A = |    ....................            | ,(n*n)*(n*n) 
+		    |                 -I   16I  B   16I  |
+		    |                      -I  16I (B+I) |
+		    -				         -
+	where
+		    -	          -	
+	            | 1 0 0 ... 0 |	
+		I = | 0 1 0 ... 0 | , n*n
+		    |  ........   |
+		    | 0 ......0 1 |
+		    -             - 
+		    -				   -
+		    | -59  16  - 1		   |
+		    |  16 -60   16  - 1  	   |
+		B = | - 1  16  -60   16 - 1        | , n*n. 
+		    |   .....................      |
+		    |		    - 1  16 -60  16|
+		    |			- 1  16  59|
+		    -				   - 
+	For example, where n = 3,
+                    -                                     -
+                    | -58  16 - 1  16         - 1         |
+                    |  16 -59  16      16         - 1     | 
+                    | - 1  16 -58          16         - 1 | 
+		A = |  16         -59  16 - 1  16         | , 9X9. 
+                    |      16      16 -60  16      16     | 
+                    |          16 - 1  16 -59          16 |
+                    | - 1          16         -58  16 - 1 |
+	            |     - 1          16      16 -59  16 |
+                    |        - 1           16 - 1  16 -58 |
+                    -                                     -
+</pre>
+<font size=4> Structure:</font><font size=3> Banded, Symmetric<br></font>
+
+</body>
+</html>

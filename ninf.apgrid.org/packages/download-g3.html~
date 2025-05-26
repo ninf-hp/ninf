@@ -1,0 +1,48 @@
+<div class="subtitle">Download Ninf-G Ver. 3.0.0a</div>
+<div class="section">About Ninf-G 3.0.0a</div>
+<div class="abstract">
+Ninf-G Version 3.0.0a is the alpha version of Ninf-G Version 3 (Ninf-G3).  Utilizing WS GRAM, Ninf-G3 is built on the Globus Toolkit Version 3.  It should be noted that in order to use Ninf-G3, you need to apply a patch to the Globus Toolkit Version 3.2.1.   The patch file is also <a href="#here">available for downloading</a>.
+
+</div>
+<div class="section"><font color="red">
+Download Packages of Ninf-G Ver. 3.0.0a
+</font></div>
+<div class="section_contents">
+If you download Ninf-G, please subscribe to Ninf users' mailing list (ninf-users@apgrid.org) so that you can receive the latest information from the Ninf team.  The mailing list will be used for announcements of bug fixes and release of new versions as well as for information exchange between users.
+
+<form action="/cgi-bin/download.cgi" method="post">
+
+<center>
+<table>
+  <tr>
+    <td>
+      <b>Your mail address</b>
+    </td>
+    <td>
+      <input type="text" size="30" name="e-mail3">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Subscribe to Ninf users' mailing list?</b>
+    </td>
+    <td>
+    <input type="radio" name="ml" value="join" checked>yes
+    <input type="radio" name="ml" value="no">no
+    </td>
+  </tr>
+</table>
+</center>  
+</div>
+
+
+<ul>
+<li>Ninf-G Version 3.0.0a Package <input type="submit" name="ninfg-ver3.0.0a" value="Download"></li>
+
+<li>A patch file for the Globus Toolkit Version 3.2.1 and installation manuals is available for <a href="ng3-20041109-gt3-patch.tgz">downloading</a>.</li>
+</ul>
+
+<br>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+     "http://www.w3.org/TR/REC-html40">
+
+<HTML>
+<HEAD>
+      <LINK href="top.css" rel="stylesheet" type="text/css">
+      <TITLE> Ninf Project Home Page </TITLE>
+</HEAD>
+<Link rev="made" href="mailto:EMAIL">
+<BODY>
+
+
+<img class="logo" alt="Ninf LOGO" src="/image/Ninf-A.gif" width="110">
+
+<div class="title">
+Ninf: A Global Computing  Infrastructure
+</div>
+
+
+<table border="0" width="100%">
+<tr> <td valign="top" bgcolor="#e0ffe0" width="20%">
+
+<DIV class="menus">
+<SPAN class="menu">
+<b>Papers</b> <br>
+<font size="-1">
+<SPAN class="submenu"> [<a href="papers">English</a>]</SPAN>
+<SPAN class="submenu"> [<a href="papers/welcome.j.html">Japanese</a>]</SPAN>
+</font>
+</SPAN>
+
+
+<SPAN class="menu">
+<a href="documents"><b>Documents</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<a href="NinfDemo.html"> <b>DEMOs</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<a href="topics.html"><b>Topics</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<a href="packages/welcome.html"><b>Download Package</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<a href="staff.html"><b>Research Staff</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<a href="related.html"><b>Related Work</b></a>
+</SPAN>
+
+<SPAN class="menu">
+<a href="private/welcome.html"><b>Internal Memo.</b></a> <br>
+(password required)
+</SPAN>
+
+<SPAN class="menu">
+<b>Other Ninf Pages</b><br>
+<font size="-1">
+<SPAN class="submenu">  <a href="http://pdplab.trc.rwcp.or.jp/">Ninf page at RWCP</a></SPAN>
+<SPAN class="submenu">  <a href="http://ninf.apgrid.org/~nakada/ninf/memo">Technical memo <br>(in Japanese)</a></SPAN>
+</SPAN>
+</DIV>
+
+
+<div class="contact">
+<b>Email:</b>ninf@apgrid.org <br>
+<b>Phone:</b>+81(298)54-5300<br>
+<b>Fax:</b>  +81(298)54-5301<br>
+<b>Mail:</b><br>
+<span class="address">
+Ninf administration group<br>
+c/o Satoshi Sekiguchi<br>
+Computer Science Division<br>
+Electrotechnical Laboratory<br>
+Umezono, Tsukuba, Ibaraki, <br>
+305-8568 JAPAN<br>
+</span>
+</font>
+</div>
+
+
+</td>
+<td>
+
+<div class="section">Welcome to Ninf Home Page</div>
+
+<div class="abstract">
+Ninf is an ongoing global computing infrastructure
+project which allows users to access computational resources including
+hardware, software and scientific data distributed across a wide area
+network with an easy-to-use interface. 
+Users can build applications by calling the libraries with the Ninf Remote Procedure
+Call, which is designed to provide a programming interface
+similar to conventional function calls, and is
+tailored for scientific computation. 
+<br>
+In order to facilitate location transparency and network-wide parallelism, Ninf
+metaserver maintains global resource information regarding
+computational server and databases, allocating and scheduling
+coarse-grained computation to achieve good global load balancing. 
+</div>
+
+<div class="section"> <img align="middle" src="image/Lecture.gif" width="20"> What's New</div>
+<ul>
+<li> <a href="papers/welcome.html#hpdc99takefusa">A Paper on Bricks Simulator</a> will be shown in HPDC8. [6/24/99] </li>
+<li> <a href="papers/welcome.html#fgcs99nakada">A Paper on Overview of Ninf System</a> will be published as an Article of FGCS, metacomputing issue.[6/24/99] </li>
+<li> Four papers (in Japanese) are added to the <a href="papers/welcome.j.html">papers section</a>.[6/10/99] </li>
+</ul>
+
+<div class="section"> <img align="middle" src="image/Lecture.gif" width="20">
+  Ninf Technical Overview</div>
+
+
+<ol start=0>
+  <li> <a href="/ninf/TechnicalNote.html#Abstract">Abstract</a>
+  <li> <a href="/ninf/TechnicalNote.html#Introduction">Introduction</a>
+  <li> <a href="/ninf/TechnicalNote.html#Overview">Ninf Overview</a>
+       <ul>
+	 <li> <a href="/ninf/TechnicalNote.html#SystemArchitecture">
+	      The Ninf System Architecture</a>
+	 <li> <a href="/ninf/TechnicalNote.html#ProgInterface">
+	      The Programming Interface</a>
+	 <li> <a href="/ninf/TechnicalNote.html#IDL">
+	      Ninf IDL (Interface Description Language)</a>
+	 <li> <a href="/ninf/TechnicalNote.html#binding">
+	      Other Language bindings</a>
+	 <li> <a href="/ninf/TechnicalNote.html#Preliminary">
+	      Preliminary Performance</a>
+       </ul>
+  <li> <a href="/ninf/TechnicalNote.html#MetaServer">
+       Ninf Metaserver</a>
+       <ul>
+	 <li> <a href="/ninf/TechnicalNote.html#ServerManage">
+	      Ninf Server Management</a>
+	 <li> <a href="/ninf/TechnicalNote.html#MetaServerProg">
+	      Parallel Programming with Metaserver</a>
+       </ul>
+  <li> <a href="/ninf/TechnicalNote.html#Applications">
+      Applications </a>
+       <ul>
+	 <li> <a href="/ninf/TechnicalNote.html#Visualization">
+	      Visualization in scientific simulation systems
+	      by call back</a>
+	 <li> <a href="/ninf/TechnicalNote.html#DDM">
+	      Domain decomposition solver</a>
+	 <li> <a href="/ninf/TechnicalNote.html#InterfaceTool">
+	      Interactive interface tools</a>
+       </ul>
+  <li> <a href="/ninf/TechnicalNote.html#RelatedWork">
+       Related Work</a>
+  <li> <a href="/ninf/TechnicalNote.html#CurrentStatus">
+       Current Status and Future Work</a>
+  <li> <a href="/ninf/TechnicalNote.html#SECTIONREF">
+       References</a>
+  <li> Figures and Tables
+       <ul>
+	 <li> Fig: <a href="/ninf/image/rpcSequence.gif">
+	      Ninf RPC Sequence</a>
+	 <li> Fig: <a href="/ninf/image/stubGenerator.gif">
+	      Ninf Stub Generator</a>
+	 <li> Fig: <a href="/ninf/image/linpack.gif">
+	      Ninf Preliminary Result [LINPACK]</a>
+	 <li> Fig: <a href="/ninf/image/metaServer.gif">
+	      Ninf Meta Server Netowork</a>
+	 <li> Fig: <a href="/ninf/image/callBack.gif">
+	      Ninf Call back example</a>
+       </ul>
+</ol>
+</td>
+</tr>
+</table>
+
+</BODY>
+</html>

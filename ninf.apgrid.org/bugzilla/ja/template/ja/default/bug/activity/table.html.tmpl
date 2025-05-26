@@ -1,0 +1,130 @@
+<!-- 1.0@bugzilla.org -->
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+
+[%# INTERFACE:
+  # operations: array of hashes. May be empty. Each has has three members:
+  #   who: string. who performed the operation
+  #   when: string. when they performed it
+  #   changes: hash. Details of what they changed. This hash has three 
+  #            compulsory and one optional member:
+  #     field: string. The name of the field
+  #     removed: string. What was removed from the field
+  #     added: string. What was added to the field
+  #     attach_id: integer. If the change was adding an attachment, its id.
+  # incomplete_data: boolean. True if some of the data is incomplete (because
+  #                  it was affected by an old Bugzilla bug.)
+  #%]
+ 
+[% IF incomplete_data %]
+  <p>
+    以前、多くの CC や依存関係をかかえたために、バグの変更履歴データが失われたことがありました。それは修正されましたが、そのバグの失われたデータは復活させることはできませんでした。信頼のおけない変更記録は、先頭に「?」が付いています。
+<!--
+    There used to be a bug Bugzilla which caused activity data
+    to be lost if there was a large number of cc's or dependencies.  That
+    has been fixed, however, there was some data already lost on this bug
+    that could not be regenerated.  The changes that the script could not
+    reliably determine are prefixed by '?'.
+-->
+  </p>
+[% END %]
+
+[% fielddesc = { 'Summary'                 => '要約',
+                 'Product'                 => 'プロダクト',
+                 'Version'                 => 'バージョン',
+                 'Platform'                => 'プラットフォーム',
+                 'OS/Version'              => 'OS',
+                 'Status'                  => 'ステータス',
+                 'Status Whiteboard'       => 'ホワイトボード',
+                 'Keywords'                => 'キーワード',
+                 'Resolution'              => '処理方法',
+                 'Severity'                => '重要度',
+                 'Priority'                => '優先順位',
+                 'Component'               => 'コンポーネント',
+                 'AssignedTo'              => '担当者',
+                 'ReportedBy'              => '報告者',
+                 'Votes'                   => '投票',
+                 'QAContact'               => 'QAコンタクト',
+                 'BugsThisDependsOn'       => 'このバグが依存するバグ',
+                 'OtherBugsDependingOnThis'=> 'このバグが妨害するバグ',
+                 'Attachment description'  => '添付ファイルの説明',
+                 'Attachment data'         => '添付ファイルのデータ',
+                 'Attachment mime type'    => '添付ファイルのMIMEタイプ',
+                 'Attachment is patch'     => '添付ファイルはパッチ',
+                 'Attachment is obsolete'  => '添付ファイルは用済み',
+                 ' description'            => 'の説明',
+                 ' data'                   => 'のデータ',
+                 ' mime type'              => 'のMIMEタイプ',
+                 ' is patch'               => 'はパッチ',
+                 ' is obsolete'            => 'は用済み',
+                 'Target Milestone'        => 'ターゲットマイルストーン',
+                 'Last changed date'       => '最終更新日時',
+                 'Comment'                 => 'コメント',
+                 'groupset'                => 'グループ',
+                 'everconfirmed'           => '承認された',
+                 'Attachment Status'       => '添付ファイルのステータス' }
+%]
+
+[% IF operations.size > 0 %]
+  <table border cellpadding="4">
+    <tr>
+      <th>誰が</th>
+      <th>いつ</th>
+      <th>何を</th>
+      <th>削除した</th>
+      <th>追加した</th>
+    </tr>
+
+    [% FOREACH operation = operations %]     
+      <tr>
+        <td rowspan="[% operation.changes.size %]" valign="top">
+          [% operation.who %]
+        </td>
+        <td rowspan="[% operation.changes.size %]" valign="top">
+          [% operation.when %]
+        </td>
+        [% FOREACH change = operation.changes %]
+          [% "</tr><tr>" IF loop.index > 0 %]
+            <td>
+              [% IF change.attachid %]
+                <a href="attachment.cgi?id=[% change.attachid %]&amp;action=view">
+                添付ファイル #[% change.attachid %]</a>         
+              [% END %]
+              [% fielddesc.${change.field} || change.field FILTER html %]
+            </td>
+            <td>
+              [% IF change.removed %]
+                [% change.removed FILTER html %]
+              [% ELSE %]
+                &nbsp;
+              [% END %]
+            </td>
+            <td>
+              [% IF change.added %]
+                [% change.added FILTER html %]
+              [% ELSE %]
+                &nbsp;
+              [% END %]
+            </td>
+        [% END %]
+      </tr>
+    [% END %]
+  </table>
+[% END %]

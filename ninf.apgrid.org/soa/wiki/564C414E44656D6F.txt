@@ -1,0 +1,7 @@
+[[FrontPage]]
+
+[[VMwareGriVonScript]]と[[VMnetChangeScript]]を組み合わせたようなスクリプトを書こうと思ったが止めにした。
+
+[[GrivonServerVLANScript]]の場合と異なり、GuestOSの設定は[[VMnetChangeScript]]でなくても変更できるし、GuestOSの生死も[[VMnetChangeScript]]から捕捉するのは難しい。
+
+実際のところ、[[VMwareGriVonScript]]と[[VMnetChangeScript]]のabstractionは悪くない。

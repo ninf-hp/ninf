@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=us-ascii">
+<title>Known problems</title>
+</head>
+<body bgcolor=white>
+
+<h2><a name="known_problems">10. Known problems </a></h2>
+
+<p>This section describes known problems in
+Ninf-G version 2.4.0.</p>
+
+<hr>
+<ol>
+
+<li><strong>heartbeat detection by Ninf-G client is
+not supported for non-thread flavor.</strong>
+
+<p>Heartbeat detection by Ninf-G client is not supported for non-thread
+flavor.  In order to detect the heartbeat from Ninf-G Executables, use
+pthread flavor for Ninf-G client.</p>
+
+<p>Note: Sending heartbeat by Ninf-G Executables is supported for
+both pthread and non-thread flavors.</p>
+<br>
+
+<li><strong>Refresh credentials and Session timeout feature is
+not supported for non-thread flavor.</strong>
+
+<p>The Refresh credentials
+(in &lt;CLIENT&gt; section in client configuration file)
+ and Session timeout (RPC timeout)
+(in &lt;FUNCTION_INFO&gt; section in client configuration file)
+feature in Ninf-G Client is not supported for non-thread flavor.</p>
+
+<li><strong>dcomplex type is not available
+with gcc-2.96 on IA64 platform.</strong>
+
+<p>dcomplex variables is not available if gcc-2.96 is used on IA64
+platform.<br>
+Although compilation of Ninf-G client program will be succeed, the Ninf-G
+client program will be terminated with an error.<br>
+In order to avoid this problem, other version of gcc should be used.</p>
+
+<li><strong>backend=MPI may cause error between different
+versions of Ninf-G</strong>
+
+<p>  Using different versions of Ninf-G on a client and servers may cause
+  an error if MPI is used as backend of a remote executable.<br>
+  It is recommended to use the same version of Ninf-G on a client and
+  servers.
+</p>
+
+<li><strong>Java Client sometimes fails when running large-scale
+applications on Windows.</strong>
+
+<p>On Windows, ServerSocket sometimes fails to accept requests
+for connection from Ninf-G Executables
+if it receives many (about 10 or more) requests at the same time.<br>
+This should be an Windows-specific problem since it does not appear on
+Linux or Solaris.<br>
+Use Linux or Solaris for large-scale applications.</p>
+
+<li><strong>"TCP connect retry" function is not supported
+by Ninf-G 2.3.0 and prior versions.</strong>
+
+<p>Ninf-G 2.4.0 provides a new capability to retry to establish a TCP
+connection between the Ninf-G Executable and the Ninf-G Client if
+the Ninf-G Executable fails to connect to the Ninf-G Client.</p>
+
+<p>This is a new capability which is not supported by Ninf-G 2.3.0 and
+prior versions.  Although this capability will be provided in the
+future release of Ninf-G, be sure that it will cause a problem if
+the version of Ninf-G on the client is 2.4.0 or later and the
+version of Ninf-G on the server is 2.3.0 or prior.</p>
+
+<p>This problem can be avoided by setting tcp_connect_retryCount to 0
+on the &lt;SERVER&gt; section of client configuration file.</p>
+
+<li><strong>Ninf-G Client freezes if an unknown host is specified
+as a server.</strong>
+
+<p>Ninf-G Client freezes if it tries to create a function/object
+handle for an unknown host whose hostname can not be resolved.
+This problem is caused by the bug of the Globus Toolkit version 2
+library compiled with pthread flavor.  The library compiled with
+non thread flavor does not cause this problem and the bug was
+fixed for the Globus Toolkit version 3 or later.</p>
+
+<p>This problem has been fixed on Globus Toolkit version 3.2 or
+later.</p>
+
+<li><strong>Encryption may cause freezes with GT3 Non Thread flavor.</strong>
+
+<p>
+Encryption may cause freezes with GT3 (Globus Toolkit version 3) Non Thread
+flavor though encryption works fine with GT3 Pthread flavor.
+</p>
+
+<li><strong>Assembler may detect warnings when optimization is enabled.</strong>
+
+<p>
+Assembler may detect warnings when optimization is enabled with GCC version
+3.2.2 or prior on Itanium2.
+<br>
+The warning message is as follows:
+<pre>
+    cc -Wall -O2 <snip> -c -o ngclSession.o ngclSession.c
+    /tmp/ccMDS56n.s: Assembler messages:
+    /tmp/ccMDS56n.s:10125: Warning: Use of 'mov' may violate WAW dependency 'GR%, %in 1 - 127' (impliedf), specific resource number is 14
+    /tmp/ccMDS56n.s:10124: Warning: This is the location of the conflicting usage
+    /tmp/ccMDS56n.s:10396: Warning: Use of 'mov' may violate WAW dependency 'GR%, %in 1 - 127' (impliedf), specific resource number is 14
+    /tmp/ccMDS56n.s:10395: Warning: This is the location of the conflicting usage
+
+    cc -Wall -O2 <snip> -c -o ngStream.o ngStream.c
+    /tmp/cc35sx1T.s: Assembler messages:
+    /tmp/cc35sx1T.s:2893: Warning: Use of 'mov' may violate WAW dependency 'GR%, %in 1 - 127' (impliedf), specific resource number is 14
+    /tmp/cc35sx1T.s:2892: Warning: This is the location of the conflicting usage
+</pre>
+This problem is reported to GCC bugzilla.
+<br>
+(http://gcc.gnu.org/bugzilla/show_bug.cgi?id=7908)
+<br>
+This problem has been fixed on GCC version later than 3.2.2.
+</p>
+
+<li><strong>Ninf-G Executable may not be died if MPI is specified as backend.</strong>
+
+<p>
+When a Ninf-G Client is terminated by SIGTERM or SIGINT, Ninf-G Executable may
+not be died if MPI is specified as backend.
+<br>
+If you want to use MPI and terminate a Ninf-G Client by SIGTERM or SIGINT,
+please use Non Thread flavor at remote side. However, Ninf-G Executable may
+not be died until a remote function is completed.
+</p>
+
+<li><strong> The hostname attributes in &lt;CLIENT&gt; section 
+in the client configuration file may not be set appropriately.</strong>
+
+<p>
+The hostname attribute in &lt;CLIENT&gt; section in the client
+configuration file may not be set appropriately if
+globus_libc_gethostname() is called before grpc_initialize().
+</p>
+
+<li><strong>Job start timeout feature is not completely supported for
+non-thread flavor.</strong>
+
+<p>
+Job start timeout feature (in &lt;SERVER&gt; section in Client configuration
+file and handle attributes) does not work with non-thread flavor
+in the following case.
+<ul>
+<li>The first RPC after initializing the function handle is called
+    with setting argument_transfer attribute or session attribute to
+    copy or nowait.
+</ul>
+</p>
+
+</ol>
+
+<hr>
+last update : $Date: 2005/08/04 09:32:49 $
+</body>
+</html>

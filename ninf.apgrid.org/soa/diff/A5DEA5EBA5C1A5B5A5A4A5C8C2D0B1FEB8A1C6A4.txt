@@ -1,0 +1,204 @@
+ - 全体の構成
+ 
+ -- レジストリサーバ
+ -- 物理クラスタ群
+ 
+  レジストリサーバは、物理クラスタの ID 管理を行う。
+ -- 登録
+ --- 物理クラスタの公開アドレスの登録(ID 発行)
+ --- MAC アドレス空間の発行
+ -- 検索
+ --- ID に対応する物理クラスタ公開アドレスの取得
+ --- 物理クラスタ公開アドレスに対応する ID の取得
+ -- 一覧
+ --- 全ての物理クラスタ ID および公開アドレスの取得
+ (マジックナンバを基準位置として要求数のエントリを返す)
+ 
+ - 登録
+ 
+ 登録手続きは 2 相コミットで行う。
+ 
+  0. まず、登録受付クラスタはローカルノードのみ用いて登録を試みる。
+     登録が可能ならローカルに仮想クラスタを登録して終了。
+     失敗した場合は以下の処理を行う。
+  1. 登録受付クラスタは既知の他クラスタに対して以下を行う。
+     既知の他クラスタがないあるいは更に他クラスタ資源が必要と判断した場合は、レジストリサーバに最新情報の問合せを行う。
+  2. 登録受付クラスタは他のクラスタにノード確保を要求する。
+     確保できる限りのノードを確保して応答を返す。
+     一つも確保可能なノードがなければ失敗を返す。
+  3. 必要な数のノードが確保できるまで 1,2 を繰り返す。
+  4. 必要な数のノードが確保できたら、ノード確保を行った
+     他のクラスタ全てに確保完了を通知する。確保は確定される(DBはそのまま)。
+     必要な数のノードが確保できなかった場合は、ノード確保を行った
+     他のクラスタ全てに確保失敗を通知する。確保は取り消される(削除)。
+ 
+  仮想ノードを起動する各クラスタ上に分散して以下の DB テーブルが作成される。
+     登録受付(親)クラスタ:
+         仮想クラスタ情報
+ 	- (親での)仮想クラスタ ID
+ 	- 開始時刻/終了時刻
+ 	- 親クラスタアドレス (=0.0.0.0 : 自分自身)
+ 	- 親クラスタ上での仮想クラスタ ID
+ 	仮想クラスタノード情報のリスト (親/子すべての情報を持つ)
+ 	- ノード ID
+ 	- 仮想クラスタ ID
+ 	- 子クラスタアドレス
+ 	- 子クラスタ上での仮想クラスタ ID
+ 	- 子クラスタ上での親ノード名
+     その他の(子)クラスタ:
+         仮想クラスタ情報
+ 	- (子での)仮想クラスタ ID
+ 	- 開始時刻/終了時刻
+ 	- 親クラスタアドレス
+ 	- 親クラスタ上での仮想クラスタ ID
+ 	仮想クラスタノード情報のリスト (自クラスタの情報のみ持つ)
+ 	- ノード ID
+ 	- 仮想クラスタ ID
+ 	- 子クラスタアドレス (=0.0.0.0 : 自分自身)
+ 	- 子クラスタ上での仮想クラスタ ID
+ 	- 子クラスタ上での親ノード名
+ 
+  ※ IP アドレス空間は全ての仮想クラスタで同一のものを用いる。VLAN で識別。
+ 
+ - 起動/停止
+ 
+   1. 登録受付クラスタ上で、登録時刻になったことを検出する。
+   2. 登録受付クラスタから、vfrontend ホストを起動する。
+ 	1) vfrontend が属するクラスタにモード変更を通知する。
+ 	   (モードを stopped から starting_frontend に変更)
+ 	2) モード変更を契機に、vfrontend が所属するクラスタは
+ 	   vfrontend 起動処理を行う。
+ 	   1. restore roll 生成
+ 	   2. lightsout
+ 	   3. iSCSI 領域の確保
+ 	   4. VLAN 設定、VPN 設定
+ 	   5. VMX 生成
+ 	   6. VM 起動
+   3. 登録受付クラスタは、vfrontend からの起動完了通知を待つ。
+   4. 登録受付クラスタから、vcompute ホストを起動する。
+ 	1) vcompute が属するクラスタにモード変更を通知する。
+ 	   (モードを stopped から starting_compute に変更)
+ 	2) モード変更を契機に、vcompute が所属する各クラスタは
+ 	   vcompute 起動処理を行う。
+ 	   1. VLAN 設定、VPN 設定
+ 	   2. iSCSI 領域の確保
+ 	   3. VMX 生成
+ 	   4. VM 起動
+ 
+ シーケンス
+   添付資料参照
+ 
+ cron 処理
+ - 1 分毎に cron で VC の監視プロセスを起動する。
+ - VC 監視プロセスはイベント発生を監視し、イベント処理がなければ 1 分未満に修了する。ここでのイベント処理とは以下を指す。
+ -- 予定時刻での仮想クラスタ起動/停止
+ -- 仮想クラスタ/仮想ノードの状態遷移およびそれに伴う処理
+ - VC 監視プロセスは、イベント処理中などの理由で複数動作している可能性がある。
+    複数プロセスが同時に動作していても問題を起こさないようにする。
+ -- DB アクセスはトランザクション処理なので問題ない。
+ -- 仮想クラスタ/仮想ノード状態の変更は、状態遷移で競合を防ぐ。
+ 
++cron 状態遷移
++ SetupNetwork (設定時間に到達した / Master からの要求)
++  │	1. GATEWAY ネットワーク設定 (vpnhub/vlan)
++  │	MODE_NORMAL → STATUS_SETUP_NETWORK_EXECUTING → STATUS_SETUP_NETWORK_REQ
++  ↓	MODE_SETUP_NETWORK → STATUS_SETUP_NETWORK_EXECUTING → STATUS_SETUP_NETWORK_REQ
++ SetupNetworkRequest
++  │	1. 各 place に GATEWAY ネットワーク設定を通知 (MODE_SETUP_NETWORK 通知)
++  ↓	STATUS_SETUP_NETWORK_REQ → STATUS_SETUP_NETWORK_DONE
++ StartFrontends (設定時間に到達した && MODE_NORMAL)
++  │	1. 全ノードは初期状態で MODE_NODE_STOP|STATUS_NODE_NEWBIE
++  │	vfrontend ノード: MODE_NODE_START|STATUS_NODE_START_RESTORE に設定
++  │	vcompute ノード: STATUS_NODE_STOP に設定
++  │		※この時点で存在すれば、追加ノードも既存ノードと同等の処理になる
++  │	2. STATUS_SETUP_FRONTEND に変更 (StartFrontendsWait へ)
++  │StartNodesRestore
++  │ ↓	restore roll を生成(STATUS_NODE_START_RESTORE →(STATUS_NODE_STARTING_RESTORE)→ STATUS_NODE_START_LIGHTSOUT)
++  │StartNodesLightsout
++  │ ↓	lightsout (STATUS_NODE_START_LIGHTSOUT →(STATUS_NODE_STARTING_LIGHTSOUT)→ STATUS_NODE_START_AP)
++  │StartNodesGanglia
++  │ ↓	ganglia 設定 (STATUS_NODE_START_AP →(STATUS_NODE_STARTING_AP)→ STATUS_NODE_START_VOL)
++  │StartNodesVolume
++  │ ↓	volume 設定 (STATUS_NODE_START_VOL →(STATUS_NODE_STARTING_VOL)→ STATUS_NODE_START_VMX)
++  │StartNodesVMX
++  │ ↓	VMX 生成 (STATUS_NODE_START_VMX →(STATUS_NODE_STARTING_VMX)→ STATUS_NODE_START_VM)
++  │StartNodesVM
++  ↓	VM 起動 (STATUS_NODE_START_VM →(STATUS_NODE_START_VM)→ STATUS_NODE_RUNNING)
++ StartFrontendsWait (StartNodesGanglia が完了するまで待つ)
++ 	1. vfrontend ノードについて、MODE_NODE_START|STATUS_NODE_RUNNING になるまで待つ。
++ 	vfrontend ノードが MODE_NODE_START でない/vfontend ノードが存在しない場合には即座に成功。
++ 	2. 成功の場合は STATUS_SETUP_COMPUTES へ
++ 
++ StartComputes
++  │	以下の二つの契機により vcompute を起動する (MODE_NODE_START に設定)
++  │	STATUS_SETUP_COMPUTES (vfrontend からの通知) → STATUS_SETUP_COMPUTES_EXECUTING
++  │	MODE_START_COMPUTE (Master からの要求) → STATUS_SETUP_COMPUTES_EXECUTING
++  │StartNodesCompute
++  │ ↓	状態遷移のみ (STATUS_NODE_STOPPED → STATUS_NODE_START_VOL)
++  │StartNodesVolume
++  │ ↓	volume 設定 (STATUS_NODE_START_VOL →(STATUS_NODE_STARTING_VOL)→ STATUS_NODE_START_VMX)
++  │StartNodesVMX
++  │ ↓	VMX 生成 (STATUS_NODE_START_VMX →(STATUS_NODE_STARTING_VMX)→ STATUS_NODE_START_VM)
++  │StartNodesVM
++  ↓	VM 起動 (STATUS_NODE_START_VM →(STATUS_NODE_START_VM)→ STATUS_NODE_RUNNING)
++ StartComputesWait
++  │	vcompute について、MODE_NODE_START に設定されたノード全てが STATUS_NODE_RUNNING になるまで待つ。
++  │	1. GATEWAY ネットワーク解除 (vpnhub/vlan)
++  ↓	STATUS_SETUP_COMPUTES_EXECUTING → STATUS_SETUP_COMPUTES_REQ
++ StartComputesRequest
++ 	各 place に対して vcompute 起動を通知 (MODE_START_COMPUTE を設定)
++ 	STATUS_SETUP_COMPUTES_REQ → STATUS_RUNNING
++ 
++ StartNewbies	(追加ノードが存在した場合の処理)
++  │	STATUS_RUNNING で、STATUS_NODE_NEWBIE のノードが存在する場合、当該ノードを MODE_NODE_START へ
++  │StartNodesNewbies
++  │ ↓	vfrontend に insert-ethers (STATUS_NODE_NEWBIE → STATUS_NODE_STOPPED)
++  │StartNodesCompute
++  │ ↓	状態遷移のみ (STATUS_NODE_STOPPED → STATUS_NODE_START_VOL)
++  │StartNodesVolume
++  │ ↓	volume 設定 (STATUS_NODE_START_VOL →(STATUS_NODE_STARTING_VOL)→ STATUS_NODE_START_VMX)
++  │StartNodesVMX
++  │ ↓	VMX 生成 (STATUS_NODE_START_VMX →(STATUS_NODE_STARTING_VMX)→ STATUS_NODE_START_VM)
++  │StartNodesVM
++  │	VM 起動 (STATUS_NODE_START_VM →(STATUS_NODE_START_VM)→ STATUS_NODE_RUNNING)
++  │
++  X (この場合は待ち合わせ処理はなし)
++ 
++ StopClusters
++  │	MODE_STOPIT/MODE_FREEIT/MODE_KILLIT のいずれか、あるいは時間切れで、
++  │	かつ停止処理中でない(STATUS_STOPPING/STATUS_STOPPED/STATUS_FINALIZE/STATUS_FINALIZING でない)
++  │	1. 各 place に停止を通知 (MODE_STOPIT を通知)
++  │	2. 各ノードに MODE_NODE_STOP を設定 (MODE_NODE_KILL のノードを除く)
++  │	MODE_STOPIT/MODE_FREEIT/MODE_KILLIT/時間切れ → STATUS_STOPPING
++  │StopNodes
++  │ │	MODE_NODE_STOP/MODE_NODE_KILL でノードが停止していない(STATUS_NODE_STOPPED/STATUS_NODE_NEWBIE でない)
++  │ │	1. VM を停止する
++  │ ↓	STATUS_NODE_STOPPED/STATUS_NODE_NEWBIE 以外 → (STATUS_NODE_STOPPING) → STATUS_NODE_STOPPED
++  │KillNodes
++  │	MODE_NODE_KILL であるノード全てについて VM を停止し、DB エントリを削除
++  │	MODE_NODE_KILL → (STATUS_NODE_STOPPING) → (削除)
++  ↓
++ StopClustersWait (StopNodes/KillNodes が完了するまで待つ)
++  │	全ノードが STATUS_NODE_STOPPED になるまで待つ
++  ↓	STATUS_STOPPING → STATUS_STOPPED
++ RemoveDisposedVolumes
++  │	MODE_FREEIT/MODE_KILLIT のいずれかで、かつ STATUS_STOPPED なら
++  │	1. 各 place に MODE_FREEIT を通知
++  │	2. volume 解放
++  ↓	MODE_FREEIT/MODE_KILLIT|STATUS_STOPPED → STATUS_FINALIZING → STATUS_STOPPED
++ RemoveRegistrations
++ 	MODE_KILLIT で、かつ STATUS_STOPPED なら DB から削除
++ 	MODE_KILLIT|STATUS_STOPPED → (削除)
+ 
+ 
++
+ プロトコル
+ - vfrontend/vcompute の起動/起動
+ 
+ 	<ChangeVnodeStatusReq cluster="1" vnode="1"
+ 	 status="starting_vfrontend" />
+ 
+ - 仮想ノード状態通知
+ 	<NotifyVnodeStatus cluster="1" vnode="1" status="started">
+ 	 Starting vfrontend succeeded
+ 	</NotifyVnodeStatus>

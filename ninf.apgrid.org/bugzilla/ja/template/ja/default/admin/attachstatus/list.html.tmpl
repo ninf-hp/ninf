@@ -1,0 +1,102 @@
+<!-- 1.0@bugzilla.org -->
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Myk Melez <myk@mozilla.org>
+  #
+  # Contributor(s): Tetsuya Kaneuchi <tetsuyak@ka2.so-net.ne.jp>
+  #     -- J10N
+  #%]
+
+[%# INTERFACE:
+  # statusdefs: list of hashes. may be empty. Each hash has six members:
+  #   name: string. The name of the attachment status.
+  #   description: string. Its description.
+  #   sortkey: integer. Sorting priority.
+  #   product: string. The product to which the attachment status applies.
+  #   id: integer. Its internal ID number.
+  #   attachcount: integer. How many attachments have that status.
+  #%]
+
+[% PROCESS global/header.html.tmpl 
+  title = '添付ファイルのステータス管理'
+  message = message
+  style = "
+    th { text-align: left; }
+  "
+%]
+
+<table cellspacing="0" cellpadding="4" border="1">
+
+  <tr>
+    <th>ステータス名</th>
+    <th>説明</th>
+    <th>ソート時のキー</th>
+    <th>プロダクト</th>
+    <th>操作</th>
+  </tr>
+
+  [% FOREACH statusdef = statusdefs %]
+
+    <tr>
+      <td>[% statusdef.name FILTER html %]</td>
+      <td>[% statusdef.description FILTER html %]</td>
+      <td>[% statusdef.sortkey %]</td>
+      <td>[% statusdef.product FILTER html %]</td>
+      <td>
+        <a href="editattachstatuses.cgi?action=edit&id=[% statusdef.id %]">
+            編集</a>
+        &nbsp;|&nbsp;
+        <a href="editattachstatuses.cgi?action=confirmdelete&id=[% statusdef.id %]" 
+         onclick="return confirmDelete([% statusdef.attachcount %],
+                                       '[% statusdef.name FILTER js %]',
+                                       [% statusdef.id %]);">
+            削除</a>
+      </td>
+    </tr>
+
+  [% END %]
+
+  <tr>
+    <td colspan="4"></td>
+    <td>
+      <a href="editattachstatuses.cgi?action=create">新規作成</a>
+    </td>
+  </tr>
+
+</table>
+<script language="JavaScript">
+  function confirmDelete(attachcount, name, id)
+  {
+    if (attachcount > 0) {
+        msg = attachcount + ' つの添付ファイルのステータスが' +
+              name + 'となっています。ステータスを削除すると' +
+              'これらの添付ファイルはステータスが無くなります。' +
+              '本当にこのステータスを削除してもよろしいですか？';
+    }
+    else {
+        msg = '添付ファイルのステータス' +
+              name + 'を削除します。よろしいですか?';
+    }
+    if (confirm(msg)) {
+      location.href = "editattachstatuses.cgi?action=delete&id=" + id;
+    }
+    return false;
+  }
+</script>
+
+[% PROCESS global/footer.html.tmpl %]

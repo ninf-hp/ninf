@@ -1,0 +1,56 @@
+[[FrontPage]]
+
+* 高速マイグレーション [#k9cdba69]
+
+** デモ案 [#n3123cce]
+
+スクリーンセーバ起動しながら、実行ホスト切り替え。
+- メモリあんまり不要。（X60が2GB。移動先はVMメモリサイズx2が必要。）
+- 移動元へ戻れるようにしたい。
+
+** 必要なもの [#m7b59542]
+
+- T42　共用ストレージ用ノード
+ 内蔵ディスク小さい、増設or装換必要？パラレルATA
+ NBDサーバはループバックアドレスでの接続に問題、なんでこいつが必要。
+ クライアントノードをかねる？
+ 16GBのパーティションなら作れるか？
+ バックアップして、D2D以外をLinuxに？
+
+- X60 
+ 内蔵ディスク空きなし（Linux用パーティション作成困難）、装換する？
+ メモリ２GB
+
+- X200
+ 要発注。
+
+- USBボタン
+ 2種類。
+
+
+- Gigabit Ethernetスイッチ
+ ポータブルなもの、3ポート
+
+- 電源タップ、4口（PC x3、スイッチ x1）？
+
+- イーサネットケーブル、3本、Gbでリンクアップすること
+
+
+** Grivon GA [#j6b49454]
+*** Grivon GA scheduler [#f6eb829c]
+- install
+ tarball をダウンロード，解凍
+- 起動
+ > cd grivonGAScheduler
+ > sh start.sh
+- ssh tunnel
+ > ssh -R8011:localhost:8080 root@ai03.hpcc.jp 
+- ai03 で，
+ > ./register.sh
+
+*** register.sh [#tdb497de]
+ #!/bin/sh
+ URL=http://ai03.hpcc.jp:80/vc/cgi-bin/allocator.py
+ FILE=/tmp/vc_register_string
+ echo '<AllocationPlan cmd="candidate-request" url="http://localhost:8011/handle" version="1.0" />' > $FILE
+ curl -T $FILE $URL

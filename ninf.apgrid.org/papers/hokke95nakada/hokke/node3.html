@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3O//DTD W3 HTML 2.0//EN">
+<!Converted with LaTeX2HTML 95.1 (Fri Jan 20 1995) by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds >
+<!Actually with its Japanized version JLaTeX2HTML 95 (Wed Mar 1 1995) by Masahiro Kitagawa (kitagawa@ee.es.osaka-u.ac.jp), Osaka University >
+<HEAD>
+<TITLE> Ninf サーバ
+  と Client</TITLE>
+</HEAD>
+<BODY>
+<meta name="description" value=" Ninf サーバ
+  と Client">
+<meta name="keywords" value="hokke">
+<meta name="resource-type" value="document">
+<meta name="distribution" value="global">
+<P>
+ <BR> <HR><A NAME=tex2html71 HREF="node4.html"><IMG ALIGN=BOTTOM ALT="next" SRC="http://www.etl.go.jp:8080/etl/captain/icons/next_motif.gif"></A>   <A NAME=tex2html69 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="up" SRC="http://www.etl.go.jp:8080/etl/captain/icons/up_motif.gif"></A>   <A NAME=tex2html63 HREF="node2.html"><IMG ALIGN=BOTTOM ALT="previous" SRC="http://www.etl.go.jp:8080/etl/captain/icons/previous_motif.gif"></A>         <BR>
+<B> Next:</B> <A NAME=tex2html72 HREF="node4.html"> メタサーバ
+  の必要性</A>
+<B>Up:</B> <A NAME=tex2html70 HREF="node2.html"> Ninfシステムの概要</A>
+<B> Previous:</B> <A NAME=tex2html64 HREF="node2.html"> Ninfシステムの概要</A>
+<BR> <HR> <P>
+<H2><A NAME=SECTION00021000000000000000> Ninf サーバ
+  と Client</A></H2>
+<P>
+Ninf はサーバ・クライアントモデルのシステムである。
+ネットワーク上に数値情報や計算自身を提供するサーバを設け、
+ユーザにはサーバに接続するクライアント機能を持つライブラリを提供する。
+サーバ、クライアント間は、独自に設計開発した Ninf RPC
+  と呼ぶ
+RPC プロトコルを用いて通信する[<A HREF="node29.html#ninfnakada95">2</A>]。
+計算などを提供するサーバをNinf サーバ
+  と呼ぶ。
+<P>
+Ninf RPC
+  は、通常のC言語で技術計算を行なうユーザーが、
+容易に移行できることを目的に設計され、
+以下の特徴を持つ。
+<UL><LI> 計算のインターフェイス情報を動的に供給する。
+  <LI> メモリ空間を共有するイメージを提供する。
+    共有するサイズを動的に決定することができる。
+  <LI> 数値演算に対象を絞った単純な構造をもつ。
+</UL>
+<P>
+例として、行列の乗算を計算するルーチンを考えてみよう。
+典型的な呼びだしのインターフェイスは以下のようになるであろう。
+<PRE>    double A[N][N],B[N][N],C[N][N];
+    mmul(N,A,B,C);
+</PRE>
+<P>
+Ninfではこの関数を以下のような形で呼び出すことができる。
+<PRE>    Ninf_call(&quot;mmul&quot;,N,A,B,E);
+</PRE>
+このように、通常のC言語での呼び出しとほとんど同じ形式で
+Ninf の関数を呼び出すことが可能である。
+<P>
+計算ライブラリの提供者は、計算ルーチン自身とその
+インターフェイス情報を提供する必要がある。
+インターフェイス情報はNinf IDLと呼ぶIDL(Interface Description Language)
+で記述する。
+Ninf IDL ではデータの型を基本型とその配列のみに限定しているため簡潔であり、
+インターフェイス情報の記述は容易である。
+IDL記述をインターフェイス ジェネレータでコンパイルして、
+インターフェイス情報を埋め込んだスタブプログラムを得る。
+このスタブと計算ルーチンをリンクしたものが実行ファイル
+となる(図<A HREF="node3.html#ninf_stub_gen">1</A>)。
+<P>
+<P><A NAME=102>&#160;</A><A NAME=ninf_stub_gen>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="img2.gif">
+<BR><STRONG>図:</STRONG> インターフェイス ジェネレータ<BR>
+<P>
+<P>
+Ninf RPC
+  による実行は以下のように行なわれる。
+<OL><LI> クライアントが Ninf サーバ
+  に計算のインターフェイス情報を
+リクエストする。
+<LI> Ninf サーバ
+  がインターフェイス情報をクライアントに渡す
+<LI> インターフェイス情報に基づき、クライアントは転送するべき
+メモリ領域を決定し転送する。
+<LI> Ninf サーバ
+  は計算ルーチンをスタブとリンクした実行ファイルを
+exec し、転送されてきたデータをexec したプロセスにフォワードする。
+<LI> 計算の結果を逆方向に転送する。
+</OL>
+<P>
+他のRPCとの最大の差異は、
+インターフェイス情報を事前にクライアント側とサーバー側で
+共有している必要がないことである。
+このため、ユーザがRPCを使用するためには、対象の名前を知っているだけ
+でよく、ユーザの負担が小さい。
+<P>
+図<A HREF="node3.html#ninf_rpc">2</A>にNinf RPC
+  の実行の様子を示す
+<P>
+<P><A NAME=110>&#160;</A><A NAME=ninf_rpc>&#160;</A><IMG  ALIGN=BOTTOM ALT="" SRC="img3.gif">
+<BR><STRONG>図:</STRONG> Ninf RPC
+ <BR>
+<P><BR> <HR>
+<P><ADDRESS>
+<I>Hidemoto Nakada <BR>
+Tue Feb 20 18:17:47 JST 1996</I>
+</ADDRESS>
+</BODY>

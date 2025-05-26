@@ -1,0 +1,35 @@
+<div class="subtitle">Download IDL for FFTW2-G and ScaLAPACK-G</div>
+<div class="section">About FFT</div>
+
+<div class="abstract">
+FFTW2-G is a library that provides an interface between FFTW (only
+version 2.x) and Ninf-G.
+
+FFTW is a library for computing the Discrete Fourier Transform (DFT)
+in one or more dimensions, of both real and complex data, and of
+arbitrary input size. The library is available at the FFTW home page
+(http://www.fftw.org). 
+<br>
+ScaLAPACK-G is a library that provides an interface between ScaLAPACK
+and Ninf-G.  ScaLAPACK is a library of a collection of linear algebra
+for parallel computing. It's freely available on netlib
+(http://www.netlib.org ).
+
+ScaLAPACK-G is not only a collection of interfaces of ScaLAPACK
+functions for GridRPC, but also a collection of wrappers giving
+LAPACK-like arguments by which you can use ScaLAPACK without any
+feeling of using parallel functions.
+
+By using ScaLAPACK-G, you can execute ScaLAPACK functions on a remote
+parallel computing system as if they were LAPACK functions run
+locally.
+</div>
+
+<div class="section"><font color="red">
+Download Packages of FFTW2-G and ScaLAPACK-G Ver. 1.0
+</font></div>
+FFTW2-G and ScaLAPACk-G are archived in a single tarball and
+downloadable from <a href="ninf-g-idl-1.0.tar.gz">here</a>.
+
+</body>
+</html>

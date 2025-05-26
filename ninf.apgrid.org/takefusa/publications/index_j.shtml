@@ -1,0 +1,35 @@
+<html>
+<head>
+<title> Publications</title>
+<LINK REL="stylesheet" TYPE="text/css" HREF="style.css">
+</head>
+
+<body bgcolor="FFFFFF">
+<basefont size = 3>
+
+<h1>論文</h1>
+
+<p align=right><a href="index.shtml">English page is here.</a></p>
+
+<p>
+<ul>
+<li> <a href="#scheduling">グリッドコンピューティングのためのスケジューリング</a>
+<li> <a href="#evaluation">Ninfシステムの性能評価</a>
+</ul>
+</p>
+
+<a name="scheduling">
+<h2>グリッドコンピューティングシステムのためのスケジューリング</h2>
+<!--#include virtual="/takefusa/bricks/publications/bricks_j.shtml"-->
+
+<a name="evaluation">
+<h2>Ninfシステムの性能評価</h2>
+<!--#include virtual="/takefusa/publications/ninf_j.shtml"-->
+
+<p>
+
+<a href="http://ninf.apgrid.org/takefusa/">
+Atsuko Takefusa</a>
+
+</body>
+</html>

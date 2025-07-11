@@ -1,7 +1,0 @@
-
-for f in  NinfDemo.shtml related.shtml	welcome.shtml staff.shtml topics.shtml ; do
-		python ~/projects/python/ssi.py  < $f > ${f%.shtml}.ssi.html
-done
-cp welcome.ssi.html index.html
-cd
-collaborators.shtml	frame_tail.shtml	publications_j.shtml contents.shtml	index.shtml	related_work.shtml frame_head.shtml	publications.shtml	staff.shtml

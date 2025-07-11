@@ -1,5 +1,0 @@
-AuthUserFile /usr/local/htdocs/ninf_htdocs/contents/private/.htpasswd
-AuthGroupFile /dev/null
-AuthName "Ninf-G Bugzilla"
-AuthType Basic
-require user ninf

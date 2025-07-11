@@ -1,6 +1,0 @@
-Options ExecCGI FollowSymLinks
-<Limit GET>
-order deny,allow
-deny from all
-allow from all
-</Limit>

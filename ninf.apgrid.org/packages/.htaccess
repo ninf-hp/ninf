@@ -1,5 +1,0 @@
-AddType application/octet-stream .xls
-AddType application/octet-stream .dll
-AddType x-math/coordination .coordination
-AddType x-math/matrixmarket .mmf
-
